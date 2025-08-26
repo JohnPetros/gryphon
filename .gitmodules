@@ -1,0 +1,3 @@
+[submodule "gryphon-server"]
+	path = gryphon-server
+	url = https://github.com/JohnPetros/gryphon-server.git
