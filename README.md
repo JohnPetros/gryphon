@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Gryphon</h1>
+  <h1>Gryphon 🦁</h1>
 </div>
 
 <br />
