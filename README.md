@@ -53,13 +53,15 @@ O objetivo ao desenvolver o **Gryphon** foi criar uma ferramenta que não apenas
 
 ## ✍️ Autor 
 
-<img src="https://github.com/JohnPetros.png?size=72" width=72px> 
+<div align="center">
+  <img src="https://github.com/JohnPetros.png?size=72" width=100px> 
+</div>
 
-Joao Pedro Carvalho
+**Joao Pedro Carvalho**
 
-Estagiário de Desenvolvimento de Software Full-Stack na [Design Líquido](https://github.com/DesignLiquido) e estudante de desenvolvimento de sistemas na [Fatec](https://fatecsjc-prd.azurewebsites.net/) .
+> Estagiário de Desenvolvimento de Software Full-Stack na [Design Líquido](https://github.com/DesignLiquido) e estudante de desenvolvimento de sistemas na [Fatec](https://fatecsjc-prd.azurewebsites.net/) .
 
-<a href="https://github.com/JohnPetros"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>  
+- <a href="https://github.com/JohnPetros"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>  
 
-<a href="https://www.linkedin.com/in/jo%C3%A3o-pedro-carvalho-dos-santos-42a0ab222/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a>
+- <a href="https://www.linkedin.com/in/jo%C3%A3o-pedro-carvalho-dos-santos-42a0ab222/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a>
 
