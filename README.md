@@ -1,14 +1,8 @@
 <div align="center">
-  <img width="360" height="100" src="https://aukqejqsiqsqowafpppb.supabase.co/storage/v1/object/public/images/marketing/logo.png" alt="StarDustt" />
+  <h1>Gryphon</h1>
 </div>
 
 <br />
-
-## 🖥️ Sobre o Projeto
-
-Com certeza\! Utilizando a estrutura do exemplo fornecido e focando em traduzir a necessidade do cliente em uma solução, criei a seção de apresentação para o **Gryphon**.
-
------
 
 ## 🖥️ Sobre o Projeto
 
