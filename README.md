@@ -2,8 +2,6 @@
   <h1>Gryphon 🦁</h1>
 </div>
 
-<br />
-
 ## 🖥️ Sobre o Projeto
 
 **Gryphon** é um **aplicativo de gerenciamento de senhas** focado em resolver um dos maiores dilemas da vida digital moderna: a luta constante entre a necessidade de ter senhas fortes e únicas para cada serviço e a impossibilidade humana de memorizar todas elas.
