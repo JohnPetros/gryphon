@@ -54,10 +54,10 @@ O objetivo ao desenvolver o **Gryphon** foi criar uma ferramenta que não apenas
 ## ✍️ Autor 
 
 <div align="center">
-  <img src="https://github.com/JohnPetros.png?size=72" width=100px> 
+  <img src="https://github.com/JohnPetros.png?size=72" width=120px> 
 </div>
 
-**Joao Pedro Carvalho**
+### Joao Pedro Carvalho
 
 > Estagiário de Desenvolvimento de Software Full-Stack na [Design Líquido](https://github.com/DesignLiquido) e estudante de desenvolvimento de sistemas na [Fatec](https://fatecsjc-prd.azurewebsites.net/) .
 
