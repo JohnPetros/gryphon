@@ -1,6 +1,6 @@
 import { Link, Stack } from 'expo-router'
-import { Text } from '@/ui/global/Themed'
-import { Center } from '@/ui/gluestack/center'
+import { Center } from '../ui/gluestack/center'
+import { Text } from '../ui/global/Themed'
 
 export default function NotFoundScreen() {
   return (

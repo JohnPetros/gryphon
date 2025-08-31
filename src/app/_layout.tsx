@@ -1,23 +1,22 @@
 import { useEffect } from 'react'
+import { Platform } from 'react-native'
 import { useFonts } from 'expo-font'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { DarkTheme, ThemeProvider } from '@react-navigation/native'
-import { Slot } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
-
-import '@/global.css'
-import { GluestackUIProvider } from '../ui/gluestack/gluestack-ui-provider'
-import { Platform } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
-import { Box } from '@/ui/gluestack/box'
-
+import { Slot } from 'expo-router'
 export { ErrorBoundary } from 'expo-router'
+
+import '../../global.css'
+import { GluestackUIProvider } from '../ui/gluestack/gluestack-ui-provider'
+import { Box } from '../ui/gluestack/box'
 
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
+    JetBrainsMono: require('../../assets/fonts/JetBrainsMono.ttf'),
     ...FontAwesome.font,
   })
 

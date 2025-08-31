@@ -1,6 +1,6 @@
+import { useClientOnlyValue } from '@/ui/global/hooks/useClientOnlyValue'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Tabs } from 'expo-router'
-import { useClientOnlyValue } from '../../../ui/global/hooks/useClientOnlyValue'
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name']

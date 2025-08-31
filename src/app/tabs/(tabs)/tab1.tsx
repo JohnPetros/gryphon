@@ -1,7 +1,7 @@
-import { Center } from '../../../ui/gluestack/center'
-import { Divider } from '../../../ui/gluestack/divider'
-import { Heading } from '../../../ui/gluestack/heading'
-import { Text } from '../../../ui/gluestack/text'
+import { Text } from '@/ui/global/Themed'
+import { Center } from '@/ui/gluestack/center'
+import { Divider } from '@/ui/gluestack/divider'
+import { Heading } from '@/ui/gluestack/heading'
 
 export default function Tab2() {
   return (
