@@ -1,6 +1,0 @@
-[submodule "gryphon-server"]
-	path = gryphon-server
-	url = https://github.com/JohnPetros/gryphon-server.git
-[submodule "gryphon-mobile"]
-	path = gryphon-mobile
-	url = https://github.com/JohnPetros/gryphon-mobile.git

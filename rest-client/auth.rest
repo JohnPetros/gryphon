@@ -1,0 +1,3 @@
+@URL = {{BASE_URL}}/auth
+
+GET {{URL}}/sign-up

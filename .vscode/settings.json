@@ -1,0 +1,12 @@
+{
+  "rest-client.environmentVariables": {
+    "DEV": {
+      "BASE_URL": "http://localhost:8081/api",
+      "JWT": ""
+    },
+    "PROD": {
+      "BASE_URL": "",
+      "JWT": ""
+    }
+  }
+}
