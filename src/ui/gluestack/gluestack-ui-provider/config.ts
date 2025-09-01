@@ -3,6 +3,20 @@ import { vars } from 'nativewind'
 
 export const config = {
   light: vars({
+    /*App Semantic Colors */
+    '--color-primary': '62 153 108',
+    '--color-danger': '217 54 54',
+    '--color-warning': '212 168 62',
+    '--color-info': '230 106 67',
+    '--color-background': '255 255 255',
+    '--color-surface': '247 247 250',
+    '--color-neutral': '92 90 102',
+    '--color-accent': '24 23 31',
+    '--color-primary-background': '62 153 108 / 0.25',
+    '--color-danger-background': '217 54 54 / 0.25',
+    '--color-warning-background': '248 205 101 / 0.25',
+    '--color-neutral-background': '92 90 102 / 0.25',
+
     '--color-primary-0': '179 179 179',
     '--color-primary-50': '153 153 153',
     '--color-primary-100': '128 128 128',
@@ -155,7 +169,19 @@ export const config = {
     '--color-indicator-error': '185 28 28',
   }),
   dark: vars({
-    '--color-petros-0': '255 255 255',
+    /*App Semantic Colors */
+    '--color-primary': '73 180 128',
+    '--color-danger': '246 74 74',
+    '--color-warning': '248 205 101',
+    '--color-info': '251 124 88',
+    '--color-background': '33 32 40',
+    '--color-surface': '24 23 31',
+    '--color-neutral': '131 127 146',
+    '--color-accent': '230 229 234',
+    '--color-primary-background': '62 153 108 / 0.25',
+    '--color-danger-background': '217 54 54 / 0.25',
+    '--color-warning-background': '248 205 101 / 0.25',
+    '--color-neutral-background': '92 90 102 / 0.25',
 
     /* Custom Colors */
     '--color-dark-grey': '36 35 44',
