@@ -10,7 +10,7 @@ export class Password {
     return new Password(value)
   }
 
-  strength(): number {
+  get strength(): number {
     let score = 0
     if (this.hasMinLength) score++
     if (this.hasUppercase) score++
@@ -18,6 +18,10 @@ export class Password {
     if (this.hasNumber) score++
     if (this.hasSpecialChar) score++
     return score
+  }
+
+  get hasValue(): boolean {
+    return Boolean(this.value.length)
   }
 
   get hasMinLength(): boolean {
