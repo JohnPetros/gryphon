@@ -6,13 +6,19 @@ type Props = {
   onChange: (value: string) => void
 }
 
-export function PasswordInput({ label, onChange }: Props) {
-  const { isPasswordVisible, handlePasswordVisibilityButtonPress } = usePasswordInput()
+export const PasswordInput = ({ label, onChange }: Props) => {
+  const {
+    password,
+    isPasswordVisible,
+    handlePasswordVisibilityButtonPress,
+    handleChange,
+  } = usePasswordInput(onChange)
 
   return (
     <PasswordInputView
       label={label}
-      onChange={onChange}
+      password={password}
+      onChange={handleChange}
       isPasswordVisible={isPasswordVisible}
       onPasswordVisibilityButtonPress={handlePasswordVisibilityButtonPress}
     />
