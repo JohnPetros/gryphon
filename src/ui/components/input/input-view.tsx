@@ -4,7 +4,8 @@ import { Icon } from '@/ui/components/icon'
 import type { IconName } from '../icon/types'
 
 type Props = {
-  type?: 'text' | 'password'
+  type?: 'text' | 'password' | 'number'
+  value?: string
   label: string
   icon: IconName
   placeholder?: string
@@ -14,6 +15,7 @@ type Props = {
 
 export const InputView = ({
   type = 'text',
+  value,
   label,
   icon,
   placeholder,
@@ -35,10 +37,12 @@ export const InputView = ({
         <Text>{label}</Text>
       </InputSlot>
       <InputField
-        type={type}
+        type={type === 'number' ? 'text' : type}
+        value={value ?? undefined}
         placeholder={placeholder}
         autoCapitalize='none'
         onChangeText={onChange}
+        keyboardType={type === 'number' ? 'numeric' : 'default'}
         className='text-xl translate-y-2'
       />
       {endContent && <InputSlot className='pl-3'>{endContent}</InputSlot>}
