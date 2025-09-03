@@ -1,3 +1,4 @@
+import { ROUTES } from '@/constants'
 import { Account } from '@/core/domain/entities/account'
 import type { CryptoProvider } from '@/core/interfaces'
 import { useNavigation } from '@/ui/hooks/use-navigation'
@@ -28,7 +29,7 @@ export function useAuthContextProvider({ cryptoProvider }: Params) {
         setEncryptionKey(encryptionKey)
         setAccount(Account.create({ email, encryptionSalt }))
         await secureStore.setItem('masterPassword', masterPassword)
-        navigation.navigate('/(protected)/vaunt-itens')
+        navigation.navigate(ROUTES.vault.itens(account?.dto.id))
       } catch (error) {
         console.error(error)
       } finally {

@@ -3,6 +3,7 @@ import { Text } from '@/ui/gluestack/text'
 import { List } from '@/ui/components/list'
 import { PasswordInput } from '@/ui/components/password-input'
 import { Button } from '@/ui/components/button'
+import { Input } from '@/ui/components/input'
 
 type Props = {
   isPasswordValid: boolean
@@ -29,13 +30,18 @@ export const MasterPasswordFormView = ({
       </Box>
 
       <Box className='mt-6'>
-        <PasswordInput label='Senha mestre' onChange={handlePasswordChange} />
+        <Input
+          label='Senha mestre'
+          icon='password'
+          type='number'
+          onChange={handlePasswordChange}
+        />
       </Box>
 
       <Box className='mt-6'>
         <List
           items={[
-            'Uma senha mestra que contenha pelo menos 8 caracteres.',
+            'Uma senha numérica que contenha pelo menos 8 dígitos.',
             'Ela é diferente da senha da sua conta e, por segurança, nós nunca a salvamos em nossos servidores.',
             'Se você esquecer sua senha mestra, não haverá como recuperar seus dados. Anote-a e guarde-a em um lugar seguro.',
           ]}
