@@ -24,10 +24,12 @@ const Text = React.forwardRef<React.ComponentRef<typeof RNText>, ITextProps>(
   ) {
     return (
       <RNText
+        style={{
+          fontFamily: bold ? 'JetBrainsMonoBold' : 'JetBrainsMonoRegular',
+        }}
         className={textStyle({
-          fontFamily: 'JetBrainsMono',
+          fontFamily: bold ? 'JetBrainsMonoBold' : 'JetBrainsMonoRegular',
           isTruncated: isTruncated as boolean,
-          bold: bold as boolean,
           underline: underline as boolean,
           strikeThrough: strikeThrough as boolean,
           size: size as any,

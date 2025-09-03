@@ -1,4 +1,4 @@
-import { useClientOnlyValue } from '@/ui/global/hooks/useClientOnlyValue'
+import { useClientOnlyValue } from '@/ui/hooks/useClientOnlyValue'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Tabs } from 'expo-router'
 

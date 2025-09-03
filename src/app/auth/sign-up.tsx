@@ -1,3 +1,3 @@
-import { SignUpScreen } from '@/ui/auth/screens/sign-up'
+import { SignUpScreen } from '@/ui/screens/sign-up'
 
 export default SignUpScreen

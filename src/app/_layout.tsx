@@ -7,16 +7,19 @@ import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { Slot } from 'expo-router'
 export { ErrorBoundary } from 'expo-router'
+import { ClerkProvider } from '@clerk/clerk-expo'
+import { tokenCache } from '@clerk/clerk-expo/token-cache'
 
 import '../../global.css'
 import { GluestackUIProvider } from '../ui/gluestack/gluestack-ui-provider'
-import { Box } from '../ui/gluestack/box'
+import { AuthContextProvider } from '@/ui/contexts/auth-context'
 
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    JetBrainsMono: require('../../assets/fonts/JetBrainsMono.ttf'),
+    JetBrainsMonoRegular: require('@/assets/fonts/JetBrainsMono-Regular.ttf'),
+    JetBrainsMonoBold: require('@/assets/fonts/JetBrainsMono-Bold.ttf'),
     ...FontAwesome.font,
   })
 
@@ -36,9 +39,11 @@ function RootLayoutNav() {
   return (
     <GluestackUIProvider mode='dark'>
       <ThemeProvider value={DarkTheme}>
-        <Box className='flex-1 h-[100vh] bg-dark-grey'>
-          <Slot />
-        </Box>
+        <ClerkProvider tokenCache={tokenCache}>
+          <AuthContextProvider>
+            <Slot />
+          </AuthContextProvider>
+        </ClerkProvider>
         <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       </ThemeProvider>
     </GluestackUIProvider>

@@ -1,4 +1,4 @@
-import { Text } from '@/ui/global/Themed'
+import { Text } from '@/ui/Themed'
 import { Center } from '@/ui/gluestack/center'
 import { Divider } from '@/ui/gluestack/divider'
 import { Heading } from '@/ui/gluestack/heading'

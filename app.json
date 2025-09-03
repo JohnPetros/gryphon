@@ -1,32 +1,32 @@
 {
   "expo": {
-    "name": "gryphon",
+    "name": "Gryphon",
     "slug": "gryphon",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/app-icon.png",
+    "icon": "./src/assets/images/app-icon.png",
     "scheme": "gryphon",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/app-icon.png",
+      "image": "./src/assets/images/app-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#022C31"
+      "backgroundColor": "#fff"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-app-icon.png",
-        "backgroundColor": "#022C31"
+        "foregroundImage": "./src/assets/images/adaptive-app-icon.png",
+        "backgroundColor": "#fff"
       },
       "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
       "output": "server",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
