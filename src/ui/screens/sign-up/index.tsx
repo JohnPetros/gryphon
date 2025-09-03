@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
-import { SignUpScreenView } from './sign-up-view'
+import { SignUpScreenView } from './sign-up-screen-view'
 import { useSignUpScreen } from './use-sign-up-screen'
 import { useClerkAuthService } from '@/ui/hooks/useClerkAuthService'
 
