@@ -6,7 +6,6 @@ export function useSignOutButton(onSignOut: () => Promise<void>) {
 
   async function handlePress() {
     await onSignOut()
-    console.log('handlePress')
     navigation.navigate(ROUTES.auth.signIn)
   }
 
