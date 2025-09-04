@@ -3,6 +3,7 @@ import {
   ChevronDown,
   ChevronUp,
   KeyRound,
+  LogOut,
   type LucideIcon,
   EyeIcon,
   EyeOffIcon,
@@ -13,8 +14,9 @@ import type { IconName } from '../types/icon-name'
 export const ICONS: Record<IconName, LucideIcon> = {
   'arrow-down': ChevronDown,
   'arrow-up': ChevronUp,
-  email: Mail,
-  password: KeyRound,
   'eye-open': EyeIcon,
   'eye-close': EyeOffIcon,
+  email: Mail,
+  password: KeyRound,
+  exit: LogOut,
 }

@@ -5,3 +5,4 @@ export type IconName =
   | 'password'
   | 'eye-open'
   | 'eye-close'
+  | 'exit'
