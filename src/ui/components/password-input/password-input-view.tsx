@@ -8,6 +8,7 @@ import { PasswordStregth } from './password-stregth'
 type Props = {
   password: Password
   label: string
+  hasStrength: boolean
   isPasswordVisible: boolean
   onChange: (value: string) => void
   onPasswordVisibilityButtonPress: () => void
@@ -16,6 +17,7 @@ type Props = {
 export const PasswordInputView = ({
   label,
   password,
+  hasStrength,
   isPasswordVisible,
   onChange,
   onPasswordVisibilityButtonPress,
@@ -29,7 +31,7 @@ export const PasswordInputView = ({
       value={password.value}
       endContent={
         <Box className='flex-row gap-3'>
-          <PasswordStregth password={password} />
+          {hasStrength && <PasswordStregth password={password} />}
           <Pressable onPress={onPasswordVisibilityButtonPress}>
             <Icon
               name={isPasswordVisible ? 'eye-close' : 'eye-open'}
