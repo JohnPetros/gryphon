@@ -1,11 +1,13 @@
-import { Box } from '@/ui/gluestack/box'
+import { SignOutButton } from '@/ui/components/sign-out-button'
 import { Text } from '@/ui/gluestack/text'
+import { ScreenContainer } from '@/ui/components/screen-container'
 
 const Screen = () => {
   return (
-    <Box>
+    <ScreenContainer>
       <Text>Vaunt Itens</Text>
-    </Box>
+      <SignOutButton />
+    </ScreenContainer>
   )
 }
 

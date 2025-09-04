@@ -1,11 +1,7 @@
-import { Stack } from 'expo-router'
+import { Slot } from 'expo-router'
 
 const Layout = () => {
-  return (
-    <Stack>
-      <Stack.Screen name='vaunt-itens' options={{ headerShown: false }} />
-    </Stack>
-  )
+  return <Slot />
 }
 
 export default Layout
