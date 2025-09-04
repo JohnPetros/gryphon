@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useAuth, useSignIn, useSignUp } from '@clerk/clerk-expo'
+import { useAuth as useClerkAuth, useSignIn, useSignUp } from '@clerk/clerk-expo'
 
-export function useClerkAuthService() {
-  const { isSignedIn, getToken, signOut } = useAuth()
-  const { signIn } = useSignIn()
+export function useAuth() {
+  const { isSignedIn, getToken, signOut } = useClerkAuth()
+  const { signIn, setActive } = useSignIn()
   const { signUp } = useSignUp()
   const [jwt, setJwt] = useState<string | null>(null)
 
@@ -11,6 +11,7 @@ export function useClerkAuthService() {
     try {
       const response = await signIn?.create({ identifier: email, password })
       if (response?.status === 'complete') {
+        await setActive?.({ session: response.createdSessionId })
         return true
       }
 

@@ -1,4 +1,4 @@
-import { useClerkAuthService } from '@/ui/hooks/useClerkAuthService'
+import { useClerkAuthService } from '@/ui/hooks/useAuth'
 import { OtpFormView } from './otp-form-view'
 import { useOtpForm } from './use-otp-form'
 

@@ -8,25 +8,6 @@ import {
 
 type ToastType = 'success' | 'error' | 'warning'
 
-type ToastContainerProps = {
-  id: string
-  type: ToastType
-  children: React.ReactNode
-}
-
-const ToastContainer = ({ id, type, children }: ToastContainerProps) => {
-  return (
-    <Toast
-      nativeID={`toast-${id}`}
-      action={type}
-      variant='outline'
-      className='bg-background translate-y-12'
-    >
-      {children}
-    </Toast>
-  )
-}
-
 const TITLES = {
   success: {
     title: 'Sucesso',
