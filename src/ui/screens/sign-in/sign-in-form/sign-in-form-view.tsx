@@ -5,6 +5,7 @@ import { Input } from '@/ui/components/input'
 import { PasswordInput } from '@/ui/components/password-input'
 import { Box } from '@/ui/gluestack/box'
 import { useSignInForm } from './use-sign-in-form'
+import { Link } from 'expo-router'
 
 type Props = {
   onSignIn: (email: string, password: string) => Promise<void>
@@ -36,9 +37,18 @@ export const SignInFormView = ({ onSignIn }: Props) => {
         />
       </Box>
 
+      <Box className='flex flex-row items-center justify-between mt-6'>
+        <Link href='/auth/sign-up' className='text-primary p-2'>
+          Esqueceu sua senha?
+        </Link>
+        <Link href='/auth/sign-up' className='text-primary p-2'>
+          Criar conta
+        </Link>
+      </Box>
+
       <Box className='mt-12'>
         <Button onPress={handleSubmit} isDisabled={!isValid} isLoading={isSubmitting}>
-          Criar conta
+          Entrar
         </Button>
       </Box>
     </Box>
