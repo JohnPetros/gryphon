@@ -4,6 +4,7 @@ import { View, ViewProps } from 'react-native'
 import { OverlayProvider } from '@gluestack-ui/core/overlay/creator'
 import { ToastProvider } from '@gluestack-ui/core/toast/creator'
 import { useColorScheme } from 'nativewind'
+import { COLORS } from '@/constants'
 
 export type ModeType = 'light' | 'dark' | 'system'
 
@@ -24,8 +25,13 @@ export function GluestackUIProvider({
   return (
     <View
       style={[
-        config[colorScheme!],
-        { flex: 1, height: '100%', width: '100%', backgroundColor: 'blue' },
+        config[colorScheme],
+        {
+          flex: 1,
+          height: '100%',
+          width: '100%',
+          backgroundColor: COLORS[colorScheme].background,
+        },
         props.style,
       ]}
     >

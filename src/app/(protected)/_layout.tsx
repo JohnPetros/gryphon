@@ -1,11 +1,14 @@
-import { Stack } from 'expo-router'
+import { useAuth } from '@/ui/hooks/useAuth'
+import { Redirect, Slot } from 'expo-router'
 
 const Layout = () => {
-  return (
-    <Stack>
-      <Stack.Screen name='vaunt-itens' options={{ headerShown: false }} />
-    </Stack>
-  )
+  const { isSignedIn } = useAuth()
+
+  if (!isSignedIn) {
+    return <Redirect href='/auth/sign-in' />
+  }
+
+  return <Slot />
 }
 
 export default Layout

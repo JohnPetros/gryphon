@@ -1,13 +1,15 @@
 import type { Password } from '@/core/domain/structures'
+
+import { Box } from '@/ui/gluestack/box'
 import { Icon } from '../icon'
 import { Input } from '../input'
 import { Pressable } from '../pressable'
-import { Box } from '@/ui/gluestack/box'
 import { PasswordStregth } from './password-stregth'
 
 type Props = {
   password: Password
   label: string
+  hasStrength?: boolean
   isPasswordVisible: boolean
   onChange: (value: string) => void
   onPasswordVisibilityButtonPress: () => void
@@ -16,6 +18,7 @@ type Props = {
 export const PasswordInputView = ({
   label,
   password,
+  hasStrength = true,
   isPasswordVisible,
   onChange,
   onPasswordVisibilityButtonPress,
@@ -29,7 +32,7 @@ export const PasswordInputView = ({
       value={password.value}
       endContent={
         <Box className='flex-row gap-3'>
-          <PasswordStregth password={password} />
+          {hasStrength && <PasswordStregth password={password} />}
           <Pressable onPress={onPasswordVisibilityButtonPress}>
             <Icon
               name={isPasswordVisible ? 'eye-close' : 'eye-open'}

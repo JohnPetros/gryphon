@@ -1,10 +1,10 @@
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
-import { SignUpScreenView } from './sign-up-view'
+import { SignUpScreenView } from './sign-up-screen-view'
 import { useSignUpScreen } from './use-sign-up-screen'
-import { useClerkAuthService } from '@/ui/hooks/useClerkAuthService'
+import { useAuth } from '@/ui/hooks/useAuth'
 
 export const SignUpScreen = () => {
-  const { signUpAccount } = useClerkAuthService()
+  const { signUpAccount } = useAuth()
   const { createAccount } = useAuthContext()
   const { step, handleSignUp, handleOtpConfirm, handleMasterPasswordCreate } =
     useSignUpScreen({ signUpAccount, createAccount })

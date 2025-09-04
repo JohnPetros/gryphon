@@ -1,10 +1,26 @@
-import { useAuth, useSignUp } from '@clerk/clerk-expo'
 import { useEffect, useState } from 'react'
+import { useAuth as useClerkAuth, useSignIn, useSignUp } from '@clerk/clerk-expo'
 
-export function useClerkAuthService() {
-  const { isSignedIn, getToken } = useAuth()
+export function useAuth() {
+  const { isSignedIn, getToken, signOut } = useClerkAuth()
+  const { signIn, setActive } = useSignIn()
   const { signUp } = useSignUp()
   const [jwt, setJwt] = useState<string | null>(null)
+
+  async function signInAccount(email: string, password: string) {
+    try {
+      const response = await signIn?.create({ identifier: email, password })
+      if (response?.status === 'complete') {
+        await setActive?.({ session: response.createdSessionId })
+        return true
+      }
+
+      return false
+    } catch (error) {
+      console.warn(error)
+      return false
+    }
+  }
 
   async function signUpAccount(email: string, password: string) {
     try {
@@ -13,6 +29,10 @@ export function useClerkAuthService() {
     } catch (error) {
       console.error(error)
     }
+  }
+
+  async function signOutAccount() {
+    await signOut()
   }
 
   async function verifyOtpCode(code: string) {
@@ -35,8 +55,11 @@ export function useClerkAuthService() {
   }, [isSignedIn, getToken])
 
   return {
+    isSignedIn,
     jwt,
+    signOutAccount,
     signUpAccount,
+    signInAccount,
     verifyOtpCode,
   }
 }
