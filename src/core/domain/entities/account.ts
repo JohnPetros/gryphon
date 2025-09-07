@@ -4,11 +4,15 @@ import type { AccountDto } from './dtos/account-dto'
 type AccountProps = {
   email: string
   encryptionSalt: string
+  isBiometryActivated: boolean
+  minimumPasswordStrength: string
+  minimumAppLockTimeInSeconds: number
+  isMasterPasswordRequired: boolean
 }
 
 export class Account extends Entity<AccountProps> {
   static create(dto: AccountDto) {
-    return new Account(dto)
+    return new Account(dto, dto.id)
   }
 
   get encryptionSalt(): string {
@@ -19,11 +23,31 @@ export class Account extends Entity<AccountProps> {
     return this.props.email
   }
 
+  get isBiometryActivated(): boolean {
+    return this.props.isBiometryActivated
+  }
+
+  get minimumPasswordStrength(): string {
+    return this.props.minimumPasswordStrength
+  }
+
+  get minimumAppLockTimeInSeconds(): number {
+    return this.props.minimumAppLockTimeInSeconds
+  }
+
+  get isMasterPasswordRequired(): boolean {
+    return this.props.isMasterPasswordRequired
+  }
+
   get dto(): AccountDto {
     return {
       id: this.id.value,
       email: this.props.email,
       encryptionSalt: this.props.encryptionSalt,
+      isBiometryActivated: this.props.isBiometryActivated,
+      minimumPasswordStrength: this.props.minimumPasswordStrength,
+      minimumAppLockTimeInSeconds: this.props.minimumAppLockTimeInSeconds,
+      isMasterPasswordRequired: this.props.isMasterPasswordRequired,
     }
   }
 }
