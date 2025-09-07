@@ -1,5 +1,5 @@
 import { SignOutButtonView } from './sign-out-button-view'
-import { useAuth } from '@/ui/hooks/useAuth'
+import { useAuth } from '@/ui/hooks/use-auth'
 import { useSignOutButton } from './use-sign-out-button'
 
 export const SignOutButton = () => {
