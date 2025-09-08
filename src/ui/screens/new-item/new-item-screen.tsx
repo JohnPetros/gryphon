@@ -49,7 +49,7 @@ export const NewItemScreenView = () => {
           <AppItem.Icon
             backgroundColor='infoBackground'
             foregroundColor='info'
-            name='vaunt'
+            name='vault'
           />
           <AppItem.Info
             name='Cofre'

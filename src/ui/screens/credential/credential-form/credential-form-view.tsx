@@ -8,7 +8,7 @@ import { Input } from '@/ui/components/input'
 import { Button } from '@/ui/components/button'
 import { PasswordInput } from '@/ui/components/password-input'
 import { useCredentialForm } from './use-credential-form'
-import { VauntSelect } from './vaunt-select'
+import { vaultSelect } from './vault-select'
 
 type Params = {
   credential: Credential | null
@@ -36,7 +36,7 @@ export const CredentialFormView = ({
   return (
     <Box className='flex flex-col gap-2'>
       <Box className='flex flex-row gap-2'>
-        <VauntSelect />
+        <vaultSelect />
         <Button
           onPress={handleSubmit}
           className='w-32 items-center justify-center'

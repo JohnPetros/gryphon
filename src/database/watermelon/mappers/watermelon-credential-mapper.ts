@@ -9,7 +9,7 @@ export const WatermelonCredentialMapper = () => {
         id: model.id,
         title: model.title,
         siteUrl: model.siteUrl,
-        vauntId: model.vaunt.id,
+        vaultId: model.vault.id,
         encryptedData: model.encryptedData,
       })
     },

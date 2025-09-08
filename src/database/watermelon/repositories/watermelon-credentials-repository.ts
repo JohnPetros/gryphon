@@ -4,7 +4,7 @@ import type { CredentialsRepository } from '@/core/interfaces'
 import type { Credential } from '@/core/domain/entities/credential'
 import type { Id } from '@/core/domain/structures'
 
-import type { CredentialModel, VauntModel } from '../models'
+import type { CredentialModel, vaultModel } from '../models'
 import { WatermelonCredentialMapper } from '../mappers'
 import { watermelon } from '../client'
 
@@ -23,7 +23,7 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
               id: credential.id.value,
               title: credential.title,
               encryptedData: credential.encrypted.value,
-              vauntId: credential.vauntId.value,
+              vaultId: credential.vaultId.value,
             },
             credentialsCollection.schema,
           )
@@ -38,14 +38,14 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
 
       await watermelon.write(async () => {
         await credentialModel.update(async (model) => {
-          const vauntModel = await watermelon.collections
-            .get<VauntModel>('vaunts')
-            .find(credential.vauntId.value)
+          const vaultModel = await watermelon.collections
+            .get<vaultModel>('vaults')
+            .find(credential.vaultId.value)
 
           model.title = credential.title
           model.siteUrl = credential.siteUrl
           model.encryptedData = credential.encrypted.value
-          model.vaunt = vauntModel
+          model.vault = vaultModel
         })
       })
     },

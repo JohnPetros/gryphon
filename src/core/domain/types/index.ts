@@ -1,1 +1,1 @@
-export type { VauntIcon } from './vaunt-icon'
+export type { vaultIcon } from './vault-icon'

@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <Tabs screenOptions={{ tabBarStyle: { height: 80, paddingTop: 12 } }}>
       <Tabs.Screen
-        name='vaunts/[vauntId]'
+        name='vaults/[vaultId]'
         options={{
           headerShown: false,
           tabBarShowLabel: false,

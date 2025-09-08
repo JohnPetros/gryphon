@@ -1,5 +1,5 @@
-import type { VauntItemDto } from './vaunt-item-dto'
+import type { vaultItemDto } from './vault-item-dto'
 
 export type CredentialDto = {
   siteUrl: string
-} & VauntItemDto
+} & vaultItemDto

@@ -1,4 +1,4 @@
-export type VauntDto = {
+export type VaultDto = {
   id?: string
   title: string
   icon: string

@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Vaunt } from '@/core/domain/entities'
+import { vault } from '@/core/domain/entities'
 
 const formSchema = z.object({
   title: z.string(),
@@ -11,25 +11,25 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>
 
 type Params = {
-  vaunt: Vaunt | null
-  onCreate: (vaunt: Vaunt) => Promise<void>
-  onUpdate: (vaunt: Vaunt) => Promise<void>
+  vault: vault | null
+  onCreate: (vault: vault) => Promise<void>
+  onUpdate: (vault: vault) => Promise<void>
 }
 
-export function useVauntForm({ vaunt, onCreate, onUpdate }: Params) {
+export function usevaultForm({ vault, onCreate, onUpdate }: Params) {
   const { formState, control, handleSubmit } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: vaunt?.title,
-      icon: vaunt?.icon,
+      title: vault?.title,
+      icon: vault?.icon,
     },
   })
 
   async function handleFormSubmit(data: FormSchema) {
-    if (vaunt) {
-      await onUpdate(vaunt)
+    if (vault) {
+      await onUpdate(vault)
     } else {
-      await onCreate(Vaunt.create(data))
+      await onCreate(vault.create(data))
     }
   }
 

@@ -48,7 +48,7 @@ export const ICONS: Record<IconName, LucideIcon> = {
   profile: CircleUserRound,
   login: User,
   note: NotebookText,
-  vaunt: Vault,
+  vault: Vault,
   password: KeyRound,
   exit: LogOut,
 }

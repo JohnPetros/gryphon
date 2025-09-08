@@ -1,2 +1,2 @@
-export { VauntItem } from './vaunt-item'
+export { VaultItem } from './vaunt-item'
 export { Entity } from './entity'

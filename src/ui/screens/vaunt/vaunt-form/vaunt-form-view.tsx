@@ -1,22 +1,22 @@
 import { Controller } from 'react-hook-form'
 
-import type { Vaunt } from '@/core/domain/entities'
+import type { vault } from '@/core/domain/entities'
 
 import { Box } from '@/ui/gluestack/box'
 import { Input } from '@/ui/components/input'
 import { Button } from '@/ui/components/button'
 import { IconSelect } from './icon-select'
-import { useVauntForm } from './use-vaunt-form'
+import { usevaultForm } from './use-vault-form'
 
 type Props = {
-  vaunt: Vaunt | null
-  onCreate: (vaunt: Vaunt) => Promise<void>
-  onUpdate: (vaunt: Vaunt) => Promise<void>
+  vault: vault | null
+  onCreate: (vault: vault) => Promise<void>
+  onUpdate: (vault: vault) => Promise<void>
 }
 
-export const VauntFormView = ({ vaunt, onCreate, onUpdate }: Props) => {
-  const { isSubmitting, isValid, control, handleSubmit } = useVauntForm({
-    vaunt,
+export const vaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
+  const { isSubmitting, isValid, control, handleSubmit } = usevaultForm({
+    vault,
     onCreate,
     onUpdate,
   })

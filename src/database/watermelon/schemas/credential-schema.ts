@@ -4,7 +4,7 @@ export const credentialSchema = tableSchema({
   name: 'credentials',
   columns: [
     {
-      name: 'vaunt_id',
+      name: 'vault_id',
       type: 'string',
     },
     {

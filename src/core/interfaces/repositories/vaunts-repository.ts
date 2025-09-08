@@ -1,9 +1,9 @@
 import type { Id } from '@/core/domain/structures'
-import type { Vaunt } from '../../domain/entities/vaunt'
+import type { vault } from '../../domain/entities/vault'
 
-export interface VauntsRepository {
-  add(vaunt: Vaunt, accountId: Id): Promise<void>
-  update(vaunt: Vaunt): Promise<void>
-  findById(id: Id): Promise<Vaunt | null>
-  findAllByAccount(accountId: Id): Promise<Vaunt[]>
+export interface vaultsRepository {
+  add(vault: vault, accountId: Id): Promise<void>
+  update(vault: vault): Promise<void>
+  findById(id: Id): Promise<vault | null>
+  findAllByAccount(accountId: Id): Promise<vault[]>
 }

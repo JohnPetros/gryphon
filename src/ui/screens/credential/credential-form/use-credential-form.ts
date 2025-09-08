@@ -11,7 +11,7 @@ const formSchema = z.object({
   title: z.string(),
   siteUrl: z.url(),
   login: z.string(),
-  vauntId: z.string(),
+  vaultId: z.string(),
   password: passwordSchema,
 })
 
@@ -49,7 +49,7 @@ export const useCredentialForm = ({
     const credential = Credential.create({
       title: data.title,
       siteUrl: data.siteUrl,
-      vauntId: data.vauntId,
+      vaultId: data.vaultId,
       encryptedData,
     })
 

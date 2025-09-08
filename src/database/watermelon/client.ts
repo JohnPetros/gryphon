@@ -4,7 +4,7 @@ import SqliteAdapter from '@nozbe/watermelondb/adapters/sqlite'
 import { schemas } from './schemas'
 import { AccountModel, CredentialModel } from './models'
 import { NoteModel } from './models'
-import { VauntModel } from './models'
+import { vaultModel } from './models'
 
 const adapter = new SqliteAdapter({
   dbName: 'gryphon',
@@ -13,5 +13,5 @@ const adapter = new SqliteAdapter({
 
 export const watermelon = new Database({
   adapter,
-  modelClasses: [AccountModel, CredentialModel, NoteModel, VauntModel],
+  modelClasses: [AccountModel, CredentialModel, NoteModel, vaultModel],
 })

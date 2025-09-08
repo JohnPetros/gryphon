@@ -1,4 +1,4 @@
-import { VauntItem } from '../abstracts'
+import { VaultItem } from '../abstracts'
 import { Encrypted, Id } from '../structures'
 import type { NoteDto } from './dtos'
 
@@ -6,13 +6,13 @@ type NoteEncryptedData = {
   content: string
 }
 
-export class Note extends VauntItem<unknown, NoteEncryptedData> {
+export class Note extends VaultItem<unknown, NoteEncryptedData> {
   static create(dto: NoteDto) {
     return new Note(
       {
         encryptedData: Encrypted.create<NoteEncryptedData>(dto.encryptedData),
         title: dto.title,
-        vauntId: Id.create(dto.vauntId),
+        vaultId: Id.create(dto.vaultId),
       },
       dto.id,
     )

@@ -1,4 +1,4 @@
-import type { Vaunt } from '@/core/domain/entities'
+import type { Vault } from '@/core/domain/entities'
 import { Icon } from '@/ui/components/icon'
 import {
   Select,
@@ -13,10 +13,10 @@ import {
 import { SelectInput } from '@/ui/gluestack/select'
 
 type Props = {
-  vaunts: Vaunt[]
+  vaults: Vault[]
 }
 
-export const VauntSelectView = ({ vaunts }: Props) => {
+export const VaultSelectView = ({ vaults }: Props) => {
   return (
     <Select>
       <SelectTrigger>
@@ -29,8 +29,8 @@ export const VauntSelectView = ({ vaunts }: Props) => {
           <SelectDragIndicatorWrapper>
             <SelectDragIndicator />
           </SelectDragIndicatorWrapper>
-          {vaunts.map((vaunt) => (
-            <SelectItem key={vaunt.id.value} label={vaunt.title} value={vaunt.id.value} />
+          {vaults.map((vault) => (
+            <SelectItem key={vault.id.value} label={vault.title} value={vault.id.value} />
           ))}
         </SelectContent>
       </SelectPortal>

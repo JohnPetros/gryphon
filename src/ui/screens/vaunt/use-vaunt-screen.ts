@@ -1,37 +1,37 @@
-import type { Vaunt } from '@/core/domain/entities'
+import type { vault } from '@/core/domain/entities'
 import type { Id } from '@/core/domain/structures'
-import type { VauntsRepository } from '@/core/interfaces'
+import type { vaultsRepository } from '@/core/interfaces'
 import { useEffect, useState } from 'react'
 
 type Params = {
   accountId?: Id
-  vauntId?: Id
-  vauntsRepository: VauntsRepository
+  vaultId?: Id
+  vaultsRepository: vaultsRepository
 }
 
-export function useVauntScreen({ vauntsRepository, accountId, vauntId }: Params) {
-  const [vaunt, setVaunt] = useState<Vaunt | null>(null)
+export function usevaultScreen({ vaultsRepository, accountId, vaultId }: Params) {
+  const [vault, setvault] = useState<vault | null>(null)
 
-  async function handleVauntCreate(vaunt: Vaunt) {
+  async function handlevaultCreate(vault: vault) {
     if (!accountId) return
-    await vauntsRepository.add(vaunt, accountId)
+    await vaultsRepository.add(vault, accountId)
   }
 
-  async function handleVauntUpdate(vaunt: Vaunt) {
-    await vauntsRepository.update(vaunt)
+  async function handlevaultUpdate(vault: vault) {
+    await vaultsRepository.update(vault)
   }
 
   useEffect(() => {
-    if (vauntId) {
-      vauntsRepository.findById(vauntId).then((vaunt) => {
-        setVaunt(vaunt)
+    if (vaultId) {
+      vaultsRepository.findById(vaultId).then((vault) => {
+        setvault(vault)
       })
     }
-  }, [vauntId, vauntsRepository])
+  }, [vaultId, vaultsRepository])
 
   return {
-    vaunt,
-    handleVauntCreate,
-    handleVauntUpdate,
+    vault,
+    handlevaultCreate,
+    handlevaultUpdate,
   }
 }

@@ -1,4 +1,4 @@
-export type VauntIcon =
+export type vaultIcon =
   | 'entertainment'
   | 'shop'
   | 'bank'

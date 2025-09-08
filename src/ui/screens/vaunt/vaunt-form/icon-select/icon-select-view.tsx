@@ -1,10 +1,10 @@
-import type { VauntIcon } from '@/core/domain/types'
+import type { vaultIcon } from '@/core/domain/types'
 import { Icon } from '@/ui/components/icon'
 import { Box } from '@/ui/gluestack/box'
 import { Pressable } from '@/ui/gluestack/pressable'
 
 type Props = {
-  value: VauntIcon
+  value: vaultIcon
   onSelect: (icon: string) => void
 }
 

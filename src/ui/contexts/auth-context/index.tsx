@@ -11,11 +11,11 @@ export const AuthContext = createContext({} as AuthContextValue)
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const { jwt } = useAuth()
   const cryptoProvider = useCryptoProvider()
-  const { vauntsRepository, accountsRepository } = useDatabase()
+  const { vaultsRepository, accountsRepository } = useDatabase()
   const authContextValue = useAuthContextProvider({
     jwt,
     cryptoProvider,
-    vauntsRepository,
+    vaultsRepository,
     accountsRepository,
   })
 

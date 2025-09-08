@@ -1,7 +1,7 @@
 import { tableSchema } from '@nozbe/watermelondb'
 
-export const vauntSchema = tableSchema({
-  name: 'vaunts',
+export const vaultSchema = tableSchema({
+  name: 'vaults',
   columns: [
     { name: 'account_id', type: 'string', isIndexed: true },
     { name: 'title', type: 'string' },

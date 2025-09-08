@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Account } from '@/core/domain/entities/account'
-import { Vaunt } from '@/core/domain/entities/vaunt'
+import { Vault } from '@/core/domain/entities'
 import { Id } from '@/core/domain/structures'
 import type {
   CryptoProvider,
-  VauntsRepository,
+  vaultsRepository,
   AccountsRepository,
 } from '@/core/interfaces'
 
@@ -17,13 +17,13 @@ import type { AuthContextValue } from './auth-context-value'
 type Params = {
   jwt: string | null
   cryptoProvider: CryptoProvider
-  vauntsRepository: VauntsRepository
+  vaultsRepository: vaultsRepository
   accountsRepository: AccountsRepository
 }
 
 export function useAuthContextProvider({
   cryptoProvider,
-  vauntsRepository,
+  vaultsRepository,
   accountsRepository,
 }: Params) {
   const [account, setAccount] = useState<Account | null>(null)
@@ -71,7 +71,7 @@ export function useAuthContextProvider({
           minimumAppLockTimeInSeconds: 0,
           isMasterPasswordRequired: true,
         })
-        const vaunt = Vaunt.create({
+        const vault = Vault.create({
           title: 'Home',
           icon: 'home',
         })
@@ -80,7 +80,7 @@ export function useAuthContextProvider({
         await secureStore.setItem(STORAGE_KEYS.masterPassword, masterPassword)
         await secureStore.setItem(STORAGE_KEYS.accountId, account.id.value)
         await accountsRepository.add(account)
-        await vauntsRepository.add(vaunt, account.id)
+        await vaultsRepository.add(vault, account.id)
 
         navigation.navigate(ROUTES.vault.itens(account.id.value))
       } catch (error) {
@@ -105,12 +105,11 @@ export function useAuthContextProvider({
     navigation.navigate,
     createEncryptionKey,
     accountsRepository,
-    vauntsRepository,
+    vaultsRepository,
     cryptoProvider,
   ])
 
   useEffect(() => {
-    console.log('loadAccount')
     loadAccount()
   }, [loadAccount])
 

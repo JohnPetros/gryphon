@@ -1,10 +1,10 @@
-import { VauntItem } from '../abstracts'
+import { VaultItem } from '../abstracts'
 import { Encrypted, Id } from '../structures'
 import type { CredentialDto } from './dtos'
 
 type CredentialProps = {
   siteUrl: string
-  vauntId: Id
+  vaultId: Id
 }
 
 type CredentialEncryptedData = {
@@ -12,14 +12,14 @@ type CredentialEncryptedData = {
   password: string
 }
 
-export class Credential extends VauntItem<CredentialProps, CredentialEncryptedData> {
+export class Credential extends VaultItem<CredentialProps, CredentialEncryptedData> {
   static create(dto: CredentialDto) {
     return new Credential(
       {
         encryptedData: Encrypted.create<CredentialEncryptedData>(dto.encryptedData),
         title: dto.title,
         siteUrl: dto.siteUrl,
-        vauntId: Id.create(dto.vauntId),
+        vaultId: Id.create(dto.vaultId),
       },
       dto.id,
     )
@@ -34,7 +34,7 @@ export class Credential extends VauntItem<CredentialProps, CredentialEncryptedDa
       id: this.id.value,
       title: this.title,
       siteUrl: this.siteUrl,
-      vauntId: this.props.vauntId.value,
+      vaultId: this.props.vaultId.value,
       encryptedData: this.encrypted.value,
     }
   }

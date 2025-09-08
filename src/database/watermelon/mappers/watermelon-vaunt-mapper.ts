@@ -1,10 +1,10 @@
-import { Vaunt } from '@/core/domain/entities'
-import type { VauntModel } from '../models'
+import { vault } from '@/core/domain/entities'
+import type { vaultModel } from '../models'
 
-export const WatermelonVauntMapper = () => {
+export const WatermelonvaultMapper = () => {
   return {
-    async toEntity(model: VauntModel): Promise<Vaunt> {
-      return Vaunt.create({
+    async toEntity(model: vaultModel): Promise<vault> {
+      return vault.create({
         id: model.id,
         title: model.title,
         icon: model.icon,

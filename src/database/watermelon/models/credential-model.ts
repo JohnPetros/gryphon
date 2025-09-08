@@ -1,12 +1,12 @@
 import { Model } from '@nozbe/watermelondb'
 import { date, field, relation } from '@nozbe/watermelondb/decorators'
-import type { VauntModel } from './vaunt-model'
+import type { VaultModel } from './vault-model'
 
 export class CredentialModel extends Model {
   static table = 'credentials'
 
-  @relation('vaunts', 'vaunt_id')
-  vaunt!: VauntModel
+  @relation('vaults', 'vault_id')
+  vault!: VaultModel
 
   @field('title')
   title!: string

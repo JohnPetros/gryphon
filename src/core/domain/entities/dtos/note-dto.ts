@@ -1,6 +1,6 @@
-import type { VauntItemDto } from './vaunt-item-dto'
+import type { vaultItemDto } from './vault-item-dto'
 
 export type NoteDto = {
   title: string
   content: string
-} & VauntItemDto
+} & vaultItemDto

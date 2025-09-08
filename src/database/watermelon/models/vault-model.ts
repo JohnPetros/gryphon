@@ -5,16 +5,16 @@ import type { CredentialModel } from './credential-model'
 import type { NoteModel } from './note-model'
 import type { AccountModel } from './account-model'
 
-export class VauntModel extends Model {
-  static table = 'vaunts'
+export class VaultModel extends Model {
+  static table = 'vaults'
 
   @relation('accounts', 'account_id')
   account!: AccountModel
 
-  @children('vaunt_items')
+  @children('vault_items')
   credentials!: Query<CredentialModel>
 
-  @children('vaunt_items')
+  @children('vault_items')
   notes!: Query<NoteModel>
 
   @field('title')

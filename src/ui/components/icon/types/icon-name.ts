@@ -1,7 +1,7 @@
-import type { VauntIcon } from '@/core/domain/types'
+import type { vaultIcon } from '@/core/domain/types'
 
 export type IconName =
-  | VauntIcon
+  | vaultIcon
   | 'arrow-down'
   | 'arrow-up'
   | 'email'
@@ -15,4 +15,4 @@ export type IconName =
   | 'plus'
   | 'profile'
   | 'title'
-  | 'vaunt'
+  | 'vault'

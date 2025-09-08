@@ -1,5 +1,5 @@
+import { Box } from '@/ui/gluestack/box'
 import { Text } from '@/ui/gluestack/text'
-import { Box } from 'lucide-react-native'
 
 type Props = {
   name: string

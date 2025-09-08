@@ -2,19 +2,19 @@ import type { CryptoProvider } from '@/core/interfaces'
 import type { Encrypted, Id } from '../structures'
 import { Entity } from './entity'
 
-export type VauntItemProps<EncryptedData> = {
+export type VaultItemProps<EncryptedData> = {
   title: string
-  vauntId: Id
+  vaultId: Id
   encryptedData: Encrypted<EncryptedData>
 }
 
-export abstract class VauntItem<Props, EncryptedData> extends Entity<
-  Props & VauntItemProps<EncryptedData>
+export abstract class VaultItem<Props, EncryptedData> extends Entity<
+  Props & VaultItemProps<EncryptedData>
 > {
   protected encryptionKey?: string
   protected cryptoProvider?: CryptoProvider
 
-  protected constructor(props: Props & VauntItemProps<EncryptedData>, id?: string) {
+  protected constructor(props: Props & VaultItemProps<EncryptedData>, id?: string) {
     super(props, id)
   }
 
@@ -26,8 +26,8 @@ export abstract class VauntItem<Props, EncryptedData> extends Entity<
     this.cryptoProvider = cryptoProvider
   }
 
-  get vauntId(): Id {
-    return this.props.vauntId
+  get vaultId(): Id {
+    return this.props.vaultId
   }
 
   get title(): string {

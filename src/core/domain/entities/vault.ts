@@ -1,15 +1,15 @@
 import { Entity } from '../abstracts'
-import type { VauntDto } from './dtos'
+import type { VaultDto } from './dtos'
 
-export type VauntProps = {
+export type VaultProps = {
   title: string
   icon: string
   itemCount?: number
 }
 
-export class Vaunt extends Entity<VauntProps> {
-  static create(dto: VauntDto) {
-    return new Vaunt(dto, dto.id)
+export class Vault extends Entity<VaultProps> {
+  static create(dto: VaultDto) {
+    return new Vault(dto, dto.id)
   }
 
   get title(): string {
@@ -24,7 +24,7 @@ export class Vaunt extends Entity<VauntProps> {
     return this.props.itemCount ?? 0
   }
 
-  get dto(): VauntDto {
+  get dto(): VaultDto {
     return {
       id: this.id.value,
       title: this.title,
