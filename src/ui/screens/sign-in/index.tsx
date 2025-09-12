@@ -10,7 +10,7 @@ export const SignInScreen = () => {
   })
 
   if (isSignedIn) {
-    return <Redirect href='/vaults/home/itens' />
+    return <Redirect href='/(protected)/vault/new' />
   }
 
   return <SignInScreenView onSignIn={handleSignIn} />

@@ -1,10 +1,11 @@
 import { Stack } from 'expo-router'
 
 const Layout = () => {
+  console.log('Auth Layout')
   return (
-    <Stack>
-      <Stack.Screen name='sign-in' options={{ headerShown: false }} />
-      <Stack.Screen name='sign-up' options={{ headerShown: false }} />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='sign-in' />
+      <Stack.Screen name='sign-up' />
     </Stack>
   )
 }

@@ -1,21 +1,21 @@
 import { Q } from '@nozbe/watermelondb'
 import { sanitizedRaw } from '@nozbe/watermelondb/RawRecord'
 
-import type { vaultsRepository } from '@/core/interfaces'
-import type { vault } from '@/core/domain/entities/vault'
+import type { VaultsRepository } from '@/core/interfaces'
+import type { Vault } from '@/core/domain/entities/vault'
 import type { Id } from '@/core/domain/structures'
 
-import type { vaultModel } from '../models'
-import { WatermelonvaultMapper } from '../mappers'
+import type { VaultModel } from '../models'
+import { WatermelonVaultMapper } from '../mappers'
 import { watermelon } from '../client'
 
-export const WatermelonvaultsRepository = (): vaultsRepository => {
-  const mapper = WatermelonvaultMapper()
+export const WatermelonVaultsRepository = (): VaultsRepository => {
+  const mapper = WatermelonVaultMapper()
 
   return {
-    async add(vault: vault, accountId: Id): Promise<void> {
+    async add(vault: Vault, accountId: Id): Promise<void> {
       await watermelon.write(async () => {
-        const vaultsCollection = watermelon.collections.get<vaultModel>('vaults')
+        const vaultsCollection = watermelon.collections.get<VaultModel>('vaults')
         await vaultsCollection.create((model) => {
           model._raw = sanitizedRaw(
             {
@@ -30,9 +30,9 @@ export const WatermelonvaultsRepository = (): vaultsRepository => {
       })
     },
 
-    async update(vault: vault): Promise<void> {
+    async update(vault: Vault): Promise<void> {
       const model = await watermelon.collections
-        .get<vaultModel>('vaults')
+        .get<VaultModel>('vaults')
         .find(vault.id.value)
 
       await watermelon.write(async () => {
@@ -43,10 +43,10 @@ export const WatermelonvaultsRepository = (): vaultsRepository => {
       })
     },
 
-    async findById(id: Id): Promise<vault | null> {
+    async findById(id: Id): Promise<Vault | null> {
       try {
         const model = await watermelon.collections
-          .get<vaultModel>('vaults')
+          .get<VaultModel>('vaults')
           .find(id.value)
 
         return await mapper.toEntity(model)
@@ -55,10 +55,10 @@ export const WatermelonvaultsRepository = (): vaultsRepository => {
       }
     },
 
-    async findAllByAccount(accountId: Id): Promise<vault[]> {
+    async findAllByAccount(accountId: Id): Promise<Vault[]> {
       try {
         const models = await watermelon.collections
-          .get<vaultModel>('vaults')
+          .get<VaultModel>('vaults')
           .query(Q.where('account_id', accountId.value))
           .fetch()
 

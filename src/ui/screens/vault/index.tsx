@@ -2,22 +2,22 @@ import { Id } from '@/core/domain/structures'
 
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import { useDatabase } from '@/ui/hooks/use-database'
-import { usevaultScreen } from './use-vault-screen'
-import { vaultScreenView } from './vault-screen-view'
+import { VaultScreenView } from './vaunt-screen-view'
+import { useVaultScreen } from './use-vaunt-screen'
 
-export const vaultScreen = () => {
+export const VaultScreen = () => {
   const { vaultsRepository } = useDatabase()
   const { account } = useAuthContext()
-  const { vault, handlevaultCreate, handlevaultUpdate } = usevaultScreen({
+  const { vault, handleVaultCreate, handleVaultUpdate } = useVaultScreen({
     vaultsRepository,
     accountId: account?.id ?? Id.create(),
   })
 
   return (
-    <vaultScreenView
+    <VaultScreenView
       vault={vault}
-      onCreate={handlevaultCreate}
-      onUpdate={handlevaultUpdate}
+      onCreate={handleVaultCreate}
+      onUpdate={handleVaultUpdate}
     />
   )
 }

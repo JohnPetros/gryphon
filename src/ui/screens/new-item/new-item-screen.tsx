@@ -45,17 +45,19 @@ export const NewItemScreenView = () => {
           <AppItem.Info name='Senha' description='Gere uma senha aleatória' />
         </AppItem.Container>
 
-        <AppItem.Container className='flex-row gap-3'>
-          <AppItem.Icon
-            backgroundColor='infoBackground'
-            foregroundColor='info'
-            name='vault'
-          />
-          <AppItem.Info
-            name='Cofre'
-            description='Armazene suas credenciais e notas em uma categoria'
-          />
-        </AppItem.Container>
+        <Link href='/(protected)/vault/new'>
+          <AppItem.Container className='flex-row gap-3'>
+            <AppItem.Icon
+              backgroundColor='infoBackground'
+              foregroundColor='info'
+              name='vault'
+            />
+            <AppItem.Info
+              name='Cofre'
+              description='Armazene suas credenciais e notas em uma categoria'
+            />
+          </AppItem.Container>
+        </Link>
       </Box>
     </ScreenContainer>
   )

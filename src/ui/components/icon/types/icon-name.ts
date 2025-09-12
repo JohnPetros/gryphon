@@ -1,7 +1,7 @@
-import type { vaultIcon } from '@/core/domain/types'
+import type { VaultIcon } from '@/core/domain/types'
 
 export type IconName =
-  | vaultIcon
+  | VaultIcon
   | 'arrow-down'
   | 'arrow-up'
   | 'email'

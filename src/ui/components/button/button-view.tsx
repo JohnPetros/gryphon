@@ -9,7 +9,6 @@ import {
 } from '@/ui/gluestack/button'
 import { COLORS } from '@/constants'
 import { mergeClassNames } from '@/ui/utils'
-import { Text } from '@/ui/gluestack/text'
 
 type Props = {
   isLoading?: boolean
@@ -26,7 +25,7 @@ export const ButtonView = ({
   onPress,
 }: PropsWithChildren<Props>) => {
   return (
-    <ButtonGroup>
+    <ButtonGroup className='flex-1'>
       <Button
         isDisabled={isDisabled}
         onPress={onPress}
