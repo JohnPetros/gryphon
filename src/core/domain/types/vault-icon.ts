@@ -1,0 +1,10 @@
+export type VaultIcon =
+  | 'entertainment'
+  | 'shop'
+  | 'bank'
+  | 'food'
+  | 'health'
+  | 'education'
+  | 'travel'
+  | 'service'
+  | 'social-media'

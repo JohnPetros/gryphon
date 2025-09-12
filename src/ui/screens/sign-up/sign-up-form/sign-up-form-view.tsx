@@ -31,7 +31,7 @@ export const SignUpFormView = ({ onSignUp }: Props) => {
           control={control}
           name='password'
           render={({ field }) => (
-            <PasswordInput label='Senha' onChange={field.onChange} />
+            <PasswordInput label='Senha' hasStrength onChange={field.onChange} />
           )}
         />
       </Box>

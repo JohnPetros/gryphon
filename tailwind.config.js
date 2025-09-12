@@ -180,6 +180,7 @@ module.exports = {
         'primary-background': 'rgb(var(--color-primary-background))',
         'danger-background': 'rgb(var(--color-danger-background))',
         'warning-background': 'rgb(var(--color-warning-background))',
+        'info-background': 'rgb(var(--color-info-background))',
         'neutral-background': 'rgb(var(--color-neutral-background))',
       },
       fontFamily: {

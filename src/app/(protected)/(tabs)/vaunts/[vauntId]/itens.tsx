@@ -5,7 +5,7 @@ import { ScreenContainer } from '@/ui/components/screen-container'
 const Screen = () => {
   return (
     <ScreenContainer>
-      <Text>Vaunt Itens</Text>
+      <Text>vault Itens</Text>
       <SignOutButton />
     </ScreenContainer>
   )

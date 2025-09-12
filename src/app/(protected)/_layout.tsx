@@ -1,4 +1,4 @@
-import { useAuth } from '@/ui/hooks/useAuth'
+import { useAuth } from '@/ui/hooks/use-auth'
 import { Redirect, Slot } from 'expo-router'
 
 const Layout = () => {

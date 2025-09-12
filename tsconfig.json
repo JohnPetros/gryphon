@@ -2,6 +2,7 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "jsx": "react-jsx",
     "paths": {
       "@/*": [
         "./src/*"
@@ -9,7 +10,8 @@
       "tailwind.config": [
         "./tailwind.config.js"
       ]
-    }
+    },
+    "experimentalDecorators": true,
   },
   "include": [
     "**/*.ts",
@@ -17,5 +19,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
-  ]
+  ],
 }

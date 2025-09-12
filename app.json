@@ -11,7 +11,7 @@
     "splash": {
       "image": "./src/assets/images/app-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fff"
+      "backgroundColor": "#18171F"
     },
     "ios": {
       "supportsTablet": true
@@ -19,9 +19,10 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-app-icon.png",
-        "backgroundColor": "#fff"
+        "backgroundColor": "#18171F"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.joaopcarvalho.gryphon"
     },
     "web": {
       "bundler": "metro",
@@ -30,7 +31,28 @@
     },
     "plugins": [
       "expo-router",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-dev-client",
+        {
+          "launchMode": "most-recent"
+        }
+      ],
+      [
+        "@lovesworking/watermelondb-expo-plugin-sdk-52-plus"
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "packagingOptions": {
+              "pickFirst": [
+                "**/libc++_shared.so"
+              ]
+            }
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth as useClerkAuth, useSignIn, useSignUp } from '@clerk/clerk-expo'
 
 export function useAuth() {
-  const { isSignedIn, getToken, signOut } = useClerkAuth()
+  const { userId, isSignedIn, getToken, signOut } = useClerkAuth()
   const { signIn, setActive } = useSignIn()
   const { signUp } = useSignUp()
   const [jwt, setJwt] = useState<string | null>(null)
@@ -22,9 +22,13 @@ export function useAuth() {
     }
   }
 
-  async function signUpAccount(email: string, password: string) {
+  async function signUpAccount(accountId: string, email: string, password: string) {
     try {
-      await signUp?.create({ emailAddress: email, password })
+      await signUp?.create({
+        emailAddress: email,
+        password,
+        unsafeMetadata: { accountId },
+      })
       await signUp?.prepareEmailAddressVerification({ strategy: 'email_code' })
     } catch (error) {
       console.error(error)
@@ -39,6 +43,7 @@ export function useAuth() {
     const response = await signUp?.attemptEmailAddressVerification({ code })
 
     if (response?.status === 'complete') {
+      await setActive?.({ session: response?.createdSessionId })
       return true
     }
 
@@ -55,6 +60,7 @@ export function useAuth() {
   }, [isSignedIn, getToken])
 
   return {
+    accountId: userId,
     isSignedIn,
     jwt,
     signOutAccount,

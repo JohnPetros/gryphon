@@ -1,4 +1,4 @@
-import { useClerkAuthService } from '@/ui/hooks/useAuth'
+import { useAuth } from '@/ui/hooks/use-auth'
 import { OtpFormView } from './otp-form-view'
 import { useOtpForm } from './use-otp-form'
 
@@ -7,7 +7,7 @@ type Props = {
 }
 
 export const OtpForm = ({ onConfirm }: Props) => {
-  const { verifyOtpCode } = useClerkAuthService()
+  const { verifyOtpCode } = useAuth()
   const { status, isFilled, handleFilled, handleCodeChange } = useOtpForm(
     verifyOtpCode,
     onConfirm,

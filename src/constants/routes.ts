@@ -4,6 +4,6 @@ export const ROUTES = {
     signUp: '/auth/sign-up',
   },
   vault: {
-    itens: (vauntId?: string) => `/vaunts/${vauntId ?? 'home'}/itens`,
+    itens: (vaultId?: string) => `/vaults/${vaultId ?? 'home'}/itens`,
   },
 }

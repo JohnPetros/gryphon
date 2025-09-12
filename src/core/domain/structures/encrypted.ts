@@ -3,8 +3,8 @@ import type { CryptoProvider } from '@/core/interfaces'
 export class Encrypted<Data> {
   private constructor(readonly value: string) {}
 
-  static create(value: string) {
-    return new Encrypted(value)
+  static create<Data>(value: string) {
+    return new Encrypted<Data>(value)
   }
 
   decrypt(encryptionKey: string, cryptoProvider: CryptoProvider): Data {

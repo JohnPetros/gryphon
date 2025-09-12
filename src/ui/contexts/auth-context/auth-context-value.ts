@@ -4,5 +4,5 @@ export type AuthContextValue = {
   isLoading: boolean
   encryptionKey: string
   account: Account | null
-  createAccount: (email: string, masterPassword: string) => Promise<void>
+  createAccount: (id: string, email: string, masterPassword: string) => Promise<void>
 }

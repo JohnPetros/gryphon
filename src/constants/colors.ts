@@ -11,6 +11,7 @@ export const COLORS = {
     primaryBackground: '#3E996C40',
     dangerBackground: '#D9363640',
     warningBackground: '#F8CD6540',
+    infoBackground: '#E66A4340',
     neutralBackground: '#5C5A6640',
   },
   dark: {
@@ -22,9 +23,10 @@ export const COLORS = {
     surface: '#212028',
     neutral: '#837F92',
     accent: '#E6E5EA',
-    primaryBackground: '#49B48040',
-    dangerBackground: '#F64A4A40',
+    primaryBackground: '#49B4801A',
+    dangerBackground: '#F64A4A1A',
     warningBackground: '#F8CD6540',
+    infoBackground: '#FB7C5840',
     neutralBackground: '#837F9240',
   },
 }
