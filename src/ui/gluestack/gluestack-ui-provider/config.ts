@@ -15,6 +15,7 @@ export const config = {
     '--color-primary-background': '62 153 108 / 0.25',
     '--color-danger-background': '217 54 54 / 0.25',
     '--color-warning-background': '248 205 101 / 0.25',
+    '--color-info-background': '230 106 67 / 0.25',
     '--color-neutral-background': '92 90 102 / 0.25',
 
     '--color-primary-0': '179 179 179',
@@ -180,6 +181,7 @@ export const config = {
     '--color-accent': '230 229 234',
     '--color-primary-background': '62 153 108 / 0.25',
     '--color-danger-background': '217 54 54 / 0.25',
+    '--color-info-background': '251 124 88 / 0.25',
     '--color-warning-background': '248 205 101 / 0.25',
     '--color-neutral-background': '92 90 102 / 0.25',
 
