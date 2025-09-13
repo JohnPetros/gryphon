@@ -22,7 +22,7 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
             {
               id: credential.id.value,
               title: credential.title,
-              encryptedData: credential.encrypted.value,
+              encrypted_data: credential.encrypted.value,
               vaultId: credential.vaultId.value,
             },
             credentialsCollection.schema,
