@@ -3,8 +3,9 @@ export const ROUTES = {
     signIn: '/auth/sign-in',
     signUp: '/auth/sign-up',
   },
-  vault: {
-    itens: (vaultId?: string) => `/vaults/${vaultId ?? 'home'}/itens`,
-  },
+  vaultItens: '(protected)/(tabs)/vault-itens',
+  newVault: '(protected)/(tabs)/vault/new',
+  vault: (vaultId: string) => `(protected)/vault/${vaultId}`,
   newItem: '(protected)/(tabs)/new-item',
+  profile: '(protected)/(tabs)/profile',
 }

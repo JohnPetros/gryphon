@@ -43,7 +43,7 @@ function RootLayoutNav() {
       <BottomSheetModalProvider>
         <UiProvider>
           <ThemeProvider value={DarkTheme}>
-            <ClerkProvider tokenCache={tokenCache}>
+            <ClerkProvider tokenCache={tokenCache} telemetry={false}>
               <AuthContextProvider>
                 <Slot />
               </AuthContextProvider>
