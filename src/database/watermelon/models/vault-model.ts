@@ -5,8 +5,14 @@ import type { CredentialModel } from './credential-model'
 import type { NoteModel } from './note-model'
 import type { AccountModel } from './account-model'
 
+// @ts-ignore
 export class VaultModel extends Model {
   static table = 'vaults'
+
+  static associations = {
+    credentials: { type: 'has_many', foreignKey: 'vault_id' },
+    notes: { type: 'has_many', foreignKey: 'vault_id' },
+  }
 
   @relation('accounts', 'account_id')
   account!: AccountModel

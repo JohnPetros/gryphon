@@ -20,25 +20,31 @@ import {
   Utensils,
   Heart,
   GraduationCap,
+  Search,
   Plane,
   Wrench,
   Share2,
+  Tv,
+  ChevronLeft,
 } from 'lucide-react-native'
 
 import type { IconName } from '../types/icon-name'
 
 export const ICONS: Record<IconName, LucideIcon> = {
+  'arrow-left': ChevronLeft,
   'arrow-down': ChevronDown,
   'arrow-up': ChevronUp,
   'eye-open': EyeIcon,
   'eye-close': EyeOffIcon,
   'social-media': Share2,
+  search: Search,
   email: Mail,
   title: FileType,
   plus: DiamondPlus,
   list: List,
   entertainment: Gamepad2,
   shop: ShoppingBag,
+  streaming: Tv,
   bank: Building2,
   food: Utensils,
   health: Heart,

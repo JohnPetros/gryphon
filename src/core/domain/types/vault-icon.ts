@@ -8,3 +8,4 @@ export type VaultIcon =
   | 'travel'
   | 'service'
   | 'social-media'
+  | 'streaming'

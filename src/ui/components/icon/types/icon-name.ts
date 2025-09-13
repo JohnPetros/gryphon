@@ -2,9 +2,11 @@ import type { VaultIcon } from '@/core/domain/types'
 
 export type IconName =
   | VaultIcon
+  | 'arrow-left'
   | 'arrow-down'
   | 'arrow-up'
   | 'email'
+  | 'search'
   | 'exit'
   | 'eye-close'
   | 'eye-open'

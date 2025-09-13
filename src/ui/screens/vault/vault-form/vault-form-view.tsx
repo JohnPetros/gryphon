@@ -5,7 +5,7 @@ import type { Vault } from '@/core/domain/entities'
 import { Box } from '@/ui/gluestack/box'
 import { Input } from '@/ui/components/input'
 import { Button } from '@/ui/components/button'
-import { IconSelect } from './icon-select'
+import { IconSelect } from './vault-icon-select'
 import { useVaultForm } from './use-vault-form'
 
 type Props = {
@@ -24,7 +24,14 @@ export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
   return (
     <Box className='flex flex-col gap-6'>
       <Box className='flex flex-row gap-2'>
-        <IconSelect />
+        <Controller
+          control={control}
+          name='icon'
+          render={({ field }) => (
+            <IconSelect value={field.value} onChange={field.onChange} />
+          )}
+        />
+
         <Button
           onPress={handleSubmit}
           isDisabled={!isValid}

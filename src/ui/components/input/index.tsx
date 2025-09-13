@@ -5,9 +5,10 @@ import { useInput } from './use-input'
 type Props = {
   type?: 'text' | 'password' | 'number'
   value?: string
-  label: string
+  label?: string
   icon: IconName
   placeholder?: string
+  className?: string
   endContent?: React.ReactNode
   onChange?: (value: string) => void
 }
@@ -19,6 +20,7 @@ export const Input = ({
   icon,
   placeholder,
   endContent,
+  className,
   onChange,
 }: Props) => {
   const { handleChange } = useInput({ type, onChange })
@@ -31,6 +33,7 @@ export const Input = ({
       icon={icon}
       placeholder={placeholder}
       endContent={endContent}
+      className={className}
       onChange={handleChange}
     />
   )

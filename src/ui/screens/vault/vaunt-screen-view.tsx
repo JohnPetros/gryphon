@@ -3,6 +3,7 @@ import { ScreenContainer } from '@/ui/components/screen-container'
 import { ScreenTitle } from '@/ui/components/screen-title'
 import { VaultForm } from './vault-form'
 import { Box } from '@/ui/gluestack/box'
+import { PreviousScreenButton } from '@/ui/components/previous-screen-button'
 
 type Props = {
   vault: Vault | null
@@ -13,6 +14,8 @@ type Props = {
 export const VaultScreenView = ({ vault, onCreate, onUpdate }: Props) => {
   return (
     <ScreenContainer>
+      <PreviousScreenButton />
+
       <Box className='mt-6'>
         <ScreenTitle>Adicionar Cofre</ScreenTitle>
       </Box>

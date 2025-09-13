@@ -14,20 +14,26 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
 
   return {
     async add(vault: Vault, accountId: Id): Promise<void> {
-      await watermelon.write(async () => {
-        const vaultsCollection = watermelon.collections.get<VaultModel>('vaults')
-        await vaultsCollection.create((model) => {
-          model._raw = sanitizedRaw(
-            {
-              id: vault.id.value,
-              title: vault.title,
-              icon: vault.icon,
-              accountId: accountId.value,
-            },
-            vaultsCollection.schema,
-          )
+      try {
+        await watermelon.write(async () => {
+          const vaultsCollection = watermelon.collections.get<VaultModel>('vaults')
+          console.log('vaultsCollection', { vaultsCollection })
+          const createdVault = await vaultsCollection.create((model) => {
+            model._raw = sanitizedRaw(
+              {
+                id: vault.id.value,
+                title: vault.title,
+                icon: vault.icon,
+                accountId: accountId.value,
+              },
+              vaultsCollection.schema,
+            )
+          })
+          console.log('createdVault', createdVault)
         })
-      })
+      } catch (error) {
+        console.error('Error adding vault', error)
+      }
     },
 
     async update(vault: Vault): Promise<void> {
@@ -59,7 +65,7 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
       try {
         const models = await watermelon.collections
           .get<VaultModel>('vaults')
-          .query(Q.where('account_id', accountId.value))
+          .query()
           .fetch()
 
         console.log({ models })

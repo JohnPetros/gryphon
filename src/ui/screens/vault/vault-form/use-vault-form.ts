@@ -8,7 +8,7 @@ const formSchema = z.object({
   icon: z.string(),
 })
 
-type FormSchema = z.infer<typeof formSchema>
+type FormData = z.infer<typeof formSchema>
 
 type Params = {
   vault: Vault | null
@@ -17,15 +17,15 @@ type Params = {
 }
 
 export function useVaultForm({ vault, onCreate, onUpdate }: Params) {
-  const { formState, control, handleSubmit } = useForm<FormSchema>({
+  const { formState, control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: vault?.title,
-      icon: vault?.icon,
+      icon: vault?.icon ?? 'entertainment',
     },
   })
 
-  async function handleFormSubmit(data: FormSchema) {
+  async function handleFormSubmit(data: FormData) {
     if (vault) {
       await onUpdate(Vault.create(data))
     } else {

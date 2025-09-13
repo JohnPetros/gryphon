@@ -6,4 +6,5 @@ export const ROUTES = {
   vault: {
     itens: (vaultId?: string) => `/vaults/${vaultId ?? 'home'}/itens`,
   },
+  newItem: '(protected)/(tabs)/new-item',
 }
