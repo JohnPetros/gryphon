@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import type { Vault } from '@/core/domain/entities'
-import type { Id } from '@/core/domain/structures'
+import { Id } from '@/core/domain/structures'
 import type { VaultsRepository } from '@/core/interfaces'
 import { useNavigation } from '@/ui/hooks/use-navigation'
+import { ROUTES } from '@/constants'
+import { Alert } from 'react-native'
 
 type Params = {
   accountId?: Id
@@ -16,28 +18,25 @@ export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params)
   const navigation = useNavigation()
 
   async function handleVaultCreate(vault: Vault) {
-    console.log('accountId', { accountId })
-    try {
-      if (!accountId) return
-      await vaultsRepository.add(vault, accountId)
-      setVault(vault)
-      const allVaults = await vaultsRepository.findAllByAccount(accountId)
-      console.log({ allVaults })
-    } catch (error) {
-      console.error('Error creating vault', error)
-    }
-    // navigation.navigate(ROUTES.newItem)
+    if (!accountId) return
+    await vaultsRepository.add(vault, accountId)
+    setVault(vault)
+    navigation.navigate(ROUTES.vaultItens)
   }
 
   async function handleVaultUpdate(vault: Vault) {
-    await vaultsRepository.update(vault)
+    try {
+      Alert.alert('Atualizar', 'Atualizar o cofre?')
+      await vaultsRepository.update(vault)
+      navigation.navigate(ROUTES.vaultItens)
+    } catch (error) {}
   }
 
   useEffect(() => {
     async function loadVault() {
-      if (!vaultId) return
-      const vault = await vaultsRepository.findById(vaultId)
-      setVault(vault)
+      if (vault) return
+      const loadedVault = await vaultsRepository.findById(vaultId ?? Id.create())
+      setVault(loadedVault)
     }
     loadVault()
   }, [vaultId, vaultsRepository.findById])

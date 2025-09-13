@@ -1,12 +1,13 @@
 import type { Vault } from '@/core/domain/entities'
+import type { Id } from '@/core/domain/structures'
 
 import { Box } from '@/ui/gluestack/box'
 import { Input } from '@/ui/components/input'
 import { AppItem } from '@/ui/components/app-item'
 import { Text } from '@/ui/gluestack/text'
 import { Pressable } from '@/ui/components/pressable'
-import { VaultsDrawer } from './vaults-drawer'
 import { ScreenContainer } from '@/ui/components/screen-container'
+import { VaultsDrawer } from './vaults-drawer'
 
 type Props = {
   selectedVault: Vault | null
@@ -15,6 +16,8 @@ type Props = {
   onDrawerOpen: () => void
   onDrawerClose: () => void
   onVaultSelect: (vault: Vault) => void
+  onVaultEdit: (vaultId: Id) => void
+  onVaultDelete: (vaultId: Id) => void
 }
 
 export function VaultItensScreenView({
@@ -24,6 +27,8 @@ export function VaultItensScreenView({
   onDrawerOpen,
   onDrawerClose,
   onVaultSelect,
+  onVaultEdit,
+  onVaultDelete,
 }: Props) {
   return (
     <ScreenContainer>
@@ -35,6 +40,8 @@ export function VaultItensScreenView({
             selectedVault={selectedVault}
             onClose={onDrawerClose}
             onVaultSelect={onVaultSelect}
+            onVaultEdit={onVaultEdit}
+            onVaultDelete={onVaultDelete}
           />
 
           <Pressable onPress={onDrawerOpen}>
@@ -56,6 +63,8 @@ export function VaultItensScreenView({
         selectedVault={selectedVault}
         onVaultSelect={onVaultSelect}
         onClose={onDrawerClose}
+        onVaultEdit={onVaultEdit}
+        onVaultDelete={onVaultDelete}
       />
 
       {!selectedVault && (

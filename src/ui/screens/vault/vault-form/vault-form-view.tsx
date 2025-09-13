@@ -28,7 +28,7 @@ export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
           control={control}
           name='icon'
           render={({ field }) => (
-            <IconSelect value={field.value} onChange={field.onChange} />
+            <IconSelect key={field.value} value={field.value} onChange={field.onChange} />
           )}
         />
 
@@ -36,9 +36,9 @@ export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
           onPress={handleSubmit}
           isDisabled={!isValid}
           isLoading={isSubmitting}
-          className='w-32 items-center justify-center'
+          className='w-40 items-center justify-center'
         >
-          Criar
+          {vault ? 'Atualizar' : 'Criar'}
         </Button>
       </Box>
 
@@ -50,6 +50,8 @@ export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
             label='Título'
             icon='title'
             placeholder='Sem título'
+            defaultValue={vault?.title}
+            value={field.value}
             onChange={field.onChange}
           />
         )}

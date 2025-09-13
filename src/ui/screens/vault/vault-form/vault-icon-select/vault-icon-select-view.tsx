@@ -48,7 +48,7 @@ export const IconSelectView = ({ value, bottomSheetRef, onChange }: Props) => {
       ref={bottomSheetRef}
       trigger={
         <Box className='w-40 flex-row items-center justify-between px-3 h-16 bg-info-background'>
-          <Box className='flex-1 items-center justify-center'>
+          <Box className='flex-1 items-center justify-center translate-x-1'>
             <Icon name={value} color='info' size={30} />
           </Box>
           <Icon name='arrow-down' color='info' />

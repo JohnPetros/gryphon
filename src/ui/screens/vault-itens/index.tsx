@@ -1,9 +1,11 @@
 import { useLocalSearchParams } from 'expo-router'
-import { VaultItensScreenView } from './vault-itens-screen-view'
-import { useDatabase } from '@/ui/hooks/use-database'
-import { useVaultItensScreen } from './use-vault-itens-screen'
+
 import { Id } from '@/core/domain/structures'
+
+import { useDatabase } from '@/ui/hooks/use-database'
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
+import { useVaultItensScreen } from './use-vault-itens-screen'
+import { VaultItensScreenView } from './vault-itens-screen-view'
 
 type SearchParams = {
   vaultId: string
@@ -20,6 +22,8 @@ export const VaultItensScreen = () => {
     handleDrawerClose,
     handleDrawerOpen,
     handleVaultSelect,
+    handleVaultEdit,
+    handleVaultDelete,
   } = useVaultItensScreen({
     vaultsRepository,
     vaultId: Id.create(vaultId),
@@ -34,6 +38,8 @@ export const VaultItensScreen = () => {
       onVaultSelect={handleVaultSelect}
       onDrawerClose={handleDrawerClose}
       onDrawerOpen={handleDrawerOpen}
+      onVaultEdit={handleVaultEdit}
+      onVaultDelete={handleVaultDelete}
     />
   )
 }

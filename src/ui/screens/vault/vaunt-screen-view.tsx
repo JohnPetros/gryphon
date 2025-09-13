@@ -17,10 +17,14 @@ export const VaultScreenView = ({ vault, onCreate, onUpdate }: Props) => {
       <PreviousScreenButton />
 
       <Box className='mt-6'>
-        <ScreenTitle>Adicionar Cofre</ScreenTitle>
+        {vault ? (
+          <ScreenTitle>Cofre</ScreenTitle>
+        ) : (
+          <ScreenTitle>Adicionar Cofre</ScreenTitle>
+        )}
       </Box>
 
-      <Box className='mt-12'>
+      <Box className='mt-10'>
         <VaultForm vault={vault} onCreate={onCreate} onUpdate={onUpdate} />
       </Box>
     </ScreenContainer>
