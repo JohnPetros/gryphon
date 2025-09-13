@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native'
+import { Alert, FlatList } from 'react-native'
 
 import type { Id } from '@/core/domain/structures'
 import type { Vault } from '@/core/domain/entities'
@@ -13,6 +13,7 @@ import { Heading } from '@/ui/gluestack/heading'
 import { AppItem } from '@/ui/components/app-item'
 import { Box } from '@/ui/gluestack/box'
 import { Pressable } from '@/ui/components/pressable'
+import { AlertDialog } from '@/ui/components/alert-dialog'
 
 type Props = {
   selectedVault: Vault | null
@@ -36,7 +37,7 @@ export const VaultsDrawerView = ({
   return (
     <Drawer isOpen={isOpen} size='sm' anchor='left' onClose={onClose}>
       <DrawerBackdrop className='bg-black' />
-      <DrawerContent className='flex-1 bg-background pt-16 w-64'>
+      <DrawerContent className='flex-1 bg-background pt-16 w-72'>
         <DrawerHeader>
           <Heading size='2xl' className='text-accent font-bold'>
             Cofres
@@ -63,6 +64,7 @@ export const VaultsDrawerView = ({
                       <AppItem.Info
                         name={item.title}
                         description={`${item.itemCount} itens`}
+                        className='w-40'
                       />
                     </Box>
                     <AppItem.Menu>
@@ -82,8 +84,23 @@ export const VaultsDrawerView = ({
                             color='danger'
                             icon='trash'
                             onPress={() => {
-                              onVaultDelete(item.id)
-                              close()
+                              Alert.alert(
+                                'Excluir Cofre?',
+                                'Tem certeza que deseja excluir este cofre? Todos os itens nele serão excluídos também.',
+                                [
+                                  {
+                                    text: 'Cancelar',
+                                    style: 'cancel',
+                                  },
+                                  {
+                                    text: 'Excluir',
+                                    onPress: () => {
+                                      onVaultDelete(item.id)
+                                      close()
+                                    },
+                                  },
+                                ],
+                              )
                             }}
                           >
                             Excluir

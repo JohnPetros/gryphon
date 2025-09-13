@@ -9,6 +9,7 @@ import { Slot } from 'expo-router'
 export { ErrorBoundary } from 'expo-router'
 import { ClerkProvider } from '@clerk/clerk-expo'
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
+import { PortalProvider } from '@gorhom/portal'
 
 import '../../global.css'
 import { AuthContextProvider } from '@/ui/contexts/auth-context'
@@ -43,12 +44,14 @@ function RootLayoutNav() {
       <BottomSheetModalProvider>
         <UiProvider>
           <ThemeProvider value={DarkTheme}>
-            <ClerkProvider tokenCache={tokenCache} telemetry={false}>
-              <AuthContextProvider>
-                <Slot />
-              </AuthContextProvider>
-            </ClerkProvider>
-            <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+            <PortalProvider>
+              <ClerkProvider tokenCache={tokenCache} telemetry={false}>
+                <AuthContextProvider>
+                  <Slot />
+                </AuthContextProvider>
+              </ClerkProvider>
+              <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+            </PortalProvider>
           </ThemeProvider>
         </UiProvider>
       </BottomSheetModalProvider>

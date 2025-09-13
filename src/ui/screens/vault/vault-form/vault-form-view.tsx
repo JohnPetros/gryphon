@@ -1,6 +1,7 @@
 import { Controller } from 'react-hook-form'
 
 import type { Vault } from '@/core/domain/entities'
+import type { VaultDto } from '@/core/domain/entities/dtos'
 
 import { Box } from '@/ui/gluestack/box'
 import { Input } from '@/ui/components/input'
@@ -10,8 +11,8 @@ import { useVaultForm } from './use-vault-form'
 
 type Props = {
   vault: Vault | null
-  onCreate: (vault: Vault) => Promise<void>
-  onUpdate: (vault: Vault) => Promise<void>
+  onCreate: (vault: VaultDto) => Promise<void>
+  onUpdate: (vault: VaultDto) => Promise<void>
 }
 
 export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 
-import type { Vault } from '@/core/domain/entities'
 import { Id } from '@/core/domain/structures'
 import type { VaultsRepository } from '@/core/interfaces'
+import { Vault } from '@/core/domain/entities'
 import { useNavigation } from '@/ui/hooks/use-navigation'
 import { ROUTES } from '@/constants'
 import { Alert } from 'react-native'
+import { VaultDto } from '@/core/domain/entities/dtos'
 
 type Params = {
   accountId?: Id
@@ -17,19 +18,26 @@ export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params)
   const [vault, setVault] = useState<Vault | null>(null)
   const navigation = useNavigation()
 
-  async function handleVaultCreate(vault: Vault) {
+  async function handleVaultCreate(vaultDto: VaultDto) {
     if (!accountId) return
+    const vault = Vault.create(vaultDto)
     await vaultsRepository.add(vault, accountId)
     setVault(vault)
     navigation.navigate(ROUTES.vaultItens)
   }
 
-  async function handleVaultUpdate(vault: Vault) {
+  async function handleVaultUpdate(vaultDto: VaultDto) {
     try {
-      Alert.alert('Atualizar', 'Atualizar o cofre?')
+      if (!vaultId) return
+      const vault = Vault.create({
+        ...vaultDto,
+        id: vaultId.value,
+      })
       await vaultsRepository.update(vault)
       navigation.navigate(ROUTES.vaultItens)
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {

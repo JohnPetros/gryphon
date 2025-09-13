@@ -13,15 +13,14 @@ type Props = {
 
 export const IconSelect = ({ value, onChange }: Props) => {
   const bottomSheetRef = useRef<BottomSheetRef | null>(null)
-  const { selectedValue, handleChange } = useVaultIconSelect({
-    value: value as VaultIcon,
+  const { handleChange } = useVaultIconSelect({
     bottomSheetRef,
     onChange,
   })
 
   return (
     <IconSelectView
-      value={selectedValue}
+      value={value as VaultIcon}
       bottomSheetRef={bottomSheetRef}
       onChange={handleChange}
     />

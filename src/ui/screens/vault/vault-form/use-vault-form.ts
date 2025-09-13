@@ -1,7 +1,9 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Vault } from '@/core/domain/entities'
+import { useEffect } from 'react'
+import type { VaultDto } from '@/core/domain/entities/dtos'
+import type { Vault } from '@/core/domain/entities'
 
 const formSchema = z.object({
   title: z.string(),
@@ -12,12 +14,12 @@ type FormData = z.infer<typeof formSchema>
 
 type Params = {
   vault: Vault | null
-  onCreate: (vault: Vault) => Promise<void>
-  onUpdate: (vault: Vault) => Promise<void>
+  onCreate: (vault: VaultDto) => Promise<void>
+  onUpdate: (vault: VaultDto) => Promise<void>
 }
 
 export function useVaultForm({ vault, onCreate, onUpdate }: Params) {
-  const { formState, control, handleSubmit } = useForm<FormData>({
+  const { formState, control, handleSubmit, setValue } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: vault?.title,
@@ -27,11 +29,15 @@ export function useVaultForm({ vault, onCreate, onUpdate }: Params) {
 
   async function handleFormSubmit(data: FormData) {
     if (vault) {
-      await onUpdate(Vault.create(data))
+      await onUpdate(data)
     } else {
-      await onCreate(Vault.create(data))
+      await onCreate(data)
     }
   }
+
+  useEffect(() => {
+    setValue('icon', vault?.icon ?? 'entertainment')
+  }, [vault?.icon, setValue])
 
   return {
     isSubmitting: formState.isSubmitting,
