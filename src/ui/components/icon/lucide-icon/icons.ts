@@ -4,6 +4,8 @@ import {
   ChevronUp,
   KeyRound,
   FileType,
+  Edit,
+  Trash,
   LogOut,
   DiamondPlus,
   NotebookText,
@@ -25,6 +27,7 @@ import {
   Wrench,
   Share2,
   Tv,
+  EllipsisVertical,
   ChevronLeft,
 } from 'lucide-react-native'
 
@@ -37,6 +40,9 @@ export const ICONS: Record<IconName, LucideIcon> = {
   'eye-open': EyeIcon,
   'eye-close': EyeOffIcon,
   'social-media': Share2,
+  edit: Edit,
+  trash: Trash,
+  menu: EllipsisVertical,
   search: Search,
   email: Mail,
   title: FileType,

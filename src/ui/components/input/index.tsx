@@ -5,6 +5,7 @@ import { useInput } from './use-input'
 type Props = {
   type?: 'text' | 'password' | 'number'
   value?: string
+  defaultValue?: string
   label?: string
   icon: IconName
   placeholder?: string
@@ -16,6 +17,7 @@ type Props = {
 export const Input = ({
   type = 'text',
   value,
+  defaultValue,
   label,
   icon,
   placeholder,
@@ -29,6 +31,7 @@ export const Input = ({
     <InputView
       type={type}
       value={value}
+      defaultValue={defaultValue}
       label={label}
       icon={icon}
       placeholder={placeholder}

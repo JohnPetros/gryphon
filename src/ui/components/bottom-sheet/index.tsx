@@ -1,4 +1,4 @@
-import { PropsWithChildren, useImperativeHandle, useRef } from 'react'
+import { type PropsWithChildren, useImperativeHandle, useRef } from 'react'
 import type { BottomSheetModal } from '@gorhom/bottom-sheet'
 
 import type { BottomSheetRef } from './types/bottom-sheet-ref'

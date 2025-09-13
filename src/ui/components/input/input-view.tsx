@@ -7,6 +7,7 @@ import { mergeClassNames } from '@/ui/utils'
 type Props = {
   type?: 'text' | 'password' | 'number'
   value?: string
+  defaultValue?: string
   label?: string
   icon: IconName
   placeholder?: string
@@ -18,6 +19,7 @@ type Props = {
 export const InputView = ({
   type = 'text',
   value,
+  defaultValue,
   label,
   icon,
   placeholder,
@@ -46,7 +48,7 @@ export const InputView = ({
       )}
       <InputField
         type={type === 'number' ? 'text' : type}
-        value={value ?? undefined}
+        value={value ?? defaultValue ?? undefined}
         placeholder={placeholder}
         autoCapitalize='none'
         onChangeText={onChange}

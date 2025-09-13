@@ -7,9 +7,11 @@ import {
 } from '@/database/watermelon'
 
 export function useDatabase() {
-  return {
-    accountsRepository: WatermelonAccountsRepository(),
-    credentialsRepository: WatermelonCredentialsRepository(),
-    vaultsRepository: WatermelonVaultsRepository(),
-  }
+  return useMemo(() => {
+    return {
+      accountsRepository: WatermelonAccountsRepository(),
+      credentialsRepository: WatermelonCredentialsRepository(),
+      vaultsRepository: WatermelonVaultsRepository(),
+    }
+  }, [])
 }
