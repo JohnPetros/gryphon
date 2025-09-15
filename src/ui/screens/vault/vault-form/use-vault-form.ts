@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { useEffect } from 'react'
 import type { VaultDto } from '@/core/domain/entities/dtos'
 import type { Vault } from '@/core/domain/entities'
+import { VaultIcon } from '@/core/domain/structures/vault-icon'
 
 const formSchema = z.object({
   title: z.string(),
@@ -29,9 +30,15 @@ export function useVaultForm({ vault, onCreate, onUpdate }: Params) {
 
   async function handleFormSubmit(data: FormData) {
     if (vault) {
-      await onUpdate(data)
+      await onUpdate({
+        ...data,
+        icon: data.icon as VaultIcon,
+      })
     } else {
-      await onCreate(data)
+      await onCreate({
+        ...data,
+        icon: data.icon as VaultIcon,
+      })
     }
   }
 

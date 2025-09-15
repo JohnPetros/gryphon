@@ -17,7 +17,6 @@ export const useVaultItensScreen = ({ vaultsRepository, vaultId, accountId }: Pa
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [selectedVault, setSelectedVault] = useState<Vault | null>(null)
   const [vaults, setVaults] = useState<Vault[]>([])
-  const [isLoading, setIsLoading] = useState(true)
   const navigation = useNavigation()
 
   function handleDrawerClose() {
