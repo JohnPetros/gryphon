@@ -2,60 +2,105 @@ import { useState } from 'react'
 
 import { Password } from '@/core/domain/structures'
 
-export function usePasswordGenerator(onConfirm?: (password: Password) => void) {
-  const [password, setPassword] = useState(Password.create(''))
-  const [characterLength, setCharacterLength] = useState(8)
-  const [hasUppercase, setHasUppercase] = useState(true)
-  const [hasLowercase, setHasLowercase] = useState(false)
-  const [hasNumbers, setHasNumbers] = useState(false)
-  const [hasSpecialChar, setHasSpecialChar] = useState(false)
+export function usePasswordGenerator(
+  minimumPasswordStrength: number,
+  onConfirm?: (password: Password) => void,
+) {
+  const defaultPassword = Password.createFromStrength(minimumPasswordStrength)
+  const [password, setPassword] = useState(defaultPassword)
+  const [length, setLength] = useState(defaultPassword.length)
+  const [hasUppercase, setHasUppercase] = useState(defaultPassword.hasUppercase)
+  const [hasLowercase, setHasLowercase] = useState(defaultPassword.hasLowercase)
+  const [hasNumbers, setHasNumbers] = useState(defaultPassword.hasNumbers)
+  const [hasSymbols, setSymbols] = useState(defaultPassword.hasSymbols)
+  const [isInvalid, setIsInvalid] = useState(false)
 
   function handleReload() {
-    setPassword(Password.create(''))
+    const password = Password.createRandom({
+      length,
+      hasUppercase,
+      hasLowercase,
+      hasNumbers,
+      hasSymbols,
+    })
+    setPassword(password)
   }
 
   function handleChange(value: string) {
     setPassword(Password.create(value))
+    setIsInvalid(false)
   }
 
-  function handleChangeCharacterLength(value: number) {
-    setCharacterLength(value)
+  function handleChangeLength(value: number) {
+    setLength(value)
+    setIsInvalid(false)
   }
 
   function handleChangeHasUppercase(value: boolean) {
+    if (!value && !hasLowercase) {
+      return
+    }
+
     setHasUppercase(value)
+    setIsInvalid(false)
   }
 
   function handleChangeHasLowercase(value: boolean) {
+    if (!value && !hasUppercase) {
+      return
+    }
+
     setHasLowercase(value)
+    setIsInvalid(false)
   }
 
   function handleChangeHasNumbers(value: boolean) {
     setHasNumbers(value)
+    setIsInvalid(false)
   }
 
-  function handleChangeHasSpecialChar(value: boolean) {
-    setHasSpecialChar(value)
+  function handleChangeSymbols(value: boolean) {
+    setSymbols(value)
+    setIsInvalid(false)
   }
 
   function handleConfirm() {
+    setIsInvalid(false)
+    console.log('minimumPasswordStrength', minimumPasswordStrength)
+    if (password.strength < minimumPasswordStrength) {
+      setIsInvalid(true)
+      return
+    }
     onConfirm?.(password)
+  }
+
+  function handleOpen() {
+    const password = Password.createRandom({
+      length: defaultPassword.length,
+      hasUppercase: defaultPassword.hasUppercase,
+      hasLowercase: defaultPassword.hasLowercase,
+      hasNumbers: defaultPassword.hasNumbers,
+      hasSymbols: defaultPassword.hasSymbols,
+    })
+    setPassword(password)
   }
 
   return {
     password,
-    characterLength,
+    length,
     hasUppercase,
     hasLowercase,
     hasNumbers,
-    hasSpecialChar,
+    hasSymbols,
+    isInvalid,
     handleChange,
-    handleChangeCharacterLength,
+    handleChangeLength,
     handleChangeHasUppercase,
     handleChangeHasLowercase,
     handleChangeHasNumbers,
-    handleChangeHasSpecialChar,
+    handleChangeSymbols,
     handleReload,
     handleConfirm,
+    handleOpen,
   }
 }

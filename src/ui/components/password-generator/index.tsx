@@ -1,47 +1,53 @@
 import type { PropsWithChildren } from 'react'
 
-import type { Password } from '@/core/domain/structures'
+import { Password } from '@/core/domain/structures'
 
 import { PasswordGeneratorView } from './password-generator-view'
 import { usePasswordGenerator } from './use-password-generator'
+import { useAuthContext } from '@/ui/hooks/use-auth-context'
 
 type Props = {
   onConfirm?: (password: Password) => void
 }
 
 export const PasswordGenerator = ({ children, onConfirm }: PropsWithChildren<Props>) => {
+  const { account } = useAuthContext()
   const {
     password,
-    characterLength,
+    length,
     hasUppercase,
     hasLowercase,
     hasNumbers,
-    hasSpecialChar,
+    hasSymbols,
+    isInvalid,
     handleReload,
     handleChange,
-    handleChangeCharacterLength,
+    handleChangeLength,
     handleConfirm,
     handleChangeHasUppercase,
     handleChangeHasLowercase,
     handleChangeHasNumbers,
-    handleChangeHasSpecialChar,
-  } = usePasswordGenerator(onConfirm)
+    handleOpen,
+    handleChangeSymbols,
+  } = usePasswordGenerator(account?.minimumPasswordStrength || 3, onConfirm)
 
   return (
     <PasswordGeneratorView
       password={password}
-      characterLength={characterLength}
+      length={length}
       hasUppercase={hasUppercase}
       hasLowercase={hasLowercase}
       hasNumbers={hasNumbers}
-      hasSpecialChar={hasSpecialChar}
+      hasSymbols={hasSymbols}
+      isInvalid={isInvalid}
+      onOpen={handleOpen}
       onReload={handleReload}
       onChange={handleChange}
-      onChangeCharacterLength={handleChangeCharacterLength}
+      onChangeLength={handleChangeLength}
       onChangeHasUppercase={handleChangeHasUppercase}
       onChangeHasLowercase={handleChangeHasLowercase}
       onChangeHasNumbers={handleChangeHasNumbers}
-      onChangeHasSpecialChar={handleChangeHasSpecialChar}
+      onChangeSymbols={handleChangeSymbols}
       onConfirm={onConfirm ? handleConfirm : undefined}
     >
       {children}

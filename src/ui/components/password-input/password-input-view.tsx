@@ -4,7 +4,7 @@ import { Box } from '@/ui/gluestack/box'
 import { Icon } from '../icon'
 import { Input } from '../input'
 import { Pressable } from '../pressable'
-import { PasswordStregth } from './password-stregth'
+import { PasswordStregth } from '../password-stregth'
 
 type Props = {
   password: Password

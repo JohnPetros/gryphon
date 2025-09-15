@@ -37,7 +37,7 @@ export const NewItemScreenView = () => {
           />
         </AppItem.Container>
 
-        <PasswordGenerator>
+        <PasswordGenerator onConfirm={() => {}}>
           <AppItem.Container className='flex-row gap-3'>
             <AppItem.Icon
               backgroundColor='dangerBackground'

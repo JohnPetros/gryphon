@@ -11,18 +11,20 @@ import { mergeClassNames } from '@/ui/utils'
 
 type Props = {
   isChecked: boolean
+  isInvalid?: boolean
   onChange: (value: boolean) => void
 }
 
 export const CheckboxView = ({
   isChecked,
+  isInvalid = false,
   children,
   onChange,
 }: PropsWithChildren<Props>) => {
   return (
     <Checkbox
       isDisabled={false}
-      isInvalid={false}
+      isInvalid={isInvalid}
       size='md'
       value={''}
       onChange={(isChecked) => onChange(isChecked)}
@@ -32,7 +34,11 @@ export const CheckboxView = ({
       <CheckboxIndicator
         className={mergeClassNames(
           'border-primary',
-          isChecked ? 'bg-primary' : 'bg-transparent',
+          isInvalid && isChecked
+            ? 'bg-danger'
+            : isChecked
+              ? 'bg-primary'
+              : 'bg-transparent',
         )}
       >
         <CheckboxIcon as={() => <Icon name='check' size={16} color='background' />} />

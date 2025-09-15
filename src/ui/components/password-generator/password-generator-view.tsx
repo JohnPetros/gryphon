@@ -1,47 +1,55 @@
 import type { PropsWithChildren } from 'react'
 
-import { Box } from '@/ui/gluestack/box'
-
 import type { Password } from '@/core/domain/structures'
+
+import { Box } from '@/ui/gluestack/box'
+import { Text } from '@/ui/gluestack/text'
 import { PasswordInput } from './password-input'
 import { BottomSheet } from '../bottom-sheet'
 import { Button } from '../button'
-import { Text } from '@/ui/gluestack/text'
-import { CharacterLengthInput } from './character-length-input'
+import { LengthInput } from './length-input'
 import { Checkbox } from '../checkbox'
+import { mergeClassNames } from '@/ui/utils'
+import { StrengthView } from './strength/strength-view'
+import { Strength } from './strength'
+import { PasswordStregth } from '../password-stregth'
 
 type Props = {
   password: Password
-  characterLength: number
+  length: number
   hasUppercase: boolean
   hasLowercase: boolean
   hasNumbers: boolean
-  hasSpecialChar: boolean
+  hasSymbols: boolean
+  isInvalid: boolean
   onReload: () => void
   onChange: (value: string) => void
-  onChangeCharacterLength: (value: number) => void
+  onChangeLength: (value: number) => void
   onChangeHasUppercase: (value: boolean) => void
   onChangeHasLowercase: (value: boolean) => void
   onChangeHasNumbers: (value: boolean) => void
-  onChangeHasSpecialChar: (value: boolean) => void
+  onChangeSymbols: (value: boolean) => void
+  onOpen: () => void
   onConfirm?: () => void
 }
 
 export const PasswordGeneratorView = ({
   children,
   password,
-  characterLength,
+  length,
   hasUppercase,
   hasLowercase,
   hasNumbers,
-  hasSpecialChar,
+  hasSymbols,
+  isInvalid,
   onReload,
   onChange,
-  onChangeCharacterLength,
+  onChangeLength,
   onChangeHasUppercase,
   onChangeHasLowercase,
   onChangeHasNumbers,
-  onChangeHasSpecialChar,
+  onChangeSymbols,
+  onOpen,
   onConfirm,
 }: PropsWithChildren<Props>) => {
   return (
@@ -49,37 +57,68 @@ export const PasswordGeneratorView = ({
       trigger={children}
       snapPoints={['75%', '90%']}
       backgroundColor='background'
+      onOpen={onOpen}
     >
-      <Box className='flex-1 h-full'>
+      <Box className='flex-1'>
         <Text className='text-xl font-bold text-center text-neutral mt-3 mb-6'>
           Gerador de senha
         </Text>
 
         <Box className='flex-col gap-6 px-6'>
-          <PasswordInput value={password.value} onReload={onReload} onChange={onChange} />
+          <PasswordInput
+            value={password.value}
+            isInvalid={isInvalid}
+            onReload={onReload}
+            onChange={onChange}
+          />
           <Box className='flex-col gap-8 p-6 bg-black'>
-            <CharacterLengthInput
-              value={characterLength}
-              onChange={onChangeCharacterLength}
-            />
+            <LengthInput value={length} isInvalid={isInvalid} onChange={onChangeLength} />
 
             <Box className='flex-col gap-4'>
-              <Checkbox isChecked={hasUppercase} onChange={onChangeHasUppercase}>
+              <Checkbox
+                isChecked={hasUppercase}
+                isInvalid={isInvalid}
+                onChange={onChangeHasUppercase}
+              >
                 Incluir letras maiúsculas
               </Checkbox>
-              <Checkbox isChecked={hasLowercase} onChange={onChangeHasLowercase}>
+              <Checkbox
+                isChecked={hasLowercase}
+                isInvalid={isInvalid}
+                onChange={onChangeHasLowercase}
+              >
                 Incluir letras minúsculas
               </Checkbox>
-              <Checkbox isChecked={hasNumbers} onChange={onChangeHasNumbers}>
+              <Checkbox
+                isChecked={hasNumbers}
+                isInvalid={isInvalid}
+                onChange={onChangeHasNumbers}
+              >
                 Incluir letras números
               </Checkbox>
-              <Checkbox isChecked={hasSpecialChar} onChange={onChangeHasSpecialChar}>
+              <Checkbox
+                isChecked={hasSymbols}
+                isInvalid={isInvalid}
+                onChange={onChangeSymbols}
+              >
                 Incluir caracteres especiais
               </Checkbox>
             </Box>
+            <Box className='flex-row justify-between items-center'>
+              <Text className='text-lg text-neutral'>Força</Text>
+              <PasswordStregth password={password} isLarge />
+            </Box>
           </Box>
+
+          {onConfirm && (
+            <Button
+              className={mergeClassNames('bg-primary', isInvalid && 'bg-danger')}
+              onPress={onConfirm}
+            >
+              Confirmar
+            </Button>
+          )}
         </Box>
-        {onConfirm && <Button onPress={onConfirm}>Confirmar</Button>}
       </Box>
     </BottomSheet>
   )

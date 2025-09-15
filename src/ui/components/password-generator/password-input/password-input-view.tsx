@@ -5,28 +5,39 @@ import { Icon } from '../../icon'
 
 type Props = {
   value: string
+  isInvalid: boolean
   onCopy: (value: string) => void
   onChange: (value: string) => void
   onReload: () => void
 }
 
-export const PasswordInputView = ({ value, onCopy, onChange, onReload }: Props) => {
+export const PasswordInputView = ({
+  value,
+  isInvalid,
+  onCopy,
+  onChange,
+  onReload,
+}: Props) => {
   return (
     <Input
       variant='outline'
-      className='h-20 bg-black'
+      className='h-20 px-6 bg-black'
       isDisabled={false}
-      isInvalid={false}
       isReadOnly={false}
     >
-      <InputField className='text-2xl' value={value} onChangeText={onChange} />
-      <InputSlot className='pl-3'>
-        <Box className='flex-row gap-3 px-6'>
+      <InputField
+        className='text-2xl'
+        autoCapitalize='none'
+        value={value}
+        onChangeText={onChange}
+      />
+      <InputSlot>
+        <Box className='flex-row gap-3'>
           <Pressable className='p-2' onPress={onReload}>
-            <Icon name='reload' color='primary' />
+            <Icon name='reload' color={isInvalid ? 'danger' : 'primary'} />
           </Pressable>
           <Pressable className='p-2' onPress={() => onCopy(value)}>
-            <Icon name='copy' color='primary' />
+            <Icon name='copy' color={isInvalid ? 'danger' : 'primary'} />
           </Pressable>
         </Box>
       </InputSlot>
