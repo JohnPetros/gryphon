@@ -40,18 +40,16 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView>
       <BottomSheetModalProvider>
         <UiProvider>
           <ThemeProvider value={DarkTheme}>
-            <PortalProvider>
-              <ClerkProvider tokenCache={tokenCache} telemetry={false}>
-                <AuthContextProvider>
-                  <Slot />
-                </AuthContextProvider>
-              </ClerkProvider>
-              <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-            </PortalProvider>
+            <ClerkProvider tokenCache={tokenCache} telemetry={false}>
+              <AuthContextProvider>
+                <Slot />
+              </AuthContextProvider>
+            </ClerkProvider>
+            <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
           </ThemeProvider>
         </UiProvider>
       </BottomSheetModalProvider>

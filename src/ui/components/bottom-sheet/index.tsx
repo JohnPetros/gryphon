@@ -1,14 +1,16 @@
 import { type PropsWithChildren, useImperativeHandle, useRef } from 'react'
 import type { BottomSheetModal } from '@gorhom/bottom-sheet'
 
+import type { COLORS } from '@/constants'
 import type { BottomSheetRef } from './types/bottom-sheet-ref'
 import { BottomSheetView } from './bottom-sheet'
+import { useBottomSheet } from './use-bottom-sheet'
 
 type Props = {
   ref?: React.RefObject<BottomSheetRef | null>
   trigger: React.ReactNode
   snapPoints?: string[]
-  onChange?: (index: number) => void
+  backgroundColor?: keyof typeof COLORS.dark
 }
 
 export const BottomSheet = ({
@@ -16,9 +18,10 @@ export const BottomSheet = ({
   children,
   trigger,
   snapPoints,
-  onChange,
+  backgroundColor,
 }: PropsWithChildren<Props>) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const { handleTriggerPress } = useBottomSheet(bottomSheetModalRef)
 
   useImperativeHandle(ref, () => ({
     open: () => {
@@ -33,8 +36,9 @@ export const BottomSheet = ({
     <BottomSheetView
       bottomSheetModalRef={bottomSheetModalRef}
       snapPoints={snapPoints}
-      onChange={onChange}
       trigger={trigger}
+      onTriggerPress={handleTriggerPress}
+      backgroundColor={backgroundColor}
     >
       {children}
     </BottomSheetView>

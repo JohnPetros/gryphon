@@ -1,3 +1,4 @@
+import type { ReactNode, RefObject } from 'react'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -10,11 +11,12 @@ import { UiProvider } from '@/ui/gluestack/ui-provider'
 import { Pressable } from '../pressable'
 
 type Props = {
-  children: React.ReactNode
+  children: ReactNode
   snapPoints?: string[]
-  bottomSheetModalRef: React.RefObject<BottomSheetModal | null>
+  bottomSheetModalRef: RefObject<BottomSheetModal | null>
   trigger: React.ReactNode
-  onChange?: (index: number) => void
+  backgroundColor?: keyof typeof COLORS.dark
+  onTriggerPress?: () => void
 }
 
 export const BottomSheetView = ({
@@ -22,23 +24,21 @@ export const BottomSheetView = ({
   snapPoints = ['35%', '50%'],
   bottomSheetModalRef,
   trigger,
-  onChange,
+  backgroundColor = 'background',
+  onTriggerPress,
 }: Props) => {
   return (
     <>
-      <Pressable onPress={() => bottomSheetModalRef.current?.present()}>
-        {trigger}
-      </Pressable>
+      <Pressable onPress={onTriggerPress}>{trigger}</Pressable>
       <BottomSheetModal
         ref={bottomSheetModalRef}
         snapPoints={snapPoints}
         index={1}
         backdropComponent={BottomSheetBackdrop}
         handleComponent={BottomSheetDragIndicator}
-        backgroundStyle={{ backgroundColor: COLORS.dark.background }}
-        onChange={onChange ?? (() => {})}
+        backgroundStyle={{ backgroundColor: COLORS.dark[backgroundColor] }}
       >
-        <BottomSheetContent>
+        <BottomSheetContent className='flex-1'>
           <UiProvider>{children}</UiProvider>
         </BottomSheetContent>
       </BottomSheetModal>
