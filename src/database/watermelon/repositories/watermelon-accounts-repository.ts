@@ -1,4 +1,5 @@
 import { sanitizedRaw } from '@nozbe/watermelondb/RawRecord'
+import { Q } from '@nozbe/watermelondb'
 
 import type { AccountsRepository } from '@/core/interfaces'
 import type { Account } from '@/core/domain/entities/account'
@@ -7,7 +8,6 @@ import type { Id } from '@/core/domain/structures'
 import type { AccountModel } from '../models'
 import { WatermelonAccountMapper } from '../mappers'
 import { watermelon } from '../client'
-import { Q } from '@nozbe/watermelondb'
 
 export const WatermelonAccountsRepository = (): AccountsRepository => {
   const mapper = WatermelonAccountMapper()
@@ -53,6 +53,21 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
         console.error(error)
         return null
       }
+    },
+
+    async updateMinimumPasswordStrength(
+      minimumPasswordStrength: number,
+      accountId: Id,
+    ): Promise<void> {
+      await watermelon.write(async () => {
+        const accountModel = await watermelon.collections
+          .get<AccountModel>('accounts')
+          .find(accountId.value)
+
+        await accountModel.update((model) => {
+          model.minimumPasswordStrength = minimumPasswordStrength
+        })
+      })
     },
   }
 }

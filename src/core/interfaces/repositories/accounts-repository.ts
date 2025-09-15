@@ -5,4 +5,8 @@ export interface AccountsRepository {
   add(account: Account): Promise<void>
   findById(id: Id): Promise<Account | null>
   findByEmail(email: string): Promise<Account | null>
+  updateMinimumPasswordStrength(
+    minimumPasswordStrength: number,
+    accountId: Id,
+  ): Promise<void>
 }

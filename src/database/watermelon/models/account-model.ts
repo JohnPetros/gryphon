@@ -14,7 +14,7 @@ export class AccountModel extends Model {
   isBiometryActivated!: boolean
 
   @field('minimum_password_strength')
-  minimumPasswordStrength!: string
+  minimumPasswordStrength!: number
 
   @field('minimum_app_lock_time_in_seconds')
   minimumAppLockTimeInSeconds!: number
