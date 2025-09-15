@@ -54,6 +54,7 @@ export function useAuthContextProvider({
     },
     [
       signIn,
+      signOut,
       secureStore.setItem,
       navigation.navigate,
       toast.show,
@@ -118,7 +119,7 @@ export function useAuthContextProvider({
           email,
           encryptionSalt,
           isBiometryActivated: false,
-          minimumPasswordStrength: 'medium',
+          minimumPasswordStrength: 3,
           minimumAppLockTimeInSeconds: 0,
           isMasterPasswordRequired: true,
         })
@@ -146,6 +147,7 @@ export function useAuthContextProvider({
       signOutAccount,
       createAccount,
       createEncryptionKey,
+      setAccount,
     }
   }, [
     account,
@@ -156,6 +158,7 @@ export function useAuthContextProvider({
     signInAccount,
     signOutAccount,
     createEncryptionKey,
+    signOut,
     accountsRepository,
     cryptoProvider,
   ])

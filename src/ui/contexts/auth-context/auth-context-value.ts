@@ -11,4 +11,5 @@ export type AuthContextValue = {
   ) => Promise<void>
   signInAccount: (email: string, password: string) => Promise<void>
   signOutAccount: () => Promise<void>
+  setAccount: (account: Account) => void
 }
