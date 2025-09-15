@@ -3,7 +3,7 @@ export type AccountDto = {
   email: string
   encryptionSalt: string
   isBiometryActivated: boolean
-  minimumPasswordStrength: string
+  minimumPasswordStrength: number
   minimumAppLockTimeInSeconds: number
   isMasterPasswordRequired: boolean
 }

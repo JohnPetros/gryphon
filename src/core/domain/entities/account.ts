@@ -5,7 +5,7 @@ type AccountProps = {
   email: string
   encryptionSalt: string
   isBiometryActivated: boolean
-  minimumPasswordStrength: string
+  minimumPasswordStrength: number
   minimumAppLockTimeInSeconds: number
   isMasterPasswordRequired: boolean
 }
@@ -27,8 +27,12 @@ export class Account extends Entity<AccountProps> {
     return this.props.isBiometryActivated
   }
 
-  get minimumPasswordStrength(): string {
+  get minimumPasswordStrength(): number {
     return this.props.minimumPasswordStrength
+  }
+
+  set minimumPasswordStrength(value: number) {
+    this.props.minimumPasswordStrength = value
   }
 
   get minimumAppLockTimeInSeconds(): number {
