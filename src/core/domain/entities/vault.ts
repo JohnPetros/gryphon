@@ -1,9 +1,10 @@
 import { Entity } from '../abstracts'
+import type { VaultIcon } from '../types'
 import type { VaultDto } from './dtos'
 
 export type VaultProps = {
   title: string
-  icon: string
+  icon: VaultIcon
   itemCount?: number
 }
 
@@ -16,7 +17,7 @@ export class Vault extends Entity<VaultProps> {
     return this.props.title
   }
 
-  get icon(): string {
+  get icon(): VaultIcon {
     return this.props.icon
   }
 
