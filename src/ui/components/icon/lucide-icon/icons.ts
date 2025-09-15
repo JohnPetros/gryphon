@@ -6,6 +6,7 @@ import {
   FileType,
   LogOut,
   DiamondPlus,
+  RefreshCcw,
   NotebookText,
   CircleUserRound,
   List,
@@ -23,6 +24,8 @@ import {
   Plane,
   Wrench,
   Share2,
+  Copy,
+  Check,
 } from 'lucide-react-native'
 
 import type { IconName } from '../types/icon-name'
@@ -38,8 +41,11 @@ export const ICONS: Record<IconName, LucideIcon> = {
   plus: DiamondPlus,
   list: List,
   entertainment: Gamepad2,
+  check: Check,
   shop: ShoppingBag,
   bank: Building2,
+  reload: RefreshCcw,
+  copy: Copy,
   food: Utensils,
   health: Heart,
   education: GraduationCap,
