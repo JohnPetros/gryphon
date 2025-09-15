@@ -7,6 +7,7 @@ import {
   CheckboxIcon,
 } from '@/ui/gluestack/checkbox'
 import { Icon } from '../icon'
+import { mergeClassNames } from '@/ui/utils'
 
 type Props = {
   isChecked: boolean
@@ -15,8 +16,8 @@ type Props = {
 
 export const CheckboxView = ({
   isChecked,
-  onChange,
   children,
+  onChange,
 }: PropsWithChildren<Props>) => {
   return (
     <Checkbox
@@ -24,12 +25,17 @@ export const CheckboxView = ({
       isInvalid={false}
       size='md'
       value={''}
-      onChange={() => onChange(!isChecked)}
+      onChange={(isChecked) => onChange(isChecked)}
       isChecked={isChecked}
       className='flex-row gap-3'
     >
-      <CheckboxIndicator>
-        <CheckboxIcon as={() => <Icon name='check' />} />
+      <CheckboxIndicator
+        className={mergeClassNames(
+          'border-primary',
+          isChecked ? 'bg-primary' : 'bg-transparent',
+        )}
+      >
+        <CheckboxIcon as={() => <Icon name='check' size={16} color='background' />} />
       </CheckboxIndicator>
       <CheckboxLabel className='text-lg text-accent'>{children}</CheckboxLabel>
     </Checkbox>
