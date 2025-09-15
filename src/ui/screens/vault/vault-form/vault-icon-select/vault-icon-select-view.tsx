@@ -1,92 +1,84 @@
+import { COLORS } from '@/constants'
+import { RefObject, useCallback, useRef } from 'react'
+import { Alert, StyleSheet } from 'react-native'
+
 import type { VaultIcon } from '@/core/domain/types'
+
 import { Icon } from '@/ui/components/icon'
-import {
-  BottomSheet,
-  BottomSheetBackdrop,
-  BottomSheetContent,
-  BottomSheetDragIndicator,
-  BottomSheetPortal,
-  BottomSheetTrigger,
-} from '@/ui/gluestack/bottomsheet'
+import { Pressable } from '@/ui/components/pressable'
 import { Box } from '@/ui/gluestack/box'
-import { GridItem } from '@/ui/gluestack/grid'
-import { Grid } from '@/ui/gluestack/grid'
-import { Pressable } from '@/ui/gluestack/pressable'
+import { Grid, GridItem } from '@/ui/gluestack/grid'
+import { Text } from '@/ui/gluestack/text'
+import { BottomSheet } from '@/ui/components/bottom-sheet'
+import type { BottomSheetRef } from '@/ui/components/bottom-sheet/types'
+
+const ICONS: VaultIcon[] = [
+  'entertainment',
+  'shop',
+  'bank',
+  'food',
+  'health',
+  'education',
+  'travel',
+  'service',
+  'social-media',
+  'streaming',
+]
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 40,
+    height: 40,
+    borderRadius: 4,
+    backgroundColor: COLORS.dark.neutral,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})
 
 type Props = {
   value: VaultIcon
-  onSelect: (icon: VaultIcon) => void
+  bottomSheetRef: RefObject<BottomSheetRef | null>
+  onChange: (icon: VaultIcon) => void
 }
 
-export const VaultIconSelectView = ({ value, onSelect }: Props) => {
+export const IconSelectView = ({ value, bottomSheetRef, onChange }: Props) => {
   return (
-    <BottomSheet>
-      <BottomSheetTrigger>
-        <Pressable
-          onPress={() => onSelect(value)}
-          className='flex-1 flex-row items-center justify-between h-16 px-3 bg-info-background'
-        >
-          <Box className='flex-1 items-center justify-center'>
-            <Icon name={value} />
+    <BottomSheet
+      ref={bottomSheetRef}
+      trigger={
+        <Box className='w-40 flex-row items-center justify-between px-3 h-16 bg-info-background'>
+          <Box className='flex-1 items-center justify-center translate-x-1'>
+            <Icon name={value} color='info' size={24} />
           </Box>
-          <Icon name='arrow-down' />
-        </Pressable>
-      </BottomSheetTrigger>
-      <BottomSheetPortal
-        snapPoints={['25%', '50%']}
-        backdropComponent={BottomSheetBackdrop}
-        handleComponent={BottomSheetDragIndicator}
+          <Icon name='arrow-down' color='info' />
+        </Box>
+      }
+    >
+      <Text className='text-lg font-bold text-center mb-6'>Escolha um ícone</Text>
+      <Grid
+        className='gap-y-8 items-center justify-center '
+        _extra={{ className: 'grid-cols-5' }}
       >
-        <BottomSheetContent>
-          <Grid className='gap-4' _extra={{ className: 'grid-cols-3' }}>
-            <GridItem _extra={{ className: 'col-span-1' }}>
-              <Pressable onPress={() => onSelect('entertainment')}>
-                <Icon name='entertainment' />
-              </Pressable>
-            </GridItem>
-            <GridItem _extra={{ className: 'col-span-1' }}>
-              <Pressable onPress={() => onSelect('shop')}>
-                <Icon name='shop' />
-              </Pressable>
-            </GridItem>
-            <GridItem _extra={{ className: 'col-span-1' }}>
-              <Pressable onPress={() => onSelect('bank')}>
-                <Icon name='bank' />
-              </Pressable>
-            </GridItem>
-            <GridItem _extra={{ className: 'col-span-1' }}>
-              <Pressable onPress={() => onSelect('food')}>
-                <Icon name='food' />
-              </Pressable>
-            </GridItem>
-            <GridItem _extra={{ className: 'col-span-1' }}>
-              <Pressable onPress={() => onSelect('health')}>
-                <Icon name='health' />
-              </Pressable>
-            </GridItem>
-            <GridItem _extra={{ className: 'col-span-1' }}>
-              <Pressable onPress={() => onSelect('education')}>
-                <Icon name='education' />
-              </Pressable>
-            </GridItem>
-            <GridItem _extra={{ className: 'col-span-1' }}>
-              <Pressable onPress={() => onSelect('travel')}>
-                <Icon name='travel' />
-              </Pressable>
-            </GridItem>
-            <GridItem _extra={{ className: 'col-span-1' }}>
-              <Pressable onPress={() => onSelect('service')}>
-                <Icon name='service' />
-              </Pressable>
-            </GridItem>
-            <GridItem _extra={{ className: 'col-span-1' }}>
-              <Pressable onPress={() => onSelect('social-media')}>
-                <Icon name='social-media' />
-              </Pressable>
-            </GridItem>
-          </Grid>
-        </BottomSheetContent>
-      </BottomSheetPortal>
+        {ICONS.map((icon) => (
+          <GridItem
+            key={icon}
+            className='bg-background-50 rounded-md items-center justify-center'
+            _extra={{ className: 'col-span-1' }}
+          >
+            <Pressable
+              onPress={() => onChange(icon)}
+              style={{
+                ...styles.icon,
+                backgroundColor:
+                  value === icon ? COLORS.dark.primary : COLORS.dark.neutral,
+              }}
+            >
+              <Icon name={icon} color='accent' />
+            </Pressable>
+          </GridItem>
+        ))}
+      </Grid>
     </BottomSheet>
   )
 }

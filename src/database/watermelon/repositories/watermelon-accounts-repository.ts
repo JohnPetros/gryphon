@@ -7,6 +7,7 @@ import type { Id } from '@/core/domain/structures'
 import type { AccountModel } from '../models'
 import { WatermelonAccountMapper } from '../mappers'
 import { watermelon } from '../client'
+import { Q } from '@nozbe/watermelondb'
 
 export const WatermelonAccountsRepository = (): AccountsRepository => {
   const mapper = WatermelonAccountMapper()
@@ -20,16 +21,25 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
             {
               id: account.id.value,
               email: account.email,
-              encryptionSalt: account.encryptionSalt,
-              isBiometryActivated: account.isBiometryActivated,
-              minimumPasswordStrength: account.minimumPasswordStrength,
-              minimumAppLockTimeInSeconds: account.minimumAppLockTimeInSeconds,
-              isMasterPasswordRequired: account.isMasterPasswordRequired,
+              encryption_salt: account.encryptionSalt,
+              is_biometry_activated: account.isBiometryActivated,
+              minimum_password_strength: account.minimumPasswordStrength,
+              minimum_app_lock_time_in_seconds: account.minimumAppLockTimeInSeconds,
+              is_master_password_required: account.isMasterPasswordRequired,
             },
             accountsCollection.schema,
           )
         })
       })
+    },
+
+    async findByEmail(email: string): Promise<Account | null> {
+      const accountModel = await watermelon.collections
+        .get<AccountModel>('accounts')
+        .query(Q.where('email', email))
+        .fetch()
+
+      return mapper.toEntity(accountModel[0])
     },
 
     async findById(id: Id): Promise<Account | null> {

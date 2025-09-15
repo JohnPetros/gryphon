@@ -9,9 +9,13 @@ import { Slot } from 'expo-router'
 export { ErrorBoundary } from 'expo-router'
 import { ClerkProvider } from '@clerk/clerk-expo'
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
+import { PortalProvider } from '@gorhom/portal'
 
 import '../../global.css'
 import { AuthContextProvider } from '@/ui/contexts/auth-context'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { UiProvider } from '@/ui/gluestack/ui-provider'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -36,13 +40,21 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <ThemeProvider value={DarkTheme}>
-      <ClerkProvider tokenCache={tokenCache}>
-        <AuthContextProvider>
-          <Slot />
-        </AuthContextProvider>
-      </ClerkProvider>
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <UiProvider>
+          <ThemeProvider value={DarkTheme}>
+            <PortalProvider>
+              <ClerkProvider tokenCache={tokenCache} telemetry={false}>
+                <AuthContextProvider>
+                  <Slot />
+                </AuthContextProvider>
+              </ClerkProvider>
+              <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+            </PortalProvider>
+          </ThemeProvider>
+        </UiProvider>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   )
 }

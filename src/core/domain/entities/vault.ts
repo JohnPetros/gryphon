@@ -10,7 +10,14 @@ export type VaultProps = {
 
 export class Vault extends Entity<VaultProps> {
   static create(dto: VaultDto) {
-    return new Vault(dto, dto.id)
+    return new Vault(
+      {
+        title: dto.title,
+        icon: dto.icon as VaultIcon,
+        itemCount: dto.itemCount,
+      },
+      dto.id,
+    )
   }
 
   get title(): string {

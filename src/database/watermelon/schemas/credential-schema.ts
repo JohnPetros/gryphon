@@ -6,6 +6,7 @@ export const credentialSchema = tableSchema({
     {
       name: 'vault_id',
       type: 'string',
+      isIndexed: true,
     },
     {
       name: 'encrypted_data',
