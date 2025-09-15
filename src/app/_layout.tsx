@@ -11,7 +11,6 @@ import { ClerkProvider } from '@clerk/clerk-expo'
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
 
 import '../../global.css'
-import { GluestackUIProvider } from '../ui/gluestack/gluestack-ui-provider'
 import { AuthContextProvider } from '@/ui/contexts/auth-context'
 
 SplashScreen.preventAutoHideAsync()
@@ -37,15 +36,13 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <GluestackUIProvider mode='dark'>
-      <ThemeProvider value={DarkTheme}>
-        <ClerkProvider tokenCache={tokenCache}>
-          <AuthContextProvider>
-            <Slot />
-          </AuthContextProvider>
-        </ClerkProvider>
-        <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-      </ThemeProvider>
-    </GluestackUIProvider>
+    <ThemeProvider value={DarkTheme}>
+      <ClerkProvider tokenCache={tokenCache}>
+        <AuthContextProvider>
+          <Slot />
+        </AuthContextProvider>
+      </ClerkProvider>
+      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+    </ThemeProvider>
   )
 }
