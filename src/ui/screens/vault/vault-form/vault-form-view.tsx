@@ -1,11 +1,12 @@
 import { Controller } from 'react-hook-form'
 
 import type { Vault } from '@/core/domain/entities'
+import type { VaultIcon } from '@/core/domain/types'
 
 import { Box } from '@/ui/gluestack/box'
 import { Input } from '@/ui/components/input'
 import { Button } from '@/ui/components/button'
-import { IconSelect } from './icon-select'
+import { VaultIconSelect } from './vault-icon-select'
 import { useVaultForm } from './use-vault-form'
 
 type Props = {
@@ -24,7 +25,7 @@ export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
   return (
     <Box className='flex flex-col gap-6'>
       <Box className='flex flex-row gap-2'>
-        <IconSelect />
+        <VaultIconSelect value={vault?.icon} onSelect={() => {}} />
         <Button
           onPress={handleSubmit}
           isDisabled={!isValid}

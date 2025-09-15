@@ -1,8 +1,9 @@
 import type { Vault } from '@/core/domain/entities'
+
 import { ScreenContainer } from '@/ui/components/screen-container'
 import { ScreenTitle } from '@/ui/components/screen-title'
-import { VaultForm } from './vault-form'
 import { Box } from '@/ui/gluestack/box'
+import { VaultForm } from './vault-form'
 
 type Props = {
   vault: Vault | null
