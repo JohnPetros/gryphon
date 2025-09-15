@@ -7,14 +7,21 @@ import {
   SliderThumb,
 } from '@/ui/gluestack/slider'
 
-export const CharacterLengthInputView = () => {
-  return (
-    <Box className='flex-row justify-between items-center'>
-      <Text className='text-xl'>Quantidade de caracteres</Text>
-      <Text className='text-lg text-primary'>10</Text>
+type Props = {
+  value: number
+  onChange: (value: number) => void
+}
 
-      <Slider minValue={1} maxValue={24} step={1}>
-        <SliderTrack className='bg-surface'>
+export const CharacterLengthInputView = ({ value, onChange }: Props) => {
+  return (
+    <Box className='flex-col gap-6'>
+      <Box className='flex-row justify-between items-center'>
+        <Text className='text-lg'>Quantidade de caracteres</Text>
+        <Text className='text-3xl text-primary'>{value}</Text>
+      </Box>
+
+      <Slider minValue={1} maxValue={24} step={1} value={value} onChange={onChange}>
+        <SliderTrack className='bg-black'>
           <SliderFilledTrack className='bg-primary' />
         </SliderTrack>
         <SliderThumb className='bg-primary' />
