@@ -9,14 +9,16 @@ import { COLORS } from '@/constants/colors'
 import { BottomSheetDragIndicator } from '@/ui/gluestack/bottomsheet'
 import { UiProvider } from '@/ui/gluestack/ui-provider'
 import { Pressable } from '../pressable'
+import { Alert } from 'react-native'
 
 type Props = {
-  children: ReactNode
+  children: ReactNode | ((close: () => void) => ReactNode)
   snapPoints?: string[]
   bottomSheetModalRef: RefObject<BottomSheetModal | null>
-  trigger: React.ReactNode
+  trigger: ReactNode
   backgroundColor?: keyof typeof COLORS.dark
   onTriggerPress?: () => void
+  onChange: (index: number) => void
 }
 
 export const BottomSheetView = ({
@@ -26,6 +28,7 @@ export const BottomSheetView = ({
   trigger,
   backgroundColor = 'background',
   onTriggerPress,
+  onChange,
 }: Props) => {
   return (
     <>
@@ -36,10 +39,15 @@ export const BottomSheetView = ({
         index={1}
         backdropComponent={BottomSheetBackdrop}
         handleComponent={BottomSheetDragIndicator}
+        onChange={onChange}
         backgroundStyle={{ backgroundColor: COLORS.dark[backgroundColor] }}
       >
         <BottomSheetContent className='flex-1'>
-          <UiProvider>{children}</UiProvider>
+          <UiProvider>
+            {typeof children === 'function'
+              ? children(() => bottomSheetModalRef.current?.close())
+              : children}
+          </UiProvider>
         </BottomSheetContent>
       </BottomSheetModal>
     </>
