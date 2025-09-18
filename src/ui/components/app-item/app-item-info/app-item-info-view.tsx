@@ -4,13 +4,18 @@ import { Text } from '@/ui/gluestack/text'
 type Props = {
   name: string
   description: string
+  className?: string
 }
 
-export const AppItemInfoView = ({ name, description }: Props) => {
+export const AppItemInfoView = ({ name, description, className }: Props) => {
   return (
-    <Box>
-      <Text className='text-md text-accent'>{name}</Text>
-      <Text className='text-sm text-neutral'>{description}</Text>
+    <Box className={className}>
+      <Text numberOfLines={1} ellipsizeMode='tail' className='text-md text-accent'>
+        {name}
+      </Text>
+      <Text isTruncated className='text-sm text-neutral'>
+        {description}
+      </Text>
     </Box>
   )
 }

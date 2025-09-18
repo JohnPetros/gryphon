@@ -14,7 +14,8 @@
       "backgroundColor": "#18171F"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.joaopcarvalho.gryphon"
     },
     "android": {
       "adaptiveIcon": {

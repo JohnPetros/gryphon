@@ -1,7 +1,11 @@
-import type { Vault } from '@/core/domain/entities'
-import type { Id } from '@/core/domain/structures'
+import { useEffect, useState } from 'react'
+
+import { Id } from '@/core/domain/structures'
 import type { VaultsRepository } from '@/core/interfaces'
-import { useState } from 'react'
+import { Vault } from '@/core/domain/entities'
+import { useNavigation } from '@/ui/hooks/use-navigation'
+import { ROUTES } from '@/constants'
+import type { VaultDto } from '@/core/domain/entities/dtos'
 
 type Params = {
   accountId?: Id
@@ -11,15 +15,42 @@ type Params = {
 
 export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params) {
   const [vault, setVault] = useState<Vault | null>(null)
+  const navigation = useNavigation()
 
-  async function handleVaultCreate(vault: Vault) {
+  async function handleVaultCreate(vaultDto: VaultDto) {
     if (!accountId) return
-    await vaultsRepository.add(vault, accountId)
+    try {
+      const vault = Vault.create(vaultDto)
+      await vaultsRepository.add(vault, accountId)
+      setVault(vault)
+      navigation.navigate(ROUTES.vaultItens)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  async function handleVaultUpdate(vault: Vault) {
-    await vaultsRepository.update(vault)
+  async function handleVaultUpdate(vaultDto: VaultDto) {
+    try {
+      if (!vaultId) return
+      const vault = Vault.create({
+        ...vaultDto,
+        id: vaultId.value,
+      })
+      await vaultsRepository.update(vault)
+      navigation.navigate(ROUTES.vaultItens)
+    } catch (error) {
+      console.error(error)
+    }
   }
+
+  useEffect(() => {
+    async function loadVault() {
+      if (vault) return
+      const loadedVault = await vaultsRepository.findById(vaultId ?? Id.create())
+      setVault(loadedVault)
+    }
+    loadVault()
+  }, [vaultId, vaultsRepository.findById])
 
   return {
     vault,

@@ -14,20 +14,24 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
 
   return {
     async add(vault: Vault, accountId: Id): Promise<void> {
-      await watermelon.write(async () => {
-        const vaultsCollection = watermelon.collections.get<VaultModel>('vaults')
-        await vaultsCollection.create((model) => {
-          model._raw = sanitizedRaw(
-            {
-              id: vault.id.value,
-              title: vault.title,
-              icon: vault.icon,
-              accountId: accountId.value,
-            },
-            vaultsCollection.schema,
-          )
+      try {
+        await watermelon.write(async () => {
+          const vaultsCollection = watermelon.collections.get<VaultModel>('vaults')
+          await vaultsCollection.create((model) => {
+            model._raw = sanitizedRaw(
+              {
+                id: vault.id.value,
+                title: vault.title,
+                icon: vault.icon,
+                account_id: accountId.value,
+              },
+              vaultsCollection.schema,
+            )
+          })
         })
-      })
+      } catch (error) {
+        console.error('Error adding vault', error)
+      }
     },
 
     async update(vault: Vault): Promise<void> {
@@ -62,13 +66,21 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
           .query(Q.where('account_id', accountId.value))
           .fetch()
 
-        console.log({ models })
-
         return await Promise.all(models.map(mapper.toEntity))
       } catch (error) {
         console.error(error)
         return []
       }
+    },
+
+    async remove(vaultId: Id): Promise<void> {
+      await watermelon.write(async () => {
+        const model = await watermelon.collections
+          .get<VaultModel>('vaults')
+          .find(vaultId.value)
+
+        await model.markAsDeleted()
+      })
     },
   }
 }

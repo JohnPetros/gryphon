@@ -1,4 +1,5 @@
 import { AppItem } from '@/ui/components/app-item'
+import { PasswordGenerator } from '@/ui/components/password-generator'
 import { ScreenContainer } from '@/ui/components/screen-container'
 import { ScreenTitle } from '@/ui/components/screen-title'
 import { Box } from '@/ui/gluestack/box'
@@ -36,14 +37,16 @@ export const NewItemScreenView = () => {
           />
         </AppItem.Container>
 
-        <AppItem.Container className='flex-row gap-3'>
-          <AppItem.Icon
-            backgroundColor='dangerBackground'
-            foregroundColor='danger'
-            name='password'
-          />
-          <AppItem.Info name='Senha' description='Gere uma senha aleatória' />
-        </AppItem.Container>
+        <PasswordGenerator onConfirm={() => {}}>
+          <AppItem.Container className='flex-row gap-3'>
+            <AppItem.Icon
+              backgroundColor='dangerBackground'
+              foregroundColor='danger'
+              name='password'
+            />
+            <AppItem.Info name='Senha' description='Gere uma senha aleatória' />
+          </AppItem.Container>
+        </PasswordGenerator>
 
         <Link href='/(protected)/vault/new'>
           <AppItem.Container className='flex-row gap-3'>

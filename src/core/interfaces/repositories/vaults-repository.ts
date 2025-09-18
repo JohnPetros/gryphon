@@ -3,7 +3,8 @@ import type { Vault } from '../../domain/entities/vault'
 
 export interface VaultsRepository {
   add(vault: Vault, accountId: Id): Promise<void>
-  update(vault: Vault): Promise<void>
-  findById(id: Id): Promise<Vault | null>
+  update(vaultId: Vault): Promise<void>
+  findById(vaultId: Id): Promise<Vault | null>
   findAllByAccount(accountId: Id): Promise<Vault[]>
+  remove(vaultId: Id): Promise<void>
 }
