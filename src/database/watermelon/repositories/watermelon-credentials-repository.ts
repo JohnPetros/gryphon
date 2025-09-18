@@ -25,7 +25,7 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
               title: credential.title,
               encrypted_data: credential.encrypted.value,
               vault_id: credential.vaultId.value,
-              site_url: credential.siteUrl ?? '',
+              site_url: credential.siteUrl,
             },
             credentialsCollection.schema,
           )
@@ -34,20 +34,21 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
     },
 
     async update(credential: Credential): Promise<void> {
-      const credentialModel = await watermelon.collections
-        .get<CredentialModel>('credentials')
-        .find(credential.id.value)
-
       await watermelon.write(async () => {
-        await credentialModel.update(async (model) => {
-          const vaultModel = await watermelon.collections
-            .get<VaultModel>('vaults')
-            .find(credential.vaultId.value)
+        const credentialModel = await watermelon.collections
+          .get<CredentialModel>('credentials')
+          .find(credential.id.value)
 
+        const vaultModel = await watermelon.collections
+          .get<VaultModel>('vaults')
+          .find(credential.vaultId.value)
+
+        await credentialModel.update((model) => {
           model.title = credential.title
           model.siteUrl = credential.siteUrl ?? ''
           model.encryptedData = credential.encrypted.value
-          model.vault = vaultModel
+          // @ts-ignore
+          model.vault.set(vaultModel)
         })
       })
     },

@@ -5,7 +5,6 @@ import type { CredentialModel } from '../models'
 export const WatermelonCredentialMapper = () => {
   return {
     toEntity(model: CredentialModel): Credential {
-      console.log('model', model)
       return Credential.create({
         id: model.id,
         title: model.title,
