@@ -42,6 +42,7 @@ export function useCryptoProvider(): CryptoProvider {
     const keyWordArray = CryptoJS.enc.Hex.parse(encryptionKey)
     const decrypted = CryptoJS.AES.decrypt(ciphertext, keyWordArray)
     const decryptedString = decrypted.toString(CryptoJS.enc.Utf8)
+    if (!decryptedString) return null
     return decryptedString
   }, [])
 
