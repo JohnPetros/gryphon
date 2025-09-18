@@ -8,6 +8,8 @@ import { Text } from '@/ui/gluestack/text'
 import { Pressable } from '@/ui/components/pressable'
 import { ScreenContainer } from '@/ui/components/screen-container'
 import { VaultsDrawer } from './vaults-drawer'
+import { ItensList } from './itens-list'
+import { ScreenTitle } from '@/ui/components/screen-title'
 
 type Props = {
   selectedVault: Vault | null
@@ -33,27 +35,31 @@ export function VaultItensScreenView({
   return (
     <ScreenContainer>
       {selectedVault && (
-        <Box className='flex-row gap-2 w-full'>
-          <VaultsDrawer
-            isOpen={isDrawerOpen}
-            vaults={vaults}
-            selectedVault={selectedVault}
-            onClose={onDrawerClose}
-            onVaultSelect={onVaultSelect}
-            onVaultEdit={onVaultEdit}
-            onVaultDelete={onVaultDelete}
-          />
+        <Box className='flex flex-col gap-3 w-full'>
+          <ScreenTitle>{selectedVault.title}</ScreenTitle>
 
-          <Pressable onPress={onDrawerOpen}>
-            <AppItem.Container>
-              <AppItem.Icon
-                backgroundColor='infoBackground'
-                foregroundColor='info'
-                name={selectedVault.icon}
-              />
-            </AppItem.Container>
-          </Pressable>
-          <Input placeholder='pesquisar...' icon='search' className='h-16 flex-1' />
+          <Box className='flex-row gap-2'>
+            <VaultsDrawer
+              isOpen={isDrawerOpen}
+              vaults={vaults}
+              selectedVault={selectedVault}
+              onClose={onDrawerClose}
+              onVaultSelect={onVaultSelect}
+              onVaultEdit={onVaultEdit}
+              onVaultDelete={onVaultDelete}
+            />
+
+            <Pressable onPress={onDrawerOpen}>
+              <AppItem.Container>
+                <AppItem.Icon
+                  backgroundColor='infoBackground'
+                  foregroundColor='info'
+                  name={selectedVault.icon}
+                />
+              </AppItem.Container>
+            </Pressable>
+            <Input placeholder='pesquisar...' icon='search' className='h-16 flex-1' />
+          </Box>
         </Box>
       )}
 
@@ -74,6 +80,10 @@ export function VaultItensScreenView({
           </Text>
         </Box>
       )}
+
+      <Box className='flex-1 mt-6'>
+        {selectedVault && <ItensList vaultId={selectedVault.id} />}
+      </Box>
     </ScreenContainer>
   )
 }
