@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Password } from '@/core/domain/structures'
 
-export function usePasswordInput(onChange: (value: string) => void) {
-  const [password, setPassword] = useState(Password.create(''))
+export function usePasswordInput(
+  onChange: (value: string) => void,
+  defaultValue: string,
+) {
+  const [password, setPassword] = useState(Password.create(defaultValue))
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   function handlePasswordVisibilityButtonPress() {
@@ -15,6 +18,10 @@ export function usePasswordInput(onChange: (value: string) => void) {
     setPassword(password)
     onChange(password.value)
   }
+
+  useEffect(() => {
+    setPassword(Password.create(defaultValue))
+  }, [defaultValue])
 
   return {
     password,
