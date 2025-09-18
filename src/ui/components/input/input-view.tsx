@@ -3,6 +3,7 @@ import { Text } from '@/ui/gluestack/text'
 import { Icon } from '@/ui/components/icon'
 import type { IconName } from '../icon/types'
 import { mergeClassNames } from '@/ui/utils'
+import { Box } from '@/ui/gluestack/box'
 
 type Props = {
   type?: 'text' | 'password' | 'number'
@@ -12,7 +13,10 @@ type Props = {
   icon: IconName
   placeholder?: string
   endContent?: React.ReactNode
+  isReadOnly?: boolean
+  isRequired?: boolean
   className?: string
+  hasCapitalize?: boolean
   onChange?: (value: string) => void
 }
 
@@ -24,7 +28,10 @@ export const InputView = ({
   icon,
   placeholder,
   endContent,
+  isReadOnly,
+  isRequired,
   className,
+  hasCapitalize,
   onChange,
 }: Props) => {
   return (
@@ -36,21 +43,26 @@ export const InputView = ({
       )}
       isDisabled={false}
       isInvalid={false}
-      isReadOnly={false}
+      isReadOnly={isReadOnly}
+      isRequired={isRequired}
     >
       <InputSlot className='pl-3'>
         <Icon name={icon} color='neutral' size={24} />
       </InputSlot>
       {label && (
         <InputSlot className='absolute top-4 left-16'>
-          <Text>{label}</Text>
+          <Box className='flex-row gap-1'>
+            <Text>{label}</Text>
+            {isRequired && <Text className='-translate-y-1 text-sm'>*</Text>}
+          </Box>
         </InputSlot>
       )}
       <InputField
         type={type === 'number' ? 'text' : type}
         value={value ?? defaultValue ?? undefined}
+        defaultValue={defaultValue ?? undefined}
         placeholder={placeholder}
-        autoCapitalize='none'
+        autoCapitalize={hasCapitalize ? 'words' : 'none'}
         onChangeText={onChange}
         keyboardType={type === 'number' ? 'numeric' : 'default'}
         className={mergeClassNames('text-xl', label && 'translate-y-2')}

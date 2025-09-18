@@ -10,7 +10,10 @@ type Props = {
   icon: IconName
   placeholder?: string
   className?: string
+  isReadOnly?: boolean
+  isRequired?: boolean
   endContent?: React.ReactNode
+  hasCapitalize?: boolean
   onChange?: (value: string) => void
 }
 
@@ -21,8 +24,11 @@ export const Input = ({
   label,
   icon,
   placeholder,
+  isReadOnly,
+  isRequired,
   endContent,
   className,
+  hasCapitalize,
   onChange,
 }: Props) => {
   const { handleChange } = useInput({ type, onChange })
@@ -36,7 +42,10 @@ export const Input = ({
       icon={icon}
       placeholder={placeholder}
       endContent={endContent}
+      isReadOnly={isReadOnly}
+      isRequired={isRequired}
       className={className}
+      hasCapitalize={hasCapitalize}
       onChange={handleChange}
     />
   )

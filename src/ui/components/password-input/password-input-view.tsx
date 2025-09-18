@@ -11,6 +11,7 @@ type Props = {
   label: string
   hasStrength?: boolean
   isPasswordVisible: boolean
+  isRequired: boolean
   onChange: (value: string) => void
   onPasswordVisibilityButtonPress: () => void
 }
@@ -20,6 +21,7 @@ export const PasswordInputView = ({
   password,
   hasStrength = true,
   isPasswordVisible,
+  isRequired,
   onChange,
   onPasswordVisibilityButtonPress,
 }: Props) => {
@@ -27,6 +29,7 @@ export const PasswordInputView = ({
     <Input
       type={isPasswordVisible ? 'text' : 'password'}
       label={label}
+      isRequired={isRequired}
       icon='password'
       placeholder='*******'
       value={password.value}
