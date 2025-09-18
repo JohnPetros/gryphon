@@ -10,8 +10,6 @@ import { Button } from '../button'
 import { LengthInput } from './length-input'
 import { Checkbox } from '../checkbox'
 import { mergeClassNames } from '@/ui/utils'
-import { StrengthView } from './strength/strength-view'
-import { Strength } from './strength'
 import { PasswordStregth } from '../password-stregth'
 
 type Props = {
@@ -94,7 +92,7 @@ export const PasswordGeneratorView = ({
                 isInvalid={isInvalid}
                 onChange={onChangeHasNumbers}
               >
-                Incluir letras números
+                Incluir números
               </Checkbox>
               <Checkbox
                 isChecked={hasSymbols}

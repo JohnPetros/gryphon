@@ -45,8 +45,8 @@ export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params)
 
   useEffect(() => {
     async function loadVault() {
-      if (vault) return
-      const loadedVault = await vaultsRepository.findById(vaultId ?? Id.create())
+      if (vault || !vaultId) return
+      const loadedVault = await vaultsRepository.findById(vaultId)
       setVault(loadedVault)
     }
     loadVault()
