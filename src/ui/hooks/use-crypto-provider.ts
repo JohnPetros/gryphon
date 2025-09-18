@@ -32,8 +32,6 @@ export function useCryptoProvider(): CryptoProvider {
   }, [])
 
   const encrypt = useCallback(async (data: unknown, encryptionKey: string) => {
-    console.log('data', data)
-    console.log('encryptionKey', encryptionKey)
     const dataString = JSON.stringify(data)
     const keyWordArray = CryptoJS.enc.Hex.parse(encryptionKey)
     const encrypted = CryptoJS.AES.encrypt(dataString, keyWordArray)
