@@ -15,9 +15,9 @@ export function useItensList(vaultId: Id, credentialsRepository: CredentialsRepo
   useEffect(() => {
     async function countItens() {
       if (!vaultId) return
-      const allVaults = await credentialsRepository.countByVault(vaultId)
-      setCredentialCount(allVaults)
-      setNoteCount(allVaults)
+      const credentialCount = await credentialsRepository.countByVault(vaultId)
+      setCredentialCount(credentialCount)
+      setNoteCount(0)
     }
     countItens()
   }, [vaultId, credentialsRepository])

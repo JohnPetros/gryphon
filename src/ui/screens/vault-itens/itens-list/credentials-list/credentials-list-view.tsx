@@ -29,10 +29,7 @@ export const CredentialsListView = ({ credentials }: Props) => {
               backgroundColor='primaryBackground'
               foregroundColor='primary'
             />
-            <AppItem.Info
-              name={'Minha credencial'}
-              description={'https://www.google.com'}
-            />
+            <AppItem.Info name={item.title} description={item.siteUrl ?? ''} />
           </AppItem.Container>
         </Link>
       )}

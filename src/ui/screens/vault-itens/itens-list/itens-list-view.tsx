@@ -3,8 +3,8 @@ import { ScrollView } from 'react-native'
 import type { Id } from '@/core/domain/structures'
 
 import { Box } from '@/ui/gluestack/box'
-import { ItensListTab } from './itens-list-tab'
 import { AppItem } from '@/ui/components/app-item'
+import { ItensListTab } from './itens-list-tab'
 import { CredentialsList } from './credentials-list'
 
 type Props = {
