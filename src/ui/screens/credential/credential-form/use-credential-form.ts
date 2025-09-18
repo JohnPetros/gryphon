@@ -6,10 +6,11 @@ import type { CryptoProvider } from '@/core/interfaces'
 import { Credential } from '@/core/domain/entities'
 
 import { passwordSchema } from '@/validation'
+import { Alert } from 'react-native'
 
 const formSchema = z.object({
   title: z.string(),
-  siteUrl: z.url(),
+  siteUrl: z.url().optional(),
   login: z.string(),
   vaultId: z.string(),
   password: passwordSchema,
@@ -37,7 +38,7 @@ export const useCredentialForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: credential?.title,
-      siteUrl: credential?.siteUrl,
+      siteUrl: credential?.siteUrl ?? undefined,
       login: encryptedData?.login,
       password: encryptedData?.password,
     },
@@ -53,10 +54,12 @@ export const useCredentialForm = ({
       encryptedData,
     })
 
-    if (credential) {
-      await onUpdate(credential)
-      return
-    }
+    // if (credential) {
+    //   await onUpdate(credential)
+    //   return
+    // }
+
+    console.log(credential)
 
     await onCreate(credential)
   }

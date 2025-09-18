@@ -8,7 +8,7 @@ import { Input } from '@/ui/components/input'
 import { Button } from '@/ui/components/button'
 import { PasswordInput } from '@/ui/components/password-input'
 import { useCredentialForm } from './use-credential-form'
-import { vaultSelect } from './vault-select'
+import { VaultSelect } from './vault-select'
 
 type Params = {
   credential: Credential | null
@@ -36,7 +36,12 @@ export const CredentialFormView = ({
   return (
     <Box className='flex flex-col gap-2'>
       <Box className='flex flex-row gap-2'>
-        <vaultSelect />
+        <Controller
+          control={control}
+          name='vaultId'
+          render={({ field }) => <VaultSelect onChange={field.onChange} />}
+        />
+
         <Button
           onPress={handleSubmit}
           className='w-32 items-center justify-center'
@@ -54,7 +59,7 @@ export const CredentialFormView = ({
               name='title'
               render={({ field }) => (
                 <Input
-                  label='Títul'
+                  label='Título'
                   icon='title'
                   placeholder='Sem título'
                   onChange={field.onChange}
@@ -70,7 +75,7 @@ export const CredentialFormView = ({
               render={({ field }) => (
                 <Input
                   label='Login'
-                  icon='title'
+                  icon='login'
                   placeholder='Login'
                   onChange={field.onChange}
                 />
@@ -92,7 +97,7 @@ export const CredentialFormView = ({
             render={({ field }) => (
               <Input
                 label='Site'
-                icon='title'
+                icon='link'
                 placeholder='Nome'
                 onChange={field.onChange}
               />

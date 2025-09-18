@@ -5,10 +5,20 @@ import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import { useVaultSelect } from './use-vaunt-select'
 import { VaultSelectView } from './vault-select-view'
 
-export const vaultSelect = () => {
+type Props = {
+  onChange: (vaultId: string) => void
+}
+
+export const VaultSelect = ({ onChange }: Props) => {
   const { vaultsRepository } = useDatabase()
   const { account } = useAuthContext()
-  const { vaults } = useVaultSelect(vaultsRepository, account?.id ?? Id.create())
+  const { vaults, selectedVault } = useVaultSelect({
+    vaultsRepository,
+    accountId: account?.id ?? Id.create(),
+    onChange,
+  })
 
-  return <VaultSelectView vaults={vaults} />
+  return (
+    <VaultSelectView vaults={vaults} selectedVault={selectedVault} onChange={onChange} />
+  )
 }

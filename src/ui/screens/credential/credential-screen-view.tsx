@@ -2,8 +2,9 @@ import type { Credential } from '@/core/domain/entities'
 
 import { ScreenContainer } from '@/ui/components/screen-container'
 import { ScreenTitle } from '@/ui/components/screen-title'
-import { CredentialForm } from './credential-form'
 import { Box } from '@/ui/gluestack/box'
+import { PreviousScreenButton } from '@/ui/components/previous-screen-button'
+import { CredentialForm } from './credential-form'
 
 type Props = {
   credential: Credential | null
@@ -15,10 +16,18 @@ type Props = {
 export const CredentialScreenView = ({ credential, onCreate, onUpdate }: Props) => {
   return (
     <ScreenContainer>
-      <ScreenTitle>Adicionar Credencial</ScreenTitle>
+      <PreviousScreenButton />
 
       <Box className='mt-6'>
-        <CredentialForm credential={credential} onCreate={onCreate} onUpdate={onUpdate} />
+        <ScreenTitle>Adicionar Credencial</ScreenTitle>
+
+        <Box className='mt-6'>
+          <CredentialForm
+            credential={credential}
+            onCreate={onCreate}
+            onUpdate={onUpdate}
+          />
+        </Box>
       </Box>
     </ScreenContainer>
   )
