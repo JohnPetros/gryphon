@@ -1,37 +1,47 @@
-import { use } from 'react'
+import { useEffect, useState } from 'react'
+
+import type { CredentialsRepository } from '@/core/interfaces'
+import { Credential } from '@/core/domain/entities'
+import type { Id } from '@/core/domain/structures'
 
 import { ROUTES } from '@/constants'
-import type { Credential } from '@/core/domain/entities'
-import type { Id } from '@/core/domain/structures'
-import type { CredentialsRepository } from '@/core/interfaces'
 import { useNavigation } from '@/ui/hooks/use-navigation'
-import { Alert } from 'react-native'
 
 export function useCredentialScreen(
   credentialsRepository: CredentialsRepository,
   credentialId?: Id,
 ) {
+  const [credential, setCredential] = useState<Credential | null>(null)
   const { navigate } = useNavigation()
 
-  const credential = use(
-    credentialId ? credentialsRepository.findById(credentialId) : Promise.resolve(null),
-  )
-
   async function handleCredentialCreate(credential: Credential) {
-    try {
-      Alert.alert('Credencial criada com sucesso')
-      await credentialsRepository.add(credential)
-      console.log(await credentialsRepository.findById(credential.id))
-    } catch (error) {
-      console.error(error)
-    }
-    // navigate(ROUTES.vaultItens)
+    await credentialsRepository.add(credential)
+    navigate(ROUTES.vaultItens)
   }
 
   async function handleCredentialUpdate(credential: Credential) {
-    // await credentialsRepository.update(credential)
-    // navigate(ROUTES.vaultItens)
+    if (!credentialId) return
+    try {
+      const updatedCredential = Credential.create({
+        ...credential.dto,
+        id: credentialId.value,
+      })
+      await credentialsRepository.update(updatedCredential)
+      navigate(ROUTES.vaultItens)
+    } catch (error) {
+      console.error(error)
+    }
   }
+
+  useEffect(() => {
+    async function loadCredential() {
+      if (credentialId) {
+        const credential = await credentialsRepository.findById(credentialId)
+        setCredential(credential)
+      }
+    }
+    loadCredential()
+  }, [])
 
   return {
     credential,

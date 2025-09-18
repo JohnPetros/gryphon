@@ -5,6 +5,7 @@ import { ScreenTitle } from '@/ui/components/screen-title'
 import { Box } from '@/ui/gluestack/box'
 import { PreviousScreenButton } from '@/ui/components/previous-screen-button'
 import { CredentialForm } from './credential-form'
+import { KeyboardAvoidingView, ScrollView } from 'react-native'
 
 type Props = {
   credential: Credential | null
@@ -19,15 +20,19 @@ export const CredentialScreenView = ({ credential, onCreate, onUpdate }: Props) 
       <PreviousScreenButton />
 
       <Box className='mt-6'>
-        <ScreenTitle>Adicionar Credencial</ScreenTitle>
+        <ScreenTitle>
+          {credential ? 'Editar Credencial' : 'Adicionar Credencial'}
+        </ScreenTitle>
 
-        <Box className='mt-6'>
-          <CredentialForm
-            credential={credential}
-            onCreate={onCreate}
-            onUpdate={onUpdate}
-          />
-        </Box>
+        <KeyboardAvoidingView>
+          <ScrollView className='mt-6'>
+            <CredentialForm
+              credential={credential}
+              onCreate={onCreate}
+              onUpdate={onUpdate}
+            />
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Box>
     </ScreenContainer>
   )

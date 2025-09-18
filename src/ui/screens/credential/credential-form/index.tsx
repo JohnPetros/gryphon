@@ -11,17 +11,16 @@ type Props = {
 }
 
 export const CredentialForm = ({ credential, onCreate, onUpdate }: Props) => {
+  const { account } = useAuthContext()
   const cryptoProvider = useCryptoProvider()
   const { encryptionKey } = useAuthContext()
-
-  const encryptedData = credential?.encrypted.decrypt(encryptionKey, cryptoProvider)
-  console.log('Decrypted', credential?.encrypted.decrypt)
 
   return (
     <CredentialFormView
       credential={credential}
       cryptoProvider={cryptoProvider}
       encryptionKey={encryptionKey}
+      minimumPasswordStrength={account?.minimumPasswordStrength || 3}
       onCreate={onCreate}
       onUpdate={onUpdate}
     />
