@@ -66,7 +66,6 @@ export function usePasswordGenerator(
 
   function handleConfirm() {
     setIsInvalid(false)
-    console.log('minimumPasswordStrength', minimumPasswordStrength)
     if (password.strength < minimumPasswordStrength) {
       setIsInvalid(true)
       return

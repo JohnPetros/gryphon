@@ -9,7 +9,6 @@ import { COLORS } from '@/constants/colors'
 import { BottomSheetDragIndicator } from '@/ui/gluestack/bottomsheet'
 import { UiProvider } from '@/ui/gluestack/ui-provider'
 import { Pressable } from '../pressable'
-import { Alert } from 'react-native'
 
 type Props = {
   children: ReactNode | ((close: () => void) => ReactNode)
