@@ -7,8 +7,10 @@ export class Encrypted<Data> {
     return new Encrypted<Data>(value)
   }
 
-  decrypt(encryptionKey: string, cryptoProvider: CryptoProvider): Data {
+  decrypt(encryptionKey: string, cryptoProvider: CryptoProvider): Data | null {
     const decryptedData = cryptoProvider.decrypt(this.value, encryptionKey)
+    if (!decryptedData) return null
+    console.log('decrypt decrypt decryptedData', decryptedData)
     return JSON.parse(decryptedData) as Data
   }
 }
