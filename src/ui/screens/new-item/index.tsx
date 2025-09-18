@@ -1,3 +1,3 @@
-import { NewItemScreenView } from './new-item-screen-view'
+import { NewItemScreenView } from './new-item-screen'
 
 export const NewItemScreen = NewItemScreenView

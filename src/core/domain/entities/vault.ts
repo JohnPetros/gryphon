@@ -1,30 +1,22 @@
 import { Entity } from '../abstracts'
-import type { VaultIcon } from '../types'
 import type { VaultDto } from './dtos'
 
 export type VaultProps = {
   title: string
-  icon: VaultIcon
+  icon: string
   itemCount?: number
 }
 
 export class Vault extends Entity<VaultProps> {
   static create(dto: VaultDto) {
-    return new Vault(
-      {
-        title: dto.title,
-        icon: dto.icon as VaultIcon,
-        itemCount: dto.itemCount,
-      },
-      dto.id,
-    )
+    return new Vault(dto, dto.id)
   }
 
   get title(): string {
     return this.props.title
   }
 
-  get icon(): VaultIcon {
+  get icon(): string {
     return this.props.icon
   }
 

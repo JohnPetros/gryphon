@@ -1,13 +1,12 @@
 import { Model } from '@nozbe/watermelondb'
-import { date, field } from '@nozbe/watermelondb/decorators'
+import { date, field, relation } from '@nozbe/watermelondb/decorators'
 
-// @ts-ignore
+import type { VaultModel } from './vault-model'
+
 export class NoteModel extends Model {
   static table = 'notes'
 
-  static associations = {
-    vaults: { type: 'belongs_to', key: 'vault_id' },
-  }
+  @relation('vaults', 'vault_id') vault!: VaultModel
 
   @field('title')
   title!: string

@@ -10,13 +10,8 @@ export function useSecureStore() {
     await ExpoSecureStore.setItemAsync(key, value)
   }, [])
 
-  const deleteItem = useCallback(async (key: string) => {
-    await ExpoSecureStore.deleteItemAsync(key)
-  }, [])
-
   return {
     getItem,
     setItem,
-    deleteItem,
   }
 }

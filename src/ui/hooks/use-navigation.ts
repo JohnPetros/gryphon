@@ -11,12 +11,7 @@ export function useNavigation() {
     [router],
   )
 
-  const goBack = useCallback(() => {
-    router.back()
-  }, [router])
-
   return {
     navigate,
-    goBack,
   }
 }

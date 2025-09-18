@@ -1,7 +1,7 @@
 import { Text } from '@/ui/gluestack/text'
 
 type Props = {
-  children: React.ReactNode
+  children: string
 }
 
 export const ScreenTitleView = ({ children }: Props) => {

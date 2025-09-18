@@ -29,37 +29,28 @@ const STRENGTH_LEVELS = [
 
 type Props = {
   password: Password
-  isLarge?: boolean
 }
 
-export const PasswordStregthView = ({ password, isLarge = false }: Props) => {
+export const PasswordStregthView = ({ password }: Props) => {
   const strength = password.strength - 1
   const levelIndex = Math.max(strength, 0)
   const currentLevel = STRENGTH_LEVELS[levelIndex]
 
   return (
-    <Box className={mergeClassNames(isLarge ? 'flex-row gap-4' : 'items-center w-24')}>
+    <Box className='items-center w-24'>
       <Box className='mb-2'>
-        <Text
-          className={mergeClassNames(
-            isLarge ? 'text-xl uppercase tracking-wide font-bold' : 'text-sm',
-          )}
-        >
-          {currentLevel.label}
-        </Text>
+        <Text className='text-sm'>{currentLevel.label}</Text>
       </Box>
 
-      <Box className={mergeClassNames('flex-row gap-1', isLarge && 'gap-2')}>
+      <Box className='flex-row gap-1'>
         {[0, 1, 2, 3, 4].map((index) => (
           <Box
             key={index}
             className={mergeClassNames(
-              isLarge
-                ? 'w-2 h-full'
-                : 'w-2 h-4 rounded-none transition-colors duration-200 border',
+              'w-2 h-4 rounded-none transition-colors duration-200 border',
               index <= strength && password.hasValue
                 ? currentLevel.color
-                : 'bg-neutral border-neutral',
+                : 'bg-transparent border-neutral',
             )}
           />
         ))}

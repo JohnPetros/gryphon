@@ -1,73 +1,36 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Account } from '@/core/domain/entities/account'
+import { Vault } from '@/core/domain/entities'
 import { Id } from '@/core/domain/structures'
-import type { CryptoProvider, AccountsRepository } from '@/core/interfaces'
+import type {
+  CryptoProvider,
+  vaultsRepository,
+  AccountsRepository,
+} from '@/core/interfaces'
 
 import { ROUTES, STORAGE_KEYS } from '@/constants'
 import { useNavigation } from '@/ui/hooks/use-navigation'
 import { useSecureStore } from '@/ui/hooks/use-secure-store'
 import type { AuthContextValue } from './auth-context-value'
-import { useToast } from '@/ui/hooks/use-toast'
 
 type Params = {
   jwt: string | null
   cryptoProvider: CryptoProvider
+  vaultsRepository: vaultsRepository
   accountsRepository: AccountsRepository
-  signOut: () => Promise<void>
-  signIn: (email: string, password: string) => Promise<boolean>
 }
 
 export function useAuthContextProvider({
   cryptoProvider,
+  vaultsRepository,
   accountsRepository,
-  signOut,
-  signIn,
 }: Params) {
   const [account, setAccount] = useState<Account | null>(null)
   const [encryptionKey, setEncryptionKey] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
   const secureStore = useSecureStore()
   const navigation = useNavigation()
-  const toast = useToast()
-
-  const signInAccount = useCallback(
-    async (email: string, password: string) => {
-      const isSuccess = await signIn(email, password)
-
-      if (!isSuccess) {
-        toast.show('E-mail ou senha incorretos', 'error')
-        return
-      }
-
-      const account = await accountsRepository.findByEmail(email)
-
-      if (!account) {
-        toast.show('E-mail ou senha incorretos', 'error')
-        await signOut()
-        return
-      }
-
-      setAccount(account)
-      await secureStore.setItem(STORAGE_KEYS.accountId, account.id.value)
-      navigation.navigate(ROUTES.vaultItens)
-    },
-    [
-      signIn,
-      signOut,
-      secureStore.setItem,
-      navigation.navigate,
-      toast.show,
-      accountsRepository.findByEmail,
-    ],
-  )
-
-  const signOutAccount = useCallback(async () => {
-    signOut()
-    setAccount(null)
-    await secureStore.deleteItem(STORAGE_KEYS.accountId)
-    navigation.navigate(ROUTES.auth.signIn)
-  }, [signOut, navigation.navigate, secureStore.deleteItem])
 
   const createEncryptionKey = useCallback(
     async (masterPassword: string, encryptionSalt: string) => {
@@ -79,61 +42,49 @@ export function useAuthContextProvider({
 
   const loadAccount = useCallback(async () => {
     const accountId = await secureStore.getItem(STORAGE_KEYS.accountId)
-    if (!accountId) {
-      signOutAccount()
-      return
-    }
+    if (!accountId) return
 
     const account = await accountsRepository.findById(Id.create(accountId))
+    if (!account) return
 
-    if (!account) {
-      signOutAccount()
-      return
-    }
-
-    const masterPassword = await secureStore.getItem(STORAGE_KEYS.masterPassword)
-    if (!masterPassword) return
-
-    createEncryptionKey(masterPassword, account.encryptionSalt)
     setAccount(account)
-  }, [
-    createEncryptionKey,
-    signOutAccount,
-    secureStore.getItem,
-    accountsRepository.findById,
-  ])
+
+    secureStore.getItem(STORAGE_KEYS.masterPassword).then((masterPassword) => {
+      if (!masterPassword) return
+      createEncryptionKey(masterPassword, account.encryptionSalt)
+    })
+  }, [createEncryptionKey, secureStore.getItem, accountsRepository.findById])
 
   const contextValue: AuthContextValue = useMemo(() => {
-    async function createAccount(
-      accountId: string,
-      email: string,
-      masterPassword: string,
-    ) {
+    async function createAccount(id: string, email: string, masterPassword: string) {
       setIsLoading(true)
       try {
         const encryptionSalt = await cryptoProvider.generateSalt()
         await createEncryptionKey(masterPassword, encryptionSalt)
 
         const account = Account.create({
-          id: accountId,
+          id,
           email,
           encryptionSalt,
           isBiometryActivated: false,
-          minimumPasswordStrength: 3,
+          minimumPasswordStrength: 'medium',
           minimumAppLockTimeInSeconds: 0,
           isMasterPasswordRequired: true,
+        })
+        const vault = Vault.create({
+          title: 'Home',
+          icon: 'home',
         })
         setAccount(account)
 
         await secureStore.setItem(STORAGE_KEYS.masterPassword, masterPassword)
-        await secureStore.setItem(STORAGE_KEYS.accountId, accountId)
-
+        await secureStore.setItem(STORAGE_KEYS.accountId, account.id.value)
         await accountsRepository.add(account)
-        await signOut()
+        await vaultsRepository.add(vault, account.id)
 
-        navigation.navigate(ROUTES.auth.signIn)
+        navigation.navigate(ROUTES.vault.itens(account.id.value))
       } catch (error) {
-        console.error('Error creating account', error)
+        console.error(error)
       } finally {
         setIsLoading(false)
       }
@@ -143,11 +94,8 @@ export function useAuthContextProvider({
       account,
       isLoading,
       encryptionKey,
-      signInAccount,
-      signOutAccount,
       createAccount,
       createEncryptionKey,
-      setAccount,
     }
   }, [
     account,
@@ -155,17 +103,15 @@ export function useAuthContextProvider({
     encryptionKey,
     secureStore.setItem,
     navigation.navigate,
-    signInAccount,
-    signOutAccount,
     createEncryptionKey,
-    signOut,
     accountsRepository,
+    vaultsRepository,
     cryptoProvider,
   ])
 
   useEffect(() => {
     loadAccount()
-  }, [])
+  }, [loadAccount])
 
   return contextValue
 }

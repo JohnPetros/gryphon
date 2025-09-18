@@ -43,6 +43,7 @@ export function useAuth() {
     const response = await signUp?.attemptEmailAddressVerification({ code })
 
     if (response?.status === 'complete') {
+      await setActive?.({ session: response?.createdSessionId })
       return true
     }
 

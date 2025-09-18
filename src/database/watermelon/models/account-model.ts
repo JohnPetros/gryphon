@@ -1,8 +1,12 @@
 import { Model } from '@nozbe/watermelondb'
-import { field } from '@nozbe/watermelondb/decorators'
+import { children, field } from '@nozbe/watermelondb/decorators'
+
+import type { VaultModel } from './vault-model'
 
 export class AccountModel extends Model {
   static table = 'accounts'
+
+  @children('vaults') vaults!: VaultModel[]
 
   @field('email')
   email!: string
@@ -14,7 +18,7 @@ export class AccountModel extends Model {
   isBiometryActivated!: boolean
 
   @field('minimum_password_strength')
-  minimumPasswordStrength!: number
+  minimumPasswordStrength!: string
 
   @field('minimum_app_lock_time_in_seconds')
   minimumAppLockTimeInSeconds!: number

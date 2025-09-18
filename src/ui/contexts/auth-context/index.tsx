@@ -9,15 +9,14 @@ import type { AuthContextValue } from './auth-context-value'
 export const AuthContext = createContext({} as AuthContextValue)
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
-  const { jwt, signInAccount, signOutAccount } = useAuth()
+  const { jwt } = useAuth()
   const cryptoProvider = useCryptoProvider()
-  const { accountsRepository } = useDatabase()
+  const { vaultsRepository, accountsRepository } = useDatabase()
   const authContextValue = useAuthContextProvider({
     jwt,
     cryptoProvider,
+    vaultsRepository,
     accountsRepository,
-    signIn: signInAccount,
-    signOut: signOutAccount,
   })
 
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>
