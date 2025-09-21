@@ -1,25 +1,38 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import type { Credential } from '@/core/domain/entities'
 import type { Id } from '@/core/domain/structures'
 import type { CredentialsRepository } from '@/core/interfaces'
 
-export function useCredentialsList(
-  vaultId: Id,
-  credentialsRepository: CredentialsRepository,
-) {
+type Params = {
+  vaultId: Id
+  credentialsRepository: CredentialsRepository
+  onCredentialDelete: () => void
+}
+
+export function useCredentialsList({
+  vaultId,
+  credentialsRepository,
+  onCredentialDelete,
+}: Params) {
   const [credentials, setCredentials] = useState<Credential[]>([])
 
-  useEffect(() => {
-    async function loadCredentials() {
-      const credentials = await credentialsRepository.findAllByVault(vaultId)
-      console.log('credentials', credentials)
-      setCredentials(credentials)
-    }
+  const loadCredentials = useCallback(async () => {
+    const credentials = await credentialsRepository.findAllByVault(vaultId)
+    setCredentials(credentials)
+  }, [credentialsRepository, vaultId])
+
+  function handleCredentialDelete() {
     loadCredentials()
-  }, [vaultId, credentialsRepository])
+    onCredentialDelete()
+  }
+
+  useEffect(() => {
+    loadCredentials()
+  }, [vaultId, credentialsRepository, loadCredentials])
 
   return {
     credentials,
+    handleCredentialDelete,
   }
 }

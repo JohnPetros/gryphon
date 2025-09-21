@@ -13,6 +13,7 @@ type Props = {
   credentialCount: number
   noteCount: number
   onTabPress: (tab: 'credential' | 'note') => void
+  onCredentialDelete: () => void
 }
 
 export const ItensListView = ({
@@ -21,6 +22,7 @@ export const ItensListView = ({
   noteCount,
   selectedTab,
   onTabPress,
+  onCredentialDelete,
 }: Props) => {
   return (
     <Box>
@@ -49,7 +51,9 @@ export const ItensListView = ({
       </ScrollView>
 
       <Box className='mt-6'>
-        {selectedTab === 'credential' && <CredentialsList vaultId={vaultId} />}
+        {selectedTab === 'credential' && (
+          <CredentialsList vaultId={vaultId} onCredentialDelete={onCredentialDelete} />
+        )}
       </Box>
     </Box>
   )

@@ -10,10 +10,13 @@ type Props = {
 
 export const ItensList = ({ vaultId }: Props) => {
   const { credentialsRepository } = useDatabase()
-  const { credentialCount, noteCount, selectedTab, handleTabPress } = useItensList(
-    vaultId,
-    credentialsRepository,
-  )
+  const {
+    credentialCount,
+    noteCount,
+    selectedTab,
+    handleTabPress,
+    handleCredentialDelete,
+  } = useItensList(vaultId, credentialsRepository)
 
   return (
     <ItensListView
@@ -22,6 +25,7 @@ export const ItensList = ({ vaultId }: Props) => {
       noteCount={noteCount}
       selectedTab={selectedTab}
       onTabPress={handleTabPress}
+      onCredentialDelete={handleCredentialDelete}
     />
   )
 }
