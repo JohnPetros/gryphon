@@ -1,31 +1,36 @@
 import { useLocalSearchParams } from 'expo-router'
 
-import { useDatabase } from '@/ui/hooks/use-database'
-import { CredentialScreenView } from './credential-screen-view'
-import { useCredentialScreen } from './use-credential-screen'
-import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import { Id } from '@/core/domain/structures'
 
-type SearchParams = {
+import { useDatabase } from '@/ui/hooks/use-database'
+import { CredentialView } from './credential-view'
+import { useCredentialScreen } from './use-credential-screen'
+import { useCryptoProvider } from '@/ui/hooks/use-crypto-provider'
+import { useAuthContext } from '@/ui/hooks/use-auth-context'
+
+type LocalSearchParams = {
   credentialId: string
 }
 
 export const CredentialScreen = () => {
-  const { credentialId } = useLocalSearchParams<SearchParams>()
+  const { credentialId } = useLocalSearchParams<LocalSearchParams>()
   const { credentialsRepository } = useDatabase()
+  const cryptoProvider = useCryptoProvider()
   const { encryptionKey } = useAuthContext()
-  const { credential, handleCredentialCreate, handleCredentialUpdate } =
-    useCredentialScreen(
-      credentialsRepository,
-      credentialId ? Id.create(credentialId) : undefined,
-    )
+  const { credential, decryptedData, handleCredentialDelete } = useCredentialScreen({
+    credentialId: Id.create(credentialId),
+    credentialsRepository,
+    cryptoProvider,
+    encryptionKey,
+  })
 
+  if (!credential || !decryptedData) return null
   return (
-    <CredentialScreenView
+    <CredentialView
       credential={credential}
-      encryptionKey={encryptionKey}
-      onCreate={handleCredentialCreate}
-      onUpdate={handleCredentialUpdate}
+      credentialLogin={decryptedData.login}
+      credentialPassword={decryptedData.password}
+      onCredentialDelete={handleCredentialDelete}
     />
   )
 }
