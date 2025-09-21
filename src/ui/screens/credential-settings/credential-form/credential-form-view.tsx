@@ -111,7 +111,7 @@ export const CredentialFormView = ({
               <Input
                 label='Site'
                 icon='link'
-                placeholder='Nome'
+                placeholder='https://www.google.com'
                 defaultValue={field.value}
                 onChange={field.onChange}
               />

@@ -10,7 +10,6 @@ export function useCredentialVault(vaultsRepository: VaultsRepository, vaultId: 
   useEffect(() => {
     async function loadVault() {
       const vault = await vaultsRepository.findById(vaultId)
-      console.log('vault', vault)
       setVault(vault)
     }
     if (vault) return

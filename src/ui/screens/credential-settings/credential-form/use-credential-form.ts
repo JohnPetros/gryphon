@@ -89,18 +89,18 @@ export const useCredentialForm = ({
     await onCreate(newCredential)
   }
 
-  const passwordWath = watch('password')
+  const passwordWatch = watch('password')
 
   useEffect(() => {
     if (
-      passwordWath &&
-      Password.create(passwordWath).strength < minimumPasswordStrength
+      passwordWatch &&
+      Password.create(passwordWatch).strength < minimumPasswordStrength
     ) {
       setError('password', {
         message: PASSWORD_STRENGTH_MESSAGES[minimumPasswordStrength],
       })
     }
-  }, [passwordWath])
+  }, [passwordWatch])
 
   useEffect(() => {
     if (!credential) return
