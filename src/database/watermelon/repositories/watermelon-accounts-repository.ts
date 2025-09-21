@@ -69,5 +69,20 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
         })
       })
     },
+
+    async updateIsMasterPasswordRequired(
+      isMasterPasswordRequired: boolean,
+      accountId: Id,
+    ): Promise<void> {
+      await watermelon.write(async () => {
+        const accountModel = await watermelon.collections
+          .get<AccountModel>('accounts')
+          .find(accountId.value)
+
+        await accountModel.update((model) => {
+          model.isMasterPasswordRequired = isMasterPasswordRequired
+        })
+      })
+    },
   }
 }
