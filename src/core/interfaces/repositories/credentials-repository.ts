@@ -7,4 +7,5 @@ export interface CredentialsRepository {
   findById(id: Id): Promise<Credential | null>
   findAllByVault(vaultId: Id): Promise<Credential[]>
   countByVault(vaultId: Id): Promise<number>
+  remove(credentialId: Id): Promise<void>
 }

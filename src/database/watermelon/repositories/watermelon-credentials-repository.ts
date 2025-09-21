@@ -79,5 +79,15 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
         .get<CredentialModel>('credentials')
         .query(Q.where('vault_id', vaultId.value)).count
     },
+
+    async remove(vaultId: Id): Promise<void> {
+      await watermelon.write(async () => {
+        const model = await watermelon.collections
+          .get<CredentialModel>('credentials')
+          .find(vaultId.value)
+
+        await model.markAsDeleted()
+      })
+    },
   }
 }
