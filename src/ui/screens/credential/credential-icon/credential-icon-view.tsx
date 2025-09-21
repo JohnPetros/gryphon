@@ -28,6 +28,7 @@ export const CredentialIconView = ({ siteUrl, hasError, onError }: Props) => {
           uri: siteUrl,
         }}
         size='xs'
+        alt=''
         onError={onError}
       />
     </Box>
