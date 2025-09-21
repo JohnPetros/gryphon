@@ -1,14 +1,13 @@
 import type { Credential } from '@/core/domain/entities'
-import { Icon } from '@/ui/components/icon'
+
 import { Input } from '@/ui/components/input'
 import { PasswordInput } from '@/ui/components/password-input'
-
 import { PreviousScreenButton } from '@/ui/components/previous-screen-button'
 import { ScreenContainer } from '@/ui/components/screen-container'
 import { Box } from '@/ui/gluestack/box'
 import { Text } from '@/ui/gluestack/text'
-import { CredentialIcon } from './credential-icon'
 import { CredentialMenu } from '@/ui/components/credential-menu'
+import { CredentialIcon } from './credential-icon'
 import { CredentialVault } from './credential-vault'
 
 type Props = {
@@ -33,7 +32,7 @@ export const CredentialView = ({
 
       <Box className='flex-row items-center gap-3 mt-6'>
         <CredentialIcon siteUrl={credential.siteUrl ?? ''} />
-        <Box className='flex-1'>
+        <Box className='flex-1 gap-1'>
           <Text ellipsizeMode='tail' numberOfLines={1} className='text-2xl font-semibold'>
             {credential.title}
           </Text>
@@ -56,6 +55,7 @@ export const CredentialView = ({
             hasStrength
             defaultValue={credentialPassword}
             isReadOnly
+            isProtected
             onChange={() => {}}
           />
         </Box>

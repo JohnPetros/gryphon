@@ -4,6 +4,7 @@ import { SignOutButton } from '@/ui/components/sign-out-button'
 import { Box } from '@/ui/gluestack/box'
 import { MinimumPasswordStrenghSelect } from './minimum-password-strengh'
 import { Text } from '@/ui/gluestack/text'
+import { MasterPasswordRequirementSwitch } from './master-password-requirement-switch'
 
 export const ProfileScreenView = () => {
   return (
@@ -14,6 +15,7 @@ export const ProfileScreenView = () => {
         <Text className='text-lg font-bold text-accent'>Segurança</Text>
         <Box className='mt-4'>
           <MinimumPasswordStrenghSelect />
+          <MasterPasswordRequirementSwitch />
         </Box>
       </Box>
 

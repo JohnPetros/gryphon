@@ -1,7 +1,10 @@
 import { useRef } from 'react'
+
 import { PasswordInputView } from './password-input-view'
 import { usePasswordInput } from './use-password-input'
-import { BottomSheetRef } from '../bottom-sheet/types'
+import type { BottomSheetRef } from '../bottom-sheet/types'
+import type { MasterPasswordConfirmationDialogRef } from '../master-password-confirmation-dialog/types'
+import { useAuthContext } from '@/ui/hooks/use-auth-context'
 
 type Props = {
   label: string
@@ -9,6 +12,7 @@ type Props = {
   defaultValue?: string
   isRequired?: boolean
   isReadOnly?: boolean
+  isProtected?: boolean
   onChange: (value: string) => void
 }
 
@@ -18,9 +22,13 @@ export const PasswordInput = ({
   defaultValue = '',
   isRequired = false,
   isReadOnly = false,
+  isProtected = false,
   onChange,
 }: Props) => {
   const passwordGeneratorRef = useRef<BottomSheetRef | null>(null)
+  const masterPasswordConfirmationDialogRef =
+    useRef<MasterPasswordConfirmationDialogRef | null>(null)
+  const { account } = useAuthContext()
   const {
     password,
     isPasswordVisible,
@@ -31,7 +39,15 @@ export const PasswordInput = ({
     handleBlur,
     handlePasswordGeneratorConfirm,
     handlePasswordGeneratorButtonPress,
-  } = usePasswordInput({ passwordGeneratorRef, defaultValue, onChange })
+    handleCorrectMasterPasswordConfirmationDialogSubmit,
+  } = usePasswordInput({
+    passwordGeneratorRef,
+    masterPasswordConfirmationDialogRef,
+    defaultValue,
+    isProtected,
+    isMasterPasswordRequired: Boolean(account?.isMasterPasswordRequired),
+    onChange,
+  })
 
   return (
     <PasswordInputView
@@ -43,6 +59,10 @@ export const PasswordInput = ({
       isPasswordVisible={isPasswordVisible}
       isPasswordGeneratorVisible={isPasswordGeneratorVisible}
       passwordGeneratorRef={passwordGeneratorRef}
+      masterPasswordConfirmationDialogRef={masterPasswordConfirmationDialogRef}
+      onCorrectMasterPasswordConfirmationDialogSubmit={
+        handleCorrectMasterPasswordConfirmationDialogSubmit
+      }
       onFocus={handleFocus}
       onBlur={handleBlur}
       onChange={handleChange}

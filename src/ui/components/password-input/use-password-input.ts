@@ -1,18 +1,25 @@
 import { type RefObject, useEffect, useState } from 'react'
+import { Keyboard } from 'react-native'
 
 import { Password } from '@/core/domain/structures'
 import type { BottomSheetRef } from '../bottom-sheet/types'
-import { Keyboard } from 'react-native'
+import type { MasterPasswordConfirmationDialogRef } from '../master-password-confirmation-dialog/types/master-password-confirmation-dialog-ref'
 
 type Props = {
   passwordGeneratorRef: RefObject<BottomSheetRef | null>
+  masterPasswordConfirmationDialogRef: RefObject<MasterPasswordConfirmationDialogRef | null>
+  isMasterPasswordRequired: boolean
   defaultValue: string
+  isProtected: boolean
   onChange: (value: string) => void
 }
 
 export function usePasswordInput({
   passwordGeneratorRef,
+  masterPasswordConfirmationDialogRef,
+  isMasterPasswordRequired,
   defaultValue,
+  isProtected,
   onChange,
 }: Props) {
   const [password, setPassword] = useState(Password.create(defaultValue))
@@ -20,7 +27,17 @@ export function usePasswordInput({
   const [isPasswordGeneratorVisible, setIsPasswordGeneratorVisible] = useState(false)
 
   function handlePasswordVisibilityButtonPress() {
-    setIsPasswordVisible((isPasswordVisible) => !isPasswordVisible)
+    const shouldBeVisible = !isPasswordVisible
+    if (shouldBeVisible && isProtected && isMasterPasswordRequired) {
+      masterPasswordConfirmationDialogRef?.current?.open()
+      return
+    }
+    setIsPasswordVisible(shouldBeVisible)
+  }
+
+  function handleCorrectMasterPasswordConfirmationDialogSubmit() {
+    setIsPasswordVisible(true)
+    masterPasswordConfirmationDialogRef?.current?.close()
   }
 
   function handlePasswordGeneratorButtonPress() {
@@ -59,6 +76,7 @@ export function usePasswordInput({
     handleFocus,
     handleBlur,
     handlePasswordVisibilityButtonPress,
+    handleCorrectMasterPasswordConfirmationDialogSubmit,
     handlePasswordGeneratorButtonPress,
     handlePasswordGeneratorConfirm,
   }

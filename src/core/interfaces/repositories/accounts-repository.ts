@@ -9,4 +9,8 @@ export interface AccountsRepository {
     minimumPasswordStrength: number,
     accountId: Id,
   ): Promise<void>
+  updateIsMasterPasswordRequired(
+    isMasterPasswordRequired: boolean,
+    accountId: Id,
+  ): Promise<void>
 }

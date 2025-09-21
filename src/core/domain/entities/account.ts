@@ -43,6 +43,10 @@ export class Account extends Entity<AccountProps> {
     return this.props.isMasterPasswordRequired
   }
 
+  set isMasterPasswordRequired(value: boolean) {
+    this.props.isMasterPasswordRequired = value
+  }
+
   get dto(): AccountDto {
     return {
       id: this.id.value,
