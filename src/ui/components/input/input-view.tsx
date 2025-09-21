@@ -18,6 +18,8 @@ type Props = {
   className?: string
   hasCapitalize?: boolean
   onChange?: (value: string) => void
+  onFocus?: () => void
+  onBlur?: () => void
 }
 
 export const InputView = ({
@@ -33,6 +35,8 @@ export const InputView = ({
   className,
   hasCapitalize,
   onChange,
+  onFocus,
+  onBlur,
 }: Props) => {
   return (
     <Input
@@ -64,6 +68,8 @@ export const InputView = ({
         placeholder={placeholder}
         autoCapitalize={hasCapitalize ? 'words' : 'none'}
         onChangeText={onChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
         keyboardType={type === 'number' ? 'numeric' : 'default'}
         className={mergeClassNames('text-xl', label && 'translate-y-2')}
       />

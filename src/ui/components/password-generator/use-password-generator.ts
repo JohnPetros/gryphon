@@ -1,11 +1,19 @@
-import { useState } from 'react'
+import { type RefObject, useState } from 'react'
 
 import { Password } from '@/core/domain/structures'
+import type { BottomSheetRef } from '../bottom-sheet/types'
 
-export function usePasswordGenerator(
-  minimumPasswordStrength: number,
-  onConfirm?: (password: Password) => void,
-) {
+type Props = {
+  bottomSheetRef: RefObject<BottomSheetRef | null>
+  minimumPasswordStrength: number
+  onConfirm?: (password: Password) => void
+}
+
+export function usePasswordGenerator({
+  bottomSheetRef,
+  minimumPasswordStrength,
+  onConfirm,
+}: Props) {
   const defaultPassword = Password.createFromStrength(minimumPasswordStrength)
   const [password, setPassword] = useState(defaultPassword)
   const [length, setLength] = useState(defaultPassword.length)
@@ -71,6 +79,7 @@ export function usePasswordGenerator(
       return
     }
     onConfirm?.(password)
+    bottomSheetRef?.current?.close()
   }
 
   function handleOpen() {

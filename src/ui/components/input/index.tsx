@@ -15,6 +15,8 @@ type Props = {
   endContent?: React.ReactNode
   hasCapitalize?: boolean
   onChange?: (value: string) => void
+  onFocus?: () => void
+  onBlur?: () => void
 }
 
 export const Input = ({
@@ -30,6 +32,8 @@ export const Input = ({
   className,
   hasCapitalize,
   onChange,
+  onFocus,
+  onBlur,
 }: Props) => {
   const { handleChange } = useInput({ type, onChange })
 
@@ -47,6 +51,8 @@ export const Input = ({
       className={className}
       hasCapitalize={hasCapitalize}
       onChange={handleChange}
+      onFocus={onFocus}
+      onBlur={onBlur}
     />
   )
 }

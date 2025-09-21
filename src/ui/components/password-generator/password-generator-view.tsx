@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react'
+import type { PropsWithChildren, RefObject } from 'react'
 
 import type { Password } from '@/core/domain/structures'
 
@@ -11,9 +11,11 @@ import { LengthInput } from './length-input'
 import { Checkbox } from '../checkbox'
 import { mergeClassNames } from '@/ui/utils'
 import { PasswordStregth } from '../password-stregth'
+import { BottomSheetRef } from '../bottom-sheet/types'
 
 type Props = {
   password: Password
+  bottomSheetRef: RefObject<BottomSheetRef | null>
   length: number
   hasUppercase: boolean
   hasLowercase: boolean
@@ -34,6 +36,7 @@ type Props = {
 export const PasswordGeneratorView = ({
   children,
   password,
+  bottomSheetRef,
   length,
   hasUppercase,
   hasLowercase,
@@ -52,6 +55,7 @@ export const PasswordGeneratorView = ({
 }: PropsWithChildren<Props>) => {
   return (
     <BottomSheet
+      ref={bottomSheetRef}
       trigger={children}
       snapPoints={['75%', '90%']}
       backgroundColor='background'
