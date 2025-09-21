@@ -11,6 +11,8 @@ import { PasswordStregth } from '../password-stregth'
 import { PasswordGenerator } from '../password-generator'
 import { KeyboardAccessory } from '../keyboard-accessory'
 import type { BottomSheetRef } from '../bottom-sheet/types'
+import { MasterPasswordConfirmationDialog } from '../master-password-confirmation-dialog'
+import type { MasterPasswordConfirmationDialogRef } from '../master-password-confirmation-dialog/types'
 
 type Props = {
   password: Password
@@ -21,12 +23,14 @@ type Props = {
   isRequired: boolean
   isReadOnly: boolean
   passwordGeneratorRef: RefObject<BottomSheetRef | null>
+  masterPasswordConfirmationDialogRef: RefObject<MasterPasswordConfirmationDialogRef | null>
   onChange: (value: string) => void
   onFocus: () => void
   onBlur: () => void
   onPasswordVisibilityButtonPress: () => void
   onPasswordGeneratorConfirm: (password: Password) => void
   onPasswordGeneratorButtonPress: () => void
+  onCorrectMasterPasswordConfirmationDialogSubmit: () => void
 }
 
 export const PasswordInputView = ({
@@ -35,6 +39,7 @@ export const PasswordInputView = ({
   hasStrength = true,
   isPasswordVisible,
   isPasswordGeneratorVisible,
+  masterPasswordConfirmationDialogRef,
   passwordGeneratorRef,
   isRequired,
   isReadOnly,
@@ -44,9 +49,15 @@ export const PasswordInputView = ({
   onPasswordVisibilityButtonPress,
   onPasswordGeneratorConfirm,
   onPasswordGeneratorButtonPress,
+  onCorrectMasterPasswordConfirmationDialogSubmit,
 }: Props) => {
   return (
     <>
+      <MasterPasswordConfirmationDialog
+        ref={masterPasswordConfirmationDialogRef}
+        description='Insira a senha mestra para para poder ver a senha da sua credencial.'
+        onCorrectPasswordSubmit={onCorrectMasterPasswordConfirmationDialogSubmit}
+      />
       <Input
         type={isPasswordVisible ? 'text' : 'password'}
         label={label}
