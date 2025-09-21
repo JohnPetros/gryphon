@@ -8,6 +8,7 @@ type Props = {
   backgroundColor: keyof typeof COLORS.dark
   foregroundColor: keyof typeof COLORS.dark
   name: IconName
+  size?: number
   className?: string
 }
 
@@ -15,6 +16,7 @@ export const AppItemIconView = ({
   backgroundColor,
   foregroundColor,
   name,
+  size = 28,
   className,
 }: Props) => {
   return (
@@ -27,7 +29,7 @@ export const AppItemIconView = ({
         className,
       )}
     >
-      <Icon name={name} color={foregroundColor} size={28} />
+      <Icon name={name} color={foregroundColor} size={size} />
     </Box>
   )
 }

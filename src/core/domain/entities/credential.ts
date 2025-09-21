@@ -3,7 +3,7 @@ import { Encrypted, Id } from '../structures'
 import type { CredentialDto } from './dtos'
 
 type CredentialProps = {
-  siteUrl: string
+  siteUrl: string | null
   vaultId: Id
 }
 
@@ -18,14 +18,14 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
       {
         encryptedData: Encrypted.create<CredentialEncryptedData>(dto.encryptedData),
         title: dto.title,
-        siteUrl: dto.siteUrl,
+        siteUrl: dto.siteUrl ?? null,
         vaultId: Id.create(dto.vaultId),
       },
       dto.id,
     )
   }
 
-  get siteUrl(): string {
+  get siteUrl(): string | null {
     return this.props.siteUrl
   }
 
@@ -33,7 +33,7 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
     return {
       id: this.id.value,
       title: this.title,
-      siteUrl: this.siteUrl,
+      siteUrl: this.siteUrl ?? undefined,
       vaultId: this.props.vaultId.value,
       encryptedData: this.encrypted.value,
     }

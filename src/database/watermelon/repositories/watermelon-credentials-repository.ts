@@ -7,6 +7,7 @@ import type { Id } from '@/core/domain/structures'
 import type { CredentialModel, VaultModel } from '../models'
 import { WatermelonCredentialMapper } from '../mappers'
 import { watermelon } from '../client'
+import { Q } from '@nozbe/watermelondb'
 
 export const WatermelonCredentialsRepository = (): CredentialsRepository => {
   const mapper = WatermelonCredentialMapper()
@@ -23,7 +24,8 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
               id: credential.id.value,
               title: credential.title,
               encrypted_data: credential.encrypted.value,
-              vaultId: credential.vaultId.value,
+              vault_id: credential.vaultId.value,
+              site_url: credential.siteUrl,
             },
             credentialsCollection.schema,
           )
@@ -32,20 +34,21 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
     },
 
     async update(credential: Credential): Promise<void> {
-      const credentialModel = await watermelon.collections
-        .get<CredentialModel>('credentials')
-        .find(credential.id.value)
-
       await watermelon.write(async () => {
-        await credentialModel.update(async (model) => {
-          const vaultModel = await watermelon.collections
-            .get<VaultModel>('vaults')
-            .find(credential.vaultId.value)
+        const credentialModel = await watermelon.collections
+          .get<CredentialModel>('credentials')
+          .find(credential.id.value)
 
+        const vaultModel = await watermelon.collections
+          .get<VaultModel>('vaults')
+          .find(credential.vaultId.value)
+
+        await credentialModel.update((model) => {
           model.title = credential.title
-          model.siteUrl = credential.siteUrl
+          model.siteUrl = credential.siteUrl ?? ''
           model.encryptedData = credential.encrypted.value
-          model.vault = vaultModel
+          // @ts-ignore
+          model.vault.set(vaultModel)
         })
       })
     },
@@ -60,6 +63,31 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
       } catch {
         return null
       }
+    },
+
+    async findAllByVault(vaultId: Id): Promise<Credential[]> {
+      const credentialModels = await watermelon.collections
+        .get<CredentialModel>('credentials')
+        .query(Q.where('vault_id', vaultId.value))
+        .fetch()
+
+      return credentialModels.map(mapper.toEntity)
+    },
+
+    async countByVault(vaultId: Id): Promise<number> {
+      return await watermelon.collections
+        .get<CredentialModel>('credentials')
+        .query(Q.where('vault_id', vaultId.value)).count
+    },
+
+    async remove(vaultId: Id): Promise<void> {
+      await watermelon.write(async () => {
+        const model = await watermelon.collections
+          .get<CredentialModel>('credentials')
+          .find(vaultId.value)
+
+        await model.markAsDeleted()
+      })
     },
   }
 }

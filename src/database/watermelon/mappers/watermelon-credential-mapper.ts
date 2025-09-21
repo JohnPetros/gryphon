@@ -8,7 +8,7 @@ export const WatermelonCredentialMapper = () => {
       return Credential.create({
         id: model.id,
         title: model.title,
-        siteUrl: model.siteUrl,
+        siteUrl: model.siteUrl ?? undefined,
         vaultId: model.vault.id,
         encryptedData: model.encryptedData,
       })

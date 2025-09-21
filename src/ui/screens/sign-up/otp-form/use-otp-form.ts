@@ -21,7 +21,6 @@ export function useOtpForm(
         setStatus('error')
       }
     } catch (error) {
-      console.log('error', error)
       setStatus('error')
     }
   }

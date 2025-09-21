@@ -35,7 +35,7 @@ export const ButtonView = ({
         )}
       >
         {!isLoading && (
-          <ButtonText className='text-xl font-bold uppercase text-accent translate-x-3'>
+          <ButtonText className='text-xl font-semibold uppercase text-accent translate-x-3'>
             {children}
           </ButtonText>
         )}

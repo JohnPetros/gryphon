@@ -1,13 +1,31 @@
-import { useState } from 'react'
+import { type RefObject, useEffect, useState } from 'react'
 
 import { Password } from '@/core/domain/structures'
+import type { BottomSheetRef } from '../bottom-sheet/types'
+import { Keyboard } from 'react-native'
 
-export function usePasswordInput(onChange: (value: string) => void) {
-  const [password, setPassword] = useState(Password.create(''))
+type Props = {
+  passwordGeneratorRef: RefObject<BottomSheetRef | null>
+  defaultValue: string
+  onChange: (value: string) => void
+}
+
+export function usePasswordInput({
+  passwordGeneratorRef,
+  defaultValue,
+  onChange,
+}: Props) {
+  const [password, setPassword] = useState(Password.create(defaultValue))
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const [isPasswordGeneratorVisible, setIsPasswordGeneratorVisible] = useState(false)
 
   function handlePasswordVisibilityButtonPress() {
-    setIsPasswordVisible(!isPasswordVisible)
+    setIsPasswordVisible((isPasswordVisible) => !isPasswordVisible)
+  }
+
+  function handlePasswordGeneratorButtonPress() {
+    passwordGeneratorRef?.current?.open()
+    Keyboard.dismiss()
   }
 
   function handleChange(value: string) {
@@ -16,10 +34,32 @@ export function usePasswordInput(onChange: (value: string) => void) {
     onChange(password.value)
   }
 
+  function handleFocus() {
+    setIsPasswordGeneratorVisible(true)
+  }
+
+  function handleBlur() {
+    setIsPasswordGeneratorVisible(false)
+  }
+
+  function handlePasswordGeneratorConfirm(password: Password) {
+    handleChange(password.value)
+    passwordGeneratorRef?.current?.close()
+  }
+
+  useEffect(() => {
+    setPassword(Password.create(defaultValue))
+  }, [defaultValue])
+
   return {
     password,
     isPasswordVisible,
+    isPasswordGeneratorVisible,
     handleChange,
+    handleFocus,
+    handleBlur,
     handlePasswordVisibilityButtonPress,
+    handlePasswordGeneratorButtonPress,
+    handlePasswordGeneratorConfirm,
   }
 }

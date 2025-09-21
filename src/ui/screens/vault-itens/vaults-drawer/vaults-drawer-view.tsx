@@ -13,7 +13,6 @@ import { Heading } from '@/ui/gluestack/heading'
 import { AppItem } from '@/ui/components/app-item'
 import { Box } from '@/ui/gluestack/box'
 import { Pressable } from '@/ui/components/pressable'
-import { AlertDialog } from '@/ui/components/alert-dialog'
 
 type Props = {
   selectedVault: Vault | null

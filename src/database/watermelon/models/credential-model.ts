@@ -20,7 +20,7 @@ export class CredentialModel extends Model {
   encryptedData!: string
 
   @field('site_url')
-  siteUrl!: string
+  siteUrl!: string | null
 
   @date('created_at')
   createdAt!: Date

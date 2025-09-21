@@ -8,12 +8,14 @@ import { Input } from '@/ui/components/input'
 import { Button } from '@/ui/components/button'
 import { PasswordInput } from '@/ui/components/password-input'
 import { useCredentialForm } from './use-credential-form'
-import { vaultSelect } from './vault-select'
+import { VaultSelect } from './vault-select'
+import { KeyboardAvoidingView } from 'react-native'
 
 type Params = {
   credential: Credential | null
   cryptoProvider: CryptoProvider
   encryptionKey: string
+  minimumPasswordStrength: number
   onCreate: (credential: Credential) => Promise<void>
   onUpdate: (credential: Credential) => Promise<void>
 }
@@ -22,6 +24,7 @@ export const CredentialFormView = ({
   credential,
   cryptoProvider,
   encryptionKey,
+  minimumPasswordStrength,
   onCreate,
   onUpdate,
 }: Params) => {
@@ -29,6 +32,7 @@ export const CredentialFormView = ({
     credential,
     cryptoProvider,
     encryptionKey,
+    minimumPasswordStrength,
     onCreate,
     onUpdate,
   })
@@ -36,32 +40,38 @@ export const CredentialFormView = ({
   return (
     <Box className='flex flex-col gap-2'>
       <Box className='flex flex-row gap-2'>
-        <vaultSelect />
+        <Controller
+          control={control}
+          name='vaultId'
+          render={({ field }) => <VaultSelect onChange={field.onChange} />}
+        />
+
         <Button
           onPress={handleSubmit}
           className='w-32 items-center justify-center'
           isDisabled={!isValid}
           isLoading={isSubmitting}
         >
-          Criar
+          {credential ? 'Editar' : 'Criar'}
         </Button>
       </Box>
-      <Box>
+      <KeyboardAvoidingView>
         <Box className='gap-3 mt-6'>
-          {!credential && (
-            <Controller
-              control={control}
-              name='title'
-              render={({ field }) => (
-                <Input
-                  label='Títul'
-                  icon='title'
-                  placeholder='Sem título'
-                  onChange={field.onChange}
-                />
-              )}
-            />
-          )}
+          <Controller
+            control={control}
+            name='title'
+            render={({ field }) => (
+              <Input
+                label='Título'
+                icon='title'
+                placeholder='Sem título'
+                defaultValue={field.value}
+                isRequired
+                hasCapitalize
+                onChange={field.onChange}
+              />
+            )}
+          />
 
           <Box>
             <Controller
@@ -70,8 +80,10 @@ export const CredentialFormView = ({
               render={({ field }) => (
                 <Input
                   label='Login'
-                  icon='title'
+                  icon='login'
                   placeholder='Login'
+                  defaultValue={field.value}
+                  isRequired
                   onChange={field.onChange}
                 />
               )}
@@ -81,7 +93,13 @@ export const CredentialFormView = ({
               control={control}
               name='password'
               render={({ field }) => (
-                <PasswordInput label='Senha' hasStrength onChange={field.onChange} />
+                <PasswordInput
+                  label='Senha'
+                  hasStrength
+                  defaultValue={field.value}
+                  isRequired
+                  onChange={field.onChange}
+                />
               )}
             />
           </Box>
@@ -92,14 +110,15 @@ export const CredentialFormView = ({
             render={({ field }) => (
               <Input
                 label='Site'
-                icon='title'
-                placeholder='Nome'
+                icon='link'
+                placeholder='https://www.google.com'
+                defaultValue={field.value}
                 onChange={field.onChange}
               />
             )}
           />
         </Box>
-      </Box>
+      </KeyboardAvoidingView>
     </Box>
   )
 }

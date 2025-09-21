@@ -27,6 +27,7 @@ import {
   Plane,
   Wrench,
   Share2,
+  Globe,
   Tv,
   EllipsisVertical,
   ChevronLeft,
@@ -69,4 +70,5 @@ export const ICONS: Record<IconName, LucideIcon> = {
   vault: Vault,
   password: KeyRound,
   exit: LogOut,
+  link: Globe,
 }

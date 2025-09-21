@@ -4,11 +4,13 @@ import { Icon } from '../../icon'
 import { Pressable } from '../../pressable'
 import type { IconName } from '../../icon/types'
 import { Box } from '@/ui/gluestack/box'
+import { mergeClassNames } from '@/ui/utils'
 
 type Props = {
   color: keyof typeof COLORS.dark
   icon: IconName
   children: string
+  className?: string
   onPress?: () => void
 }
 
@@ -16,6 +18,7 @@ export const AppItemMenuOptionView = ({
   children,
   color = 'neutral',
   icon,
+  className,
   onPress,
 }: Props) => {
   if (onPress)
@@ -25,7 +28,10 @@ export const AppItemMenuOptionView = ({
         onPress={onPress}
       >
         <Icon name={icon} color={color} size={20} />
-        <Text className='text-lg' style={{ color: COLORS.dark[color] }}>
+        <Text
+          className={mergeClassNames('text-lg', className)}
+          style={{ color: COLORS.dark[color] }}
+        >
           {children}
         </Text>
       </Pressable>
@@ -34,7 +40,10 @@ export const AppItemMenuOptionView = ({
   return (
     <Box className='flex-row items-center gap-2 py-6 border-b border-neutral-background'>
       <Icon name={icon} color={color} size={20} />
-      <Text className='text-lg' style={{ color: COLORS.dark[color] }}>
+      <Text
+        className={mergeClassNames('text-lg', className)}
+        style={{ color: COLORS.dark[color] }}
+      >
         {children}
       </Text>
     </Box>

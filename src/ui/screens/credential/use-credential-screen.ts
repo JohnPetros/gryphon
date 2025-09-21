@@ -1,27 +1,53 @@
-import type { Credential } from '@/core/domain/entities'
+import { useEffect, useMemo, useState } from 'react'
+
 import type { Id } from '@/core/domain/structures'
-import type { CredentialsRepository } from '@/core/interfaces'
-import { use } from 'react'
+import type { CredentialsRepository, CryptoProvider } from '@/core/interfaces'
+import type { Credential } from '@/core/domain/entities'
+import { useNavigation } from '@/ui/hooks/use-navigation'
+import { ROUTES } from '@/constants'
 
-export function useCredentialScreen(
-  credentialsRepository: CredentialsRepository,
-  credentialId?: Id,
-) {
-  const credential = use(
-    credentialId ? credentialsRepository.findById(credentialId) : Promise.resolve(null),
-  )
+type Params = {
+  credentialId: Id
+  credentialsRepository: CredentialsRepository
+  cryptoProvider: CryptoProvider
+  encryptionKey: string
+}
 
-  async function handleCredentialCreate(credential: Credential) {
-    await credentialsRepository.add(credential)
+export function useCredentialScreen({
+  credentialId,
+  credentialsRepository,
+  cryptoProvider,
+  encryptionKey,
+}: Params) {
+  const [credential, setCredential] = useState<Credential | null>(null)
+  const { navigate } = useNavigation()
+
+  function handleCredentialDelete() {
+    setCredential(null)
+    navigate(ROUTES.vaultItens)
   }
 
-  async function handleCredentialUpdate(credential: Credential) {
-    await credentialsRepository.update(credential)
-  }
+  useEffect(() => {
+    async function loadCredential() {
+      if (credentialId) {
+        const credential = await credentialsRepository.findById(credentialId)
+        setCredential(credential)
+      }
+    }
+    loadCredential()
+  }, [])
+
+  const decryptedData = useMemo(() => {
+    if (!credential) return
+
+    const decryptedData = credential.encrypted.decrypt(encryptionKey, cryptoProvider)
+    if (!decryptedData) return
+    return decryptedData
+  }, [credential, encryptionKey, cryptoProvider])
 
   return {
     credential,
-    handleCredentialCreate,
-    handleCredentialUpdate,
+    decryptedData,
+    handleCredentialDelete,
   }
 }
