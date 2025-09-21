@@ -55,7 +55,7 @@ export const PasswordInputView = ({
     <>
       <MasterPasswordConfirmationDialog
         ref={masterPasswordConfirmationDialogRef}
-        description='Insira a senha mestra para para poder ver a senha da sua credencial.'
+        description='Insira a senha mestra para poder ver a senha da sua credencial.'
         onCorrectPasswordSubmit={onCorrectMasterPasswordConfirmationDialogSubmit}
       />
       <Input

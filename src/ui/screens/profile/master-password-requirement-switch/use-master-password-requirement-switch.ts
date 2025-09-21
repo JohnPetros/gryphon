@@ -21,10 +21,16 @@ export const useMasterPasswordRequirementSwitch = ({
   async function handleChange(isChecked: boolean) {
     if (!account) return
 
+    const previousChecked = !isChecked
     setIsChecked(isChecked)
-    await accountsRepository.updateIsMasterPasswordRequired(isChecked, account.id)
-    account.isMasterPasswordRequired = isChecked
-    setAccount(account)
+
+    try {
+      await accountsRepository.updateIsMasterPasswordRequired(isChecked, account.id)
+      account.isMasterPasswordRequired = isChecked
+      setAccount(account)
+    } catch {
+      setIsChecked(previousChecked)
+    }
   }
 
   return {

@@ -13,8 +13,6 @@ export const MasterPasswordRequirementSwitch = () => {
     setAccount,
   })
 
-  console.log('isChecked', isChecked)
-
   return (
     <Switch
       label='Exigência de senha mestra'
