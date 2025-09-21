@@ -11,6 +11,7 @@ export type IconName =
   | 'eye-close'
   | 'check'
   | 'reload'
+  | 'close'
   | 'copy'
   | 'eye-open'
   | 'list'

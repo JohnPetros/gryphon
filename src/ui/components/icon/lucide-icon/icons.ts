@@ -33,6 +33,7 @@ import {
   ChevronLeft,
   Copy,
   Check,
+  X,
 } from 'lucide-react-native'
 
 import type { IconName } from '../types/icon-name'
@@ -44,6 +45,7 @@ export const ICONS: Record<IconName, LucideIcon> = {
   'eye-open': EyeIcon,
   'eye-close': EyeOffIcon,
   'social-media': Share2,
+  close: X,
   edit: Edit,
   trash: Trash,
   menu: EllipsisVertical,
