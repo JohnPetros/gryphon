@@ -49,6 +49,7 @@ export function useVaultForm({ vault, onCreate, onUpdate }: Params) {
   return {
     isSubmitting: formState.isSubmitting,
     isValid: formState.isValid,
+    isDirty: formState.isDirty,
     control,
     handleSubmit: handleSubmit(handleFormSubmit),
   }

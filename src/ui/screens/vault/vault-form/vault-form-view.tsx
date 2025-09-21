@@ -16,7 +16,7 @@ type Props = {
 }
 
 export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
-  const { isSubmitting, isValid, control, handleSubmit } = useVaultForm({
+  const { isSubmitting, isValid, isDirty, control, handleSubmit } = useVaultForm({
     vault,
     onCreate,
     onUpdate,
@@ -33,14 +33,26 @@ export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
           )}
         />
 
-        <Button
-          onPress={handleSubmit}
-          isDisabled={!isValid}
-          isLoading={isSubmitting}
-          className='w-40 items-center justify-center'
-        >
-          {vault ? 'Atualizar' : 'Criar'}
-        </Button>
+        {vault && (
+          <Button
+            onPress={handleSubmit}
+            isDisabled={!isValid || !isDirty}
+            isLoading={isSubmitting}
+            className='w-40 items-center justify-center'
+          >
+            Atualizar
+          </Button>
+        )}
+        {!vault && (
+          <Button
+            onPress={handleSubmit}
+            isDisabled={!isValid}
+            isLoading={isSubmitting}
+            className='w-40 items-center justify-center'
+          >
+            Criar
+          </Button>
+        )}
       </Box>
 
       <Controller

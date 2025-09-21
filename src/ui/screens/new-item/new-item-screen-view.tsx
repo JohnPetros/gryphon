@@ -11,7 +11,7 @@ export const NewItemScreenView = () => {
       <ScreenTitle>Adicionar Item</ScreenTitle>
 
       <Box className='flex flex-col gap-6 mt-6 pr-6'>
-        <Link href='/(protected)/credential/new'>
+        <Link href='/(protected)/credential/settings/new'>
           <AppItem.Container className='flex-row gap-3'>
             <AppItem.Icon
               backgroundColor='primaryBackground'
@@ -37,7 +37,7 @@ export const NewItemScreenView = () => {
           />
         </AppItem.Container>
 
-        <PasswordGenerator onConfirm={() => {}}>
+        <PasswordGenerator>
           <AppItem.Container className='flex-row gap-3'>
             <AppItem.Icon
               backgroundColor='dangerBackground'
