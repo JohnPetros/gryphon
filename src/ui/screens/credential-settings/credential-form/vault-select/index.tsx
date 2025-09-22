@@ -6,19 +6,24 @@ import { useVaultSelect } from './use-vaunt-select'
 import { VaultSelectView } from './vault-select-view'
 
 type Props = {
+  defaultValue: string
   onChange: (vaultId: string) => void
 }
 
-export const VaultSelect = ({ onChange }: Props) => {
+export const VaultSelect = ({ defaultValue, onChange }: Props) => {
   const { vaultsRepository } = useDatabase()
   const { account } = useAuthContext()
-  const { vaults, selectedVault } = useVaultSelect({
+  const { vaults, selectedVault, handleChange } = useVaultSelect({
     vaultsRepository,
     accountId: account?.id ?? Id.create(),
     onChange,
   })
 
   return (
-    <VaultSelectView vaults={vaults} selectedVault={selectedVault} onChange={onChange} />
+    <VaultSelectView
+      vaults={vaults}
+      selectedVault={selectedVault}
+      onChange={handleChange}
+    />
   )
 }

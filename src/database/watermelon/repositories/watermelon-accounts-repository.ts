@@ -24,7 +24,7 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
               encryption_salt: account.encryptionSalt,
               is_biometry_activated: account.isBiometryActivated,
               minimum_password_strength: account.minimumPasswordStrength,
-              minimum_app_lock_time_in_seconds: account.autoLockTimeout,
+              auto_lock_timeout: account.autoLockTimeout,
               is_master_password_required: account.isMasterPasswordRequired,
             },
             accountsCollection.schema,
@@ -92,7 +92,7 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
           .find(accountId.value)
 
         await accountModel.update((model) => {
-          model.minimumAppLockTimeInSeconds = autoLockTimeout
+          model.autoLockTimeout = autoLockTimeout
         })
       })
     },

@@ -47,6 +47,11 @@ export const useCredentialForm = ({
   const { formState, control, watch, handleSubmit, setValue, setError } =
     useForm<FormSchema>({
       resolver: zodResolver(formSchema),
+      defaultValues: {
+        title: credential?.title,
+        siteUrl: credential?.siteUrl ?? undefined,
+        vaultId: credential?.vaultId.value ?? undefined,
+      },
     })
   const toast = useToast()
 

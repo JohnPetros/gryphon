@@ -43,7 +43,9 @@ export const CredentialFormView = ({
         <Controller
           control={control}
           name='vaultId'
-          render={({ field }) => <VaultSelect onChange={field.onChange} />}
+          render={({ field }) => (
+            <VaultSelect defaultValue={field.value} onChange={field.onChange} />
+          )}
         />
 
         <Button
@@ -98,6 +100,7 @@ export const CredentialFormView = ({
                   hasStrength
                   defaultValue={field.value}
                   isRequired
+                  hasPasswordGenerator={Boolean(credential)}
                   onChange={field.onChange}
                 />
               )}

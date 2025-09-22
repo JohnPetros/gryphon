@@ -8,12 +8,25 @@ import { Alert } from 'react-native'
 type Params = {
   vaultsRepository: VaultsRepository
   accountId: Id
+  defaultValue: string
   onChange: (vaultId: string) => void
 }
 
-export const useVaultSelect = ({ vaultsRepository, accountId, onChange }: Params) => {
+export const useVaultSelect = ({
+  vaultsRepository,
+  accountId,
+  defaultValue,
+  onChange,
+}: Params) => {
   const [vaults, setVaults] = useState<Vault[]>([])
   const [selectedVault, setSelectedVault] = useState<Vault | null>(null)
+
+  console.log({ selectedVault })
+
+  function handleChange(vaultId: string) {
+    setSelectedVault(vaults.find((vault) => vault.id.value === vaultId) ?? null)
+    onChange(vaultId)
+  }
 
   useEffect(() => {
     async function loadVaults() {
@@ -23,6 +36,18 @@ export const useVaultSelect = ({ vaultsRepository, accountId, onChange }: Params
         return
       }
       setVaults(vaults)
+
+      if (defaultValue) {
+        console.log('defaultValue', defaultValue)
+        console.log(
+          'defaultValue',
+          vaults.find((vault) => vault.id.value === defaultValue),
+        )
+        setSelectedVault(vaults.find((vault) => vault.id.value === defaultValue) ?? null)
+        onChange(defaultValue)
+        return
+      }
+
       setSelectedVault(vaults[0])
       onChange(vaults[0].id.value)
     }
@@ -33,5 +58,6 @@ export const useVaultSelect = ({ vaultsRepository, accountId, onChange }: Params
   return {
     vaults,
     selectedVault,
+    handleChange,
   }
 }

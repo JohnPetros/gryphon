@@ -120,7 +120,7 @@ export function useAuthContextProvider({
           encryptionSalt,
           isBiometryActivated: false,
           minimumPasswordStrength: 3,
-          autoLockTimeout: 0,
+          autoLockTimeout: 60 * 5,
           isMasterPasswordRequired: true,
         })
         setAccount(account)

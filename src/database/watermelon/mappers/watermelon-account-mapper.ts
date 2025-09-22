@@ -11,7 +11,7 @@ export const WatermelonAccountMapper = () => {
         encryptionSalt: model.encryptionSalt,
         isBiometryActivated: model.isBiometryActivated,
         minimumPasswordStrength: model.minimumPasswordStrength,
-        autoLockTimeout: model.minimumAppLockTimeInSeconds,
+        autoLockTimeout: model.autoLockTimeout,
         isMasterPasswordRequired: model.isMasterPasswordRequired,
       })
     },

@@ -36,9 +36,11 @@ export const MasterPasswordConfirmationDialogView = ({
       <ModalBackdrop className='bg-black' />
       <ModalContent className='bg-black pt-6 pb-8'>
         <ModalHeader className='flex-col items-end'>
-          <ModalCloseButton onPress={onClose} className='p-2'>
-            <Icon name='close' size={20} />
-          </ModalCloseButton>
+          {canClose && (
+            <ModalCloseButton onPress={onClose} className='p-2'>
+              <Icon name='close' size={20} />
+            </ModalCloseButton>
+          )}
 
           <Box>
             <Heading>Sua senha mestra</Heading>

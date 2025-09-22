@@ -17,6 +17,7 @@ export function useMasterPasswordConfirmationDialog({ onCorrectPasswordSubmit }:
   }
 
   function close() {
+    setMasterPassword('')
     setIsOpen(false)
   }
 
@@ -26,6 +27,9 @@ export function useMasterPasswordConfirmationDialog({ onCorrectPasswordSubmit }:
 
   async function handlePasswordSubmit() {
     const correctMasterPassword = await secureStore.getItem(STORAGE_KEYS.masterPassword)
+
+    console.log('correctMasterPassword', correctMasterPassword)
+    console.log('masterPassword', masterPassword)
 
     if (correctMasterPassword === masterPassword) {
       onCorrectPasswordSubmit(masterPassword)
