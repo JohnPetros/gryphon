@@ -17,6 +17,7 @@ import { Box } from '@/ui/gluestack/box'
 type Props = {
   description: string
   isOpen: boolean
+  canClose: boolean
   onClose: () => void
   onPasswordSubmit: () => void
   onPasswordChange: (value: string) => void
@@ -25,6 +26,7 @@ type Props = {
 export const MasterPasswordConfirmationDialogView = ({
   isOpen,
   description,
+  canClose,
   onClose,
   onPasswordSubmit,
   onPasswordChange,

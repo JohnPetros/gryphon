@@ -22,6 +22,7 @@ type Props = {
   isPasswordGeneratorVisible: boolean
   isRequired: boolean
   isReadOnly: boolean
+  hasPasswordGenerator: boolean
   passwordGeneratorRef: RefObject<BottomSheetRef | null>
   masterPasswordConfirmationDialogRef: RefObject<MasterPasswordConfirmationDialogRef | null>
   onChange: (value: string) => void
@@ -39,6 +40,7 @@ export const PasswordInputView = ({
   hasStrength = true,
   isPasswordVisible,
   isPasswordGeneratorVisible,
+  hasPasswordGenerator,
   masterPasswordConfirmationDialogRef,
   passwordGeneratorRef,
   isRequired,
@@ -56,6 +58,7 @@ export const PasswordInputView = ({
       <MasterPasswordConfirmationDialog
         ref={masterPasswordConfirmationDialogRef}
         description='Insira a senha mestra para poder ver a senha da sua credencial.'
+        canClose
         onCorrectPasswordSubmit={onCorrectMasterPasswordConfirmationDialogSubmit}
       />
       <Input
@@ -83,20 +86,24 @@ export const PasswordInputView = ({
         onChange={onChange}
       />
 
-      <PasswordGenerator
-        ref={passwordGeneratorRef}
-        onConfirm={onPasswordGeneratorConfirm}
-      />
+      {hasPasswordGenerator && (
+        <>
+          <PasswordGenerator
+            ref={passwordGeneratorRef}
+            onConfirm={onPasswordGeneratorConfirm}
+          />
 
-      <KeyboardAccessory isVisible={isPasswordGeneratorVisible}>
-        <Pressable
-          onPress={onPasswordGeneratorButtonPress}
-          className='flex-row items-center justify-center gap-2'
-        >
-          <Icon name='password' color='neutral' size={20} />
-          <Text className='text-accent text-lg'>Gerar senha aleatória</Text>
-        </Pressable>
-      </KeyboardAccessory>
+          <KeyboardAccessory isVisible={isPasswordGeneratorVisible}>
+            <Pressable
+              onPress={onPasswordGeneratorButtonPress}
+              className='flex-row items-center justify-center gap-2'
+            >
+              <Icon name='password' color='neutral' size={20} />
+              <Text className='text-accent text-lg'>Gerar senha aleatória</Text>
+            </Pressable>
+          </KeyboardAccessory>
+        </>
+      )}
     </>
   )
 }

@@ -7,12 +7,14 @@ import { useMasterPasswordConfirmationDialog } from './use-master-password-confi
 type Props = {
   ref?: RefObject<MasterPasswordConfirmationDialogRef | null>
   description: string
+  canClose: boolean
   onCorrectPasswordSubmit: () => void
 }
 
 export const MasterPasswordConfirmationDialog = ({
   ref,
   description,
+  canClose,
   onCorrectPasswordSubmit,
 }: Props) => {
   const { isOpen, open, close, handlePasswordChange, handlePasswordSubmit } =
@@ -27,6 +29,7 @@ export const MasterPasswordConfirmationDialog = ({
     <MasterPasswordConfirmationDialogView
       isOpen={isOpen}
       description={description}
+      canClose={canClose}
       onClose={close}
       onPasswordSubmit={handlePasswordSubmit}
       onPasswordChange={handlePasswordChange}
