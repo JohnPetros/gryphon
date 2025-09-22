@@ -7,7 +7,7 @@ export const accountSchema = tableSchema({
     { name: 'encryption_salt', type: 'string' },
     { name: 'is_biometry_activated', type: 'boolean' },
     { name: 'minimum_password_strength', type: 'number' },
-    { name: 'minimum_app_lock_time_in_seconds', type: 'number' },
+    { name: 'auto_lock_timeout', type: 'number' },
     { name: 'is_master_password_required', type: 'boolean' },
   ],
 })

@@ -1,5 +1,6 @@
-import { Vault } from '@/core/domain/entities'
+import type { VaultIcon } from '@/core/domain/types'
 import type { VaultModel } from '../models'
+import { Vault } from '@/core/domain/entities'
 
 export const WatermelonVaultMapper = () => {
   return {
@@ -7,7 +8,7 @@ export const WatermelonVaultMapper = () => {
       return Vault.create({
         id: model.id,
         title: model.title,
-        icon: model.icon,
+        icon: model.icon as VaultIcon,
         itemCount: (await model.noteCount) + (await model.credentialCount),
       })
     },

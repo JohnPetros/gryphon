@@ -16,8 +16,8 @@ export class AccountModel extends Model {
   @field('minimum_password_strength')
   minimumPasswordStrength!: number
 
-  @field('minimum_app_lock_time_in_seconds')
-  minimumAppLockTimeInSeconds!: number
+  @field('auto_lock_timeout')
+  autoLockTimeout!: number
 
   @field('is_master_password_required')
   isMasterPasswordRequired!: boolean

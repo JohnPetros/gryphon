@@ -13,4 +13,5 @@ export interface AccountsRepository {
     isMasterPasswordRequired: boolean,
     accountId: Id,
   ): Promise<void>
+  updateAutoLockTimeout(autoLockTimeout: number, accountId: Id): Promise<void>
 }
