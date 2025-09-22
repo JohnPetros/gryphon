@@ -6,7 +6,7 @@ type AccountProps = {
   encryptionSalt: string
   isBiometryActivated: boolean
   minimumPasswordStrength: number
-  minimumAppLockTimeInSeconds: number
+  autoLockTimeout: number
   isMasterPasswordRequired: boolean
 }
 
@@ -35,8 +35,12 @@ export class Account extends Entity<AccountProps> {
     this.props.minimumPasswordStrength = value
   }
 
-  get minimumAppLockTimeInSeconds(): number {
-    return this.props.minimumAppLockTimeInSeconds
+  get autoLockTimeout(): number {
+    return this.props.autoLockTimeout
+  }
+
+  set autoLockTimeout(value: number) {
+    this.props.autoLockTimeout = value
   }
 
   get isMasterPasswordRequired(): boolean {
@@ -54,7 +58,7 @@ export class Account extends Entity<AccountProps> {
       encryptionSalt: this.props.encryptionSalt,
       isBiometryActivated: this.props.isBiometryActivated,
       minimumPasswordStrength: this.props.minimumPasswordStrength,
-      minimumAppLockTimeInSeconds: this.props.minimumAppLockTimeInSeconds,
+      autoLockTimeout: this.props.autoLockTimeout,
       isMasterPasswordRequired: this.props.isMasterPasswordRequired,
     }
   }
