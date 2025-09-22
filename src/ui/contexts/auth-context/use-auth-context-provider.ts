@@ -120,7 +120,7 @@ export function useAuthContextProvider({
           encryptionSalt,
           isBiometryActivated: false,
           minimumPasswordStrength: 3,
-          minimumAppLockTimeInSeconds: 0,
+          autoLockTimeout: 0,
           isMasterPasswordRequired: true,
         })
         setAccount(account)
@@ -162,6 +162,8 @@ export function useAuthContextProvider({
     accountsRepository,
     cryptoProvider,
   ])
+
+  console.log(account)
 
   useEffect(() => {
     loadAccount()
