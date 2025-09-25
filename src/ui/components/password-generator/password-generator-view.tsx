@@ -2,6 +2,7 @@ import type { PropsWithChildren, RefObject } from 'react'
 
 import type { Password } from '@/core/domain/structures'
 
+import { mergeClassNames } from '@/ui/utils'
 import { Box } from '@/ui/gluestack/box'
 import { Text } from '@/ui/gluestack/text'
 import { PasswordInput } from './password-input'
@@ -9,9 +10,8 @@ import { BottomSheet } from '../bottom-sheet'
 import { Button } from '../button'
 import { LengthInput } from './length-input'
 import { Checkbox } from '../checkbox'
-import { mergeClassNames } from '@/ui/utils'
 import { PasswordStregth } from '../password-stregth'
-import { BottomSheetRef } from '../bottom-sheet/types'
+import type { BottomSheetRef } from '../bottom-sheet/types'
 
 type Props = {
   password: Password
