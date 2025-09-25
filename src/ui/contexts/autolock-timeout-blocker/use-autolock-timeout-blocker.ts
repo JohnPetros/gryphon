@@ -1,8 +1,9 @@
-import { type RefObject, useEffect, useRef } from 'react'
+import { type RefObject, useCallback, useEffect, useRef } from 'react'
+import { PanResponder } from 'react-native'
+import { useIsFocused } from '@react-navigation/native'
+
 import type { Account } from '@/core/domain/entities'
 import type { MasterPasswordConfirmationDialogRef } from '@/ui/components/master-password-confirmation-dialog/types'
-import { AppState, type AppStateStatus, PanResponder } from 'react-native'
-import { useIsFocused } from '@react-navigation/native'
 
 type Params = {
   account: Account | null
@@ -14,7 +15,6 @@ export function useAutoLockTimeoutBlocker({
   masterPasswordConfirmationDialogRef,
 }: Params) {
   const timoutRef = useRef<number | null>(null)
-  const isAppInForeground = useRef(AppState.currentState === 'active')
   const isFocused = useIsFocused()
   const panResponder = useRef(
     PanResponder.create({
@@ -29,49 +29,32 @@ export function useAutoLockTimeoutBlocker({
     }),
   ).current
 
-  const resetTimer = () => {
+  const resetTimer = useCallback(() => {
     if (!account?.autoLockTimeout) return
     if (timoutRef.current) clearTimeout(timoutRef.current)
     timoutRef.current = setTimeout(() => {
       masterPasswordConfirmationDialogRef?.current?.open()
     }, account.autoLockTimeout * 1000)
-  }
+  }, [account?.autoLockTimeout, masterPasswordConfirmationDialogRef])
 
   function handleCorrectMasterPasswordConfirmationDialogSubmit() {
     masterPasswordConfirmationDialogRef?.current?.close()
     resetTimer()
   }
 
-  function handleAppStateChange(nextAppState: AppStateStatus) {
-    if (nextAppState === 'active') {
-      resetTimer()
-      isAppInForeground.current = true
-      return
-    }
-
-    if (timoutRef.current) clearTimeout(timoutRef.current)
-    isAppInForeground.current = false
-  }
-
   useEffect(() => {
-    const subscription = AppState.addEventListener('change', handleAppStateChange)
+    if (isFocused) resetTimer()
     return () => {
-      subscription.remove()
-    }
-  }, [])
-
-  useEffect(() => {
-    if (isFocused) {
-      resetTimer()
+      if (timoutRef.current) clearTimeout(timoutRef.current)
     }
   }, [isFocused, resetTimer])
 
   useEffect(() => {
-    resetTimer()
+    if (account) resetTimer()
     return () => {
       if (timoutRef.current) clearTimeout(timoutRef.current)
     }
-  }, [])
+  }, [account, resetTimer])
 
   return {
     panResponder,
