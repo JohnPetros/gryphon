@@ -6,13 +6,13 @@ import type { Account } from '@/core/domain/entities/account'
 type Params = {
   accountsRepository: AccountsRepository
   account: Account | null
-  setAccount: (account: Account) => void
+  updateAccount: (account: Account) => void
 }
 
 export function useMinimumPasswordStrenghSelect({
   accountsRepository,
   account,
-  setAccount,
+  updateAccount,
 }: Params) {
   const [value, setValue] = useState(account?.minimumPasswordStrength || 1)
 
@@ -22,7 +22,7 @@ export function useMinimumPasswordStrenghSelect({
     setValue(value)
     await accountsRepository.updateMinimumPasswordStrength(value, account.id)
     account.minimumPasswordStrength = value
-    setAccount(account)
+    updateAccount(account)
   }
 
   return { value, handleChange }

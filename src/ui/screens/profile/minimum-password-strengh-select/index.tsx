@@ -5,11 +5,11 @@ import { useAuthContext } from '@/ui/hooks/use-auth-context'
 
 export const MinimumPasswordStrenghSelect = () => {
   const { accountsRepository } = useDatabase()
-  const { account, setAccount } = useAuthContext()
+  const { account, updateAccount } = useAuthContext()
   const { value, handleChange } = useMinimumPasswordStrenghSelect({
     accountsRepository,
     account,
-    setAccount,
+    updateAccount,
   })
 
   return <MinimumPasswordStrenghSelectView value={value} onChange={handleChange} />
