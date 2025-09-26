@@ -29,7 +29,7 @@ export const VaultSelectView = ({ vaults, selectedVault, onChange }: Props) => {
     <Select onValueChange={onChange}>
       <SelectTrigger
         className={mergeClassNames(
-          'w-48 h-16 bg-info-background justify-between px-4',
+          'w-48 h-16 bg-info-background justify-between px-4 border-none',
           isEmpty ? 'text-sm text-accent opacity-50' : 'text-lg text-accent',
         )}
       >
@@ -42,7 +42,7 @@ export const VaultSelectView = ({ vaults, selectedVault, onChange }: Props) => {
       </SelectTrigger>
       <SelectPortal>
         <SelectBackdrop className='bg-black' />
-        <SelectContent className='items-start px-12 py-4 min-h-64'>
+        <SelectContent className='items-start px-6 py-4 min-h-64 bg-black'>
           <SelectDragIndicatorWrapper>
             <SelectDragIndicator className='bg-accent' />
           </SelectDragIndicatorWrapper>
@@ -50,9 +50,9 @@ export const VaultSelectView = ({ vaults, selectedVault, onChange }: Props) => {
             <Pressable
               key={vault.id.value}
               onPress={() => Alert.alert('teste')}
-              className='flex-row items-center justify-between px-6'
+              className='flex-row items-center justify-between'
             >
-              <Box className='flex-row items-center'>
+              <Box className='flex-1 flex-row items-center'>
                 <Icon name={vault.icon} color='accent' />
                 <SelectItem
                   key={vault.id.value}
