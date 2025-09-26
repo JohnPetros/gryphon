@@ -9,11 +9,11 @@ import { useNavigation } from '@/ui/hooks/use-navigation'
 
 type Params = {
   vaultsRepository: VaultsRepository
-  vaultId: Id
+  defaultSelectedVaultId: Id
   accountId: Id
 }
 
-export const useVaultItensScreen = ({ vaultsRepository, vaultId, accountId }: Params) => {
+export const useVaultItensScreen = ({ vaultsRepository, defaultSelectedVaultId, accountId }: Params) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [selectedVault, setSelectedVault] = useState<Vault | null>(null)
   const [vaults, setVaults] = useState<Vault[]>([])
@@ -48,10 +48,11 @@ export const useVaultItensScreen = ({ vaultsRepository, vaultId, accountId }: Pa
       if (selectedVault) return
       const allVaults = await vaultsRepository.findAllByAccount(accountId)
       setVaults(allVaults)
-      setSelectedVault(allVaults[0])
+      const defaultSelectedVault = allVaults.find((vault) => vault.id.value === defaultSelectedVaultId.value)
+      setSelectedVault(defaultSelectedVault ?? allVaults[0])
     }
     loadVaults()
-  }, [vaultId, accountId, selectedVault])
+  }, [defaultSelectedVaultId, accountId, selectedVault])
 
   return {
     selectedVault,
