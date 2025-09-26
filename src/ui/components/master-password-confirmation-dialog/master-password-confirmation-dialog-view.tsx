@@ -53,6 +53,7 @@ export const MasterPasswordConfirmationDialogView = ({
             icon='password'
             label='Senha mestra'
             placeholder='********'
+            hasAutofocus
             onChange={onPasswordChange}
           />
         </ModalBody>

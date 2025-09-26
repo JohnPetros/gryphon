@@ -4,16 +4,21 @@ import { useState } from 'react'
 import { Alert } from 'react-native'
 
 type Props = {
-  onCorrectPasswordSubmit: (masterPassword: string) => void
+  isMasterPasswordRequired: boolean
+  onCorrectPasswordSubmit: () => void
 }
 
-export function useMasterPasswordConfirmationDialog({ onCorrectPasswordSubmit }: Props) {
+export function useMasterPasswordConfirmationDialog({ isMasterPasswordRequired, onCorrectPasswordSubmit }: Props) {
   const [masterPassword, setMasterPassword] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const secureStore = useSecureStore()
 
   function open() {
-    setIsOpen(true)
+    if (isMasterPasswordRequired) {
+      setIsOpen(true)
+      return
+    }
+    onCorrectPasswordSubmit()
   }
 
   function close() {
@@ -29,7 +34,7 @@ export function useMasterPasswordConfirmationDialog({ onCorrectPasswordSubmit }:
     const correctMasterPassword = await secureStore.getItem(STORAGE_KEYS.masterPassword)
 
     if (correctMasterPassword === masterPassword) {
-      onCorrectPasswordSubmit(masterPassword)
+      onCorrectPasswordSubmit()
       return
     }
     Alert.alert('Senha mestra incorreta')
