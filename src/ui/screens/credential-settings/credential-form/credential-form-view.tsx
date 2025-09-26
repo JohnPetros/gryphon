@@ -43,9 +43,9 @@ export const CredentialFormView = ({
         <Controller
           control={control}
           name='vaultId'
-          render={({ field }) => (
-            <VaultSelect defaultValue={field.value} onChange={field.onChange} />
-          )}
+          render={({ field }) => {
+            return <VaultSelect defaultValue={credential?.vaultId.value ?? ''} onChange={field.onChange} />
+          }}
         />
 
         <Button
@@ -100,26 +100,30 @@ export const CredentialFormView = ({
                   hasStrength
                   defaultValue={field.value}
                   isRequired
-                  hasPasswordGenerator={Boolean(credential)}
+                  hasPasswordGenerator
+                  minimumPasswordStrength={minimumPasswordStrength}
+                  hasPasswordStrengthCaption
                   onChange={field.onChange}
                 />
               )}
             />
           </Box>
 
+         <Box className='mt-3'>
           <Controller
-            control={control}
-            name='siteUrl'
-            render={({ field }) => (
-              <Input
-                label='Site'
-                icon='link'
-                placeholder='https://www.google.com'
-                defaultValue={field.value}
-                onChange={field.onChange}
-              />
-            )}
-          />
+              control={control}
+              name='siteUrl'
+              render={({ field }) => (
+                <Input
+                  label='Site'
+                  icon='link'
+                  placeholder='https://www.google.com'
+                  defaultValue={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+         </Box>
         </Box>
       </KeyboardAvoidingView>
     </Box>

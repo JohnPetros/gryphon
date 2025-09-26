@@ -111,6 +111,7 @@ export const useCredentialForm = ({
     if (!credential) return
 
     setValue('title', credential.title)
+    setValue('vaultId', credential.vaultId.value)
     if (credential.siteUrl) setValue('siteUrl', credential.siteUrl)
 
     const decryptedData = credential?.encrypted.decrypt(encryptionKey, cryptoProvider)
@@ -119,6 +120,8 @@ export const useCredentialForm = ({
       setValue('password', decryptedData?.password)
     }
   }, [credential, encryptionKey, cryptoProvider, setValue])
+  
+  console.log('credential.vaultId.value', credential?.vaultId.value)
 
   return {
     isSubmitting: formState.isSubmitting,
