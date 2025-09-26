@@ -11,11 +11,13 @@ type Props = {
 }
 
 export const VaultSelect = ({ defaultValue, onChange }: Props) => {
+  
   const { vaultsRepository } = useDatabase()
   const { account } = useAuthContext()
   const { vaults, selectedVault, handleChange } = useVaultSelect({
     vaultsRepository,
     accountId: account?.id ?? Id.create(),
+    defaultValue,
     onChange,
   })
 
