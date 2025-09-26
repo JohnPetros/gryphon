@@ -9,7 +9,10 @@ import { Slot } from 'expo-router'
 export { ErrorBoundary } from 'expo-router'
 import { ClerkProvider } from '@clerk/clerk-expo'
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
-import { PortalProvider } from '@gorhom/portal'
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from 'react-native-reanimated'
 
 import '../../global.css'
 import { AuthContextProvider } from '@/ui/contexts/auth-context'
@@ -17,10 +20,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { UiProvider } from '@/ui/gluestack/ui-provider'
 
-import {
-  configureReanimatedLogger,
-  ReanimatedLogLevel,
-} from 'react-native-reanimated';
+
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
