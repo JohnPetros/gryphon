@@ -10,6 +10,7 @@ import { CredentialsList } from './credentials-list'
 type Props = {
   vaultId: Id
   selectedTab: 'credential' | 'note'
+  search: string
   credentialCount: number
   noteCount: number
   onTabPress: (tab: 'credential' | 'note') => void
@@ -18,6 +19,7 @@ type Props = {
 
 export const ItensListView = ({
   vaultId,
+  search,
   credentialCount,
   noteCount,
   selectedTab,
@@ -52,7 +54,11 @@ export const ItensListView = ({
 
       <Box className='mt-6'>
         {selectedTab === 'credential' && (
-          <CredentialsList vaultId={vaultId} onCredentialDelete={onCredentialDelete} />
+          <CredentialsList
+            vaultId={vaultId}
+            search={search}
+            onCredentialDelete={onCredentialDelete}
+          />
         )}
       </Box>
     </Box>

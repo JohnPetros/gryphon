@@ -7,15 +7,17 @@ import { useCryptoProvider } from '@/ui/hooks/use-crypto-provider'
 
 type Props = {
   vaultId: Id
+  search: string
   onCredentialDelete: () => void
 }
 
-export const CredentialsList = ({ vaultId, onCredentialDelete }: Props) => {
+export const CredentialsList = ({ vaultId, search, onCredentialDelete }: Props) => {
   const { credentialsRepository } = useDatabase()
   const { encryptionKey } = useAuthContext()
   const cryptoProvider = useCryptoProvider()
   const { credentials, handleCredentialDelete } = useCredentialsList({
     vaultId,
+    search,
     credentialsRepository,
     onCredentialDelete,
   })

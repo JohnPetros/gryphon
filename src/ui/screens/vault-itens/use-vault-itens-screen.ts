@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import type { Vault } from '@/core/domain/entities'
 import type { Id } from '@/core/domain/structures'
 import type { VaultsRepository } from '@/core/interfaces'
+import { useDebounce } from '@uidotdev/usehooks'
 
 import { ROUTES } from '@/constants/routes'
 import { useNavigation } from '@/ui/hooks/use-navigation'
@@ -13,10 +14,16 @@ type Params = {
   accountId: Id
 }
 
-export const useVaultItensScreen = ({ vaultsRepository, defaultSelectedVaultId, accountId }: Params) => {
+export const useVaultItensScreen = ({
+  vaultsRepository,
+  defaultSelectedVaultId,
+  accountId,
+}: Params) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [selectedVault, setSelectedVault] = useState<Vault | null>(null)
   const [vaults, setVaults] = useState<Vault[]>([])
+  const [search, setSearch] = useState('')
+  const debouncedSearch = useDebounce(search, 300)
   const navigation = useNavigation()
 
   function handleDrawerClose() {
@@ -43,12 +50,18 @@ export const useVaultItensScreen = ({ vaultsRepository, defaultSelectedVaultId, 
     setSelectedVault(filteredVaults[0])
   }
 
+  function handleSearchChange(search: string) {
+    setSearch(search)
+  }
+
   useEffect(() => {
     async function loadVaults() {
       if (selectedVault) return
       const allVaults = await vaultsRepository.findAllByAccount(accountId)
       setVaults(allVaults)
-      const defaultSelectedVault = allVaults.find((vault) => vault.id.value === defaultSelectedVaultId.value)
+      const defaultSelectedVault = allVaults.find(
+        (vault) => vault.id.value === defaultSelectedVaultId.value,
+      )
       setSelectedVault(defaultSelectedVault ?? allVaults[0])
     }
     loadVaults()
@@ -58,10 +71,12 @@ export const useVaultItensScreen = ({ vaultsRepository, defaultSelectedVaultId, 
     selectedVault,
     vaults,
     isDrawerOpen,
+    search: debouncedSearch,
     handleDrawerClose,
     handleDrawerOpen,
     handleVaultSelect,
     handleVaultEdit,
     handleVaultDelete,
+    handleSearchChange,
   }
 }

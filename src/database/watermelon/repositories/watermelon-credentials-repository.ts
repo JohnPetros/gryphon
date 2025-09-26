@@ -1,4 +1,5 @@
 import { sanitizedRaw } from '@nozbe/watermelondb/RawRecord'
+import { Q } from '@nozbe/watermelondb'
 
 import type { CredentialsRepository } from '@/core/interfaces'
 import type { Credential } from '@/core/domain/entities/credential'
@@ -7,7 +8,6 @@ import type { Id } from '@/core/domain/structures'
 import type { CredentialModel, VaultModel } from '../models'
 import { WatermelonCredentialMapper } from '../mappers'
 import { watermelon } from '../client'
-import { Q } from '@nozbe/watermelondb'
 
 export const WatermelonCredentialsRepository = (): CredentialsRepository => {
   const mapper = WatermelonCredentialMapper()
@@ -65,10 +65,15 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
       }
     },
 
-    async findAllByVault(vaultId: Id): Promise<Credential[]> {
+    async findAllByVaultAndTitle(vaultId: Id, title: string): Promise<Credential[]> {
       const credentialModels = await watermelon.collections
         .get<CredentialModel>('credentials')
-        .query(Q.where('vault_id', vaultId.value))
+        .query(
+          Q.and(
+            Q.where('vault_id', vaultId.value),
+            Q.where('title', Q.like(`${title}%`)),
+          ),
+        )
         .fetch()
 
       return credentialModels.map(mapper.toEntity)
