@@ -57,27 +57,29 @@ export const IconSelectView = ({ value, bottomSheetRef, onChange }: Props) => {
     >
       <Text className='text-lg font-bold text-center mb-6'>Escolha um ícone</Text>
       <Grid
-        className='gap-y-8 items-center justify-center '
+        className='gap-y-8 items-center justify-center'
         _extra={{ className: 'grid-cols-5' }}
       >
-        {ICONS.map((icon) => (
-          <GridItem
-            key={icon}
-            className='bg-background-50 rounded-md items-center justify-center'
-            _extra={{ className: 'col-span-1' }}
-          >
-            <Pressable
-              onPress={() => onChange(icon)}
-              style={{
-                ...styles.icon,
-                backgroundColor:
-                  value === icon ? COLORS.dark.primary : COLORS.dark.neutral,
-              }}
+        {ICONS.map((icon) => {
+          const isSelected = value === icon
+          return (
+            <GridItem
+              key={icon}
+              className='bg-background-50 rounded-md items-center justify-center'
+              _extra={{ className: 'col-span-1' }}
             >
-              <Icon name={icon} color='accent' />
-            </Pressable>
-          </GridItem>
-        ))}
+              <Pressable
+                onPress={() => onChange(icon)}
+                style={{
+                  ...styles.icon,
+                  backgroundColor: isSelected ? COLORS.dark.primary : COLORS.dark.surface,
+                }}
+              >
+                <Icon name={icon} color={isSelected ? 'background' : 'accent'} />
+              </Pressable>
+            </GridItem>
+          )
+        })}
       </Grid>
     </BottomSheet>
   )

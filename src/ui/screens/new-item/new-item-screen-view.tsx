@@ -20,7 +20,8 @@ export const NewItemScreenView = () => {
             />
             <AppItem.Info
               name='Credencial'
-              description='Adicione e-mail/nome de usuário e senha para acessar em um site ou aplicativo'
+              description='Adicione e-mail/nome de usuário e senha'
+              lineCount={2}
             />
           </AppItem.Container>
         </Link>
@@ -33,7 +34,8 @@ export const NewItemScreenView = () => {
           />
           <AppItem.Info
             name='Nota'
-            description='Adicione chaves de recuperação, respostas secretas ou códigos de ativação'
+            description='Adicione chaves de recuperação, respostas secretas ou códigos'
+            lineCount={2}
           />
         </AppItem.Container>
 
@@ -44,7 +46,11 @@ export const NewItemScreenView = () => {
               foregroundColor='danger'
               name='password'
             />
-            <AppItem.Info name='Senha' description='Gere uma senha aleatória' />
+            <AppItem.Info
+              name='Senha'
+              description='Gere uma senha aleatória'
+              lineCount={2}
+            />
           </AppItem.Container>
         </PasswordGenerator>
 
@@ -58,6 +64,7 @@ export const NewItemScreenView = () => {
             <AppItem.Info
               name='Cofre'
               description='Armazene suas credenciais e notas em uma categoria'
+              lineCount={2}
             />
           </AppItem.Container>
         </Link>

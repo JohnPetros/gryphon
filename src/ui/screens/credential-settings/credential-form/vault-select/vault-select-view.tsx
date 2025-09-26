@@ -15,6 +15,7 @@ import {
 } from '@/ui/gluestack/select'
 import { Text } from '@/ui/gluestack/text'
 import { mergeClassNames } from '@/ui/utils'
+import { Alert } from 'react-native'
 
 type Props = {
   vaults: Vault[]
@@ -25,10 +26,10 @@ type Props = {
 export const VaultSelectView = ({ vaults, selectedVault, onChange }: Props) => {
   const isEmpty = vaults.length === 0
   return (
-    <Select>
+    <Select onValueChange={onChange}>
       <SelectTrigger
         className={mergeClassNames(
-          'w-48 h-16 bg-info-background justify-between px-4',
+          'w-48 h-16 bg-info-background justify-between px-4 border-none',
           isEmpty ? 'text-sm text-accent opacity-50' : 'text-lg text-accent',
         )}
       >
@@ -41,17 +42,17 @@ export const VaultSelectView = ({ vaults, selectedVault, onChange }: Props) => {
       </SelectTrigger>
       <SelectPortal>
         <SelectBackdrop className='bg-black' />
-        <SelectContent className='px-12 py-4 min-h-64'>
+        <SelectContent className='items-start px-6 py-4 min-h-64 bg-black'>
           <SelectDragIndicatorWrapper>
             <SelectDragIndicator className='bg-accent' />
           </SelectDragIndicatorWrapper>
           {vaults.map((vault) => (
             <Pressable
               key={vault.id.value}
-              onPress={() => onChange(vault.id.value)}
-              className='flex-row items-center justify-between px-6'
+              onPress={() => Alert.alert('teste')}
+              className='flex-row items-center justify-between'
             >
-              <Box className='flex-row items-center'>
+              <Box className='flex-1 flex-row items-center'>
                 <Icon name={vault.icon} color='accent' />
                 <SelectItem
                   key={vault.id.value}
@@ -61,7 +62,9 @@ export const VaultSelectView = ({ vaults, selectedVault, onChange }: Props) => {
                 />
               </Box>
 
-              <Icon name='check' color='accent' />
+              {selectedVault?.id.value === vault.id.value && (
+                <Icon name='check' color='accent' />
+              )}
             </Pressable>
           ))}
         </SelectContent>

@@ -26,7 +26,7 @@ export const VaultItensScreen = () => {
     handleVaultDelete,
   } = useVaultItensScreen({
     vaultsRepository,
-    vaultId: Id.create(vaultId),
+    defaultSelectedVaultId: Id.create(vaultId),
     accountId: account?.id ?? Id.create(),
   })
 

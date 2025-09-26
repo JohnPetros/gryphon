@@ -17,6 +17,7 @@ import { Box } from '@/ui/gluestack/box'
 type Props = {
   description: string
   isOpen: boolean
+  canClose: boolean
   onClose: () => void
   onPasswordSubmit: () => void
   onPasswordChange: (value: string) => void
@@ -25,6 +26,7 @@ type Props = {
 export const MasterPasswordConfirmationDialogView = ({
   isOpen,
   description,
+  canClose,
   onClose,
   onPasswordSubmit,
   onPasswordChange,
@@ -34,9 +36,11 @@ export const MasterPasswordConfirmationDialogView = ({
       <ModalBackdrop className='bg-black' />
       <ModalContent className='bg-black pt-6 pb-8'>
         <ModalHeader className='flex-col items-end'>
-          <ModalCloseButton onPress={onClose} className='p-2'>
-            <Icon name='close' size={20} />
-          </ModalCloseButton>
+          {canClose && (
+            <ModalCloseButton onPress={onClose} className='p-2'>
+              <Icon name='close' size={20} />
+            </ModalCloseButton>
+          )}
 
           <Box>
             <Heading>Sua senha mestra</Heading>
@@ -49,6 +53,7 @@ export const MasterPasswordConfirmationDialogView = ({
             icon='password'
             label='Senha mestra'
             placeholder='********'
+            hasAutofocus
             onChange={onPasswordChange}
           />
         </ModalBody>

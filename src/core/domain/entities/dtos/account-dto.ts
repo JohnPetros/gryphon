@@ -4,6 +4,6 @@ export type AccountDto = {
   encryptionSalt: string
   isBiometryActivated: boolean
   minimumPasswordStrength: number
-  minimumAppLockTimeInSeconds: number
+  autoLockTimeout: number
   isMasterPasswordRequired: boolean
 }

@@ -47,6 +47,11 @@ export const useCredentialForm = ({
   const { formState, control, watch, handleSubmit, setValue, setError } =
     useForm<FormSchema>({
       resolver: zodResolver(formSchema),
+      defaultValues: {
+        title: credential?.title,
+        siteUrl: credential?.siteUrl ?? undefined,
+        vaultId: credential?.vaultId.value ?? undefined,
+      },
     })
   const toast = useToast()
 
@@ -106,6 +111,7 @@ export const useCredentialForm = ({
     if (!credential) return
 
     setValue('title', credential.title)
+    setValue('vaultId', credential.vaultId.value)
     if (credential.siteUrl) setValue('siteUrl', credential.siteUrl)
 
     const decryptedData = credential?.encrypted.decrypt(encryptionKey, cryptoProvider)
@@ -114,6 +120,8 @@ export const useCredentialForm = ({
       setValue('password', decryptedData?.password)
     }
   }, [credential, encryptionKey, cryptoProvider, setValue])
+  
+  console.log('credential.vaultId.value', credential?.vaultId.value)
 
   return {
     isSubmitting: formState.isSubmitting,

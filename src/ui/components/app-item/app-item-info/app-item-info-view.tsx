@@ -5,16 +5,30 @@ import { mergeClassNames } from '@/ui/utils'
 type Props = {
   name: string
   description: string
+  lineCount?: number
   className?: string
 }
 
-export const AppItemInfoView = ({ name, description, className }: Props) => {
+export const AppItemInfoView = ({
+  name,
+  description,
+  lineCount = 1,
+  className,
+}: Props) => {
   return (
     <Box className={mergeClassNames(className)}>
-      <Text numberOfLines={1} ellipsizeMode='tail' className='text-md text-accent'>
+      <Text
+        numberOfLines={lineCount}
+        ellipsizeMode='tail'
+        className='text-md text-accent'
+      >
         {name}
       </Text>
-      <Text numberOfLines={1} ellipsizeMode='tail' className='text-sm text-neutral'>
+      <Text
+        numberOfLines={lineCount}
+        ellipsizeMode='tail'
+        className='text-sm text-neutral'
+      >
         {description}
       </Text>
     </Box>

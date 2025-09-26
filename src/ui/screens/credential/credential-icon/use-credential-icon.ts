@@ -13,10 +13,11 @@ export function useCredentialIcon(siteUrl: string) {
         const urlObj = new URL(url)
         return `${urlObj.protocol}//${urlObj.hostname}`
       } catch {
-        return url
+        return null
       }
     }
     const baseUrl = getBaseUrl(siteUrl)
+    if (!baseUrl) return null
     const faviconUrl = `${baseUrl}/favicon.ico`
     return faviconUrl
   }, [siteUrl])

@@ -57,6 +57,7 @@ export const VaultsDrawerView = ({
                       <AppItem.Icon
                         backgroundColor='infoBackground'
                         foregroundColor='info'
+                        size={20}
                         name={item.icon}
                         className='w-12 h-12'
                       />

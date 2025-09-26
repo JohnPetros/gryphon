@@ -9,6 +9,7 @@ type Props = {
   label?: string
   icon: IconName
   placeholder?: string
+  hasAutofocus?: boolean
   className?: string
   isReadOnly?: boolean
   isRequired?: boolean
@@ -26,6 +27,7 @@ export const Input = ({
   label,
   icon,
   placeholder,
+  hasAutofocus,
   isReadOnly,
   isRequired,
   endContent,
@@ -50,6 +52,7 @@ export const Input = ({
       isRequired={isRequired}
       className={className}
       hasCapitalize={hasCapitalize}
+      hasAutofocus={hasAutofocus}
       onChange={handleChange}
       onFocus={onFocus}
       onBlur={onBlur}

@@ -5,12 +5,12 @@ import { useMasterPasswordRequirementSwitch } from './use-master-password-requir
 
 export const MasterPasswordRequirementSwitch = () => {
   const { accountsRepository } = useDatabase()
-  const { account, setAccount } = useAuthContext()
+  const { account, updateAccount } = useAuthContext()
   const { isChecked, handleChange } = useMasterPasswordRequirementSwitch({
     defaultChecked: Boolean(account?.isMasterPasswordRequired),
     accountsRepository,
     account,
-    setAccount,
+    updateAccount,
   })
 
   return (

@@ -13,6 +13,9 @@ type Props = {
   isRequired?: boolean
   isReadOnly?: boolean
   isProtected?: boolean
+  hasPasswordGenerator?: boolean
+  hasPasswordStrengthCaption?: boolean
+  minimumPasswordStrength?: number
   onChange: (value: string) => void
 }
 
@@ -23,6 +26,9 @@ export const PasswordInput = ({
   isRequired = false,
   isReadOnly = false,
   isProtected = false,
+  hasPasswordGenerator = false,
+  hasPasswordStrengthCaption = false,
+  minimumPasswordStrength = 3,
   onChange,
 }: Props) => {
   const passwordGeneratorRef = useRef<BottomSheetRef | null>(null)
@@ -45,6 +51,7 @@ export const PasswordInput = ({
     masterPasswordConfirmationDialogRef,
     defaultValue,
     isProtected,
+    hasPasswordGenerator,
     isMasterPasswordRequired: Boolean(account?.isMasterPasswordRequired),
     onChange,
   })
@@ -55,11 +62,14 @@ export const PasswordInput = ({
       hasStrength={hasStrength}
       isRequired={isRequired}
       isReadOnly={isReadOnly}
+      hasPasswordGenerator={hasPasswordGenerator}
       password={password}
       isPasswordVisible={isPasswordVisible}
       isPasswordGeneratorVisible={isPasswordGeneratorVisible}
       passwordGeneratorRef={passwordGeneratorRef}
       masterPasswordConfirmationDialogRef={masterPasswordConfirmationDialogRef}
+      minimumPasswordStrength={minimumPasswordStrength}
+      hasPasswordStrengthCaption={hasPasswordStrengthCaption}
       onCorrectMasterPasswordConfirmationDialogSubmit={
         handleCorrectMasterPasswordConfirmationDialogSubmit
       }

@@ -17,6 +17,7 @@ type Props = {
   isRequired?: boolean
   className?: string
   hasCapitalize?: boolean
+  hasAutofocus?: boolean
   onChange?: (value: string) => void
   onFocus?: () => void
   onBlur?: () => void
@@ -34,6 +35,7 @@ export const InputView = ({
   isRequired,
   className,
   hasCapitalize,
+  hasAutofocus,
   onChange,
   onFocus,
   onBlur,
@@ -66,6 +68,7 @@ export const InputView = ({
         value={value ?? defaultValue ?? undefined}
         defaultValue={defaultValue ?? undefined}
         placeholder={placeholder}
+        autoFocus={hasAutofocus}
         autoCapitalize={hasCapitalize ? 'words' : 'none'}
         onChangeText={onChange}
         onFocus={onFocus}

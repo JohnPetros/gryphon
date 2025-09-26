@@ -11,6 +11,7 @@ type Props = {
   isMasterPasswordRequired: boolean
   defaultValue: string
   isProtected: boolean
+  hasPasswordGenerator: boolean
   onChange: (value: string) => void
 }
 
@@ -20,6 +21,7 @@ export function usePasswordInput({
   isMasterPasswordRequired,
   defaultValue,
   isProtected,
+  hasPasswordGenerator,
   onChange,
 }: Props) {
   const [password, setPassword] = useState(Password.create(defaultValue))
@@ -41,6 +43,7 @@ export function usePasswordInput({
   }
 
   function handlePasswordGeneratorButtonPress() {
+    if (!hasPasswordGenerator) return
     passwordGeneratorRef?.current?.open()
     Keyboard.dismiss()
   }

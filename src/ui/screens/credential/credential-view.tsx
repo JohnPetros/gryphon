@@ -63,7 +63,7 @@ export const CredentialView = ({
         <Input
           label='Site'
           icon='link'
-          placeholder='Site'
+          placeholder='Sem site vinculado'
           defaultValue={credential.siteUrl ?? ''}
           isReadOnly
         />

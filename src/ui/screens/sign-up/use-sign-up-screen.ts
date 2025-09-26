@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Id } from '@/core/domain/structures'
 
 type Params = {
-  signUpAccount: (accountId: string, email: string, password: string) => Promise<void>
+  signUpAccount: (accountId: string, email: string, password: string) => Promise<boolean>
   createAccount: (
     accountId: string,
     email: string,
@@ -19,7 +19,8 @@ export function useSignUpScreen({ signUpAccount, createAccount }: Params) {
   async function handleSignUp(email: string, password: string) {
     const accountId = Id.create()
     setAccountId(accountId.value)
-    await signUpAccount(accountId.value, email, password)
+    const isSuccessful = await signUpAccount(accountId.value, email, password)
+    if (!isSuccessful) return
     setStep(2)
     setEmail(email)
   }

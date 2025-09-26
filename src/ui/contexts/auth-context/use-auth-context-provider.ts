@@ -7,8 +7,8 @@ import type { CryptoProvider, AccountsRepository } from '@/core/interfaces'
 import { ROUTES, STORAGE_KEYS } from '@/constants'
 import { useNavigation } from '@/ui/hooks/use-navigation'
 import { useSecureStore } from '@/ui/hooks/use-secure-store'
-import type { AuthContextValue } from './auth-context-value'
 import { useToast } from '@/ui/hooks/use-toast'
+import type { AuthContextValue } from './auth-context-value'
 
 type Params = {
   jwt: string | null
@@ -103,6 +103,10 @@ export function useAuthContextProvider({
     accountsRepository.findById,
   ])
 
+  const updateAccount = useCallback(async (account: Account) => {
+    setAccount(Account.create(account.dto))
+  }, [])
+
   const contextValue: AuthContextValue = useMemo(() => {
     async function createAccount(
       accountId: string,
@@ -120,7 +124,7 @@ export function useAuthContextProvider({
           encryptionSalt,
           isBiometryActivated: false,
           minimumPasswordStrength: 3,
-          minimumAppLockTimeInSeconds: 0,
+          autoLockTimeout: 60 * 5,
           isMasterPasswordRequired: true,
         })
         setAccount(account)
@@ -147,7 +151,7 @@ export function useAuthContextProvider({
       signOutAccount,
       createAccount,
       createEncryptionKey,
-      setAccount,
+      updateAccount,
     }
   }, [
     account,
@@ -157,6 +161,7 @@ export function useAuthContextProvider({
     navigation.navigate,
     signInAccount,
     signOutAccount,
+    updateAccount,
     createEncryptionKey,
     signOut,
     accountsRepository,
