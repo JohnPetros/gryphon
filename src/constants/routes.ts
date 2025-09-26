@@ -8,4 +8,6 @@ export const ROUTES = {
   vault: (vaultId: string) => `(protected)/vault/${vaultId}`,
   newItem: '(protected)/(tabs)/new-item',
   profile: '(protected)/(tabs)/profile',
+  credential: (credentialId: string) => `(protected)/credential/${credentialId}`,
+  credentialSettings: (credentialId: string) => `(protected)/credential/settings/${credentialId}`,
 }
