@@ -1,12 +1,17 @@
 import { useCallback } from 'react'
 import { type RelativePathString, useRouter } from 'expo-router'
 
-export function useNavigation() {
+import { NavigationProvider } from '@/core/interfaces/providers/navigation-provider'
+
+export function useNavigation(): NavigationProvider {
   const router = useRouter()
 
   const navigate = useCallback(
     (name: string, params?: any) => {
-      router.push(name as RelativePathString, params)
+      router.push({
+        pathname: name as RelativePathString,
+        params,
+      })
     },
     [router],
   )
