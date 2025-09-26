@@ -16,13 +16,13 @@ export function useCredentialSettingsScreen(
 
   async function handleCredentialCreate(credential: Credential) {
     await credentialsRepository.add(credential)
-    navigate(ROUTES.vaultItens)
+    navigate(ROUTES.vaultItens, { vaultId: credential.vaultId.value })
   }
 
   async function handleCredentialUpdate(credential: Credential) {
     try {
       await credentialsRepository.update(credential)
-      navigate(ROUTES.vaultItens)
+      navigate(ROUTES.vaultItens, { vaultId: credential.vaultId.value })
     } catch (error) {
       console.error(error)
     }
