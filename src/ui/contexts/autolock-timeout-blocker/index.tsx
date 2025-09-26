@@ -22,6 +22,7 @@ export const AutoLockTimeoutBlockerView = ({ children }: PropsWithChildren) => {
         ref={masterPasswordConfirmationDialogRef}
         canClose={false}
         description='Insira a senha mestra para continuar usando o aplicativo.'
+        shouldSuppressMasterPasswordRequirement
         onCorrectPasswordSubmit={handleCorrectMasterPasswordConfirmationDialogSubmit}
       />
       <View style={{ flex: 1 }} {...panResponder.panHandlers}>
