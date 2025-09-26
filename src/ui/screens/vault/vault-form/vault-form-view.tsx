@@ -22,6 +22,8 @@ export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
     onUpdate,
   })
 
+  console.log({ isValid, isDirty })
+
   return (
     <Box className='flex flex-col gap-6'>
       <Box className='flex flex-row gap-2'>
@@ -36,7 +38,7 @@ export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
         {vault && (
           <Button
             onPress={handleSubmit}
-            isDisabled={!isValid || !isDirty}
+            isDisabled={vault ? !isDirty : !isValid}
             isLoading={isSubmitting}
             className='w-40 items-center justify-center'
           >

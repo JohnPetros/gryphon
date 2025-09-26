@@ -18,12 +18,14 @@ export const VaultItensScreen = () => {
   const {
     selectedVault,
     vaults,
+    search,
     isDrawerOpen,
     handleDrawerClose,
     handleDrawerOpen,
     handleVaultSelect,
     handleVaultEdit,
     handleVaultDelete,
+    handleSearchChange,
   } = useVaultItensScreen({
     vaultsRepository,
     defaultSelectedVaultId: Id.create(vaultId),
@@ -35,6 +37,8 @@ export const VaultItensScreen = () => {
       selectedVault={selectedVault}
       vaults={vaults}
       isDrawerOpen={isDrawerOpen}
+      search={search}
+      onSearchChange={handleSearchChange}
       onVaultSelect={handleVaultSelect}
       onDrawerClose={handleDrawerClose}
       onDrawerOpen={handleDrawerOpen}
