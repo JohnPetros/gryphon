@@ -6,21 +6,26 @@ import type { CredentialsRepository } from '@/core/interfaces'
 
 type Params = {
   vaultId: Id
+  search: string
   credentialsRepository: CredentialsRepository
   onCredentialDelete: () => void
 }
 
 export function useCredentialsList({
   vaultId,
+  search,
   credentialsRepository,
   onCredentialDelete,
 }: Params) {
   const [credentials, setCredentials] = useState<Credential[]>([])
 
   const loadCredentials = useCallback(async () => {
-    const credentials = await credentialsRepository.findAllByVault(vaultId)
+    const credentials = await credentialsRepository.findAllByVaultAndTitle(
+      vaultId,
+      search,
+    )
     setCredentials(credentials)
-  }, [credentialsRepository, vaultId])
+  }, [credentialsRepository, vaultId, search])
 
   function handleCredentialDelete() {
     loadCredentials()
@@ -29,7 +34,7 @@ export function useCredentialsList({
 
   useEffect(() => {
     loadCredentials()
-  }, [vaultId, credentialsRepository, loadCredentials])
+  }, [vaultId, search, credentialsRepository, loadCredentials])
 
   return {
     credentials,
