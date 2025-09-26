@@ -41,8 +41,8 @@ export function useCredentialMenu({
   }
 
   function handleEdit() {
-    navigation.navigate(ROUTES.credentialSettings(credential.id.value))
-    // masterPasswordConfirmationForCredentialEditionDialogRef?.current?.open()
+    // navigation.navigate(ROUTES.credentialSettings(credential.id.value))
+    masterPasswordConfirmationForCredentialEditionDialogRef?.current?.open()
   }
 
   async function handleCopyEmail() {
