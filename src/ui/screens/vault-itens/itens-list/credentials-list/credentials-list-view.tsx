@@ -27,7 +27,7 @@ export const CredentialsListView = ({
       data={credentials}
       ListEmptyComponent={
         <Text className='text-center text-neutral text-lg mt-12'>
-          Nenhum credencial encontrada.
+          Nenhuma credencial encontrada.
         </Text>
       }
       keyExtractor={(item) => item.id.value}

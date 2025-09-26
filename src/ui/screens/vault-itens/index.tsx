@@ -13,7 +13,6 @@ type SearchParams = {
 
 export const VaultItensScreen = () => {
   const { vaultId } = useLocalSearchParams<SearchParams>()
-  console.log('vaultId', vaultId)
   const { account } = useAuthContext()
   const { vaultsRepository } = useDatabase()
   const {
