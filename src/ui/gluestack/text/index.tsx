@@ -24,9 +24,9 @@ const Text = React.forwardRef<React.ComponentRef<typeof RNText>, ITextProps>(
   ) {
     return (
       <RNText
-        style={{
-          fontFamily: bold ? 'JetBrainsMonoBold' : 'JetBrainsMonoRegular',
-        }}
+        // style={{
+        //   fontFamily: bold ? 'JetBrainsMonoBold' : 'JetBrainsMonoRegular',
+        // }}
         className={textStyle({
           fontFamily: bold ? 'JetBrainsMonoBold' : 'JetBrainsMonoRegular',
           isTruncated: isTruncated as boolean,
