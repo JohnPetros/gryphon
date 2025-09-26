@@ -14,6 +14,15 @@ import type { BottomSheetRef } from '../bottom-sheet/types'
 import { MasterPasswordConfirmationDialog } from '../master-password-confirmation-dialog'
 import type { MasterPasswordConfirmationDialogRef } from '../master-password-confirmation-dialog/types'
 
+const PASSWORD_STRENGTH_MESSAGES: Record<number, string> = {
+  1: 'muito fraca',
+  2: 'fraca',
+  3: 'boa',
+  4: 'forte',
+  5: 'muito forte',
+}
+
+
 type Props = {
   password: Password
   label: string
@@ -25,6 +34,8 @@ type Props = {
   hasPasswordGenerator: boolean
   passwordGeneratorRef: RefObject<BottomSheetRef | null>
   masterPasswordConfirmationDialogRef: RefObject<MasterPasswordConfirmationDialogRef | null>
+  minimumPasswordStrength: number
+  hasPasswordStrengthCaption: boolean
   onChange: (value: string) => void
   onFocus: () => void
   onBlur: () => void
@@ -45,6 +56,8 @@ export const PasswordInputView = ({
   passwordGeneratorRef,
   isRequired,
   isReadOnly,
+  minimumPasswordStrength,
+  hasPasswordStrengthCaption,
   onChange,
   onFocus,
   onBlur,
@@ -85,6 +98,10 @@ export const PasswordInputView = ({
         }
         onChange={onChange}
       />
+
+      {hasPasswordStrengthCaption && (
+        <Text className='text-sm text-neutral mt-2'>Força mínima de senha: {PASSWORD_STRENGTH_MESSAGES[minimumPasswordStrength]}</Text>
+      )}
 
       {hasPasswordGenerator && (
         <>
