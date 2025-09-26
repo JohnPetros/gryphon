@@ -9,6 +9,7 @@ type Props = {
   ref?: RefObject<MasterPasswordConfirmationDialogRef | null>
   description: string
   canClose: boolean
+  shouldSuppressMasterPasswordRequirement?: boolean
   onCorrectPasswordSubmit: () => void
 }
 
@@ -16,11 +17,14 @@ export const MasterPasswordConfirmationDialog = ({
   ref,
   description,
   canClose,
+  shouldSuppressMasterPasswordRequirement,
   onCorrectPasswordSubmit,
 }: Props) => {
   const { account } = useAuthContext()
   const { isOpen, open, close, handlePasswordChange, handlePasswordSubmit } =
-    useMasterPasswordConfirmationDialog({ isMasterPasswordRequired: Boolean(account?.isMasterPasswordRequired), onCorrectPasswordSubmit })
+    useMasterPasswordConfirmationDialog(
+      { isMasterPasswordRequired: shouldSuppressMasterPasswordRequirement ? true : Boolean(account?.isMasterPasswordRequired), onCorrectPasswordSubmit }
+    )
 
   useImperativeHandle(ref, () => ({
     open,
