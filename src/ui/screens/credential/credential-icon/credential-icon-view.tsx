@@ -3,17 +3,17 @@ import { Box } from '@/ui/gluestack/box'
 import { Image } from '@/ui/gluestack/image'
 
 type Props = {
-  siteUrl: string
+  siteUrl: string | null
   hasError: boolean
   onError: () => void
 }
 
 export const CredentialIconView = ({ siteUrl, hasError, onError }: Props) => {
-  if (hasError) {
+  if (!siteUrl || hasError) {
     return (
       <AppItem.Icon
-        backgroundColor='infoBackground'
-        foregroundColor='info'
+        backgroundColor='primaryBackground'
+        foregroundColor='primary'
         size={32}
         className='w-20 h-20'
         name='login'
