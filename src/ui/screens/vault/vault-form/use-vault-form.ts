@@ -43,8 +43,9 @@ export function useVaultForm({ vault, onCreate, onUpdate }: Params) {
   }
 
   useEffect(() => {
+    setValue('title', vault?.title ?? '')
     setValue('icon', vault?.icon ?? 'entertainment')
-  }, [vault?.icon, setValue])
+  }, [vault?.icon, vault?.title, setValue])
 
   return {
     isSubmitting: formState.isSubmitting,

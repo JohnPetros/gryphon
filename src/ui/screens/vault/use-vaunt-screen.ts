@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
 
-import { Id } from '@/core/domain/structures'
+import type { Id } from '@/core/domain/structures'
 import type { VaultsRepository } from '@/core/interfaces'
 import { Vault } from '@/core/domain/entities'
-import { useNavigation } from '@/ui/hooks/use-navigation'
-import { ROUTES } from '@/constants'
+import type { NavigationProvider } from '@/core/interfaces/providers/navigation-provider'
 import type { VaultDto } from '@/core/domain/entities/dtos'
+import { ROUTES } from '@/constants'
+
+import { useNavigation } from '@/ui/hooks/use-navigation'
 
 type Params = {
   accountId?: Id
   vaultId?: Id
   vaultsRepository: VaultsRepository
+  navigation: NavigationProvider
 }
 
 export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params) {
@@ -23,7 +26,7 @@ export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params)
       const vault = Vault.create(vaultDto)
       await vaultsRepository.add(vault, accountId)
       setVault(vault)
-      navigation.navigate(ROUTES.vaultItens)
+      navigation.navigate(ROUTES.vaultItens, { vaultId: vault.id.value })
     } catch (error) {
       console.error(error)
     }
@@ -37,7 +40,7 @@ export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params)
         id: vaultId.value,
       })
       await vaultsRepository.update(vault)
-      navigation.navigate(ROUTES.vaultItens)
+      navigation.navigate(ROUTES.vaultItens, { vaultId: vaultId.value })
     } catch (error) {
       console.error(error)
     }

@@ -6,9 +6,10 @@ import { useItensList } from './use-itens-list'
 
 type Props = {
   vaultId: Id
+  search: string
 }
 
-export const ItensList = ({ vaultId }: Props) => {
+export const ItensList = ({ vaultId, search }: Props) => {
   const { credentialsRepository } = useDatabase()
   const {
     credentialCount,
@@ -21,6 +22,7 @@ export const ItensList = ({ vaultId }: Props) => {
   return (
     <ItensListView
       vaultId={vaultId}
+      search={search}
       credentialCount={credentialCount}
       noteCount={noteCount}
       selectedTab={selectedTab}

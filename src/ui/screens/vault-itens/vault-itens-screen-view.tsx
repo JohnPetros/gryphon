@@ -15,22 +15,26 @@ type Props = {
   selectedVault: Vault | null
   vaults: Vault[]
   isDrawerOpen: boolean
+  search: string
   onDrawerOpen: () => void
   onDrawerClose: () => void
   onVaultSelect: (vault: Vault) => void
   onVaultEdit: (vaultId: Id) => void
   onVaultDelete: (vaultId: Id) => void
+  onSearchChange: (search: string) => void
 }
 
 export function VaultItensScreenView({
   selectedVault,
   vaults,
   isDrawerOpen,
+  search,
   onDrawerOpen,
   onDrawerClose,
   onVaultSelect,
   onVaultEdit,
   onVaultDelete,
+  onSearchChange,
 }: Props) {
   return (
     <ScreenContainer>
@@ -58,7 +62,12 @@ export function VaultItensScreenView({
                 />
               </AppItem.Container>
             </Pressable>
-            <Input placeholder='pesquisar...' icon='search' className='h-16 flex-1' />
+            <Input
+              placeholder='pesquisar...'
+              icon='search'
+              className='h-16 flex-1'
+              onChange={onSearchChange}
+            />
           </Box>
         </Box>
       )}
@@ -82,7 +91,7 @@ export function VaultItensScreenView({
       )}
 
       <Box className='flex-1 mt-6'>
-        {selectedVault && <ItensList vaultId={selectedVault.id} />}
+        {selectedVault && <ItensList vaultId={selectedVault.id} search={search} />}
       </Box>
     </ScreenContainer>
   )
