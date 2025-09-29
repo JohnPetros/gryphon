@@ -21,7 +21,7 @@ Claro! Entendido. Aqui estão os critérios de aceitação para cada uma das sua
 - O sistema deve exibir mensagens de erro claras caso alguma validação falhe.
 - Após o sucesso no cadastro, o usuário deve ser redirecionado para a próxima etapa (definir senha mestra).
 
-### **US2: Definir senha mestra**
+### **US2: Uso de senha mestra**
 
 - O formulário de definição de senha mestra deve conter os campos:
     - Senha Mestra;
@@ -30,6 +30,8 @@ Claro! Entendido. Aqui estão os critérios de aceitação para cada uma das sua
 - O sistema deve validar os campos do formulário:
     - A senha mestra deve ser numérica de 8 digitos.
 - Após a definição com sucesso, o cofre de credenciais do usuário deve ser criado e o usuário deve ser levado à tela principal do aplicativo (itens criados por ele).
+- Para visualizar dados sensiveis do usuário, deve ser informado a senha mestre do usuário.
+- A exigência da senha mestre deve ser habilitada ou desabilitada pelo usuário na tela de perfil. 
 
 ### **US3: Salvar novas credenciais**
 

@@ -22,7 +22,7 @@ O objetivo ao desenvolver o **Gryphon** foi criar uma ferramenta que não apenas
 
 ## 📅 Sprints
 
-**Sprint 1**: [Link para a documentação](https://github.com/JohnPetros/stardust/wiki/Sprint-1)
+**Sprint 1**: [Link para a documentação](https://github.com/JohnPetros/gryphon/blob/main/documentation/sprint-1-report.md)
 
 **Sprint 2**: 🚧 Em andamento 🚧
 
