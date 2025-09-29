@@ -2,7 +2,7 @@
 
 ## User Stories realizados nesta sprint 📖
 
-[Sprint 1 Backlog](./media/gryphon-backlog.jpg)
+<img src="./media/sprint-1-backlog.jpg" />
 
 ### Critérios de aceitação para cada User Story 📒
 
