@@ -16,7 +16,7 @@ O objetivo ao desenvolver o **Gryphon** foi criar uma ferramenta que não apenas
 
 ## 📖 Backlog do Produto
 
-🚧 Em andamento 🚧
+[Backlog](./documentation/media/gryphon-backlog.jpg)
 
 ---
 
