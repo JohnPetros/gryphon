@@ -26,3 +26,4 @@ export type IconName =
   | 'vault'
   | 'menu'
   | 'link'
+  | 'content'
