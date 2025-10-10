@@ -1,4 +1,4 @@
-export type vaultItemDto = {
+export type VaultItemDto = {
   id?: string
   title: string
   encryptedData: string
