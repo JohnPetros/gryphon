@@ -28,7 +28,7 @@ export function useAuth() {
       } catch (error) {
         console.warn(error)
         if (isClerkAPIResponseError(error)) {
-          toast.show(error.message, 'error')
+          // toast.show(error.message, 'error')
         }
         return false
       }
@@ -49,7 +49,7 @@ export function useAuth() {
       } catch (error) {
         console.warn(error)
         if (isClerkAPIResponseError(error)) {
-          toast.show(error.message, 'error')
+          console.log(error.message)
         }
         return false
       }
