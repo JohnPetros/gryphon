@@ -31,6 +31,8 @@ export function useAuthContextProvider({
   const navigation = useNavigation()
   const toast = useToast()
 
+  console.log(account?.id)
+
   const signInAccount = useCallback(
     async (email: string, password: string) => {
       const isSuccess = await signIn(email, password)
