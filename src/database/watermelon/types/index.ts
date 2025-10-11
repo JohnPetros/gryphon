@@ -1,0 +1,6 @@
+export type { WatermelonChanges } from './watermelon-changes'
+export type { AccountSchema } from './account-schema'
+export type { CredentialSchema } from './credential-schema'
+export type { CredentialVersionSchema } from './credential-version-schema'
+export type { NoteSchema } from './note-schema'
+export type { VaultSchema } from './vault-schema'
