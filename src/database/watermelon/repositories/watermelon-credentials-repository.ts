@@ -7,7 +7,7 @@ import type { Id } from '@/core/domain/structures'
 
 import type { CredentialModel, CredentialVersionModel, VaultModel } from '../models'
 import { WatermelonCredentialMapper } from '../mappers'
-import { watermelon } from '../client'
+import { watermelon } from '../watermelon'
 
 export const WatermelonCredentialsRepository = (): CredentialsRepository => {
   const mapper = WatermelonCredentialMapper()

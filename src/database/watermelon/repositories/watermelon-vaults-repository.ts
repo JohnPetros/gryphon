@@ -7,7 +7,7 @@ import type { Id } from '@/core/domain/structures'
 
 import type { VaultModel } from '../models'
 import { WatermelonVaultMapper } from '../mappers'
-import { watermelon } from '../client'
+import { watermelon } from '../watermelon'
 
 export const WatermelonVaultsRepository = (): VaultsRepository => {
   const mapper = WatermelonVaultMapper()
