@@ -5,7 +5,7 @@ import type { CredentialsRepository } from '@/core/interfaces'
 import type { Credential } from '@/core/domain/entities/credential'
 import type { Id } from '@/core/domain/structures'
 
-import type { CredentialModel, VaultModel } from '../models'
+import type { CredentialModel, CredentialVersionModel, VaultModel } from '../models'
 import { WatermelonCredentialMapper } from '../mappers'
 import { watermelon } from '../client'
 
@@ -25,7 +25,9 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
               title: credential.title,
               encrypted_data: credential.encrypted.value,
               vault_id: credential.vaultId.value,
+              last_version_id: null,
               site_url: credential.siteUrl,
+              created_at: credential.createdAt.getTime() / 1000,
             },
             credentialsCollection.schema,
           )
@@ -43,10 +45,22 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
           .get<VaultModel>('vaults')
           .find(credential.vaultId.value)
 
+        let lastVersionModel: CredentialVersionModel | null = null
+
+        if (credential.lastVersionId) {
+          lastVersionModel = await watermelon.collections
+            .get<CredentialVersionModel>('credential_versions')
+            .find(credential.lastVersionId?.value)
+        }
+
         await credentialModel.update((model) => {
           model.title = credential.title
           model.siteUrl = credential.siteUrl ?? ''
           model.encryptedData = credential.encrypted.value
+          if (lastVersionModel)
+            // @ts-ignore
+            model.lastVersion.set(lastVersionModel)
+
           // @ts-ignore
           model.vault.set(vaultModel)
         })

@@ -11,6 +11,8 @@ export const WatermelonCredentialMapper = () => {
         siteUrl: model.siteUrl ?? undefined,
         vaultId: model.vault.id,
         encryptedData: model.encryptedData,
+        lastVersionId: model.lastVersion?.id ?? null,
+        createdAt: new Date(model.createdAt * 1000),
       })
     },
   }
