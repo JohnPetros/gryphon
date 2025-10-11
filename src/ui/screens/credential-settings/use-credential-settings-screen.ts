@@ -28,14 +28,8 @@ export function useCredentialSettingsScreen({
 
   async function handleCredentialCreate(credential: Credential) {
     await credentialsRepository.add(credential)
+    await onChangeDatabase()
     navigate(ROUTES.vaultItens, { vaultId: credential.vaultId.value })
-    console.log('handleCredentialCreate')
-
-    try {
-      await onChangeDatabase()
-    } catch (error) {
-      console.error('handleCredentialCreate', error)
-    }
   }
 
   async function handleCredentialUpdate(updatedCredential: Credential) {
@@ -49,6 +43,7 @@ export function useCredentialSettingsScreen({
       await credentialVersionsRepository.add(nextVersion)
 
       await credentialsRepository.update(updatedCredential)
+      await onChangeDatabase()
       navigate(ROUTES.vaultItens, { vaultId: updatedCredential.vaultId.value })
     } catch (error) {
       console.error(error)
