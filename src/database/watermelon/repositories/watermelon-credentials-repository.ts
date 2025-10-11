@@ -35,6 +35,8 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
       })
     },
 
+    async addMany(credentials: Credential[]): Promise<void> {},
+
     async update(credential: Credential): Promise<void> {
       await watermelon.write(async () => {
         const credentialModel = await watermelon.collections
@@ -66,6 +68,8 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
         })
       })
     },
+
+    async updateMany(credentials: Credential[]): Promise<void> {},
 
     async findById(id: Id): Promise<Credential | null> {
       try {
@@ -108,5 +112,7 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
         await model.markAsDeleted()
       })
     },
+
+    async removeMany(credentialIds: Id[]): Promise<void> {},
   }
 }
