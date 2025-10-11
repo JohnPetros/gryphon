@@ -7,8 +7,15 @@ import {
   WatermelonCredentialVersionsRepository,
   WatermelonVaultsRepository,
 } from '@/database/watermelon'
+import type { WatermelonChanges } from '@/database/watermelon/types'
 import { watermelon } from '@/database/watermelon/watermelon'
+import { WatermelonCredentialMapper } from '@/database/watermelon/mappers'
 import { useRest } from './use-rest'
+
+type PushChangesParams = {
+  changes: WatermelonChanges
+  lastPulledAt: number
+}
 
 export function useDatabase() {
   const { databaseService } = useRest()
@@ -16,12 +23,26 @@ export function useDatabase() {
   const synchronizeDatabase = useCallback(async () => {
     await synchronize({
       database: watermelon,
-      pushChanges: async ({ changes, lastPulledAt }) => {},
+      pushChanges: async ({ changes }: PushChangesParams) => {
+        const credentialMapper = WatermelonCredentialMapper()
+        const createdCredentials = changes.credentials?.created.map(
+          credentialMapper.toDto,
+        )
+        const updatedCredentials = changes.credentials?.updated.map(
+          credentialMapper.toDto,
+        )
+        const deletedCredentialsIds = changes.credentials?.deleted
+
+        await databaseService.pushDatabaseChanges({
+          createdCredentials,
+          updatedCredentials,
+          deletedCredentialsIds,
+        })
+      },
       pullChanges: async ({ lastPulledAt }) => {
         const response = await databaseService.pullDatabaseChanges(
           lastPulledAt ? new Date(lastPulledAt) : new Date(),
         )
-        console.log('response', response)
         return {
           changes: [],
           timestamp: Date.now(),
@@ -38,10 +59,6 @@ export function useDatabase() {
       credentialVersionsRepository: WatermelonCredentialVersionsRepository(),
     }
   }, [])
-
-  useEffect(() => {
-    synchronizeDatabase()
-  }, [synchronizeDatabase])
 
   return {
     ...repositories,

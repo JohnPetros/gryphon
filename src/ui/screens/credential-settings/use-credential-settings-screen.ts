@@ -34,7 +34,7 @@ export function useCredentialSettingsScreen({
     try {
       await onChangeDatabase()
     } catch (error) {
-      console.error(error)
+      console.error('handleCredentialCreate', error)
     }
   }
 
