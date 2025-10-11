@@ -79,6 +79,7 @@ export const useCredentialForm = ({
         siteUrl: data.siteUrl,
         vaultId: data.vaultId,
         encryptedData,
+        createdAt: credential.createdAt,
       })
       await onUpdate(updatedCredential)
       return
@@ -88,6 +89,7 @@ export const useCredentialForm = ({
       title: data.title,
       siteUrl: data.siteUrl,
       vaultId: data.vaultId,
+      createdAt: new Date(),
       encryptedData,
     })
 
@@ -120,8 +122,6 @@ export const useCredentialForm = ({
       setValue('password', decryptedData?.password)
     }
   }, [credential, encryptionKey, cryptoProvider, setValue])
-  
-  console.log('credential.vaultId.value', credential?.vaultId.value)
 
   return {
     isSubmitting: formState.isSubmitting,

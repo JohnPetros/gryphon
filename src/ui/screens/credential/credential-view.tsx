@@ -1,3 +1,5 @@
+import { ScrollView } from 'react-native'
+
 import type { Credential } from '@/core/domain/entities'
 
 import { Input } from '@/ui/components/input'
@@ -9,12 +11,14 @@ import { Text } from '@/ui/gluestack/text'
 import { CredentialMenu } from '@/ui/components/credential-menu'
 import { CredentialIcon } from './credential-icon'
 import { CredentialVault } from './credential-vault'
+import { CredentialHistory } from './credential-history'
 
 type Props = {
   credential: Credential
   credentialLogin: string
   credentialPassword: string
   onCredentialDelete: () => void
+  onCredentialRestore: () => void
 }
 
 export const CredentialView = ({
@@ -22,52 +26,63 @@ export const CredentialView = ({
   credentialLogin,
   credentialPassword,
   onCredentialDelete,
+  onCredentialRestore,
 }: Props) => {
   return (
     <ScreenContainer>
-      <Box className='mt-6 flex-row justify-between'>
-        <PreviousScreenButton />
-        <CredentialMenu credential={credential} onDelete={onCredentialDelete} />
-      </Box>
-
-      <Box className='flex-row items-center gap-3 mt-6'>
-        <CredentialIcon siteUrl={credential.siteUrl ?? ''} />
-        <Box className='flex-1 gap-1'>
-          <Text ellipsizeMode='tail' numberOfLines={1} className='text-2xl font-semibold'>
-            {credential.title}
-          </Text>
-          <CredentialVault vaultId={credential.vaultId} />
+      <ScrollView>
+        <Box className='flex-row justify-between'>
+          <PreviousScreenButton />
+          <CredentialMenu credential={credential} onDelete={onCredentialDelete} />
         </Box>
-      </Box>
 
-      <Box className='gap-3 mt-6'>
-        <Box>
+        <Box className='flex-row items-center gap-3 mt-6'>
+          <CredentialIcon siteUrl={credential.siteUrl ?? ''} />
+          <Box className='flex-1 gap-1'>
+            <Text
+              ellipsizeMode='tail'
+              numberOfLines={1}
+              className='text-2xl font-semibold'
+            >
+              {credential.title}
+            </Text>
+            <CredentialVault vaultId={credential.vaultId} />
+          </Box>
+        </Box>
+
+        <Box className='gap-3 mt-6'>
+          <Box>
+            <Input
+              label='Login'
+              icon='login'
+              placeholder='Login'
+              defaultValue={credentialLogin}
+              isReadOnly
+            />
+
+            <PasswordInput
+              label='Senha'
+              hasStrength
+              defaultValue={credentialPassword}
+              isReadOnly
+              isProtected
+              onChange={() => {}}
+            />
+          </Box>
+
           <Input
-            label='Login'
-            icon='login'
-            placeholder='Login'
-            defaultValue={credentialLogin}
+            label='Site'
+            icon='link'
+            placeholder='Sem site vinculado'
+            defaultValue={credential.siteUrl ?? ''}
             isReadOnly
-          />
-
-          <PasswordInput
-            label='Senha'
-            hasStrength
-            defaultValue={credentialPassword}
-            isReadOnly
-            isProtected
-            onChange={() => {}}
           />
         </Box>
 
-        <Input
-          label='Site'
-          icon='link'
-          placeholder='Sem site vinculado'
-          defaultValue={credential.siteUrl ?? ''}
-          isReadOnly
-        />
-      </Box>
+        <Box className='mt-6 pb-12'>
+          <CredentialHistory credential={credential} onRestore={onCredentialRestore} />
+        </Box>
+      </ScrollView>
     </ScreenContainer>
   )
 }

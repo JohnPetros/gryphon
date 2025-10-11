@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import type { Id } from '@/core/domain/structures'
 import type { CredentialsRepository, CryptoProvider } from '@/core/interfaces'
 import type { Credential } from '@/core/domain/entities'
-import { useNavigation } from '@/ui/hooks/use-navigation'
+
 import { ROUTES } from '@/constants'
+import { useNavigation } from '@/ui/hooks/use-navigation'
 
 type Params = {
   credentialId: Id
@@ -22,20 +23,25 @@ export function useCredentialScreen({
   const [credential, setCredential] = useState<Credential | null>(null)
   const { navigate } = useNavigation()
 
+  const loadCredential = useCallback(async () => {
+    if (credentialId) {
+      const credential = await credentialsRepository.findById(credentialId)
+      setCredential(credential)
+    }
+  }, [credentialId, credentialsRepository])
+
   function handleCredentialDelete() {
     setCredential(null)
     navigate(ROUTES.vaultItens)
   }
 
-  useEffect(() => {
-    async function loadCredential() {
-      if (credentialId) {
-        const credential = await credentialsRepository.findById(credentialId)
-        setCredential(credential)
-      }
-    }
+  function handleCredentialRestore() {
     loadCredential()
-  }, [])
+  }
+
+  useEffect(() => {
+    loadCredential()
+  }, [loadCredential])
 
   const decryptedData = useMemo(() => {
     if (!credential) return
@@ -49,5 +55,6 @@ export function useCredentialScreen({
     credential,
     decryptedData,
     handleCredentialDelete,
+    handleCredentialRestore,
   }
 }
