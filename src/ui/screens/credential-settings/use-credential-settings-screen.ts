@@ -14,12 +14,14 @@ type Params = {
   credentialsRepository: CredentialsRepository
   credentialVersionsRepository: CredentialVersionsRepository
   credentialId?: Id
+  onChangeDatabase: () => Promise<void>
 }
 
 export function useCredentialSettingsScreen({
   credentialsRepository,
   credentialVersionsRepository,
   credentialId,
+  onChangeDatabase,
 }: Params) {
   const [credential, setCredential] = useState<Credential | null>(null)
   const { navigate } = useNavigation()
@@ -27,6 +29,13 @@ export function useCredentialSettingsScreen({
   async function handleCredentialCreate(credential: Credential) {
     await credentialsRepository.add(credential)
     navigate(ROUTES.vaultItens, { vaultId: credential.vaultId.value })
+    console.log('handleCredentialCreate')
+
+    try {
+      await onChangeDatabase()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   async function handleCredentialUpdate(updatedCredential: Credential) {
