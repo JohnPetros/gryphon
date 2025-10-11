@@ -33,7 +33,6 @@ export const CredentialHistoryPointView = ({
   onCopyPassword,
   onRestore,
 }: Props) => {
-  console.log('isLastVersion', isLastVersion)
   return (
     <Box className='flex-row items-center gap-4'>
       <Icon name={icon} />

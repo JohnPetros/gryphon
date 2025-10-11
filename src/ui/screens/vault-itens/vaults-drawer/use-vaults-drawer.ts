@@ -16,7 +16,6 @@ export function useVaultsDrawer(vaultsRepository: VaultsRepository, accountId: I
 
   useEffect(() => {
     loadVaults()
-    Alert.alert('isFocused')
   }, [isFocused])
 
   return {
