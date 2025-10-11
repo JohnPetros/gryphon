@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { synchronize } from '@nozbe/watermelondb/sync'
 
 import {
@@ -9,8 +9,15 @@ import {
 } from '@/database/watermelon'
 import type { WatermelonChanges } from '@/database/watermelon/types'
 import { watermelon } from '@/database/watermelon/watermelon'
-import { WatermelonCredentialMapper } from '@/database/watermelon/mappers'
+import {
+  WatermelonAccountMapper,
+  WatermelonCredentialMapper,
+  WatermelonCredentialVersionMapper,
+  WatermelonVaultMapper,
+} from '@/database/watermelon/mappers'
 import { useRest } from './use-rest'
+import { useInternetContext } from './use-internet-context'
+import { AppError } from '@/core/domain/errors'
 
 type PushChangesParams = {
   changes: WatermelonChanges
@@ -19,30 +26,95 @@ type PushChangesParams = {
 
 export function useDatabase() {
   const { databaseService } = useRest()
+  const { isOnline } = useInternetContext()
+
+  function getAccountChanges(changes: WatermelonChanges) {
+    const accountMapper = WatermelonAccountMapper()
+    const createdAccounts = changes.accounts?.created.map(accountMapper.toDto)
+    const updatedAccounts = changes.accounts?.updated.map(accountMapper.toDto)
+    const deletedAccountsIds = changes.accounts?.deleted
+
+    return {
+      createdAccounts,
+      updatedAccounts,
+      deletedAccountsIds,
+    }
+  }
+
+  function getVaultChanges(changes: WatermelonChanges) {
+    const vaultMapper = WatermelonVaultMapper()
+    const createdVaults = changes.vaults?.created.map(vaultMapper.toDto)
+    const updatedVaults = changes.vaults?.updated.map(vaultMapper.toDto)
+    const deletedVaultsIds = changes.vaults?.deleted
+
+    return {
+      createdVaults,
+      updatedVaults,
+      deletedVaultsIds,
+    }
+  }
+
+  function getCredentialChanges(changes: WatermelonChanges) {
+    const credentialMapper = WatermelonCredentialMapper()
+    const createdCredentials = changes.credentials?.created.map(credentialMapper.toDto)
+    const updatedCredentials = changes.credentials?.updated.map(credentialMapper.toDto)
+    const deletedCredentialsIds = changes.credentials?.deleted
+
+    return {
+      createdCredentials,
+      updatedCredentials,
+      deletedCredentialsIds,
+    }
+  }
+
+  function getCredentialVersionChanges(changes: WatermelonChanges) {
+    const credentialVersionMapper = WatermelonCredentialVersionMapper()
+    const createdCredentialVersions = changes.credential_versions?.created.map(
+      credentialVersionMapper.toDto,
+    )
+    const updatedCredentialVersions = changes.credential_versions?.updated.map(
+      credentialVersionMapper.toDto,
+    )
+    const deletedCredentialVersionsIds = changes.credential_versions?.deleted
+
+    return {
+      createdCredentialVersions,
+      updatedCredentialVersions,
+      deletedCredentialVersionsIds,
+    }
+  }
 
   const synchronizeDatabase = useCallback(async () => {
     await synchronize({
       database: watermelon,
       pushChanges: async ({ changes }: PushChangesParams) => {
-        const credentialMapper = WatermelonCredentialMapper()
-        const createdCredentials = changes.credentials?.created.map(
-          credentialMapper.toDto,
-        )
-        const updatedCredentials = changes.credentials?.updated.map(
-          credentialMapper.toDto,
-        )
-        const deletedCredentialsIds = changes.credentials?.deleted
+        if (!isOnline) throw new AppError('Internet is not available')
 
-        await databaseService.pushDatabaseChanges({
-          createdCredentials,
-          updatedCredentials,
-          deletedCredentialsIds,
+        console.log('changes', changes)
+        const response = await databaseService.pushDatabaseChanges({
+          ...getAccountChanges(changes),
+          ...getVaultChanges(changes),
+          ...getCredentialChanges(changes),
+          ...getCredentialVersionChanges(changes),
         })
+
+        console.log('response', response)
+
+        if (response.isFailure) {
+          response.throwError()
+        }
       },
       pullChanges: async ({ lastPulledAt }) => {
+        if (!isOnline) throw new AppError('Internet is not available')
+
         const response = await databaseService.pullDatabaseChanges(
           lastPulledAt ? new Date(lastPulledAt) : new Date(),
         )
+
+        if (response.isFailure) {
+          response.throwError()
+        }
+
         return {
           changes: [],
           timestamp: Date.now(),
