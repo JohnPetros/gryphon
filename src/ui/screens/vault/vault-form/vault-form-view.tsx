@@ -22,8 +22,6 @@ export const VaultFormView = ({ vault, onCreate, onUpdate }: Props) => {
     onUpdate,
   })
 
-  console.log({ isValid, isDirty })
-
   return (
     <Box className='flex flex-col gap-6'>
       <Box className='flex flex-row gap-2'>

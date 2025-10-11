@@ -4,9 +4,9 @@ import type { CredentialsRepository, CryptoProvider } from '@/core/interfaces'
 import type { Id } from '@/core/domain/structures'
 import type { Credential } from '@/core/domain/entities'
 import { useClipboard } from '@/ui/hooks/use-clipbaord'
-import type { MasterPasswordConfirmationDialogRef } from '../master-password-confirmation-dialog/types'
-import { NavigationProvider } from '@/core/interfaces/providers/navigation-provider'
+import type { NavigationProvider } from '@/core/interfaces/providers/navigation-provider'
 import { ROUTES } from '@/constants'
+import type { MasterPasswordConfirmationDialogRef } from '../master-password-confirmation-dialog/types'
 
 type Params = {
   masterPasswordConfirmationForPasswordCopyDialogRef: RefObject<MasterPasswordConfirmationDialogRef | null>
@@ -41,7 +41,6 @@ export function useCredentialMenu({
   }
 
   function handleEdit() {
-    // navigation.navigate(ROUTES.credentialSettings(credential.id.value))
     masterPasswordConfirmationForCredentialEditionDialogRef?.current?.open()
   }
 

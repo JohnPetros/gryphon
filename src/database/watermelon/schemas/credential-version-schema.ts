@@ -1,22 +1,24 @@
 import { tableSchema } from '@nozbe/watermelondb'
 
-export const credentialSchema = tableSchema({
-  name: 'credentials',
+export const credentialVersionSchema = tableSchema({
+  name: 'credential_versions',
   columns: [
     {
       name: 'title',
       type: 'string',
     },
     {
-      name: 'vault_id',
+      name: 'credential_id',
       type: 'string',
       isIndexed: true,
     },
     {
-      name: 'last_version_id',
-      type: 'string',
-      isIndexed: true,
-      isOptional: true,
+      name: 'is_restoration',
+      type: 'boolean',
+    },
+    {
+      name: 'version_number',
+      type: 'number',
     },
     {
       name: 'encrypted_data',
