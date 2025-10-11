@@ -16,6 +16,15 @@ export const PullDatabaseChangesController = (): Controller<Schema> => {
         createdCredentials: [],
         updatedCredentials: [],
         deletedCredentialsIds: [],
+        createdVaults: [],
+        updatedVaults: [],
+        deletedVaultsIds: [],
+        createdAccounts: [],
+        updatedAccounts: [],
+        deletedAccountsIds: [],
+        createdCredentialVersions: [],
+        updatedCredentialVersions: [],
+        deletedCredentialVersionsIds: [],
       })
     },
   }
