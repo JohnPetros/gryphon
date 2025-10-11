@@ -1,4 +1,4 @@
-@URL = http://192.168.1.64:8081/api/database
+@URL = http://172.18.204.100:8081/api/database
 
 ### GET /synchronize
 GET {{URL}}/synchronize
