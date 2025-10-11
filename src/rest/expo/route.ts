@@ -5,6 +5,7 @@ export const Route = (handler: RouteHandler) => {
     try {
       return await handler(request)
     } catch (error) {
+      console.error(error)
       return Response.json(
         { title: 'Error', message: 'An error occurred' },
         { status: 500 },

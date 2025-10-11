@@ -1,4 +1,4 @@
-import { AppError } from '.'
+import { AppError } from './app-error'
 
 type FieldError = {
   name: string
