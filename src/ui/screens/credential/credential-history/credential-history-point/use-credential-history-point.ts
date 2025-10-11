@@ -28,17 +28,12 @@ export function useCredentialHistoryPoint({
   onRestore,
 }: Params) {
   const { copy } = useClipboard()
-  const login = credentialVersion?.encrypted.decrypt(encryptionKey, cryptoProvider)?.login
-  const password = credentialVersion?.encrypted.decrypt(
-    encryptionKey,
-    cryptoProvider,
-  )?.password
+  const decrypted = credentialVersion?.encrypted.decrypt(encryptionKey, cryptoProvider)
+  const login = decrypted?.login
+  const password = decrypted?.password
 
   async function handleRestore() {
     const nextCredentialVersion = credential.restore(credentialVersion)
-
-    console.log('handleRestore', credentialVersion.id.value)
-    console.log('credential.lastVersionId?.value', credential.lastVersionId?.value)
 
     await Promise.all([
       credentialsRepository.update(credential),
@@ -46,8 +41,6 @@ export function useCredentialHistoryPoint({
     ])
     onRestore()
   }
-
-  console.log('credential.lastVersionId?.value', credential.lastVersionId?.value)
 
   async function handleCopyLogin() {
     if (!login) return
