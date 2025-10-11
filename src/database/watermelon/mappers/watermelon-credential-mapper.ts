@@ -1,8 +1,8 @@
 import { Credential } from '@/core/domain/entities'
+import type { CredentialDto } from '@/core/domain/entities/dtos'
 
 import type { CredentialModel } from '../models'
 import type { CredentialSchema } from '../types'
-import type { CredentialDto } from '@/core/domain/entities/dtos'
 
 export const WatermelonCredentialMapper = () => {
   return {

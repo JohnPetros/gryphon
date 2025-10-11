@@ -13,7 +13,7 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
   const mapper = WatermelonVaultMapper()
 
   return {
-    async add(vault: Vault, accountId: Id): Promise<void> {
+    async add(vault: Vault): Promise<void> {
       try {
         await watermelon.write(async () => {
           const vaultsCollection = watermelon.collections.get<VaultModel>('vaults')
@@ -23,7 +23,7 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
                 id: vault.id.value,
                 title: vault.title,
                 icon: vault.icon,
-                account_id: accountId.value,
+                account_id: vault.accountId.value,
               },
               vaultsCollection.schema,
             )
@@ -33,6 +33,8 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
         console.error('Error adding vault', error)
       }
     },
+
+    async addMany(vaults: Vault[]): Promise<void> {},
 
     async update(vault: Vault): Promise<void> {
       const model = await watermelon.collections
@@ -46,6 +48,8 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
         })
       })
     },
+
+    async updateMany(vaults: Vault[]): Promise<void> {},
 
     async findById(id: Id): Promise<Vault | null> {
       try {
@@ -82,5 +86,7 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
         await model.markAsDeleted()
       })
     },
+
+    async removeMany(vaultIds: Id[]): Promise<void> {},
   }
 }

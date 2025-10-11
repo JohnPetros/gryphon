@@ -1,6 +1,8 @@
 import { Account } from '@/core/domain/entities'
+import type { AccountDto } from '@/core/domain/entities/dtos'
 
 import type { AccountModel } from '../models'
+import type { AccountSchema } from '../types'
 
 export const WatermelonAccountMapper = () => {
   return {
@@ -14,6 +16,18 @@ export const WatermelonAccountMapper = () => {
         autoLockTimeout: model.autoLockTimeout,
         isMasterPasswordRequired: model.isMasterPasswordRequired,
       })
+    },
+
+    toDto(schema: AccountSchema): AccountDto {
+      return {
+        id: schema.id,
+        email: schema.email,
+        encryptionSalt: schema.encryption_salt,
+        isBiometryActivated: schema.is_biometry_activated,
+        minimumPasswordStrength: schema.minimum_password_strength,
+        autoLockTimeout: schema.auto_lock_timeout,
+        isMasterPasswordRequired: schema.is_master_password_required,
+      }
     },
   }
 }

@@ -7,7 +7,7 @@ import { accountSchema } from './account-schema'
 import { credentialVersionSchema } from './credential-version-schema'
 
 export const schemas = appSchema({
-  version: 24,
+  version: 26,
   tables: [
     accountSchema,
     vaultSchema,
