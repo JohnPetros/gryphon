@@ -8,7 +8,7 @@ export function useInternetContextProvider() {
 
   const value: InternetContextValue = useMemo(() => {
     return {
-      isOffline: false,
+      isOffline: true,
     }
   }, [])
 
