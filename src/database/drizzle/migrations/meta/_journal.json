@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1760194179256,
+      "tag": "0000_gifted_mister_fear",
+      "breakpoints": true
+    }
+  ]
+}
