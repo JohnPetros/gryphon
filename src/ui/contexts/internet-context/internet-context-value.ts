@@ -1,3 +1,3 @@
 export type InternetContextValue = {
-  isOnline: boolean
+  isOffline: boolean
 }
