@@ -10,7 +10,7 @@ export default defineConfig({
   out: './src/database/drizzle/migrations',
   dialect: 'turso',
   dbCredentials: {
-    url: SERVER_ENV.tursoConnectionUrl,
+    url: SERVER_ENV.tursoDatabaseUrl,
     authToken: SERVER_ENV.tursoAuthToken,
   },
 })

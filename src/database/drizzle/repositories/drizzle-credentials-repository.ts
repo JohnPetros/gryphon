@@ -118,9 +118,12 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
     async removeMany(credentialIds: Id[]): Promise<void> {
       if (credentialIds.length === 0) return
 
-      await drizzle
-        .delete(credentialSchema)
-        .where(inArray(credentialSchema.id, credentialIds.map((id) => id.value)))
+      await drizzle.delete(credentialSchema).where(
+        inArray(
+          credentialSchema.id,
+          credentialIds.map((id) => id.value),
+        ),
+      )
     },
   }
 }
