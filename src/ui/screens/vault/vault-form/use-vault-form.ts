@@ -4,7 +4,8 @@ import { z } from 'zod'
 import { useEffect } from 'react'
 import type { VaultDto } from '@/core/domain/entities/dtos'
 import type { Vault } from '@/core/domain/entities'
-import { VaultIcon } from '@/core/domain/structures/vault-icon'
+import type { VaultIcon } from '@/core/domain/structures/vault-icon'
+import type { Id } from '@/core/domain/structures'
 
 const formSchema = z.object({
   title: z.string(),
@@ -14,12 +15,13 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 type Params = {
+  accountId: Id
   vault: Vault | null
   onCreate: (vault: VaultDto) => Promise<void>
   onUpdate: (vault: VaultDto) => Promise<void>
 }
 
-export function useVaultForm({ vault, onCreate, onUpdate }: Params) {
+export function useVaultForm({ vault, accountId, onCreate, onUpdate }: Params) {
   const { formState, control, handleSubmit, setValue } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,11 +34,13 @@ export function useVaultForm({ vault, onCreate, onUpdate }: Params) {
     if (vault) {
       await onUpdate({
         ...data,
+        accountId: accountId.value,
         icon: data.icon as VaultIcon,
       })
     } else {
       await onCreate({
         ...data,
+        accountId: accountId.value,
         icon: data.icon as VaultIcon,
       })
     }

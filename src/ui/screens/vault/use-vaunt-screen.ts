@@ -14,9 +14,15 @@ type Params = {
   vaultId?: Id
   vaultsRepository: VaultsRepository
   navigation: NavigationProvider
+  onDatabaseChange: () => Promise<void>
 }
 
-export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params) {
+export function useVaultScreen({
+  vaultsRepository,
+  accountId,
+  vaultId,
+  onDatabaseChange,
+}: Params) {
   const [vault, setVault] = useState<Vault | null>(null)
   const navigation = useNavigation()
 
@@ -24,7 +30,8 @@ export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params)
     if (!accountId) return
     try {
       const vault = Vault.create(vaultDto)
-      await vaultsRepository.add(vault, accountId)
+      await vaultsRepository.add(vault)
+      await onDatabaseChange()
       setVault(vault)
       navigation.navigate(ROUTES.vaultItens, { vaultId: vault.id.value })
     } catch (error) {
@@ -40,6 +47,7 @@ export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params)
         id: vaultId.value,
       })
       await vaultsRepository.update(vault)
+      await onDatabaseChange()
       navigation.navigate(ROUTES.vaultItens, { vaultId: vaultId.value })
     } catch (error) {
       console.error(error)
