@@ -26,7 +26,7 @@ type PushChangesParams = {
 
 export function useDatabase() {
   const { databaseService } = useRest()
-  const { isOnline } = useInternetContext()
+  const { isOffline } = useInternetContext()
 
   function getAccountChanges(changes: WatermelonChanges) {
     const accountMapper = WatermelonAccountMapper()
@@ -88,7 +88,7 @@ export function useDatabase() {
     await synchronize({
       database: watermelon,
       pushChanges: async ({ changes }: PushChangesParams) => {
-        if (!isOnline) throw new AppError('Internet is not available')
+        if (isOffline) throw new AppError('Internet is not available')
 
         console.log('changes', changes)
         const response = await databaseService.pushDatabaseChanges({
@@ -105,7 +105,7 @@ export function useDatabase() {
         }
       },
       pullChanges: async ({ lastPulledAt }) => {
-        if (!isOnline) throw new AppError('Internet is not available')
+        if (isOffline) throw new AppError('Internet is not available')
 
         const response = await databaseService.pullDatabaseChanges(
           lastPulledAt ? new Date(lastPulledAt) : new Date(),
