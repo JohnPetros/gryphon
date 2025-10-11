@@ -11,7 +11,7 @@ export const PullDatabaseChangesController = (): Controller<Schema> => {
   return {
     async handle(http: Http<Schema>) {
       const { lastPulledAt } = http.getQueryParams()
-      console.log(lastPulledAt)
+      // console.log('Database is being synchronized at', lastPulledAt)
       return http.send({
         createdCredentials: [],
         updatedCredentials: [],

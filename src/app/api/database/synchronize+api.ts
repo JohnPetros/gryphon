@@ -7,6 +7,7 @@ import {
   PushDatabaseChangesController,
 } from '@/rest/controllers'
 import { credentialSchema, idSchema } from '@/validation'
+import { DrizzleCredentialsRepository } from '@/database/drizzle/repositories'
 
 const pullDatabaseChangesSchema = z.object({
   queryParams: z.object({
@@ -41,7 +42,8 @@ export const POST = Route(async (request) => {
     schema: pushDatabaseChangesSchema,
     request,
   })
-  const controller = PushDatabaseChangesController()
+  const credentialsRepository = DrizzleCredentialsRepository()
+  const controller = PushDatabaseChangesController(credentialsRepository)
   const response = await controller.handle(http)
   return http.sendResponse(response)
 })
