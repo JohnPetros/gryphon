@@ -10,12 +10,12 @@ import { useInternetContextProvider } from './use-internet-context-provider'
 export const InternetContext = createContext({} as InternetContextValue)
 
 export const InternetContextProvider = ({ children }: PropsWithChildren) => {
-  const { isOnline } = useInternetContextProvider()
+  const { isOffline } = useInternetContextProvider()
 
   return (
-    <InternetContext.Provider value={{ isOnline }}>
-      <KeyboardAccessory isVisible={!isOnline}>
-        <Box className='flex-row items-center gap-2 p-2 bg-black'>
+    <InternetContext.Provider value={{ isOffline }}>
+      <KeyboardAccessory isVisible={isOffline}>
+        <Box className='flex-row items-center justify-center gap-2 p-2 bg-black'>
           <Icon name='offline' color='danger' size={20} />
           <Text className='text-danger text-lg'>Você não está conectado à internet</Text>
         </Box>
