@@ -10,7 +10,7 @@ export const DatabaseService = (restClient: RestClient): IDatabaseService => {
     },
 
     async pushDatabaseChanges(changes: DatabaseChanges) {
-      return await restClient.post('/database/synchronize', { body: changes })
+      return await restClient.post('/database/synchronize', changes)
     },
   }
 }
