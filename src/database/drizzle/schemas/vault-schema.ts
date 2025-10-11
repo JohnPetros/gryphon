@@ -1,5 +1,5 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { accountSchema } from './account.schema'
+import { accountSchema } from './account-schema'
 
 export const vaultSchema = sqliteTable('vaults', {
   id: text('id').primaryKey(),
