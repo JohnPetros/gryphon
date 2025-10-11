@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import {
   WatermelonAccountsRepository,
   WatermelonCredentialsRepository,
+  WatermelonCredentialVersionsRepository,
   WatermelonVaultsRepository,
 } from '@/database/watermelon'
 
@@ -12,6 +13,7 @@ export function useDatabase() {
       accountsRepository: WatermelonAccountsRepository(),
       credentialsRepository: WatermelonCredentialsRepository(),
       vaultsRepository: WatermelonVaultsRepository(),
+      credentialVersionsRepository: WatermelonCredentialVersionsRepository(),
     }
   }, [])
 }
