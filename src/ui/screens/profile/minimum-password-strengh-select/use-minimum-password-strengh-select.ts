@@ -25,7 +25,9 @@ export function useMinimumPasswordStrenghSelect({
     await accountsRepository.updateMinimumPasswordStrength(value, account.id)
     account.minimumPasswordStrength = value
     updateAccount(account)
-    await onUpdateAccount(account)
+    try {
+      await onUpdateAccount(account)
+    } catch {}
   }
 
   return { value, handleChange }

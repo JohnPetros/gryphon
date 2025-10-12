@@ -3,7 +3,17 @@ import { useCallback, useEffect, useState } from 'react'
 import type { Id } from '@/core/domain/structures'
 import type { CredentialsRepository } from '@/core/interfaces'
 
-export function useItensList(vaultId: Id, credentialsRepository: CredentialsRepository) {
+type Params = {
+  vaultId: Id
+  credentialsRepository: CredentialsRepository
+  onDatabaseChange: () => Promise<void>
+}
+
+export function useItensList({
+  vaultId,
+  credentialsRepository,
+  onDatabaseChange,
+}: Params) {
   const [credentialCount, setCredentialCount] = useState(0)
   const [noteCount, setNoteCount] = useState(0)
   const [selectedTab, setSelectedTab] = useState<'credential' | 'note'>('credential')
@@ -13,8 +23,9 @@ export function useItensList(vaultId: Id, credentialsRepository: CredentialsRepo
     setCredentialCount(credentialCount)
   }, [credentialsRepository, vaultId])
 
-  function handleCredentialDelete() {
-    countCredentials()
+  async function handleCredentialDelete() {
+    await countCredentials()
+    await onDatabaseChange()
   }
 
   function handleTabPress(tab: 'credential' | 'note') {

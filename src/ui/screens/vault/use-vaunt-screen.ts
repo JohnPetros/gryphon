@@ -28,30 +28,26 @@ export function useVaultScreen({
 
   async function handleVaultCreate(vaultDto: VaultDto) {
     if (!accountId) return
+    const vault = Vault.create(vaultDto)
+    await vaultsRepository.add(vault)
     try {
-      const vault = Vault.create(vaultDto)
-      await vaultsRepository.add(vault)
       await onDatabaseChange()
-      setVault(vault)
-      navigation.navigate(ROUTES.vaultItens, { vaultId: vault.id.value })
-    } catch (error) {
-      console.error(error)
-    }
+    } catch {}
+    setVault(vault)
+    navigation.navigate(ROUTES.vaultItens, { vaultId: vault.id.value })
   }
 
   async function handleVaultUpdate(vaultDto: VaultDto) {
+    if (!vaultId) return
+    const vault = Vault.create({
+      ...vaultDto,
+      id: vaultId.value,
+    })
+    await vaultsRepository.update(vault)
     try {
-      if (!vaultId) return
-      const vault = Vault.create({
-        ...vaultDto,
-        id: vaultId.value,
-      })
-      await vaultsRepository.update(vault)
       await onDatabaseChange()
-      navigation.navigate(ROUTES.vaultItens, { vaultId: vaultId.value })
-    } catch (error) {
-      console.error(error)
-    }
+    } catch {}
+    navigation.navigate(ROUTES.vaultItens, { vaultId: vaultId.value })
   }
 
   useEffect(() => {

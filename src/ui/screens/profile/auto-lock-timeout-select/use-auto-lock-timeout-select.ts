@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Account } from '@/core/domain/entities/account'
+import type { Account } from '@/core/domain/entities/account'
 import type { AccountsRepository } from '@/core/interfaces'
 
 export const AUTO_LOCK_TIMEOUTS: Record<number, string> = {
@@ -15,7 +15,7 @@ type Params = {
   accountsRepository: AccountsRepository
   account: Account | null
   updateAccount: (account: Account) => void
-  onUpdateAccount: (account: Account) => Promise<void>
+  onUpdateAccount: () => Promise<void>
 }
 
 export function useAutoLockTimeoutSelect({
@@ -33,8 +33,10 @@ export function useAutoLockTimeoutSelect({
     setAutoLockTimeout(autoLockTimeout)
     await accountsRepository.updateAutoLockTimeout(autoLockTimeout, account.id)
     account.autoLockTimeout = autoLockTimeout
-    updateAccount(Account.create(account.dto))
-    await onUpdateAccount(Account.create(account.dto))
+    updateAccount(account)
+    try {
+      await onUpdateAccount()
+    } catch {}
   }
 
   return {

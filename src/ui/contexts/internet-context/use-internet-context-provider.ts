@@ -1,31 +1,29 @@
-import { useEffect, useMemo } from 'react'
-import { useNetInfo } from '@react-native-community/netinfo'
+import { useEffect, useState } from 'react'
+import { useNetInfo, addEventListener } from '@react-native-community/netinfo'
 
 import type { InternetContextValue } from './internet-context-value'
 
-export function useInternetContextProvider() {
+export function useInternetContextProvider(
+  onInternetConnected: () => Promise<void>,
+): InternetContextValue {
   const networkState = useNetInfo()
+  const [isOffline, setIsOffline] = useState(false)
 
-  console.log({ networkState })
+  useEffect(() => {
+    const isOffline = networkState.isInternetReachable === false
+    if (!isOffline) onInternetConnected()
+    setIsOffline(isOffline)
 
-  const value: InternetContextValue = useMemo(() => {
-    console.log({ networkState })
-    return {
-      isOffline:
-        networkState.isInternetReachable !== undefined
-          ? !networkState.isInternetReachable
-          : false,
+    const unsubscribe = addEventListener((state) => {
+      setIsOffline(state.isInternetReachable === false)
+    })
+
+    return () => {
+      unsubscribe()
     }
   }, [networkState.isInternetReachable])
 
-  useEffect(() => {
-    // const unsubscribe = addNetworkStateListener((state) => {
-    //   console.log({ state })
-    // })
-    // return () => {
-    //   unsubscribe.remove()
-    // }
-  }, [])
-
-  return value
+  return {
+    isOffline,
+  }
 }

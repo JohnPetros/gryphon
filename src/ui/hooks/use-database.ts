@@ -88,9 +88,10 @@ export function useDatabase() {
     await synchronize({
       database: watermelon,
       pushChanges: async ({ changes }: PushChangesParams) => {
-        if (isOffline) throw new AppError('Internet is not available')
+        console.log(changes.credentials)
 
-        console.log('changes', changes)
+        if (isOffline) throw new AppError('Internet connection required')
+
         const response = await databaseService.pushDatabaseChanges({
           ...getAccountChanges(changes),
           ...getVaultChanges(changes),
@@ -98,14 +99,12 @@ export function useDatabase() {
           ...getCredentialVersionChanges(changes),
         })
 
-        console.log('response', response)
-
         if (response.isFailure) {
           response.throwError()
         }
       },
       pullChanges: async ({ lastPulledAt }) => {
-        if (isOffline) throw new AppError('Internet is not available')
+        if (isOffline) throw new AppError('Internet connection required')
 
         const response = await databaseService.pullDatabaseChanges(
           lastPulledAt ? new Date(lastPulledAt) : new Date(),
@@ -121,7 +120,7 @@ export function useDatabase() {
         }
       },
     })
-  }, [])
+  }, [isOffline])
 
   const repositories = useMemo(() => {
     return {

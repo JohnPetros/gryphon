@@ -6,11 +6,13 @@ import { Text } from '@/ui/gluestack/text'
 import { Box } from '@/ui/gluestack/box'
 import type { InternetContextValue } from './internet-context-value'
 import { useInternetContextProvider } from './use-internet-context-provider'
+import { useDatabase } from '@/ui/hooks/use-database'
 
 export const InternetContext = createContext({} as InternetContextValue)
 
 export const InternetContextProvider = ({ children }: PropsWithChildren) => {
-  const { isOffline } = useInternetContextProvider()
+  const { synchronizeDatabase } = useDatabase()
+  const { isOffline } = useInternetContextProvider(synchronizeDatabase)
 
   return (
     <InternetContext.Provider value={{ isOffline }}>
