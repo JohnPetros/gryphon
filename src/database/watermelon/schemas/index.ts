@@ -6,6 +6,6 @@ import { vaultSchema } from './vault-schema'
 import { accountSchema } from './account-schema'
 
 export const schemas = appSchema({
-  version: 16,
+  version: 23,
   tables: [accountSchema, credentialSchema, noteSchema, vaultSchema],
 })
