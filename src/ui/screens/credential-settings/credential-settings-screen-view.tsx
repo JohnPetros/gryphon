@@ -9,7 +9,6 @@ import { KeyboardAvoidingView, ScrollView } from 'react-native'
 
 type Props = {
   credential: Credential | null
-  encryptionKey: string
   onCreate: (credential: Credential) => Promise<void>
   onUpdate: (credential: Credential) => Promise<void>
 }

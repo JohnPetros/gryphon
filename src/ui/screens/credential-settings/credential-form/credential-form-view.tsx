@@ -8,7 +8,7 @@ import { Input } from '@/ui/components/input'
 import { Button } from '@/ui/components/button'
 import { PasswordInput } from '@/ui/components/password-input'
 import { useCredentialForm } from './use-credential-form'
-import { VaultSelect } from './vault-select'
+import { VaultSelect } from '@/ui/components/vault-select'
 import { KeyboardAvoidingView } from 'react-native'
 
 type Params = {
@@ -44,7 +44,12 @@ export const CredentialFormView = ({
           control={control}
           name='vaultId'
           render={({ field }) => {
-            return <VaultSelect defaultValue={credential?.vaultId.value ?? ''} onChange={field.onChange} />
+            return (
+              <VaultSelect
+                defaultValue={credential?.vaultId.value ?? ''}
+                onChange={field.onChange}
+              />
+            )
           }}
         />
 
@@ -109,8 +114,8 @@ export const CredentialFormView = ({
             />
           </Box>
 
-         <Box className='mt-3'>
-          <Controller
+          <Box className='mt-3'>
+            <Controller
               control={control}
               name='siteUrl'
               render={({ field }) => (
@@ -123,7 +128,7 @@ export const CredentialFormView = ({
                 />
               )}
             />
-         </Box>
+          </Box>
         </Box>
       </KeyboardAvoidingView>
     </Box>

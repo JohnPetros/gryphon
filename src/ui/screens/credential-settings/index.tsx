@@ -14,7 +14,6 @@ type LocalSearchParams = {
 export const CredentialSettingsScreen = () => {
   const { credentialId } = useLocalSearchParams<LocalSearchParams>()
   const { credentialsRepository } = useDatabase()
-  const { encryptionKey } = useAuthContext()
   const { credential, handleCredentialCreate, handleCredentialUpdate } =
     useCredentialSettingsScreen(
       credentialsRepository,
@@ -24,7 +23,6 @@ export const CredentialSettingsScreen = () => {
   return (
     <CredentialSettingsScreenView
       credential={credential}
-      encryptionKey={encryptionKey}
       onCreate={handleCredentialCreate}
       onUpdate={handleCredentialUpdate}
     />
