@@ -8,7 +8,7 @@ import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import { useCryptoProvider } from '@/ui/hooks/use-crypto-provider'
 import { CredentialMenuView } from './credential-menu-view'
 import { useCredentialMenu } from './use-credential-menu'
-import { MasterPasswordConfirmationDialogRef } from '../master-password-confirmation-dialog/types'
+import type { MasterPasswordConfirmationDialogRef } from '../master-password-confirmation-dialog/types'
 
 type Props = {
   credential: Credential
@@ -44,8 +44,12 @@ export const CredentialMenu = ({ credential, onDelete }: Props) => {
 
   return (
     <CredentialMenuView
-      masterPasswordConfirmationForPasswordCopyDialogRef={masterPasswordConfirmationForPasswordCopyDialogRef}
-      masterPasswordConfirmationForCredentialEditionDialogRef={masterPasswordConfirmationForCredentialEditionDialogRef}
+      masterPasswordConfirmationForPasswordCopyDialogRef={
+        masterPasswordConfirmationForPasswordCopyDialogRef
+      }
+      masterPasswordConfirmationForCredentialEditionDialogRef={
+        masterPasswordConfirmationForCredentialEditionDialogRef
+      }
       credentialId={credential.id}
       credentialTitle={credential.title}
       onEdit={handleEdit}

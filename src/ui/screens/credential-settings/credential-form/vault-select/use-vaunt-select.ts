@@ -21,8 +21,6 @@ export const useVaultSelect = ({
   const [vaults, setVaults] = useState<Vault[]>([])
   const [selectedVault, setSelectedVault] = useState<Vault | null>(null)
 
-  console.log({ defaultValue })
-
   function handleChange(vaultId: string) {
     setSelectedVault(vaults.find((vault) => vault.id.value === vaultId) ?? null)
     onChange(vaultId)
@@ -37,14 +35,7 @@ export const useVaultSelect = ({
       }
       setVaults(vaults)
 
-      console.log({defaultValue})
-
       if (defaultValue) {
-        console.log('defaultValue', defaultValue)
-        console.log(
-          'defaultValue',
-          vaults.find((vault) => vault.id.value === defaultValue),
-        )
         setSelectedVault(vaults.find((vault) => vault.id.value === defaultValue) ?? null)
         onChange(defaultValue)
         return

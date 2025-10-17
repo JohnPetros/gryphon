@@ -25,6 +25,7 @@ import {
   GraduationCap,
   Search,
   Plane,
+  RefreshCcwDotIcon,
   Wrench,
   Share2,
   Globe,
@@ -34,6 +35,7 @@ import {
   Copy,
   Check,
   X,
+  SparklesIcon,
 } from 'lucide-react-native'
 
 import type { IconName } from '../types/icon-name'
@@ -73,4 +75,7 @@ export const ICONS: Record<IconName, LucideIcon> = {
   password: KeyRound,
   exit: LogOut,
   link: Globe,
+  baby: RefreshCcwDotIcon,
+  sparkles: SparklesIcon,
+  restoration: RefreshCcwDotIcon,
 }
