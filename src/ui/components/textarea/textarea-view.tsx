@@ -1,6 +1,5 @@
 import { Textarea, TextareaInput } from '@/ui/gluestack/textarea'
 import { mergeClassNames } from '@/ui/utils/merge-class-names'
-import { InputSlot } from '@/ui/gluestack/input'
 import { Box } from '@/ui/gluestack/box'
 import { Text } from '@/ui/gluestack/text'
 import { Icon } from '@/ui/components/icon'
@@ -14,6 +13,7 @@ type Props = {
   className?: string
   isRequired?: boolean
   placeholder?: string
+  isBlocked?: boolean
   onChange: (value: string) => void
 }
 
@@ -25,12 +25,13 @@ export const TextareaView = ({
   value,
   defaultValue,
   isRequired,
+  isBlocked,
   onChange,
 }: Props) => {
   return (
     <Textarea
       size='md'
-      isReadOnly={false}
+      isReadOnly={isBlocked}
       isInvalid={false}
       isDisabled={false}
       className={mergeClassNames(
@@ -38,21 +39,24 @@ export const TextareaView = ({
         className,
       )}
     >
-      <InputSlot className='pl-3'>
-        <Icon name={icon} color='neutral' size={24} />
-      </InputSlot>
-      {label && (
-        <InputSlot className='absolute top-4 left-16'>
-          <Box className='flex-row gap-1'>
-            <Text>{label}</Text>
-            {isRequired && <Text className='-translate-y-1 text-sm'>*</Text>}
+      <Box className='flex flex-row gap-2 pt-4'>
+        <Box className='pl-3'>
+          <Icon name={icon} color='neutral' size={24} />
+        </Box>
+        {label && (
+          <Box>
+            <Box className='flex-row gap-1'>
+              <Text>{label}</Text>
+              {isRequired && <Text className='-translate-y-1 text-sm'>*</Text>}
+            </Box>
           </Box>
-        </InputSlot>
-      )}
+        )}
+      </Box>
       <TextareaInput
         placeholder={placeholder}
         defaultValue={defaultValue}
         value={value ?? defaultValue ?? undefined}
+        className='pl-4 text-xl'
         onChangeText={onChange}
       />
     </Textarea>
