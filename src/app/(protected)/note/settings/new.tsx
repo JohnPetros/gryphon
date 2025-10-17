@@ -1,3 +1,3 @@
-import { CredentialSettingsScreen } from '@/ui/screens/credential-settings'
+import { NoteSettingsScreen } from '@/ui/screens/note-settings'
 
-export default CredentialSettingsScreen
+export default NoteSettingsScreen
