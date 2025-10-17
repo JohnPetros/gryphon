@@ -4,6 +4,7 @@ import {
   WatermelonAccountsRepository,
   WatermelonCredentialsRepository,
   WatermelonVaultsRepository,
+  WatermelonNotesRepository,
 } from '@/database/watermelon'
 
 export function useDatabase() {
@@ -12,6 +13,7 @@ export function useDatabase() {
       accountsRepository: WatermelonAccountsRepository(),
       credentialsRepository: WatermelonCredentialsRepository(),
       vaultsRepository: WatermelonVaultsRepository(),
+      notesRepository: WatermelonNotesRepository(),
     }
   }, [])
 }
