@@ -48,9 +48,6 @@ export function useAuth() {
         return true
       } catch (error) {
         console.warn(error)
-        if (isClerkAPIResponseError(error)) {
-          toast.show(error.message, 'error')
-        }
         return false
       }
     },

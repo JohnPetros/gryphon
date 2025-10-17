@@ -13,6 +13,14 @@ import { Checkbox } from '../checkbox'
 import { PasswordStregth } from '../password-stregth'
 import type { BottomSheetRef } from '../bottom-sheet/types'
 
+const PASSWORD_STRENGTH_MESSAGES: Record<number, string> = {
+  1: 'muito fraca',
+  2: 'fraca',
+  3: 'boa',
+  4: 'forte',
+  5: 'muito forte',
+}
+
 type Props = {
   password: Password
   bottomSheetRef: RefObject<BottomSheetRef | null>
@@ -22,6 +30,7 @@ type Props = {
   hasNumbers: boolean
   hasSymbols: boolean
   isInvalid: boolean
+  minimumPasswordStrength: number
   onReload: () => void
   onChange: (value: string) => void
   onChangeLength: (value: number) => void
@@ -43,6 +52,7 @@ export const PasswordGeneratorView = ({
   hasNumbers,
   hasSymbols,
   isInvalid,
+  minimumPasswordStrength,
   onReload,
   onChange,
   onChangeLength,
@@ -111,6 +121,8 @@ export const PasswordGeneratorView = ({
               <PasswordStregth password={password} isLarge />
             </Box>
           </Box>
+
+         {onConfirm && <Text className='text-sm text-neutral mt-2'>Força mínima de senha: {PASSWORD_STRENGTH_MESSAGES[minimumPasswordStrength]}</Text>}
 
           {onConfirm && (
             <Button

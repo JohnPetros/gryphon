@@ -7,8 +7,8 @@ import type { Vault } from '@/core/domain/entities'
 import { VaultIcon } from '@/core/domain/structures/vault-icon'
 
 const formSchema = z.object({
-  title: z.string(),
-  icon: z.string(),
+  title: z.string().min(1),
+  icon: z.string().min(1),
 })
 
 type FormData = z.infer<typeof formSchema>
