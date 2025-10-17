@@ -10,7 +10,6 @@ import { NoteForm } from './note-form'
 
 type Props = {
   note: Note | null
-  encryptionKey: string
   onCreate: (note: Note) => Promise<void>
   onUpdate: (note: Note) => Promise<void>
 }

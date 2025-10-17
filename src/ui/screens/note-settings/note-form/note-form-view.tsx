@@ -84,7 +84,7 @@ export const NoteFormView = ({
               <Textarea
                 label='Conteúdo'
                 icon='content'
-                placeholder='Conteúdo'
+                placeholder='Minha nota de exemplo'
                 defaultValue={field.value}
                 isRequired
                 onChange={field.onChange}

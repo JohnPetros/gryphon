@@ -6,8 +6,6 @@ import z from 'zod'
 import type { CryptoProvider } from '@/core/interfaces'
 import { Note } from '@/core/domain/entities'
 
-import { useToast } from '@/ui/hooks/use-toast'
-
 const formSchema = z.object({
   title: z.string().min(1),
   content: z.string().min(1),
@@ -38,7 +36,6 @@ export const useNoteForm = ({
       vaultId: note?.vaultId.value ?? undefined,
     },
   })
-  const toast = useToast()
 
   async function handleFormSubmit(data: FormSchema) {
     const encryptedData = await cryptoProvider.encrypt(
