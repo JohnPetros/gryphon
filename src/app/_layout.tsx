@@ -20,8 +20,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { UiProvider } from '@/ui/gluestack/ui-provider'
 
-
-
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
   strict: false,

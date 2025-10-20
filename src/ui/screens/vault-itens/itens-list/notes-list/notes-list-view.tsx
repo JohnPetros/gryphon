@@ -40,8 +40,8 @@ export const NotesListView = ({
               <Box className='flex-row items-center gap-3'>
                 <AppItem.Icon
                   name='note'
-                  backgroundColor='primaryBackground'
-                  foregroundColor='primary'
+                  backgroundColor='warningBackground'
+                  foregroundColor='warning'
                 />
                 <AppItem.Info
                   name={item.title}
