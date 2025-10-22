@@ -37,6 +37,7 @@ export const NoteView = ({ note, noteContent, onNoteDelete }: Props) => {
           icon='content'
           value={noteContent}
           onChange={() => {}}
+          isReadOnly
           isBlocked
         />
       </Box>

@@ -33,7 +33,6 @@ export const NotesListView = ({
       keyExtractor={(item) => item.id.value}
       contentContainerStyle={{ gap: 12 }}
       renderItem={({ item }) => {
-        const decryptedData = item.encrypted.decrypt(encryptionKey, cryptoProvider)
         return (
           <AppItem.Container className='flex-row items-center justify-between'>
             <Link href={`/note/${item.id.value}`}>
@@ -45,7 +44,7 @@ export const NotesListView = ({
                 />
                 <AppItem.Info
                   name={item.title}
-                  description={decryptedData?.content ?? ''}
+                  description={'********'}
                   className='w-[72%]'
                 />
               </Box>

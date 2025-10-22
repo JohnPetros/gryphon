@@ -24,8 +24,6 @@ export function useNotesList({ vaultId, search, notesRepository, onNoteDelete }:
     onNoteDelete()
   }
 
-  console.log(notes)
-
   useEffect(() => {
     loadNotes()
   }, [vaultId, search, notesRepository, loadNotes])
