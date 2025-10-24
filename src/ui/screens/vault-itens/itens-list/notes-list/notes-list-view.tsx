@@ -2,7 +2,6 @@ import { FlatList } from 'react-native'
 import { Link } from 'expo-router'
 
 import type { Note } from '@/core/domain/entities'
-import type { CryptoProvider } from '@/core/interfaces'
 
 import { AppItem } from '@/ui/components/app-item'
 import { NoteMenu } from '@/ui/components/note-menu'
@@ -11,17 +10,10 @@ import { Text } from '@/ui/gluestack/text'
 
 type Props = {
   notes: Note[]
-  encryptionKey: string
-  cryptoProvider: CryptoProvider
   onNoteDelete: () => void
 }
 
-export const NotesListView = ({
-  notes,
-  encryptionKey,
-  cryptoProvider,
-  onNoteDelete,
-}: Props) => {
+export const NotesListView = ({ notes, onNoteDelete }: Props) => {
   return (
     <FlatList
       data={notes}
