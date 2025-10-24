@@ -21,6 +21,7 @@ type Props = {
   placeholder?: string
   isBlocked?: boolean
   masterPasswordConfirmationDialogRef: RefObject<MasterPasswordConfirmationDialogRef | null>
+  isBlockerEnable?: boolean
   onChange: (value: string) => void
   onBlockPress: () => void
   onUnblockPress: () => void
@@ -38,6 +39,7 @@ export const TextareaView = ({
   isRequired,
   isBlocked,
   isReadOnly,
+  isBlockerEnable,
   onChange,
   onBlockPress,
   onUnblockPress,
@@ -74,7 +76,7 @@ export const TextareaView = ({
             </Box>
           )}
         </Box>
-        {isBlocked && (
+        {isBlockerEnable && isBlocked && (
           <Pressable
             onPress={onBlockPress}
             className='absolute top-0 left-0 bottom-0 right-0 flex flex-row items-center justify-center gap-2 bg-black/50'
@@ -89,7 +91,7 @@ export const TextareaView = ({
           className='pl-4 text-xl'
           onChangeText={onChange}
         />
-        {!isBlocked && (
+        {isBlockerEnable && !isBlocked && (
           <Pressable
             onPress={onUnblockPress}
             className='absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2'

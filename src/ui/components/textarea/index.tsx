@@ -15,6 +15,7 @@ type Props = {
   isReadOnly?: boolean
   placeholder?: string
   isBlocked?: boolean
+  isBlockerEnable?: boolean
   onChange: (value: string) => void
 }
 
@@ -27,6 +28,7 @@ export const Textarea = ({
   isRequired,
   isReadOnly,
   isBlocked: isDefaultBlocked = false,
+  isBlockerEnable = false,
   placeholder,
   onChange,
 }: Props) => {
@@ -50,6 +52,8 @@ export const Textarea = ({
       isRequired={isRequired}
       className={className}
       placeholder={placeholder}
+      isReadOnly={isReadOnly}
+      isBlockerEnable={isBlockerEnable}
       isBlocked={isBlocked}
       masterPasswordConfirmationDialogRef={masterPasswordConfirmationDialogRef}
       onChange={onChange}
