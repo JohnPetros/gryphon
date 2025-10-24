@@ -11,10 +11,11 @@ import { VaultBadge } from './vault-badge'
 type Props = {
   note: Note
   noteContent: string
+  isNoteBlockerEnable: boolean
   onNoteDelete: () => void
 }
 
-export const NoteView = ({ note, noteContent, onNoteDelete }: Props) => {
+export const NoteView = ({ note, noteContent, isNoteBlockerEnable, onNoteDelete }: Props) => {
   return (
     <ScreenContainer>
       <Box className='mt-6 flex-row justify-between'>
@@ -39,6 +40,7 @@ export const NoteView = ({ note, noteContent, onNoteDelete }: Props) => {
           onChange={() => {}}
           isReadOnly
           isBlocked
+          isBlockerEnable={isNoteBlockerEnable}
         />
       </Box>
     </ScreenContainer>

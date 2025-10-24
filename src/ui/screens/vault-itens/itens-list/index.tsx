@@ -7,9 +7,10 @@ import { useItensList } from './use-itens-list'
 type Props = {
   vaultId: Id
   search: string
+  defaultActiveTab: 'credential' | 'note'
 }
 
-export const ItensList = ({ vaultId, search }: Props) => {
+export const ItensList = ({ vaultId, defaultActiveTab, search }: Props) => {
   const { credentialsRepository, notesRepository } = useDatabase()
   const {
     credentialCount,
@@ -18,7 +19,12 @@ export const ItensList = ({ vaultId, search }: Props) => {
     handleTabPress,
     handleCredentialDelete,
     handleNoteDelete,
-  } = useItensList(vaultId, credentialsRepository, notesRepository)
+  } = useItensList({
+    vaultId,
+    credentialsRepository,
+    notesRepository,
+    defaultActiveTab,
+  })
 
   return (
     <ItensListView

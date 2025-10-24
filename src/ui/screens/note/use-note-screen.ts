@@ -3,8 +3,9 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Id } from '@/core/domain/structures'
 import type { NotesRepository, CryptoProvider } from '@/core/interfaces'
 import type { Note } from '@/core/domain/entities'
-import { useNavigation } from '@/ui/hooks/use-navigation'
 import { ROUTES } from '@/constants'
+
+import { useNavigation } from '@/ui/hooks/use-navigation'
 
 type Params = {
   noteId: Id
@@ -24,7 +25,7 @@ export function useNoteScreen({
 
   function handleNoteDelete() {
     setNote(null)
-    navigate(ROUTES.vaultItens)
+    navigate(ROUTES.vaultItens, { vaultId: note?.vaultId.value, activeTab: 'note' })
   }
 
   useEffect(() => {

@@ -3,14 +3,22 @@ import { useCallback, useEffect, useState } from 'react'
 import type { Id } from '@/core/domain/structures'
 import type { CredentialsRepository, NotesRepository } from '@/core/interfaces'
 
-export function useItensList(
-  vaultId: Id,
-  credentialsRepository: CredentialsRepository,
-  notesRepository: NotesRepository,
-) {
+type Params = {
+  vaultId: Id
+  credentialsRepository: CredentialsRepository
+  notesRepository: NotesRepository
+  defaultActiveTab: 'credential' | 'note'
+}
+
+export function useItensList({
+  vaultId,
+  credentialsRepository,
+  notesRepository,
+  defaultActiveTab,
+}: Params) {
   const [credentialCount, setCredentialCount] = useState(0)
   const [noteCount, setNoteCount] = useState(0)
-  const [selectedTab, setSelectedTab] = useState<'credential' | 'note'>('credential')
+  const [selectedTab, setSelectedTab] = useState<'credential' | 'note'>(defaultActiveTab ?? 'note')
 
   const countCredentials = useCallback(async () => {
     const credentialCount = await credentialsRepository.countByVault(vaultId)

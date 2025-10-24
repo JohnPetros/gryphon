@@ -19,7 +19,7 @@ export function useNoteSettingsScreen({ notesRepository, noteId }: Params) {
   async function handleNoteCreate(note: Note) {
     try {
       await notesRepository.add(note)
-      navigate(ROUTES.vaultItens, { vaultId: note.vaultId.value })
+      navigate(ROUTES.vaultItens, { vaultId: note.vaultId.value, activeTab: 'note' })
     } catch (error) {
       console.error(error)
     }
@@ -28,7 +28,7 @@ export function useNoteSettingsScreen({ notesRepository, noteId }: Params) {
   async function handleNoteUpdate(note: Note) {
     try {
       await notesRepository.update(note)
-      navigate(ROUTES.vaultItens, { vaultId: note.vaultId.value })
+      navigate(ROUTES.vaultItens, { vaultId: note.vaultId.value, activeTab: 'note' })
     } catch (error) {
       console.error(error)
     }

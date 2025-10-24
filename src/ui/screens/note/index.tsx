@@ -30,6 +30,7 @@ export const NoteScreen = () => {
     <NoteView
       note={note}
       noteContent={decryptedData.content}
+      isNoteBlockerEnable
       onNoteDelete={handleNoteDelete}
     />
   )
