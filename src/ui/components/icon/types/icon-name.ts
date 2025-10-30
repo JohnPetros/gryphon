@@ -22,6 +22,7 @@ export type IconName =
   | 'trash'
   | 'note'
   | 'password'
+  | 'biometric'
   | 'plus'
   | 'profile'
   | 'title'
