@@ -12,8 +12,8 @@ export const KeyboardAccessoryView = ({
   isVisible,
 }: PropsWithChildren<Props>) => {
   return (
-    <Portal isOpen={isVisible}>
-      <Box className='bg-black pt-16 pb-6 w-screen'>{children}</Box>
+    <Portal key={String(isVisible)} isOpen={isVisible}>
+      <Box className='bg-black pt-8 pb-3 w-screen'>{children}</Box>
     </Portal>
   )
 }

@@ -12,6 +12,7 @@ type Params = {
   credentialsRepository: CredentialsRepository
   cryptoProvider: CryptoProvider
   encryptionKey: string
+  onRestore: () => Promise<void>
 }
 
 export function useCredentialScreen({
@@ -19,6 +20,7 @@ export function useCredentialScreen({
   credentialsRepository,
   cryptoProvider,
   encryptionKey,
+  onRestore,
 }: Params) {
   const [credential, setCredential] = useState<Credential | null>(null)
   const { navigate } = useNavigation()
@@ -30,13 +32,16 @@ export function useCredentialScreen({
     }
   }, [credentialId, credentialsRepository])
 
-  function handleCredentialDelete() {
+  async function handleCredentialDelete() {
     setCredential(null)
     navigate(ROUTES.vaultItens)
   }
 
-  function handleCredentialRestore() {
-    loadCredential()
+  async function handleCredentialRestore() {
+    await loadCredential()
+    try {
+      await onRestore()
+    } catch {}
   }
 
   useEffect(() => {

@@ -1,0 +1,15 @@
+@URL = {{BASE_URL}}/database
+
+### GET /synchronize
+GET {{URL}}/synchronize
+?lastPulledAt=2025-10-11T12:36:00.000Z
+
+### POST /synchronize
+POST {{URL}}/synchronize
+Content-Type: application/json
+
+{
+  "createdCredentials": [],
+  "updatedCredentials": [],
+  "deletedCredentialsIds": []
+}

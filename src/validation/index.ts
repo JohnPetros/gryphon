@@ -1,1 +1,6 @@
 export { passwordSchema } from './password-schema'
+export { credentialSchema } from './credential-schema'
+export { idSchema } from './id-schema'
+export { accountSchema } from './account-schema'
+export { vaultSchema } from './vault-schema'
+export { credentialVersionSchema } from './credential-version-schema'

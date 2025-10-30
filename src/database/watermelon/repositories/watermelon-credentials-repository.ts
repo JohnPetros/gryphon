@@ -7,7 +7,7 @@ import type { Id } from '@/core/domain/structures'
 
 import type { CredentialModel, CredentialVersionModel, VaultModel } from '../models'
 import { WatermelonCredentialMapper } from '../mappers'
-import { watermelon } from '../client'
+import { watermelon } from '../watermelon'
 
 export const WatermelonCredentialsRepository = (): CredentialsRepository => {
   const mapper = WatermelonCredentialMapper()
@@ -34,6 +34,8 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
         })
       })
     },
+
+    async addMany(credentials: Credential[]): Promise<void> {},
 
     async update(credential: Credential): Promise<void> {
       await watermelon.write(async () => {
@@ -66,6 +68,8 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
         })
       })
     },
+
+    async updateMany(credentials: Credential[]): Promise<void> {},
 
     async findById(id: Id): Promise<Credential | null> {
       try {
@@ -108,5 +112,7 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
         await model.markAsDeleted()
       })
     },
+
+    async removeMany(credentialIds: Id[]): Promise<void> {},
   }
 }

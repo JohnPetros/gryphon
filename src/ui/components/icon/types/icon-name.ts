@@ -16,6 +16,8 @@ export type IconName =
   | 'eye-open'
   | 'list'
   | 'login'
+  | 'online'
+  | 'offline'
   | 'edit'
   | 'trash'
   | 'note'

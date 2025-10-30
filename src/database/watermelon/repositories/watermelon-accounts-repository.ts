@@ -7,7 +7,7 @@ import type { Id } from '@/core/domain/structures'
 
 import type { AccountModel } from '../models'
 import { WatermelonAccountMapper } from '../mappers'
-import { watermelon } from '../client'
+import { watermelon } from '../watermelon'
 
 export const WatermelonAccountsRepository = (): AccountsRepository => {
   const mapper = WatermelonAccountMapper()

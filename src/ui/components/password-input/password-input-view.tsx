@@ -22,7 +22,6 @@ const PASSWORD_STRENGTH_MESSAGES: Record<number, string> = {
   5: 'muito forte',
 }
 
-
 type Props = {
   password: Password
   label: string
@@ -100,7 +99,9 @@ export const PasswordInputView = ({
       />
 
       {hasPasswordStrengthCaption && (
-        <Text className='text-sm text-neutral mt-2'>Força mínima de senha: {PASSWORD_STRENGTH_MESSAGES[minimumPasswordStrength]}</Text>
+        <Text className='text-sm text-neutral mt-2'>
+          Força mínima de senha: {PASSWORD_STRENGTH_MESSAGES[minimumPasswordStrength]}
+        </Text>
       )}
 
       {hasPasswordGenerator && (
@@ -113,7 +114,7 @@ export const PasswordInputView = ({
           <KeyboardAccessory isVisible={isPasswordGeneratorVisible}>
             <Pressable
               onPress={onPasswordGeneratorButtonPress}
-              className='flex-row items-center justify-center gap-2'
+              className='flex-row items-center justify-center gap-2 p-2'
             >
               <Icon name='password' color='neutral' size={20} />
               <Text className='text-accent text-lg'>Gerar senha aleatória</Text>

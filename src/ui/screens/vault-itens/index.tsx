@@ -15,6 +15,7 @@ export const VaultItensScreen = () => {
   const { vaultId } = useLocalSearchParams<SearchParams>()
   const { account } = useAuthContext()
   const { vaultsRepository } = useDatabase()
+  const { synchronizeDatabase } = useDatabase()
   const {
     selectedVault,
     vaults,
@@ -30,6 +31,7 @@ export const VaultItensScreen = () => {
     vaultsRepository,
     defaultSelectedVaultId: Id.create(vaultId),
     accountId: account?.id ?? Id.create(),
+    onDatabaseChange: synchronizeDatabase,
   })
 
   return (

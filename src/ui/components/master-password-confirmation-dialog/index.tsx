@@ -13,7 +13,7 @@ type Props = {
   onCorrectPasswordSubmit: () => void
 }
 
-export const MasterPasswordConfirmationDialog = ({
+export const  MasterPasswordConfirmationDialog = ({
   ref,
   description,
   canClose,

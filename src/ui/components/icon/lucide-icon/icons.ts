@@ -6,6 +6,7 @@ import {
   FileType,
   Edit,
   Trash,
+  WifiOff,
   LogOut,
   DiamondPlus,
   RefreshCcw,
@@ -36,6 +37,7 @@ import {
   Check,
   X,
   SparklesIcon,
+  Wifi,
 } from 'lucide-react-native'
 
 import type { IconName } from '../types/icon-name'
@@ -77,5 +79,7 @@ export const ICONS: Record<IconName, LucideIcon> = {
   link: Globe,
   baby: RefreshCcwDotIcon,
   sparkles: SparklesIcon,
+  online: Wifi,
+  offline: WifiOff,
   restoration: RefreshCcwDotIcon,
 }
