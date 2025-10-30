@@ -7,7 +7,7 @@ import type { Id } from '@/core/domain/structures'
 
 import type { NoteModel, VaultModel } from '../models'
 import { WatermelonNoteMapper } from '../mappers'
-import { watermelon } from '../client'
+import { watermelon } from '../watermelon'
 
 export const WatermelonNotesRepository = (): NotesRepository => {
   const mapper = WatermelonNoteMapper()
@@ -31,6 +31,10 @@ export const WatermelonNotesRepository = (): NotesRepository => {
       })
     },
 
+    async addMany(notes: Note[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
     async update(note: Note): Promise<void> {
       await watermelon.write(async () => {
         const noteModel = await watermelon.collections
@@ -48,6 +52,10 @@ export const WatermelonNotesRepository = (): NotesRepository => {
           model.vault.set(vaultModel)
         })
       })
+    },
+
+    async updateMany(notes: Note[]): Promise<void> {
+      throw new Error('Method not implemented.')
     },
 
     async findById(id: Id): Promise<Note | null> {
@@ -90,6 +98,10 @@ export const WatermelonNotesRepository = (): NotesRepository => {
 
         await model.markAsDeleted()
       })
+    },
+
+    async removeMany(noteIds: Id[]): Promise<void> {
+      throw new Error('Method not implemented.')
     },
   }
 }

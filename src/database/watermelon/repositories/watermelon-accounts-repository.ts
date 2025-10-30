@@ -96,5 +96,25 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
         })
       })
     },
+
+    async addMany(accounts: Account[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
+    async update(accounts: Account): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
+    async updateMany(accounts: Account[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
+    async removeMany(accountIds: Id[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
+    async remove(accountId: Id): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
   }
 }
