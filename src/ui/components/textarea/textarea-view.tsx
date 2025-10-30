@@ -79,7 +79,7 @@ export const TextareaView = ({
         {isBlockerEnable && isBlocked && (
           <Pressable
             onPress={onBlockPress}
-            className='absolute top-0 left-0 bottom-0 right-0 flex flex-row items-center justify-center gap-2 bg-black/50'
+            className='absolute top-0 left-0 bottom-0 right-0 flex flex-row items-center justify-center gap-2 bg-black/70'
           >
             <Icon name='lock' color='neutral' size={40} />
           </Pressable>

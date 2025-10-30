@@ -18,6 +18,7 @@ type Params = {
   repository: NotesRepository
   navigation: NavigationProvider
   onDelete?: () => void
+  onDatabaseChange: () => Promise<void>
 }
 
 export function useNoteMenu({
@@ -29,12 +30,16 @@ export function useNoteMenu({
   note,
   navigation,
   onDelete,
+  onDatabaseChange,
 }: Params) {
   const { copy } = useClipboard()
 
   async function handleDelete(noteId: Id) {
     try {
       await repository.remove(noteId)
+      try {
+        await onDatabaseChange()
+      } catch {}
       onDelete?.()
     } catch (error) {
       console.error(error)

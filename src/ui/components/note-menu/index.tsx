@@ -22,7 +22,7 @@ export const NoteMenu = ({ note, onDelete }: Props) => {
     useRef<MasterPasswordConfirmationDialogRef | null>(null)
   const masterPasswordConfirmationForNoteEditionDialogRef =
     useRef<MasterPasswordConfirmationDialogRef | null>(null)
-  const { notesRepository } = useDatabase()
+  const { notesRepository, synchronizeDatabase } = useDatabase()
   const navigation = useNavigation()
   const {
     handleEdit,
@@ -39,6 +39,7 @@ export const NoteMenu = ({ note, onDelete }: Props) => {
     cryptoProvider,
     navigation,
     onDelete,
+    onDatabaseChange: synchronizeDatabase,
   })
 
   return (

@@ -20,13 +20,10 @@ export const ItensList = ({ vaultId, defaultActiveTab, search }: Props) => {
     handleCredentialDelete,
     handleNoteDelete,
   } = useItensList({
-    {
     vaultId,
-   
     credentialsRepository,
     notesRepository,
     defaultActiveTab,
-  },
     onDatabaseChange: synchronizeDatabase,
   })
 

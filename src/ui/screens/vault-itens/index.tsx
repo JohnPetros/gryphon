@@ -35,8 +35,6 @@ export const VaultItensScreen = () => {
     onDatabaseChange: synchronizeDatabase,
   })
 
-  console.log(activeTab)
-
   return (
     <VaultItensScreenView
       selectedVault={selectedVault}

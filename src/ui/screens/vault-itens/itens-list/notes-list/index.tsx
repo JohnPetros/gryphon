@@ -13,8 +13,6 @@ type Props = {
 
 export const NotesList = ({ vaultId, search, onNoteDelete }: Props) => {
   const { notesRepository } = useDatabase()
-  const { encryptionKey } = useAuthContext()
-  const cryptoProvider = useCryptoProvider()
   const { notes, handleNoteDelete } = useNotesList({
     vaultId,
     search,
@@ -22,12 +20,5 @@ export const NotesList = ({ vaultId, search, onNoteDelete }: Props) => {
     onNoteDelete,
   })
 
-  return (
-    <NotesListView
-      notes={notes}
-      encryptionKey={encryptionKey}
-      cryptoProvider={cryptoProvider}
-      onNoteDelete={handleNoteDelete}
-    />
-  )
+  return <NotesListView notes={notes} onNoteDelete={handleNoteDelete} />
 }

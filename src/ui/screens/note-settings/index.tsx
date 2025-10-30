@@ -11,10 +11,11 @@ type LocalSearchParams = {
 
 export const NoteSettingsScreen = () => {
   const { noteId } = useLocalSearchParams<LocalSearchParams>()
-  const { notesRepository } = useDatabase()
+  const { notesRepository, synchronizeDatabase } = useDatabase()
   const { note, handleNoteCreate, handleNoteUpdate } = useNoteSettingsScreen({
     notesRepository,
     noteId: noteId ? Id.create(noteId) : undefined,
+    onChangeDatabase: synchronizeDatabase,
   })
   return (
     <NoteSettingsScreenView

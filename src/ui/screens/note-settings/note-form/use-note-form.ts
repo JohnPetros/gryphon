@@ -51,6 +51,7 @@ export const useNoteForm = ({
         title: data.title,
         vaultId: data.vaultId,
         encryptedData,
+        createdAt: note.createdAt,
       })
       await onUpdate(updatedNote)
       return
@@ -60,6 +61,7 @@ export const useNoteForm = ({
       title: data.title,
       vaultId: data.vaultId,
       encryptedData,
+      createdAt: new Date(),
     })
 
     await onCreate(newNote)

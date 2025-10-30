@@ -30,6 +30,7 @@ export function useAuthContextProvider({
   const secureStore = useSecureStore()
   const navigation = useNavigation()
   const toast = useToast()
+  console.log(account?.id)
 
   const signInAccount = useCallback(
     async (email: string, password: string) => {
