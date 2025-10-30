@@ -13,6 +13,7 @@ export type IconName =
   | 'reload'
   | 'close'
   | 'copy'
+  | 'biometric'
   | 'eye-open'
   | 'list'
   | 'login'
