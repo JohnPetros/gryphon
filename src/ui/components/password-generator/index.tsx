@@ -66,6 +66,7 @@ export const PasswordGenerator = ({
       hasNumbers={hasNumbers}
       hasSymbols={hasSymbols}
       isInvalid={isInvalid}
+      minimumPasswordStrength={account?.minimumPasswordStrength || 3}
       onOpen={handleOpen}
       onReload={handleReload}
       onChange={handleChange}

@@ -8,8 +8,8 @@ import type { VaultIcon } from '@/core/domain/structures/vault-icon'
 import type { Id } from '@/core/domain/structures'
 
 const formSchema = z.object({
-  title: z.string(),
-  icon: z.string(),
+  title: z.string().min(1),
+  icon: z.string().min(1),
 })
 
 type FormData = z.infer<typeof formSchema>
