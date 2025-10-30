@@ -5,15 +5,16 @@ import { Id } from '@/core/domain/structures'
 import type { CryptoProvider, AccountsRepository } from '@/core/interfaces'
 
 import { ROUTES, STORAGE_KEYS } from '@/constants'
-import { useNavigation } from '@/ui/hooks/use-navigation'
-import { useSecureStore } from '@/ui/hooks/use-secure-store'
 import { useToast } from '@/ui/hooks/use-toast'
 import type { AuthContextValue } from './auth-context-value'
+import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
 
 type Params = {
   jwt: string | null
   cryptoProvider: CryptoProvider
   accountsRepository: AccountsRepository
+  navigationProvider: NavigationProvider
+  storageProvider: StorageProvider
   signOut: () => Promise<void>
   signIn: (email: string, password: string) => Promise<boolean>
 }
@@ -21,14 +22,14 @@ type Params = {
 export function useAuthContextProvider({
   cryptoProvider,
   accountsRepository,
+  storageProvider,
+  navigationProvider,
   signOut,
   signIn,
 }: Params) {
   const [account, setAccount] = useState<Account | null>(null)
   const [encryptionKey, setEncryptionKey] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
-  const secureStore = useSecureStore()
-  const navigation = useNavigation()
   const toast = useToast()
 
   const signInAccount = useCallback(
@@ -49,14 +50,14 @@ export function useAuthContextProvider({
       }
 
       setAccount(account)
-      await secureStore.setItem(STORAGE_KEYS.accountId, account.id.value)
-      navigation.navigate(ROUTES.vaultItens)
+      await storageProvider.setItem(STORAGE_KEYS.accountId, account.id.value)
+      navigationProvider.navigate(ROUTES.vaultItens)
     },
     [
       signIn,
       signOut,
-      secureStore.setItem,
-      navigation.navigate,
+      storageProvider.setItem,
+      navigationProvider.navigate,
       toast.show,
       accountsRepository.findByEmail,
     ],
@@ -65,9 +66,9 @@ export function useAuthContextProvider({
   const signOutAccount = useCallback(async () => {
     signOut()
     setAccount(null)
-    await secureStore.deleteItem(STORAGE_KEYS.accountId)
-    navigation.navigate(ROUTES.auth.signIn)
-  }, [signOut, navigation.navigate, secureStore.deleteItem])
+    await storageProvider.deleteItem(STORAGE_KEYS.accountId)
+    navigationProvider.navigate(ROUTES.auth.signIn)
+  }, [signOut, navigationProvider.navigate, storageProvider.deleteItem])
 
   const createEncryptionKey = useCallback(
     async (masterPassword: string, encryptionSalt: string) => {
@@ -78,7 +79,7 @@ export function useAuthContextProvider({
   )
 
   const loadAccount = useCallback(async () => {
-    const accountId = await secureStore.getItem(STORAGE_KEYS.accountId)
+    const accountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
     if (!accountId) {
       signOutAccount()
       return
@@ -91,7 +92,7 @@ export function useAuthContextProvider({
       return
     }
 
-    const masterPassword = await secureStore.getItem(STORAGE_KEYS.masterPassword)
+    const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
     if (!masterPassword) return
 
     createEncryptionKey(masterPassword, account.encryptionSalt)
@@ -99,7 +100,7 @@ export function useAuthContextProvider({
   }, [
     createEncryptionKey,
     signOutAccount,
-    secureStore.getItem,
+    storageProvider.getItem,
     accountsRepository.findById,
   ])
 
@@ -129,13 +130,13 @@ export function useAuthContextProvider({
         })
         setAccount(account)
 
-        await secureStore.setItem(STORAGE_KEYS.masterPassword, masterPassword)
-        await secureStore.setItem(STORAGE_KEYS.accountId, accountId)
+        await storageProvider.setItem(STORAGE_KEYS.masterPassword, masterPassword)
+        await storageProvider.setItem(STORAGE_KEYS.accountId, accountId)
 
         await accountsRepository.add(account)
         await signOut()
 
-        navigation.navigate(ROUTES.auth.signIn)
+        navigationProvider.navigate(ROUTES.auth.signIn)
       } catch (error) {
         console.error('Error creating account', error)
       } finally {
@@ -157,15 +158,15 @@ export function useAuthContextProvider({
     account,
     isLoading,
     encryptionKey,
-    secureStore.setItem,
-    navigation.navigate,
+    accountsRepository,
+    cryptoProvider,
+    storageProvider.setItem,
+    navigationProvider.navigate,
     signInAccount,
     signOutAccount,
     updateAccount,
     createEncryptionKey,
     signOut,
-    accountsRepository,
-    cryptoProvider,
   ])
 
   useEffect(() => {

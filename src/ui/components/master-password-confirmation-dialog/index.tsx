@@ -4,6 +4,7 @@ import type { MasterPasswordConfirmationDialogRef } from './types/master-passwor
 import { MasterPasswordConfirmationDialogView } from './master-password-confirmation-dialog-view'
 import { useMasterPasswordConfirmationDialog } from './use-master-password-confirmation-dialog'
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
+import { useSecureStorage } from '@/ui/hooks/use-secure-storage'
 
 type Props = {
   ref?: RefObject<MasterPasswordConfirmationDialogRef | null>
@@ -13,7 +14,7 @@ type Props = {
   onCorrectPasswordSubmit: () => void
 }
 
-export const  MasterPasswordConfirmationDialog = ({
+export const MasterPasswordConfirmationDialog = ({
   ref,
   description,
   canClose,
@@ -21,15 +22,24 @@ export const  MasterPasswordConfirmationDialog = ({
   onCorrectPasswordSubmit,
 }: Props) => {
   const { account } = useAuthContext()
+  const storageProvider = useSecureStorage()
   const { isOpen, open, close, handlePasswordChange, handlePasswordSubmit } =
-    useMasterPasswordConfirmationDialog(
-      { isMasterPasswordRequired: shouldSuppressMasterPasswordRequirement ? true : Boolean(account?.isMasterPasswordRequired), onCorrectPasswordSubmit }
-    )
+    useMasterPasswordConfirmationDialog({
+      isMasterPasswordRequired: shouldSuppressMasterPasswordRequirement
+        ? true
+        : Boolean(account?.isMasterPasswordRequired),
+      storageProvider,
+      onCorrectPasswordSubmit,
+    })
 
-  useImperativeHandle(ref, () => ({
-    open,
-    close,
-  }), [open, close])
+  useImperativeHandle(
+    ref,
+    () => ({
+      open,
+      close,
+    }),
+    [open, close],
+  )
 
   return (
     <MasterPasswordConfirmationDialogView

@@ -1,17 +1,21 @@
 import { STORAGE_KEYS } from '@/constants/storage-keys'
-import { useSecureStore } from '@/ui/hooks/use-secure-store'
+import type { StorageProvider } from '@/core/interfaces/providers'
 import { useState } from 'react'
 import { Alert } from 'react-native'
 
 type Props = {
   isMasterPasswordRequired: boolean
+  storageProvider: StorageProvider
   onCorrectPasswordSubmit: () => void
 }
 
-export function useMasterPasswordConfirmationDialog({ isMasterPasswordRequired, onCorrectPasswordSubmit }: Props) {
+export function useMasterPasswordConfirmationDialog({
+  isMasterPasswordRequired,
+  storageProvider,
+  onCorrectPasswordSubmit,
+}: Props) {
   const [masterPassword, setMasterPassword] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const secureStore = useSecureStore()
 
   function open() {
     if (isMasterPasswordRequired) {
@@ -31,7 +35,9 @@ export function useMasterPasswordConfirmationDialog({ isMasterPasswordRequired, 
   }
 
   async function handlePasswordSubmit() {
-    const correctMasterPassword = await secureStore.getItem(STORAGE_KEYS.masterPassword)
+    const correctMasterPassword = await storageProvider.getItem(
+      STORAGE_KEYS.masterPassword,
+    )
 
     if (correctMasterPassword === masterPassword) {
       onCorrectPasswordSubmit()
