@@ -19,7 +19,7 @@ export const SignInScreenView = ({ onSignIn }: Props) => {
       <Box className='mt-12'>
         <SignInForm onSignIn={onSignIn} />
       </Box>
-      <Box className='mt-12 mx-auto'>
+      <Box className='mt-40 mx-auto'>
         <BiometricButton />
       </Box>
     </ScreenContainer>
