@@ -33,6 +33,10 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
       })
     },
 
+    async addMany(accounts: Account[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
     async findByEmail(email: string): Promise<Account | null> {
       const accountModel = await watermelon.collections
         .get<AccountModel>('accounts')
@@ -95,6 +99,22 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
           model.autoLockTimeout = autoLockTimeout
         })
       })
+    },
+
+    async update(accounts: Account): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
+    async updateMany(accounts: Account[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
+    async removeMany(accountIds: Id[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
+    async remove(accountId: Id): Promise<void> {
+      throw new Error('Method not implemented.')
     },
   }
 }

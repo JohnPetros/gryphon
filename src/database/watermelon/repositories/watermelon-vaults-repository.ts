@@ -87,6 +87,8 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
       })
     },
 
-    async removeMany(vaultIds: Id[]): Promise<void> {},
+    async removeMany(vaultIds: Id[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
   }
 }

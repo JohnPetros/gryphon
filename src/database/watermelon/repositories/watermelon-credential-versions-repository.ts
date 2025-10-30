@@ -71,5 +71,25 @@ export const WatermelonCredentialVersionsRepository =
 
         return mapper.toEntity(credentialVersion[0])
       },
+
+      async addMany(credentialVersions: CredentialVersion[]): Promise<void> {
+        throw new Error('Method not implemented.')
+      },
+
+      async update(credentialVersions: CredentialVersion): Promise<void> {
+        throw new Error('Method not implemented.')
+      },
+
+      async updateMany(credentialVersions: CredentialVersion[]): Promise<void> {
+        throw new Error('Method not implemented.')
+      },
+
+      async removeMany(credentialVersionIds: Id[]): Promise<void> {
+        throw new Error('Method not implemented.')
+      },
+
+      async remove(credentialVersionId: Id): Promise<void> {
+        throw new Error('Method not implemented.')
+      },
     }
   }
