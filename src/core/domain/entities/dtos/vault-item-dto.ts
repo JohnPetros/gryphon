@@ -3,4 +3,5 @@ export type VaultItemDto = {
   title: string
   encryptedData: string
   vaultId: string
+  createdAt: Date
 }

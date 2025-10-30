@@ -3,7 +3,6 @@ import type { Id } from '@/core/domain/structures'
 import type { VaultsRepository } from '@/core/interfaces'
 import { useIsFocused } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
 
 export function useVaultsDrawer(vaultsRepository: VaultsRepository, accountId: Id) {
   const [vaults, setVaults] = useState<Vault[]>([])
@@ -14,11 +13,8 @@ export function useVaultsDrawer(vaultsRepository: VaultsRepository, accountId: I
     setVaults(vaults)
   }
 
-  console.log({ vaults })
-
   useEffect(() => {
     loadVaults()
-    Alert.alert('isFocused')
   }, [isFocused])
 
   return {

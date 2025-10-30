@@ -10,15 +10,22 @@ type Params = {
   defaultActiveTab: 'credential' | 'note'
 }
 
+type Params = {
+  vaultId: Id
+  credentialsRepository: CredentialsRepository
+  onDatabaseChange: () => Promise<void>
+}
+
 export function useItensList({
   vaultId,
   credentialsRepository,
-  notesRepository,
-  defaultActiveTab,
+  onDatabaseChange,
 }: Params) {
   const [credentialCount, setCredentialCount] = useState(0)
   const [noteCount, setNoteCount] = useState(0)
-  const [selectedTab, setSelectedTab] = useState<'credential' | 'note'>(defaultActiveTab ?? 'note')
+  const [selectedTab, setSelectedTab] = useState<'credential' | 'note'>(
+    defaultActiveTab ?? 'note',
+  )
 
   const countCredentials = useCallback(async () => {
     const credentialCount = await credentialsRepository.countByVault(vaultId)
@@ -30,9 +37,9 @@ export function useItensList({
     setNoteCount(noteCount)
   }, [notesRepository, vaultId])
 
-  function handleCredentialDelete() {
-    countCredentials()
-    countNotes()
+  async function handleCredentialDelete() {
+    await countCredentials()
+    await onDatabaseChange()
   }
 
   function handleTabPress(tab: 'credential' | 'note') {

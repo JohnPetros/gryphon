@@ -1,16 +1,18 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import type { Id } from '@/core/domain/structures'
 import type { CredentialsRepository, CryptoProvider } from '@/core/interfaces'
 import type { Credential } from '@/core/domain/entities'
-import { useNavigation } from '@/ui/hooks/use-navigation'
+
 import { ROUTES } from '@/constants'
+import { useNavigation } from '@/ui/hooks/use-navigation'
 
 type Params = {
   credentialId: Id
   credentialsRepository: CredentialsRepository
   cryptoProvider: CryptoProvider
   encryptionKey: string
+  onRestore: () => Promise<void>
 }
 
 export function useCredentialScreen({
@@ -18,24 +20,33 @@ export function useCredentialScreen({
   credentialsRepository,
   cryptoProvider,
   encryptionKey,
+  onRestore,
 }: Params) {
   const [credential, setCredential] = useState<Credential | null>(null)
   const { navigate } = useNavigation()
 
-  function handleCredentialDelete() {
+  const loadCredential = useCallback(async () => {
+    if (credentialId) {
+      const credential = await credentialsRepository.findById(credentialId)
+      setCredential(credential)
+    }
+  }, [credentialId, credentialsRepository])
+
+  async function handleCredentialDelete() {
     setCredential(null)
     navigate(ROUTES.vaultItens, { vaultId: credential?.vaultId.value, activeTab: 'credential' })
   }
 
+  async function handleCredentialRestore() {
+    await loadCredential()
+    try {
+      await onRestore()
+    } catch {}
+  }
+
   useEffect(() => {
-    async function loadCredential() {
-      if (credentialId) {
-        const credential = await credentialsRepository.findById(credentialId)
-        setCredential(credential)
-      }
-    }
     loadCredential()
-  }, [])
+  }, [loadCredential])
 
   const decryptedData = useMemo(() => {
     if (!credential) return
@@ -49,5 +60,6 @@ export function useCredentialScreen({
     credential,
     decryptedData,
     handleCredentialDelete,
+    handleCredentialRestore,
   }
 }

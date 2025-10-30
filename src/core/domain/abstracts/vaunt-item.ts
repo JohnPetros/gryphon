@@ -6,6 +6,7 @@ export type VaultItemProps<EncryptedData> = {
   title: string
   vaultId: Id
   encryptedData: Encrypted<EncryptedData>
+  createdAt: Date
 }
 
 export abstract class VaultItem<Props, EncryptedData> extends Entity<
@@ -36,5 +37,9 @@ export abstract class VaultItem<Props, EncryptedData> extends Entity<
 
   get encrypted(): Encrypted<EncryptedData> {
     return this.props.encryptedData
+  }
+
+  get createdAt(): Date {
+    return this.props.createdAt
   }
 }

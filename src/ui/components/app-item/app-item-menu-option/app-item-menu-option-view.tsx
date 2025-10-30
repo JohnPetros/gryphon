@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { Text } from '@/ui/gluestack/text'
 import { COLORS } from '@/constants'
 import { Icon } from '../../icon'
@@ -9,7 +11,7 @@ import { mergeClassNames } from '@/ui/utils'
 type Props = {
   color: keyof typeof COLORS.dark
   icon: IconName
-  children: string
+  children: ReactNode
   className?: string
   onPress?: () => void
 }

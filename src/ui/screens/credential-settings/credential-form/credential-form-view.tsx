@@ -8,8 +8,8 @@ import { Input } from '@/ui/components/input'
 import { Button } from '@/ui/components/button'
 import { PasswordInput } from '@/ui/components/password-input'
 import { useCredentialForm } from './use-credential-form'
-import { VaultSelect } from '@/ui/components/vault-select'
 import { KeyboardAvoidingView } from 'react-native'
+import { VaultSelect } from './vault-select'
 
 type Params = {
   credential: Credential | null

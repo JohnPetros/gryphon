@@ -6,6 +6,7 @@ import {
   FileType,
   Edit,
   Trash,
+  WifiOff,
   Lock,
   LogOut,
   DiamondPlus,
@@ -26,6 +27,7 @@ import {
   GraduationCap,
   Search,
   Plane,
+  RefreshCcwDotIcon,
   Wrench,
   FileText,
   Share2,
@@ -36,6 +38,8 @@ import {
   Copy,
   Check,
   X,
+  SparklesIcon,
+  Wifi,
 } from 'lucide-react-native'
 
 import type { IconName } from '../types/icon-name'
@@ -77,4 +81,9 @@ export const ICONS: Record<IconName, LucideIcon> = {
   password: KeyRound,
   exit: LogOut,
   link: Globe,
+  baby: RefreshCcwDotIcon,
+  sparkles: SparklesIcon,
+  online: Wifi,
+  offline: WifiOff,
+  restoration: RefreshCcwDotIcon,
 }

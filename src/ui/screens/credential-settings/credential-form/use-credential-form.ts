@@ -79,6 +79,7 @@ export const useCredentialForm = ({
         siteUrl: data.siteUrl,
         vaultId: data.vaultId,
         encryptedData,
+        createdAt: credential.createdAt,
       })
       await onUpdate(updatedCredential)
       return
@@ -88,6 +89,7 @@ export const useCredentialForm = ({
       title: data.title,
       siteUrl: data.siteUrl,
       vaultId: data.vaultId,
+      createdAt: new Date(),
       encryptedData,
     })
 

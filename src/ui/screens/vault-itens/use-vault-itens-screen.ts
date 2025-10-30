@@ -12,12 +12,14 @@ type Params = {
   vaultsRepository: VaultsRepository
   defaultSelectedVaultId: Id
   accountId: Id
+  onDatabaseChange: () => Promise<void>
 }
 
 export const useVaultItensScreen = ({
   vaultsRepository,
   defaultSelectedVaultId,
   accountId,
+  onDatabaseChange,
 }: Params) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [selectedVault, setSelectedVault] = useState<Vault | null>(null)
@@ -45,6 +47,9 @@ export const useVaultItensScreen = ({
 
   async function handleVaultDelete(vaultId: Id) {
     await vaultsRepository.remove(vaultId)
+    try {
+      await onDatabaseChange()
+    } catch {}
     const filteredVaults = vaults.filter((vault) => vault.id.value !== vaultId.value)
     setVaults(filteredVaults)
     setSelectedVault(filteredVaults[0])

@@ -1,6 +1,5 @@
 import type { RefObject } from 'react'
 import type { MasterPasswordConfirmationDialogRef } from '../master-password-confirmation-dialog/types'
-import { Link } from 'expo-router'
 
 import type { Id } from '@/core/domain/structures'
 
@@ -39,13 +38,17 @@ export const CredentialMenuView = ({
         ref={masterPasswordConfirmationForPasswordCopyDialogRef}
         description='Insira a senha mestra para poder copiar a senha.'
         canClose
-        onCorrectPasswordSubmit={onCorrectMasterPasswordConfirmationForPasswordCopyDialogSubmit}
+        onCorrectPasswordSubmit={
+          onCorrectMasterPasswordConfirmationForPasswordCopyDialogSubmit
+        }
       />
       <MasterPasswordConfirmationDialog
         ref={masterPasswordConfirmationForCredentialEditionDialogRef}
         description='Insira a senha mestra para poder editar a credencial.'
         canClose
-        onCorrectPasswordSubmit={onCorrectMasterPasswordConfirmationForCredentialEditionDialogSubmit}
+        onCorrectPasswordSubmit={
+          onCorrectMasterPasswordConfirmationForCredentialEditionDialogSubmit
+        }
       />
       <AppItem.Menu>
         {(close) => (
@@ -73,12 +76,16 @@ export const CredentialMenuView = ({
             >
               Copiar senha
             </AppItem.MenuOption>
-              <AppItem.MenuOption color='neutral' icon='edit' onPress={() => {
+            <AppItem.MenuOption
+              color='neutral'
+              icon='edit'
+              onPress={() => {
                 onEdit()
                 close()
-              }}>
-                Editar
-              </AppItem.MenuOption>
+              }}
+            >
+              Editar
+            </AppItem.MenuOption>
             <AppItem.MenuOption
               color='danger'
               icon='trash'

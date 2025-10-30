@@ -14,15 +14,17 @@ type LocalSearchParams = {
 
 export const CredentialScreen = () => {
   const { credentialId } = useLocalSearchParams<LocalSearchParams>()
-  const { credentialsRepository } = useDatabase()
+  const { credentialsRepository, synchronizeDatabase } = useDatabase()
   const cryptoProvider = useCryptoProvider()
   const { encryptionKey } = useAuthContext()
-  const { credential, decryptedData, handleCredentialDelete } = useCredentialScreen({
-    credentialId: Id.create(credentialId),
-    credentialsRepository,
-    cryptoProvider,
-    encryptionKey,
-  })
+  const { credential, decryptedData, handleCredentialDelete, handleCredentialRestore } =
+    useCredentialScreen({
+      credentialId: Id.create(credentialId),
+      credentialsRepository,
+      cryptoProvider,
+      encryptionKey,
+      onRestore: synchronizeDatabase,
+    })
 
   if (!credential || !decryptedData) return null
   return (
@@ -31,6 +33,7 @@ export const CredentialScreen = () => {
       credentialLogin={decryptedData.login}
       credentialPassword={decryptedData.password}
       onCredentialDelete={handleCredentialDelete}
+      onCredentialRestore={handleCredentialRestore}
     />
   )
 }

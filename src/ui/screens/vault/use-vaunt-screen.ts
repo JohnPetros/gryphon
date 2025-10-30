@@ -14,36 +14,40 @@ type Params = {
   vaultId?: Id
   vaultsRepository: VaultsRepository
   navigation: NavigationProvider
+  onDatabaseChange: () => Promise<void>
 }
 
-export function useVaultScreen({ vaultsRepository, accountId, vaultId }: Params) {
+export function useVaultScreen({
+  vaultsRepository,
+  accountId,
+  vaultId,
+  onDatabaseChange,
+}: Params) {
   const [vault, setVault] = useState<Vault | null>(null)
   const navigation = useNavigation()
 
   async function handleVaultCreate(vaultDto: VaultDto) {
     if (!accountId) return
+    const vault = Vault.create(vaultDto)
+    await vaultsRepository.add(vault)
     try {
-      const vault = Vault.create(vaultDto)
-      await vaultsRepository.add(vault, accountId)
-      setVault(vault)
-      navigation.navigate(ROUTES.vaultItens, { vaultId: vault.id.value })
-    } catch (error) {
-      console.error(error)
-    }
+      await onDatabaseChange()
+    } catch {}
+    setVault(vault)
+    navigation.navigate(ROUTES.vaultItens, { vaultId: vault.id.value })
   }
 
   async function handleVaultUpdate(vaultDto: VaultDto) {
+    if (!vaultId) return
+    const vault = Vault.create({
+      ...vaultDto,
+      id: vaultId.value,
+    })
+    await vaultsRepository.update(vault)
     try {
-      if (!vaultId) return
-      const vault = Vault.create({
-        ...vaultDto,
-        id: vaultId.value,
-      })
-      await vaultsRepository.update(vault)
-      navigation.navigate(ROUTES.vaultItens, { vaultId: vaultId.value })
-    } catch (error) {
-      console.error(error)
-    }
+      await onDatabaseChange()
+    } catch {}
+    navigation.navigate(ROUTES.vaultItens, { vaultId: vaultId.value })
   }
 
   useEffect(() => {

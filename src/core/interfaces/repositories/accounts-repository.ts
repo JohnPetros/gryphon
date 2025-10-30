@@ -3,6 +3,9 @@ import type { Id } from '@/core/domain/structures'
 
 export interface AccountsRepository {
   add(account: Account): Promise<void>
+  addMany(accounts: Account[]): Promise<void>
+  update(account: Account): Promise<void>
+  updateMany(accounts: Account[]): Promise<void>
   findById(id: Id): Promise<Account | null>
   findByEmail(email: string): Promise<Account | null>
   updateMinimumPasswordStrength(
@@ -14,4 +17,6 @@ export interface AccountsRepository {
     accountId: Id,
   ): Promise<void>
   updateAutoLockTimeout(autoLockTimeout: number, accountId: Id): Promise<void>
+  remove(accountId: Id): Promise<void>
+  removeMany(accountIds: Id[]): Promise<void>
 }

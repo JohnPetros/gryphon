@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const ItensList = ({ vaultId, defaultActiveTab, search }: Props) => {
-  const { credentialsRepository, notesRepository } = useDatabase()
+  const { credentialsRepository, notesRepository, synchronizeDatabase } = useDatabase()
   const {
     credentialCount,
     noteCount,
@@ -20,10 +20,14 @@ export const ItensList = ({ vaultId, defaultActiveTab, search }: Props) => {
     handleCredentialDelete,
     handleNoteDelete,
   } = useItensList({
+    {
     vaultId,
+   
     credentialsRepository,
     notesRepository,
     defaultActiveTab,
+  },
+    onDatabaseChange: synchronizeDatabase,
   })
 
   return (

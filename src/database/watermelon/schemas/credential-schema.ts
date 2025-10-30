@@ -13,6 +13,12 @@ export const credentialSchema = tableSchema({
       isIndexed: true,
     },
     {
+      name: 'last_version_id',
+      type: 'string',
+      isIndexed: true,
+      isOptional: true,
+    },
+    {
       name: 'encrypted_data',
       type: 'string',
     },
