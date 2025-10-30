@@ -9,10 +9,10 @@ import {
 } from '@/ui/gluestack/modal'
 import { Heading } from '@/ui/gluestack/heading'
 import { Text } from '@/ui/gluestack/text'
+import { Box } from '@/ui/gluestack/box'
 import { Input } from '../input'
 import { Button } from '../button'
 import { Icon } from '../icon'
-import { Box } from '@/ui/gluestack/box'
 
 type Props = {
   description: string

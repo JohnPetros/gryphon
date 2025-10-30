@@ -6,6 +6,7 @@ import { Box } from '@/ui/gluestack/box'
 import { AppItem } from '@/ui/components/app-item'
 import { ItensListTab } from './itens-list-tab'
 import { CredentialsList } from './credentials-list'
+import { NotesList } from './notes-list'
 
 type Props = {
   vaultId: Id
@@ -15,6 +16,7 @@ type Props = {
   noteCount: number
   onTabPress: (tab: 'credential' | 'note') => void
   onCredentialDelete: () => void
+  onNoteDelete: () => void
 }
 
 export const ItensListView = ({
@@ -25,6 +27,7 @@ export const ItensListView = ({
   selectedTab,
   onTabPress,
   onCredentialDelete,
+  onNoteDelete,
 }: Props) => {
   return (
     <Box>
@@ -32,6 +35,7 @@ export const ItensListView = ({
         <ItensListTab
           itenCount={credentialCount}
           onPress={() => onTabPress('credential')}
+          className={selectedTab === 'credential' ? 'border-primary' : ''}
         >
           <AppItem.Icon
             name='login'
@@ -41,7 +45,9 @@ export const ItensListView = ({
             className='w-10 h-10'
           />
         </ItensListTab>
-        <ItensListTab itenCount={noteCount} onPress={() => onTabPress('note')}>
+        <ItensListTab itenCount={noteCount} onPress={() => onTabPress('note')}
+          className={selectedTab === 'note' ? 'border-warning' : ''}
+          >
           <AppItem.Icon
             name='note'
             size={16}
@@ -58,6 +64,13 @@ export const ItensListView = ({
             vaultId={vaultId}
             search={search}
             onCredentialDelete={onCredentialDelete}
+          />
+        )}
+          {selectedTab === 'note' && (
+          <NotesList
+            vaultId={vaultId}
+            search={search}
+            onNoteDelete={onNoteDelete}
           />
         )}
       </Box>

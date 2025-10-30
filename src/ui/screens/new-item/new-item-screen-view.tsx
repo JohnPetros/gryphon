@@ -26,18 +26,20 @@ export const NewItemScreenView = () => {
           </AppItem.Container>
         </Link>
 
-        <AppItem.Container className='flex-row gap-3'>
-          <AppItem.Icon
-            backgroundColor='warningBackground'
-            foregroundColor='warning'
-            name='note'
-          />
-          <AppItem.Info
-            name='Nota'
-            description='Adicione chaves de recuperação, respostas secretas ou códigos'
-            lineCount={2}
-          />
-        </AppItem.Container>
+        <Link href='/(protected)/note/settings/new'>
+          <AppItem.Container className='flex-row gap-3'>
+            <AppItem.Icon
+              backgroundColor='warningBackground'
+              foregroundColor='warning'
+              name='note'
+            />
+            <AppItem.Info
+              name='Nota'
+              description='Adicione chaves de recuperação, respostas secretas ou códigos'
+              lineCount={2}
+            />
+          </AppItem.Container>
+        </Link>
 
         <PasswordGenerator>
           <AppItem.Container className='flex-row gap-3'>

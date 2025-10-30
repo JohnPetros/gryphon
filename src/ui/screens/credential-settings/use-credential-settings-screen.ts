@@ -27,15 +27,14 @@ export function useCredentialSettingsScreen({
   const { navigate } = useNavigation()
 
   async function handleCredentialCreate(credential: Credential) {
+    await credentialsRepository.add(credential)
     try {
-      await credentialsRepository.add(credential)
-      try {
-        await onChangeDatabase()
-      } catch {}
-      navigate(ROUTES.vaultItens, { vaultId: credential.vaultId.value })
-    } catch (error) {
-      console.error(error)
-    }
+      await onChangeDatabase()
+    } catch {}
+    navigate(ROUTES.vaultItens, {
+      vaultId: credential.vaultId.value,
+      activeTab: 'credential',
+    })
   }
 
   async function handleCredentialUpdate(updatedCredential: Credential) {
@@ -52,7 +51,10 @@ export function useCredentialSettingsScreen({
       try {
         await onChangeDatabase()
       } catch {}
-      navigate(ROUTES.vaultItens, { vaultId: updatedCredential.vaultId.value })
+      navigate(ROUTES.vaultItens, {
+        vaultId: credential.vaultId.value,
+        activeTab: 'credential',
+      })
     } catch (error) {
       console.error(error)
     }

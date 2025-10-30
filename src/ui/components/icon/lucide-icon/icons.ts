@@ -7,6 +7,7 @@ import {
   Edit,
   Trash,
   WifiOff,
+  Lock,
   LogOut,
   DiamondPlus,
   RefreshCcw,
@@ -28,6 +29,7 @@ import {
   Plane,
   RefreshCcwDotIcon,
   Wrench,
+  FileText,
   Share2,
   Globe,
   Tv,
@@ -38,6 +40,7 @@ import {
   X,
   SparklesIcon,
   Wifi,
+  Fingerprint,
 } from 'lucide-react-native'
 
 import type { IconName } from '../types/icon-name'
@@ -57,7 +60,9 @@ export const ICONS: Record<IconName, LucideIcon> = {
   email: Mail,
   title: FileType,
   plus: DiamondPlus,
+  biometric: Fingerprint,
   list: List,
+  lock: Lock,
   entertainment: Gamepad2,
   check: Check,
   shop: ShoppingBag,
@@ -73,6 +78,7 @@ export const ICONS: Record<IconName, LucideIcon> = {
   profile: CircleUserRound,
   login: User,
   note: NotebookText,
+  content: FileText,
   vault: Vault,
   password: KeyRound,
   exit: LogOut,

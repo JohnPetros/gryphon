@@ -27,7 +27,6 @@ export const CredentialSettingsScreen = () => {
   return (
     <CredentialSettingsScreenView
       credential={credential}
-      encryptionKey={encryptionKey}
       onCreate={handleCredentialCreate}
       onUpdate={handleCredentialUpdate}
     />

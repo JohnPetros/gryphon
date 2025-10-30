@@ -6,6 +6,7 @@ import {
   WatermelonCredentialsRepository,
   WatermelonCredentialVersionsRepository,
   WatermelonVaultsRepository,
+  WatermelonNotesRepository,
 } from '@/database/watermelon'
 import type { WatermelonChanges } from '@/database/watermelon/types'
 import { watermelon } from '@/database/watermelon/watermelon'
@@ -14,6 +15,7 @@ import {
   WatermelonCredentialMapper,
   WatermelonCredentialVersionMapper,
   WatermelonVaultMapper,
+  WatermelonNoteMapper,
 } from '@/database/watermelon/mappers'
 import { useRest } from './use-rest'
 import { useInternetContext } from './use-internet-context'
@@ -84,6 +86,25 @@ export function useDatabase() {
     }
   }
 
+  function getNoteChanges(changes: WatermelonChanges) {
+    const noteMapper = WatermelonNoteMapper()
+    const createdNotes = changes.notes?.created.map(noteMapper.toDto)
+    const updatedNotes = changes.notes?.updated.map(noteMapper.toDto)
+    const deletedNotesIds = changes.notes?.deleted
+
+    console.log({
+      createdNotes,
+      updatedNotes,
+      deletedNotesIds,
+    })
+
+    return {
+      createdNotes,
+      updatedNotes,
+      deletedNotesIds,
+    }
+  }
+
   const synchronizeDatabase = useCallback(async () => {
     await synchronize({
       database: watermelon,
@@ -95,6 +116,7 @@ export function useDatabase() {
           ...getVaultChanges(changes),
           ...getCredentialChanges(changes),
           ...getCredentialVersionChanges(changes),
+          ...getNoteChanges(changes),
         })
 
         if (response.isFailure) {
@@ -125,6 +147,7 @@ export function useDatabase() {
       accountsRepository: WatermelonAccountsRepository(),
       credentialsRepository: WatermelonCredentialsRepository(),
       vaultsRepository: WatermelonVaultsRepository(),
+      notesRepository: WatermelonNotesRepository(),
       credentialVersionsRepository: WatermelonCredentialVersionsRepository(),
     }
   }, [])

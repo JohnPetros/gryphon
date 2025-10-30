@@ -7,15 +7,16 @@ import { AppItem } from '@/ui/components/app-item'
 import { Text } from '@/ui/gluestack/text'
 import { Pressable } from '@/ui/components/pressable'
 import { ScreenContainer } from '@/ui/components/screen-container'
+import { ScreenTitle } from '@/ui/components/screen-title'
 import { VaultsDrawer } from './vaults-drawer'
 import { ItensList } from './itens-list'
-import { ScreenTitle } from '@/ui/components/screen-title'
 
 type Props = {
   selectedVault: Vault | null
   vaults: Vault[]
   isDrawerOpen: boolean
   search: string
+  defaultActiveTab: 'credential' | 'note'
   onDrawerOpen: () => void
   onDrawerClose: () => void
   onVaultSelect: (vault: Vault) => void
@@ -29,6 +30,7 @@ export function VaultItensScreenView({
   vaults,
   isDrawerOpen,
   search,
+  defaultActiveTab,
   onDrawerOpen,
   onDrawerClose,
   onVaultSelect,
@@ -91,7 +93,13 @@ export function VaultItensScreenView({
       )}
 
       <Box className='flex-1 mt-6'>
-        {selectedVault && <ItensList vaultId={selectedVault.id} search={search} />}
+        {selectedVault && (
+          <ItensList
+            vaultId={selectedVault.id}
+            search={search}
+            defaultActiveTab={defaultActiveTab}
+          />
+        )}
       </Box>
     </ScreenContainer>
   )
