@@ -11,6 +11,7 @@ import {
   credentialSchema,
   credentialVersionSchema,
   idSchema,
+  noteSchema,
   vaultSchema,
 } from '@/validation'
 import {
@@ -18,6 +19,7 @@ import {
   DrizzleCredentialsRepository,
   DrizzleCredentialVersionsRepository,
   DrizzleVaultsRepository,
+  DrizzleNotesRepository,
 } from '@/database/drizzle/repositories'
 
 const pullDatabaseChangesSchema = z.object({
@@ -43,6 +45,9 @@ const pushDatabaseChangesSchema = z.object({
     createdCredentials: z.array(credentialSchema),
     updatedCredentials: z.array(credentialSchema),
     deletedCredentialsIds: z.array(idSchema),
+    createdNotes: z.array(noteSchema),
+    updatedNotes: z.array(noteSchema),
+    deletedNotesIds: z.array(idSchema),
     createdVaults: z.array(vaultSchema),
     updatedVaults: z.array(vaultSchema),
     deletedVaultsIds: z.array(idSchema),
@@ -66,11 +71,13 @@ export const POST = Route(async (request) => {
   const vaultsRepository = DrizzleVaultsRepository()
   const accountsRepository = DrizzleAccountsRepository()
   const credentialVersionRepository = DrizzleCredentialVersionsRepository()
+  const notesRepository = DrizzleNotesRepository()
   const controller = PushDatabaseChangesController({
     accountsRepository,
     vaultsRepository,
     credentialsRepository,
     credentialVersionRepository,
+    notesRepository,
   })
   const response = await controller.handle(http)
   return http.sendResponse(response)
