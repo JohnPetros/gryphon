@@ -38,15 +38,15 @@ export function useCredentialScreen({
   }
 
   async function handleCredentialRestore() {
-    await loadCredential()
     try {
       await onRestore()
     } catch {}
+    await loadCredential()
   }
 
   useEffect(() => {
     loadCredential()
-  }, [loadCredential])
+  }, [])
 
   const decryptedData = useMemo(() => {
     if (!credential) return
