@@ -30,11 +30,13 @@ export class VaultModel extends Model {
   @field('icon')
   icon!: string
 
-  @lazy
-  credentialCount = this.credentials.fetchCount()
+  async getCredentialCount() {
+    return await this.credentials.fetchCount()
+  }
 
-  @lazy
-  noteCount = this.notes.fetchCount()
+  async getNoteCount() {
+    return await this.notes.fetchCount()
+  }
 
   async markAsDeleted() {
     await this.credentials.destroyAllPermanently()
