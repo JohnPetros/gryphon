@@ -13,6 +13,7 @@ export class Note extends VaultItem<unknown, NoteEncryptedData> {
         encryptedData: Encrypted.create<NoteEncryptedData>(dto.encryptedData),
         title: dto.title,
         vaultId: Id.create(dto.vaultId),
+        createdAt: dto.createdAt,
       },
       dto.id,
     )

@@ -22,7 +22,7 @@ export const CredentialMenu = ({ credential, onDelete }: Props) => {
     useRef<MasterPasswordConfirmationDialogRef | null>(null)
   const masterPasswordConfirmationForCredentialEditionDialogRef =
     useRef<MasterPasswordConfirmationDialogRef | null>(null)
-  const { credentialsRepository } = useDatabase()
+  const { credentialsRepository, synchronizeDatabase } = useDatabase()
   const navigation = useNavigation()
   const {
     handleEdit,
@@ -40,6 +40,7 @@ export const CredentialMenu = ({ credential, onDelete }: Props) => {
     cryptoProvider,
     navigation,
     onDelete,
+    onDatabaseChange: synchronizeDatabase,
   })
 
   return (

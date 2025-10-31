@@ -1,27 +1,38 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import type { Id } from '@/core/domain/structures'
-import type { CredentialsRepository } from '@/core/interfaces'
+import type { CredentialsRepository, NotesRepository } from '@/core/interfaces'
+
+type Tab = 'credential' | 'note'
 
 type Params = {
   vaultId: Id
   credentialsRepository: CredentialsRepository
+  notesRepository: NotesRepository
+  defaultActiveTab: Tab
   onDatabaseChange: () => Promise<void>
 }
 
 export function useItensList({
   vaultId,
   credentialsRepository,
+  notesRepository,
+  defaultActiveTab,
   onDatabaseChange,
 }: Params) {
   const [credentialCount, setCredentialCount] = useState(0)
   const [noteCount, setNoteCount] = useState(0)
-  const [selectedTab, setSelectedTab] = useState<'credential' | 'note'>('credential')
+  const [selectedTab, setSelectedTab] = useState<Tab>(defaultActiveTab ?? 'credential')
 
   const countCredentials = useCallback(async () => {
     const credentialCount = await credentialsRepository.countByVault(vaultId)
     setCredentialCount(credentialCount)
   }, [credentialsRepository, vaultId])
+
+  const countNotes = useCallback(async () => {
+    const noteCount = await notesRepository.countByVault(vaultId)
+    setNoteCount(noteCount)
+  }, [notesRepository, vaultId])
 
   async function handleCredentialDelete() {
     await countCredentials()
@@ -32,10 +43,15 @@ export function useItensList({
     setSelectedTab(tab)
   }
 
+  function handleNoteDelete() {
+    countCredentials()
+    countNotes()
+  }
+
   useEffect(() => {
     countCredentials()
-    setNoteCount(0)
-  }, [vaultId, credentialsRepository, countCredentials])
+    countNotes()
+  }, [vaultId, credentialsRepository, notesRepository, countCredentials, countNotes])
 
   return {
     selectedTab,
@@ -43,5 +59,6 @@ export function useItensList({
     noteCount,
     handleTabPress,
     handleCredentialDelete,
+    handleNoteDelete,
   }
 }

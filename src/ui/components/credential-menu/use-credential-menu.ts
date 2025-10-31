@@ -17,6 +17,7 @@ type Params = {
   repository: CredentialsRepository
   navigation: NavigationProvider
   onDelete?: () => void
+  onDatabaseChange: () => Promise<void>
 }
 
 export function useCredentialMenu({
@@ -28,6 +29,7 @@ export function useCredentialMenu({
   credential,
   navigation,
   onDelete,
+  onDatabaseChange,
 }: Params) {
   const { copy } = useClipboard()
 
@@ -35,6 +37,9 @@ export function useCredentialMenu({
     try {
       await repository.remove(credentialId)
       onDelete?.()
+      try {
+        await onDatabaseChange()
+      } catch {}
     } catch (error) {
       console.error(error)
     }

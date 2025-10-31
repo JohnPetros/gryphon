@@ -101,6 +101,10 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
       })
     },
 
+    async addMany(accounts: Account[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
     async update(accounts: Account): Promise<void> {
       throw new Error('Method not implemented.')
     },

@@ -1,15 +1,23 @@
-import { Account, Credential, CredentialVersion, Vault } from '@/core/domain/entities'
+import {
+  Account,
+  Credential,
+  CredentialVersion,
+  Note,
+  Vault,
+} from '@/core/domain/entities'
 import { Id } from '@/core/domain/structures'
 import type {
   AccountDto,
   CredentialDto,
   CredentialVersionDto,
+  NoteDto,
   VaultDto,
 } from '@/core/domain/entities/dtos'
 import type {
   AccountsRepository,
   CredentialsRepository,
   CredentialVersionsRepository,
+  NotesRepository,
   VaultsRepository,
 } from '@/core/interfaces'
 import type { Controller } from '@/core/interfaces/controller'
@@ -20,6 +28,7 @@ type Dependencies = {
   vaultsRepository: VaultsRepository
   credentialsRepository: CredentialsRepository
   credentialVersionRepository: CredentialVersionsRepository
+  notesRepository: NotesRepository
 }
 
 type Schema = {
@@ -36,6 +45,9 @@ type Schema = {
     createdCredentialVersions: CredentialVersionDto[]
     updatedCredentialVersions: CredentialVersionDto[]
     deletedCredentialVersionsIds: string[]
+    createdNotes: NoteDto[]
+    updatedNotes: NoteDto[]
+    deletedNotesIds: string[]
   }
 }
 
@@ -44,6 +56,7 @@ export const PushDatabaseChangesController = ({
   vaultsRepository,
   credentialsRepository,
   credentialVersionRepository,
+  notesRepository,
 }: Dependencies): Controller<Schema> => {
   return {
     async handle(http: Http<Schema>) {
@@ -60,6 +73,9 @@ export const PushDatabaseChangesController = ({
         createdCredentialVersions = [],
         updatedCredentialVersions = [],
         deletedCredentialVersionsIds = [],
+        createdNotes = [],
+        updatedNotes = [],
+        deletedNotesIds = [],
       } = await http.getBody()
 
       await Promise.all([
@@ -78,6 +94,14 @@ export const PushDatabaseChangesController = ({
         credentialsRepository.addMany(createdCredentials.map(Credential.create)),
         credentialsRepository.updateMany(updatedCredentials.map(Credential.create)),
         credentialsRepository.removeMany(deletedCredentialsIds.map(Id.create)),
+      ])
+
+      console.log({ createdNotes, updatedNotes, deletedNotesIds })
+
+      await Promise.all([
+        notesRepository.addMany(createdNotes.map(Note.create)),
+        notesRepository.updateMany(updatedNotes.map(Note.create)),
+        notesRepository.removeMany(deletedNotesIds.map(Id.create)),
       ])
 
       await Promise.all([

@@ -34,7 +34,7 @@ export function useCredentialScreen({
 
   async function handleCredentialDelete() {
     setCredential(null)
-    navigate(ROUTES.vaultItens)
+    navigate(ROUTES.vaultItens, { vaultId: credential?.vaultId.value, activeTab: 'credential' })
   }
 
   async function handleCredentialRestore() {

@@ -1,6 +1,3 @@
-import type { vaultItemDto } from './vault-item-dto'
+import type { VaultItemDto } from './vault-item-dto'
 
-export type NoteDto = {
-  title: string
-  content: string
-} & vaultItemDto
+export type NoteDto = VaultItemDto

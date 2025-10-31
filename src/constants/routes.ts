@@ -9,5 +9,8 @@ export const ROUTES = {
   newItem: '(protected)/(tabs)/new-item',
   profile: '(protected)/(tabs)/profile',
   credential: (credentialId: string) => `(protected)/credential/${credentialId}`,
-  credentialSettings: (credentialId: string) => `(protected)/credential/settings/${credentialId}`,
+  credentialSettings: (credentialId: string) =>
+    `(protected)/credential/settings/${credentialId}`,
+  note: (noteId: string) => `(protected)/note/${noteId}`,
+  noteSettings: (noteId: string) => `(protected)/note/settings/${noteId}`,
 }

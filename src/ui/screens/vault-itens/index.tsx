@@ -9,10 +9,11 @@ import { VaultItensScreenView } from './vault-itens-screen-view'
 
 type SearchParams = {
   vaultId: string
+  activeTab: 'credential' | 'note'
 }
 
 export const VaultItensScreen = () => {
-  const { vaultId } = useLocalSearchParams<SearchParams>()
+  const { vaultId, activeTab } = useLocalSearchParams<SearchParams>()
   const { account } = useAuthContext()
   const { vaultsRepository } = useDatabase()
   const { synchronizeDatabase } = useDatabase()
@@ -40,6 +41,7 @@ export const VaultItensScreen = () => {
       vaults={vaults}
       isDrawerOpen={isDrawerOpen}
       search={search}
+      defaultActiveTab={activeTab}
       onSearchChange={handleSearchChange}
       onVaultSelect={handleVaultSelect}
       onDrawerClose={handleDrawerClose}
