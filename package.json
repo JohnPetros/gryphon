@@ -35,12 +35,14 @@
     "@lovesworking/watermelondb-expo-plugin-sdk-52-plus": "^1.0.2",
     "@nozbe/watermelondb": "^0.28.0",
     "@react-aria/utils": "^3.29.0",
+    "@react-native-community/netinfo": "11.4.1",
     "@react-navigation/native": "^7.1.6",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.12.2",
     "babel-plugin-module-resolver": "^5.0.2",
     "clsx": "^2.1.1",
     "crypto-es": "^3.0.4",
+    "dayjs": "^1.11.19",
     "dom-helpers": "^5.2.1",
     "drizzle-orm": "^0.44.6",
     "expo": "53.0.20",
@@ -51,6 +53,7 @@
     "expo-dev-client": "~5.2.4",
     "expo-font": "~13.3.1",
     "expo-linking": "~7.1.5",
+    "expo-local-authentication": "~16.0.5",
     "expo-network": "~7.1.5",
     "expo-router": "~5.1.4",
     "expo-secure-store": "^14.2.3",
@@ -80,9 +83,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwind-variants": "^0.1.20",
     "tailwindcss": "^3.4.17",
-    "zod": "^4.1.5",
-    "@react-native-community/netinfo": "11.4.1",
-    "expo-local-authentication": "~16.0.5"
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
