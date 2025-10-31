@@ -1,35 +1,61 @@
 import { useState, useEffect } from 'react'
 import * as LocalAuthentication from 'expo-local-authentication'
-import type { StorageProvider } from '@/core/interfaces/providers'
-import { STORAGE_KEYS } from '@/constants'
 
-export function useBiometricButton(storageProvider: StorageProvider) {
+import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
+
+import { ROUTES, STORAGE_KEYS } from '@/constants'
+
+type Params = {
+  isSignedIn: boolean
+  storageProvider: StorageProvider
+  navigationProvider: NavigationProvider
+}
+
+export function useBiometricButton({
+  isSignedIn,
+  storageProvider,
+  navigationProvider,
+}: Params) {
   const [isBiometricEnable, setIsBiometricEnable] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [isFailure, setIsFailure] = useState(false)
 
   async function handlePress() {
-    const isAuthentication = await LocalAuthentication.authenticateAsync({
-      promptMessage: 'Desbloqueie sua conta',
+    setIsFailure(false)
+    const authentication = await LocalAuthentication.authenticateAsync({
+      promptMessage: 'Entrar com Biometria',
       cancelLabel: 'Cancelar',
       fallbackLabel: 'Usar senha',
     })
 
-    const accountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
-
-    if (isAuthentication.success && accountId) {
-      setIsBiometricEnable(true)
+    if (authentication.success) {
+      setIsSuccess(true)
+      setTimeout(() => {
+        navigationProvider.navigate(ROUTES.vaultItens)
+      }, 1500)
+    }
+    if (!authentication.success) {
+      setIsFailure(false)
     }
   }
 
   useEffect(() => {
     async function checkIsBiometricEnable() {
-      const supported = await LocalAuthentication.hasHardwareAsync()
-      setIsBiometricEnable(supported)
+      if (!isSignedIn) return
+      const [hasHardware, isEnrolled, hasAccountId] = await Promise.all([
+        LocalAuthentication.hasHardwareAsync(),
+        LocalAuthentication.isEnrolledAsync(),
+        storageProvider.hasItem(STORAGE_KEYS.accountId),
+      ])
+      setIsBiometricEnable(hasHardware && isEnrolled && hasAccountId)
     }
     checkIsBiometricEnable()
-  }, [])
+  }, [isSignedIn])
 
   return {
     isBiometricEnable,
+    isSuccess,
+    isFailure,
     handlePress,
   }
 }
