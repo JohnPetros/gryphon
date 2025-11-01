@@ -17,7 +17,5 @@ export const SignInScreen = () => {
     onSignIn: synchronizeDatabase,
   })
 
-  console.log({ isSignedIn })
-
   return <SignInScreenView onSignIn={handleSignIn} />
 }
