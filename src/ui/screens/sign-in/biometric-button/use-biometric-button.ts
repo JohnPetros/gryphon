@@ -35,7 +35,7 @@ export function useBiometricButton({
       }, 1500)
     }
     if (!authentication.success) {
-      setIsFailure(false)
+      setIsFailure(true)
     }
   }
 

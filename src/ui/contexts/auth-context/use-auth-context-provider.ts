@@ -31,7 +31,6 @@ export function useAuthContextProvider({
   const [encryptionKey, setEncryptionKey] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
   const toast = useToast()
-  console.log(account?.id)
 
   const signInAccount = useCallback(
     async (email: string, password: string) => {
