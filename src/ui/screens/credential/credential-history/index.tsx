@@ -11,16 +11,17 @@ type Params = {
 
 export const CredentialHistory = ({ credential, onRestore }: Params) => {
   const { credentialVersionsRepository } = useDatabase()
-  const { versions } = useCredentialHistory({
+  const { versions, handleRestore } = useCredentialHistory({
     credentialId: credential.id,
     credentialVersionsRepository,
+    onRestore
   })
 
   return (
     <CredentialHistoryView
       credential={credential}
       versions={versions}
-      onRestore={onRestore}
+      onRestore={handleRestore}
     />
   )
 }

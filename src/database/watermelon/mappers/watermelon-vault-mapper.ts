@@ -8,11 +8,15 @@ import type { VaultSchema } from '../types'
 export const WatermelonVaultMapper = () => {
   return {
     async toEntity(model: VaultModel): Promise<Vault> {
+      const [credentialCount, noteCount] = await Promise.all([
+        model.getCredentialCount(),
+        model.getNoteCount(),
+      ])
       return Vault.create({
         id: model.id,
         title: model.title,
         icon: model.icon as VaultIcon,
-        itemCount: (await model.noteCount) + (await model.credentialCount),
+        itemCount: credentialCount + noteCount,
         accountId: model.account.id,
       })
     },

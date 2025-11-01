@@ -1,7 +1,8 @@
 import { useCallback } from 'react'
 import * as ExpoSecureStore from 'expo-secure-store'
+import type { StorageProvider } from '@/core/interfaces/providers/storage-provider'
 
-export function useSecureStore() {
+export function useSecureStorage(): StorageProvider {
   const getItem = useCallback(async (key: string) => {
     return await ExpoSecureStore.getItemAsync(key)
   }, [])
@@ -14,9 +15,18 @@ export function useSecureStore() {
     await ExpoSecureStore.deleteItemAsync(key)
   }, [])
 
+  const hasItem = useCallback(
+    async (key: string) => {
+      const item = await getItem(key)
+      return item !== null
+    },
+    [getItem],
+  )
+
   return {
     getItem,
     setItem,
     deleteItem,
+    hasItem,
   }
 }

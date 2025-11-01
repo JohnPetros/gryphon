@@ -33,6 +33,10 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
       })
     },
 
+    async addMany(accounts: Account[]): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
+
     async findByEmail(email: string): Promise<Account | null> {
       const accountModel = await watermelon.collections
         .get<AccountModel>('accounts')

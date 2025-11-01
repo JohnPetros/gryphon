@@ -14,6 +14,7 @@ import {
   NotebookText,
   CircleUserRound,
   List,
+  Fingerprint,
   Vault,
   User,
   type LucideIcon,
@@ -40,7 +41,6 @@ import {
   X,
   SparklesIcon,
   Wifi,
-  Fingerprint,
 } from 'lucide-react-native'
 
 import type { IconName } from '../types/icon-name'
@@ -60,7 +60,6 @@ export const ICONS: Record<IconName, LucideIcon> = {
   email: Mail,
   title: FileType,
   plus: DiamondPlus,
-  biometric: Fingerprint,
   list: List,
   lock: Lock,
   entertainment: Gamepad2,
@@ -76,6 +75,7 @@ export const ICONS: Record<IconName, LucideIcon> = {
   travel: Plane,
   service: Wrench,
   profile: CircleUserRound,
+  biometric: Fingerprint,
   login: User,
   note: NotebookText,
   content: FileText,

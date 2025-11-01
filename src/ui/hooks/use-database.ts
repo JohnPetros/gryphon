@@ -92,12 +92,6 @@ export function useDatabase() {
     const updatedNotes = changes.notes?.updated.map(noteMapper.toDto)
     const deletedNotesIds = changes.notes?.deleted
 
-    console.log({
-      createdNotes,
-      updatedNotes,
-      deletedNotesIds,
-    })
-
     return {
       createdNotes,
       updatedNotes,

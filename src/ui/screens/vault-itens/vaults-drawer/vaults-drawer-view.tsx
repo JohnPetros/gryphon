@@ -63,7 +63,7 @@ export const VaultsDrawerView = ({
                       />
                       <AppItem.Info
                         name={item.title}
-                        description={`meus itens`}
+                        description={`${item.itemCount} itens`}
                         className='w-40'
                       />
                     </Box>

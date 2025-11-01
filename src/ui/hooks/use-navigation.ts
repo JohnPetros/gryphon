@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { type RelativePathString, useRouter } from 'expo-router'
 
-import { NavigationProvider } from '@/core/interfaces/providers/navigation-provider'
+import type { NavigationProvider } from '@/core/interfaces/providers/navigation-provider'
 
 export function useNavigation(): NavigationProvider {
   const router = useRouter()

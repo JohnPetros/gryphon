@@ -1,4 +1,4 @@
-export { CryptoProvider } from './crypto-provider'
+export { CryptoProvider } from './providers/crypto-provider'
 export { Http, HttpSchema } from './http'
 export { Controller } from './controller'
 export { RestClient } from './rest-client'

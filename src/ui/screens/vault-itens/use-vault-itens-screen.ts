@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import type { Vault } from '@/core/domain/entities'
 import type { Id } from '@/core/domain/structures'
@@ -7,6 +7,7 @@ import { useDebounce } from '@uidotdev/usehooks'
 
 import { ROUTES } from '@/constants/routes'
 import { useNavigation } from '@/ui/hooks/use-navigation'
+import { Alert } from 'react-native'
 
 type Params = {
   vaultsRepository: VaultsRepository
@@ -28,11 +29,22 @@ export const useVaultItensScreen = ({
   const debouncedSearch = useDebounce(search, 300)
   const navigation = useNavigation()
 
+  const loadVaults = useCallback(async () => {
+    const allVaults = await vaultsRepository.findAllByAccount(accountId)
+    console.log(allVaults[0].dto)
+    setVaults(allVaults)
+    const defaultSelectedVault = allVaults.find(
+      (vault) => vault.id.value === defaultSelectedVaultId.value,
+    )
+    setSelectedVault(defaultSelectedVault ?? allVaults[0])
+  }, [defaultSelectedVaultId, accountId])
+
   function handleDrawerClose() {
     setIsDrawerOpen(false)
   }
 
-  function handleDrawerOpen() {
+  async function handleDrawerOpen() {
+    await loadVaults()
     setIsDrawerOpen(true)
   }
 
@@ -60,17 +72,8 @@ export const useVaultItensScreen = ({
   }
 
   useEffect(() => {
-    async function loadVaults() {
-      if (selectedVault) return
-      const allVaults = await vaultsRepository.findAllByAccount(accountId)
-      setVaults(allVaults)
-      const defaultSelectedVault = allVaults.find(
-        (vault) => vault.id.value === defaultSelectedVaultId.value,
-      )
-      setSelectedVault(defaultSelectedVault ?? allVaults[0])
-    }
     loadVaults()
-  }, [defaultSelectedVaultId, accountId, selectedVault])
+  }, [])
 
   return {
     selectedVault,
