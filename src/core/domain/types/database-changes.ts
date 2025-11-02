@@ -1,4 +1,10 @@
-import type { AccountDto, CredentialDto, CredentialVersionDto, VaultDto } from '../entities/dtos'
+import type {
+  AccountDto,
+  CredentialDto,
+  CredentialVersionDto,
+  NoteDto,
+  VaultDto,
+} from '../entities/dtos'
 
 export type DatabaseChanges = {
   createdAccounts?: AccountDto[]
@@ -13,4 +19,7 @@ export type DatabaseChanges = {
   createdCredentialVersions?: CredentialVersionDto[]
   updatedCredentialVersions?: CredentialVersionDto[]
   deletedCredentialVersionsIds?: string[]
+  createdNotes?: NoteDto[]
+  updatedNotes?: NoteDto[]
+  deletedNotesIds?: string[]
 }

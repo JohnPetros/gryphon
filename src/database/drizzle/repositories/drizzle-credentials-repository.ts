@@ -7,6 +7,7 @@ import type { Credential } from '@/core/domain/entities/credential'
 import { drizzle } from '../drizzle'
 import { credentialSchema } from '../schemas/credential-schema'
 import { DrizzleCredentialMapper } from '../mappers'
+import { vaultSchema } from '../schemas'
 
 export const DrizzleCredentialsRepository = (): CredentialsRepository => {
   const mapper = DrizzleCredentialMapper()
@@ -38,6 +39,16 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
           createdAt: credential.createdAt,
         })),
       )
+    },
+
+    async findAllByAccount(accountId: Id): Promise<Credential[]> {
+      const results = await drizzle
+        .select()
+        .from(credentialSchema)
+        .innerJoin(vaultSchema, eq(credentialSchema.vaultId, vaultSchema.id))
+        .where(eq(vaultSchema.accountId, accountId.value))
+
+      return results.map(({ credentials }) => mapper.toEntity(credentials))
     },
 
     async update(credential: Credential): Promise<void> {

@@ -7,6 +7,7 @@ import type { CredentialVersion } from '@/core/domain/entities/credential-versio
 import { drizzle } from '../drizzle'
 import { credentialVersionSchema } from '../schemas/credential-version-schema'
 import { DrizzleCredentialVersionMapper } from '../mappers/drizzle-credential-version-mapper'
+import { credentialSchema, vaultSchema } from '../schemas'
 
 export const DrizzleCredentialVersionsRepository = (): CredentialVersionsRepository => {
   const mapper = DrizzleCredentialVersionMapper()
@@ -67,6 +68,22 @@ export const DrizzleCredentialVersionsRepository = (): CredentialVersionsReposit
             })
             .where(eq(credentialVersionSchema.id, credentialVersion.id.value)),
         ),
+      )
+    },
+
+    async findAllByAccount(accountId: Id): Promise<CredentialVersion[]> {
+      const results = await drizzle
+        .select()
+        .from(credentialVersionSchema)
+        .innerJoin(
+          credentialSchema,
+          eq(credentialVersionSchema.credentialId, credentialSchema.id),
+        )
+        .innerJoin(vaultSchema, eq(credentialSchema.vaultId, vaultSchema.id))
+        .where(eq(vaultSchema.accountId, accountId.value))
+
+      return results.map(({ credential_versions }) =>
+        mapper.toEntity(credential_versions),
       )
     },
 
