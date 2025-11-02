@@ -4,14 +4,17 @@ import {
   useAuth as useClerkAuth,
   useSignIn,
   useSignUp,
+  useUser,
 } from '@clerk/clerk-expo'
 
 import { useToast } from './use-toast'
+import { Id } from '@/core/domain/structures'
 
 export function useAuth() {
-  const { userId, isSignedIn, getToken, signOut } = useClerkAuth()
+  const { isSignedIn, getToken, signOut } = useClerkAuth()
   const { signIn, setActive } = useSignIn()
   const { signUp } = useSignUp()
+  const { user } = useUser()
   const [jwt, setJwt] = useState<string | null>(null)
   const toast = useToast()
 
@@ -36,9 +39,14 @@ export function useAuth() {
     [signIn, setActive],
   )
 
+  const signOutAccount = useCallback(async () => {
+    await signOut()
+  }, [signOut])
+
   const signUpAccount = useCallback(
     async (accountId: string, email: string, password: string) => {
       try {
+        await signOutAccount()
         await signUp?.create({
           emailAddress: email,
           password,
@@ -53,10 +61,6 @@ export function useAuth() {
     },
     [signUp, toast],
   )
-
-  const signOutAccount = useCallback(async () => {
-    await signOut()
-  }, [signOut])
 
   const verifyOtpCode = useCallback(
     async (code: string) => {
@@ -81,8 +85,10 @@ export function useAuth() {
   }, [getToken])
 
   return {
-    accountId: userId,
-    isSignedIn,
+    accountId: user?.unsafeMetadata?.accountId
+      ? Id.create(user.unsafeMetadata?.accountId as string)
+      : null,
+    isSignedIn: isSignedIn ?? false,
     jwt,
     signOutAccount,
     signUpAccount,
