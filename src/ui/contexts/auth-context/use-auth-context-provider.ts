@@ -4,19 +4,24 @@ import { Account } from '@/core/domain/entities/account'
 import { Id } from '@/core/domain/structures'
 import type { CryptoProvider, AccountsRepository } from '@/core/interfaces'
 
-import { ROUTES, STORAGE_KEYS } from '@/constants'
+import { CLIENT_ENV, ROUTES, STORAGE_KEYS } from '@/constants'
 import { useToast } from '@/ui/hooks/use-toast'
 import type { AuthContextValue } from './auth-context-value'
 import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
+import type { AuthService } from '@/core/interfaces/services'
 
 type Params = {
   jwt: string | null
+  accountId: Id | null
   cryptoProvider: CryptoProvider
   accountsRepository: AccountsRepository
   navigationProvider: NavigationProvider
   storageProvider: StorageProvider
+  authService: AuthService
+  isAccountSignedIn: boolean
   signOut: () => Promise<void>
   signIn: (email: string, password: string) => Promise<boolean>
+  onSignIn: () => Promise<void>
 }
 
 export function useAuthContextProvider({
@@ -24,6 +29,7 @@ export function useAuthContextProvider({
   accountsRepository,
   storageProvider,
   navigationProvider,
+  authService,
   signOut,
   signIn,
 }: Params) {
@@ -31,37 +37,18 @@ export function useAuthContextProvider({
   const [encryptionKey, setEncryptionKey] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
   const toast = useToast()
-  console.log(account?.id)
 
   const signInAccount = useCallback(
     async (email: string, password: string) => {
+      await signOut()
       const isSuccess = await signIn(email, password)
 
       if (!isSuccess) {
         toast.show('E-mail ou senha incorretos', 'error')
         return
       }
-
-      const account = await accountsRepository.findByEmail(email)
-
-      if (!account) {
-        toast.show('E-mail ou senha incorretos', 'error')
-        await signOut()
-        return
-      }
-
-      setAccount(account)
-      await storageProvider.setItem(STORAGE_KEYS.accountId, account.id.value)
-      navigationProvider.navigate(ROUTES.vaultItens)
     },
-    [
-      signIn,
-      signOut,
-      storageProvider.setItem,
-      navigationProvider.navigate,
-      toast.show,
-      accountsRepository.findByEmail,
-    ],
+    [signIn, signOut, toast.show],
   )
 
   const signOutAccount = useCallback(async () => {
@@ -75,29 +62,42 @@ export function useAuthContextProvider({
     async (masterPassword: string, encryptionSalt: string) => {
       const encryptionKey = await cryptoProvider.deriveKey(masterPassword, encryptionSalt)
       setEncryptionKey(encryptionKey)
+      return encryptionKey
     },
     [cryptoProvider.deriveKey],
   )
 
   const loadAccount = useCallback(async () => {
-    const accountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
-    if (!accountId) {
+    const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
+    console.log({ storedAccountId })
+    if (!storedAccountId) {
       signOutAccount()
       return
     }
-
-    const account = await accountsRepository.findById(Id.create(accountId))
+    const accountId = Id.create(storedAccountId)
+    let account = await accountsRepository.findById(accountId)
 
     if (!account) {
-      signOutAccount()
-      return
+      try {
+        const response = await authService.fetchAccount(accountId)
+        console.log('loadAccount', { response })
+        if (response.isFailure) {
+          signOutAccount()
+          return
+        }
+        account = Account.create(response.body)
+      } catch (error) {
+        console.error('Error fetching account', error)
+      }
     }
 
-    const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
-    if (!masterPassword) return
-
-    createEncryptionKey(masterPassword, account.encryptionSalt)
+    await storageProvider.setItem(STORAGE_KEYS.acountEmail, account.email)
     setAccount(account)
+
+    const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
+    console.log({ masterPassword, salt: account.encryptionSalt })
+    if (!masterPassword) return
+    createEncryptionKey(masterPassword, account.encryptionSalt)
   }, [
     createEncryptionKey,
     signOutAccount,
@@ -118,7 +118,9 @@ export function useAuthContextProvider({
       setIsLoading(true)
       try {
         const encryptionSalt = await cryptoProvider.generateSalt()
-        await createEncryptionKey(masterPassword, encryptionSalt)
+        const encryptionKey = await createEncryptionKey(masterPassword, encryptionSalt)
+
+        const kcv = await cryptoProvider.encrypt(CLIENT_ENV.kcvText, encryptionKey)
 
         const account = Account.create({
           id: accountId,
@@ -128,11 +130,13 @@ export function useAuthContextProvider({
           minimumPasswordStrength: 3,
           autoLockTimeout: 60 * 5,
           isMasterPasswordRequired: true,
+          kcv,
         })
         setAccount(account)
 
         await storageProvider.setItem(STORAGE_KEYS.masterPassword, masterPassword)
         await storageProvider.setItem(STORAGE_KEYS.accountId, accountId)
+        await storageProvider.setItem(STORAGE_KEYS.acountEmail, email)
 
         await accountsRepository.add(account)
         await signOut()
@@ -154,6 +158,7 @@ export function useAuthContextProvider({
       createAccount,
       createEncryptionKey,
       updateAccount,
+      loadAccount,
     }
   }, [
     account,

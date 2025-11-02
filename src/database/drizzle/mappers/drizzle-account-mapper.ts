@@ -12,6 +12,7 @@ export const DrizzleAccountMapper = () => {
         isBiometryActivated: drizzleAccount.isBiometryActivated === 1,
         minimumPasswordStrength: drizzleAccount.minimumPasswordStrength ?? 3,
         autoLockTimeout: drizzleAccount.autoLockTimeout ?? 0,
+        kcv: drizzleAccount.kcv ?? '',
         isMasterPasswordRequired: drizzleAccount.isMasterPasswordRequired === 1,
       })
     },

@@ -1,30 +1,56 @@
 import type { Controller } from '@/core/interfaces/controller'
 import type { Http } from '@/core/interfaces/http'
+import type {
+  AccountsRepository,
+  CredentialsRepository,
+  CredentialVersionsRepository,
+  NotesRepository,
+  VaultsRepository,
+} from '@/core/interfaces'
+import { Id } from '@/core/domain/structures'
+
+type Dependencies = {
+  accountsRepository: AccountsRepository
+  vaultsRepository: VaultsRepository
+  credentialsRepository: CredentialsRepository
+  credentialVersionRepository: CredentialVersionsRepository
+  notesRepository: NotesRepository
+}
 
 type Schema = {
   queryParams: {
-    lastPulledAt: Date
+    accountId: string
+    lastPulledAt?: Date
   }
 }
 
-export const PullDatabaseChangesController = (): Controller<Schema> => {
+export const PullDatabaseChangesController = ({
+  accountsRepository,
+  vaultsRepository,
+  credentialsRepository,
+  credentialVersionRepository,
+  notesRepository,
+}: Dependencies): Controller<Schema> => {
   return {
     async handle(http: Http<Schema>) {
-      const { lastPulledAt } = http.getQueryParams()
-      // console.log('Database is being synchronized at', lastPulledAt)
+      const request = http.getQueryParams()
+      const accountId = Id.create(request.accountId)
+
+      const account = await accountsRepository.findById(accountId)
+      const vaults = await vaultsRepository.findAllByAccount(accountId)
+      const credentials = await credentialsRepository.findAllByAccount(accountId)
+      const credentialVersions =
+        await credentialVersionRepository.findAllByAccount(accountId)
+      const notes = await notesRepository.findAllByAccount(accountId)
+
       return http.send({
-        createdCredentials: [],
-        updatedCredentials: [],
-        deletedCredentialsIds: [],
-        createdVaults: [],
-        updatedVaults: [],
-        deletedVaultsIds: [],
-        createdAccounts: [],
-        updatedAccounts: [],
-        deletedAccountsIds: [],
-        createdCredentialVersions: [],
-        updatedCredentialVersions: [],
-        deletedCredentialVersionsIds: [],
+        createdAccounts: [account?.dto],
+        createdVaults: vaults.map((vault) => vault.dto),
+        createdCredentials: credentials.map((credential) => credential.dto),
+        createdCredentialVersions: credentialVersions.map(
+          (credentialVersion) => credentialVersion.dto,
+        ),
+        createdNotes: notes.map((note) => note.dto),
       })
     },
   }

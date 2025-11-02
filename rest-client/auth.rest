@@ -1,0 +1,5 @@
+@URL = {{BASE_URL}}/auth
+@ACCOUNT_ID = f60a637c-03c1-432a-8615-40c519f75c8a
+
+### GET /account
+GET {{URL}}/{{ACCOUNT_ID}}

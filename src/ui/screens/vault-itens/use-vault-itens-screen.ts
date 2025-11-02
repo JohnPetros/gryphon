@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useDebounce } from '@uidotdev/usehooks'
 
 import type { Vault } from '@/core/domain/entities'
 import type { Id } from '@/core/domain/structures'
 import type { VaultsRepository } from '@/core/interfaces'
-import { useDebounce } from '@uidotdev/usehooks'
 
 import { ROUTES } from '@/constants/routes'
 import { useNavigation } from '@/ui/hooks/use-navigation'
-import { Alert } from 'react-native'
 
 type Params = {
   vaultsRepository: VaultsRepository
@@ -31,7 +30,6 @@ export const useVaultItensScreen = ({
 
   const loadVaults = useCallback(async () => {
     const allVaults = await vaultsRepository.findAllByAccount(accountId)
-    console.log(allVaults[0].dto)
     setVaults(allVaults)
     const defaultSelectedVault = allVaults.find(
       (vault) => vault.id.value === defaultSelectedVaultId.value,

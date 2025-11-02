@@ -10,4 +10,5 @@ export interface VaultsRepository {
   findAllByAccount(accountId: Id): Promise<Vault[]>
   remove(vaultId: Id): Promise<void>
   removeMany(vaultIds: Id[]): Promise<void>
+  removeManyByAccount(accountId: Id): Promise<void>
 }

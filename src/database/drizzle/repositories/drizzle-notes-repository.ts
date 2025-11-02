@@ -6,7 +6,7 @@ import type { Note } from '@/core/domain/entities/note'
 
 import { drizzle } from '../drizzle'
 import { DrizzleNoteMapper } from '../mappers'
-import { noteSchema } from '../schemas'
+import { noteSchema, vaultSchema } from '../schemas'
 
 export const DrizzleNotesRepository = (): NotesRepository => {
   const mapper = DrizzleNoteMapper()
@@ -62,6 +62,16 @@ export const DrizzleNotesRepository = (): NotesRepository => {
             .where(eq(noteSchema.id, note.id.value)),
         ),
       )
+    },
+
+    async findAllByAccount(accountId: Id): Promise<Note[]> {
+      const results = await drizzle
+        .select()
+        .from(noteSchema)
+        .innerJoin(vaultSchema, eq(noteSchema.vaultId, vaultSchema.id))
+        .where(eq(vaultSchema.accountId, accountId.value))
+
+      return results.map(({ notes }) => mapper.toEntity(notes))
     },
 
     async findById(id: Id): Promise<Note | null> {

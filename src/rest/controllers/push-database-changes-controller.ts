@@ -96,8 +96,6 @@ export const PushDatabaseChangesController = ({
         credentialsRepository.removeMany(deletedCredentialsIds.map(Id.create)),
       ])
 
-      console.log({ createdNotes, updatedNotes, deletedNotesIds })
-
       await Promise.all([
         notesRepository.addMany(createdNotes.map(Note.create)),
         notesRepository.updateMany(updatedNotes.map(Note.create)),

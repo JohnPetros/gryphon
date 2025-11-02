@@ -9,7 +9,7 @@ import type { NoteModel, VaultModel } from '../models'
 import { WatermelonNoteMapper } from '../mappers'
 import { watermelon } from '../watermelon'
 
-export const WatermelonNotesRepository = (): NotesRepository => {
+export const WatermelonNotesRepository = (isSynced: boolean): NotesRepository => {
   const mapper = WatermelonNoteMapper()
 
   return {
@@ -32,7 +32,26 @@ export const WatermelonNotesRepository = (): NotesRepository => {
     },
 
     async addMany(notes: Note[]): Promise<void> {
-      throw new Error('Method not implemented.')
+      await watermelon.write(async () => {
+        const notesCollection = watermelon.collections.get<NoteModel>('notes')
+
+        const operations = notes.map((note) => {
+          return notesCollection.prepareCreate((model) => {
+            model._raw = sanitizedRaw(
+              {
+                id: note.id.value,
+                title: note.title,
+                encrypted_data: note.encrypted.value,
+                vault_id: note.vaultId.value,
+                _status: isSynced ? 'synced' : 'created',
+              },
+              notesCollection.schema,
+            )
+          })
+        })
+
+        await watermelon.batch(...operations)
+      })
     },
 
     async update(note: Note): Promise<void> {
@@ -70,6 +89,10 @@ export const WatermelonNotesRepository = (): NotesRepository => {
       }
     },
 
+    async findAllByAccount(accountId: Id): Promise<Note[]> {
+      throw new Error('Method not implemented.')
+    },
+
     async findAllByVaultAndTitle(vaultId: Id, title: string): Promise<Note[]> {
       const noteModels = await watermelon.collections
         .get<NoteModel>('notes')
@@ -102,6 +125,19 @@ export const WatermelonNotesRepository = (): NotesRepository => {
 
     async removeMany(noteIds: Id[]): Promise<void> {
       throw new Error('Method not implemented.')
+    },
+
+    async removeManyByAccount(accountId) {
+      await watermelon.write(async () => {
+        const query = watermelon.collections
+          .get<NoteModel>('notes')
+          .query(
+            Q.experimentalJoinTables(['vaults']),
+            Q.on('vaults', Q.where('account_id', accountId.value)),
+          )
+
+        await query.destroyAllPermanently()
+      })
     },
   }
 }

@@ -8,15 +8,20 @@ type AccountProps = {
   minimumPasswordStrength: number
   autoLockTimeout: number
   isMasterPasswordRequired: boolean
+  kcv: string
 }
 
 export class Account extends Entity<AccountProps> {
   static create(dto: AccountDto) {
-    return new Account(dto, dto.id)
+    return new Account(dto, dto?.id)
   }
 
   get encryptionSalt(): string {
     return this.props.encryptionSalt
+  }
+
+  get kcv(): string {
+    return this.props.kcv
   }
 
   get email(): string {
@@ -60,6 +65,7 @@ export class Account extends Entity<AccountProps> {
       minimumPasswordStrength: this.props.minimumPasswordStrength,
       autoLockTimeout: this.props.autoLockTimeout,
       isMasterPasswordRequired: this.props.isMasterPasswordRequired,
+      kcv: this.props.kcv,
     }
   }
 }

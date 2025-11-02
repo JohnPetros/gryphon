@@ -17,6 +17,7 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
         id: account.id.value,
         email: account.email,
         encryptionSalt: account.encryptionSalt,
+        kcv: account.kcv,
         isBiometryActivated: account.isBiometryActivated ? 1 : 0,
         minimumPasswordStrength: account.minimumPasswordStrength,
         autoLockTimeout: account.autoLockTimeout,
@@ -32,6 +33,7 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
           id: account.id.value,
           email: account.email,
           encryptionSalt: account.encryptionSalt,
+          kcv: account.kcv,
           isBiometryActivated: account.isBiometryActivated ? 1 : 0,
           minimumPasswordStrength: account.minimumPasswordStrength,
           autoLockTimeout: account.autoLockTimeout,
@@ -46,6 +48,7 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
         .set({
           email: account.email,
           encryptionSalt: account.encryptionSalt,
+          kcv: account.kcv,
           isBiometryActivated: account.isBiometryActivated ? 1 : 0,
           minimumPasswordStrength: account.minimumPasswordStrength,
           autoLockTimeout: account.autoLockTimeout,
@@ -64,6 +67,7 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
             .set({
               email: account.email,
               encryptionSalt: account.encryptionSalt,
+              kcv: account.kcv,
               isBiometryActivated: account.isBiometryActivated ? 1 : 0,
               minimumPasswordStrength: account.minimumPasswordStrength,
               autoLockTimeout: account.autoLockTimeout,

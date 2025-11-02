@@ -32,18 +32,23 @@ export function useCryptoProvider(): CryptoProvider {
   }, [])
 
   const encrypt = useCallback(async (data: unknown, encryptionKey: string) => {
-    const dataString = JSON.stringify(data)
+    const dataString = typeof data === 'string' ? data : JSON.stringify(data)
     const keyWordArray = CryptoJS.enc.Hex.parse(encryptionKey)
     const encrypted = CryptoJS.AES.encrypt(dataString, keyWordArray)
     return encrypted.toString()
   }, [])
 
   const decrypt = useCallback((ciphertext: string, encryptionKey: string) => {
-    const keyWordArray = CryptoJS.enc.Hex.parse(encryptionKey)
-    const decrypted = CryptoJS.AES.decrypt(ciphertext, keyWordArray)
-    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8)
-    if (!decryptedString) return null
-    return decryptedString
+    try {
+      const keyWordArray = CryptoJS.enc.Hex.parse(encryptionKey)
+      const decrypted = CryptoJS.AES.decrypt(ciphertext, keyWordArray)
+      const decryptedString = decrypted.toString(CryptoJS.enc.Utf8)
+      if (!decryptedString) return null
+      return decryptedString
+    } catch (error) {
+      console.warn(error)
+      return ''
+    }
   }, [])
 
   return {

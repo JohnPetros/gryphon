@@ -1,17 +1,24 @@
+import { CLIENT_ENV } from '@/constants'
 import { STORAGE_KEYS } from '@/constants/storage-keys'
-import type { StorageProvider } from '@/core/interfaces/providers'
+import type { CryptoProvider, StorageProvider } from '@/core/interfaces/providers'
 import { useState } from 'react'
 import { Alert } from 'react-native'
 
 type Props = {
   isMasterPasswordRequired: boolean
+  kcv?: string
+  encryptionSalt: string
   storageProvider: StorageProvider
-  onCorrectPasswordSubmit: () => void
+  cryptoProvider: CryptoProvider
+  onCorrectPasswordSubmit: (masterPassword: string) => void
 }
 
 export function useMasterPasswordConfirmationDialog({
   isMasterPasswordRequired,
+  kcv,
+  encryptionSalt,
   storageProvider,
+  cryptoProvider,
   onCorrectPasswordSubmit,
 }: Props) {
   const [masterPassword, setMasterPassword] = useState('')
@@ -22,7 +29,7 @@ export function useMasterPasswordConfirmationDialog({
       setIsOpen(true)
       return
     }
-    onCorrectPasswordSubmit()
+    onCorrectPasswordSubmit(masterPassword)
   }
 
   function close() {
@@ -35,12 +42,24 @@ export function useMasterPasswordConfirmationDialog({
   }
 
   async function handlePasswordSubmit() {
+    if (kcv) {
+      const encryptionKey = await cryptoProvider.deriveKey(masterPassword, encryptionSalt)
+      const kcvText = cryptoProvider.decrypt(kcv, encryptionKey)
+      if (!kcvText || kcvText !== CLIENT_ENV.kcvText) {
+        Alert.alert('Senha mestra incorreta')
+        return
+      }
+      await storageProvider.setItem(STORAGE_KEYS.masterPassword, masterPassword)
+      onCorrectPasswordSubmit(masterPassword)
+      return
+    }
+
     const correctMasterPassword = await storageProvider.getItem(
       STORAGE_KEYS.masterPassword,
     )
 
     if (correctMasterPassword === masterPassword) {
-      onCorrectPasswordSubmit()
+      onCorrectPasswordSubmit(masterPassword)
       return
     }
     Alert.alert('Senha mestra incorreta')

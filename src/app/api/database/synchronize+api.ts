@@ -24,7 +24,8 @@ import {
 
 const pullDatabaseChangesSchema = z.object({
   queryParams: z.object({
-    lastPulledAt: z.coerce.date(),
+    accountId: z.string(),
+    lastPulledAt: z.coerce.date().optional(),
   }),
 })
 
@@ -35,7 +36,18 @@ export const GET = Route(async (request) => {
     schema: pullDatabaseChangesSchema,
     request,
   })
-  const controller = PullDatabaseChangesController()
+  const credentialsRepository = DrizzleCredentialsRepository()
+  const vaultsRepository = DrizzleVaultsRepository()
+  const accountsRepository = DrizzleAccountsRepository()
+  const credentialVersionRepository = DrizzleCredentialVersionsRepository()
+  const notesRepository = DrizzleNotesRepository()
+  const controller = PullDatabaseChangesController({
+    accountsRepository,
+    vaultsRepository,
+    credentialsRepository,
+    credentialVersionRepository,
+    notesRepository,
+  })
   const response = await controller.handle(http)
   return http.sendResponse(response)
 })

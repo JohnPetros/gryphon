@@ -6,4 +6,5 @@ export type AccountDto = {
   minimumPasswordStrength: number
   autoLockTimeout: number
   isMasterPasswordRequired: boolean
+  kcv: string
 }

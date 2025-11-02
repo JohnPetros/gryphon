@@ -9,16 +9,10 @@ type ExpoHttp = {
   sendResponse: (response: RestResponse) => Response
 }
 
-export type ExpoParams<Params extends string = ''> = {
-  params: Promise<{
-    [key in Params]: string
-  }>
-}
-
 type ExpoHttpParams = {
   request?: Request
   schema?: ZodSchema
-  params?: ExpoParams
+  params?: Record<string, string>
 }
 
 export const ExpoHttp = async <ExpoSchema extends HttpSchema>({
@@ -47,7 +41,7 @@ export const ExpoHttp = async <ExpoSchema extends HttpSchema>({
 
     if (keys.includes('routeParams')) {
       if (!params) throw new AppError('Next params not provided')
-      routeParams = params.params
+      routeParams = params
     }
 
     httpSchema = schema.parse({ body, queryParams, routeParams }) as ExpoSchema

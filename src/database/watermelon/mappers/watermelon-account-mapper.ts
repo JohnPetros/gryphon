@@ -14,6 +14,7 @@ export const WatermelonAccountMapper = () => {
         isBiometryActivated: model.isBiometryActivated,
         minimumPasswordStrength: model.minimumPasswordStrength,
         autoLockTimeout: model.autoLockTimeout,
+        kcv: model.kcv,
         isMasterPasswordRequired: model.isMasterPasswordRequired,
       })
     },
@@ -25,6 +26,7 @@ export const WatermelonAccountMapper = () => {
         encryptionSalt: schema.encryption_salt,
         isBiometryActivated: schema.is_biometry_activated,
         minimumPasswordStrength: schema.minimum_password_strength,
+        kcv: schema.kcv,
         autoLockTimeout: schema.auto_lock_timeout,
         isMasterPasswordRequired: schema.is_master_password_required,
       }

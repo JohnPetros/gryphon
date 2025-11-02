@@ -9,7 +9,7 @@ import type { VaultModel } from '../models'
 import { WatermelonVaultMapper } from '../mappers'
 import { watermelon } from '../watermelon'
 
-export const WatermelonVaultsRepository = (): VaultsRepository => {
+export const WatermelonVaultsRepository = (isSynced: boolean): VaultsRepository => {
   const mapper = WatermelonVaultMapper()
 
   return {
@@ -24,6 +24,7 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
                 title: vault.title,
                 icon: vault.icon,
                 account_id: vault.accountId.value,
+                _status: isSynced ? 'synced' : 'created',
               },
               vaultsCollection.schema,
             )
@@ -34,7 +35,28 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
       }
     },
 
-    async addMany(vaults: Vault[]): Promise<void> {},
+    async addMany(vaults: Vault[]): Promise<void> {
+      await watermelon.write(async () => {
+        const vaultsCollection = watermelon.collections.get<VaultModel>('vaults')
+
+        const operations = vaults.map((vault) => {
+          return vaultsCollection.prepareCreate((model) => {
+            model._raw = sanitizedRaw(
+              {
+                id: vault.id.value,
+                title: vault.title,
+                icon: vault.icon,
+                account_id: vault.accountId.value,
+                _status: isSynced ? 'synced' : 'created',
+              },
+              vaultsCollection.schema,
+            )
+          })
+        })
+
+        await watermelon.batch(...operations)
+      })
+    },
 
     async update(vault: Vault): Promise<void> {
       const model = await watermelon.collections
@@ -89,6 +111,16 @@ export const WatermelonVaultsRepository = (): VaultsRepository => {
 
     async removeMany(vaultIds: Id[]): Promise<void> {
       throw new Error('Method not implemented.')
+    },
+
+    async removeManyByAccount(accountId) {
+      await watermelon.write(async () => {
+        const vaultsQuery = watermelon.collections
+          .get<VaultModel>('vaults')
+          .query(Q.where('account_id', accountId.value))
+
+        await vaultsQuery.destroyAllPermanently()
+      })
     },
   }
 }

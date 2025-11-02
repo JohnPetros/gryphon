@@ -9,7 +9,9 @@ import type { CredentialModel, CredentialVersionModel, VaultModel } from '../mod
 import { WatermelonCredentialMapper } from '../mappers'
 import { watermelon } from '../watermelon'
 
-export const WatermelonCredentialsRepository = (): CredentialsRepository => {
+export const WatermelonCredentialsRepository = (
+  isSynced: boolean,
+): CredentialsRepository => {
   const mapper = WatermelonCredentialMapper()
 
   return {
@@ -28,6 +30,7 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
               last_version_id: null,
               site_url: credential.siteUrl,
               created_at: credential.createdAt.getTime() / 1000,
+              _status: isSynced ? 'synced' : 'created',
             },
             credentialsCollection.schema,
           )
@@ -35,7 +38,32 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
       })
     },
 
-    async addMany(credentials: Credential[]): Promise<void> {},
+    async addMany(credentials: Credential[]): Promise<void> {
+      await watermelon.write(async () => {
+        const credentialsCollection =
+          watermelon.collections.get<CredentialModel>('credentials')
+
+        const operations = credentials.map((credential) => {
+          return credentialsCollection.prepareCreate((model) => {
+            model._raw = sanitizedRaw(
+              {
+                id: credential.id.value,
+                title: credential.title,
+                encrypted_data: credential.encrypted.value,
+                vault_id: credential.vaultId.value,
+                last_version_id: null,
+                site_url: credential.siteUrl,
+                created_at: credential.createdAt.getTime() / 1000,
+                _status: isSynced ? 'synced' : 'created',
+              },
+              credentialsCollection.schema,
+            )
+          })
+        })
+
+        await watermelon.batch(...operations)
+      })
+    },
 
     async update(credential: Credential): Promise<void> {
       await watermelon.write(async () => {
@@ -70,6 +98,15 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
     },
 
     async updateMany(credentials: Credential[]): Promise<void> {},
+
+    async findAllByAccount(accountId: Id): Promise<Credential[]> {
+      const credentialModels = await watermelon.collections
+        .get<CredentialModel>('credentials')
+        .query(Q.on('vaults', Q.where('account_id', accountId.value)))
+        .fetch()
+
+      return credentialModels.map(mapper.toEntity)
+    },
 
     async findById(id: Id): Promise<Credential | null> {
       try {
@@ -114,5 +151,21 @@ export const WatermelonCredentialsRepository = (): CredentialsRepository => {
     },
 
     async removeMany(credentialIds: Id[]): Promise<void> {},
+
+    async removeManyByAccount(accountId: Id): Promise<void> {
+      await watermelon.write(async () => {
+        const credentialModels = await watermelon.collections
+          .get<CredentialModel>('credentials')
+          .query(
+            Q.experimentalJoinTables(['vaults']),
+            Q.on('vaults', Q.where('account_id', accountId.value)),
+          )
+          .fetch()
+
+        for (const credentialModel of credentialModels) {
+          await credentialModel.markAsDeleted()
+        }
+      })
+    },
   }
 }

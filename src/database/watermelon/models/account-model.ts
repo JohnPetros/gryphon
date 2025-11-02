@@ -10,6 +10,9 @@ export class AccountModel extends Model {
   @field('encryption_salt')
   encryptionSalt!: string
 
+  @field('kcv')
+  kcv!: string
+
   @field('is_biometry_activated')
   isBiometryActivated!: boolean
 
