@@ -3,6 +3,7 @@ export const ROUTES = {
     signIn: '/auth/sign-in',
     signUp: '/auth/sign-up',
   },
+  dataImport: '(protected)/data-import',
   vaultItens: '(protected)/(tabs)/vault-itens',
   newVault: '(protected)/(tabs)/vault/new',
   vault: (vaultId: string) => `(protected)/vault/${vaultId}`,
