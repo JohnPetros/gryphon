@@ -18,4 +18,14 @@ export class Note extends VaultItem<unknown, NoteEncryptedData> {
       dto.id,
     )
   }
+
+  get dto(): NoteDto {
+    return {
+      id: this.id.value,
+      title: this.props.title,
+      encryptedData: this.props.encryptedData.value,
+      vaultId: this.props.vaultId.value,
+      createdAt: this.props.createdAt,
+    }
+  }
 }
