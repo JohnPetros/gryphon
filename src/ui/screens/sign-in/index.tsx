@@ -1,20 +1,28 @@
-import { useAuth } from '@/ui/hooks/use-auth'
+import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import { SignInScreenView } from './sign-in-view'
 import { useSignInScreen } from './use-sign-in-screen'
-import { useAuthContext } from '@/ui/hooks/use-auth-context'
-import { useDatabase } from '@/ui/hooks/use-database'
 import { useNavigation } from '@/ui/hooks/use-navigation'
+import { useSecureStorage } from '@/ui/hooks/use-secure-storage'
+import { useDatabase } from '@/ui/hooks/use-database'
+import { useAuth } from '@/ui/hooks/use-auth'
 
 export const SignInScreen = () => {
+  const { loadAccount, signInAccount, updateAccount } = useAuthContext()
+  const { accountId, isSignedIn } = useAuth()
   const navigationProvider = useNavigation()
-  const { isSignedIn } = useAuth()
-  const { signInAccount } = useAuthContext()
-  const { synchronizeDatabase } = useDatabase()
+  const storageProvider = useSecureStorage()
+  const { accountsRepository, synchronizeDatabase } = useDatabase()
   const { handleSignIn } = useSignInScreen({
-    isSignedIn: isSignedIn ?? false,
+    accountId,
+    isAccountSignedIn: isSignedIn,
     navigationProvider,
+    accountsRepository,
+    storageProvider,
     signInAccount,
-    onSignIn: synchronizeDatabase,
+    onSignIn: async (account) => {
+      if (account) updateAccount(account)
+      await synchronizeDatabase()
+    },
   })
 
   return <SignInScreenView onSignIn={handleSignIn} />
