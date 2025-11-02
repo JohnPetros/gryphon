@@ -9,6 +9,8 @@ export type AuthContextValue = {
     email: string,
     masterPassword: string,
   ) => Promise<void>
+  createEncryptionKey: (masterPassword: string, encryptionSalt: string) => Promise<string>
+  loadAccount: () => Promise<void>
   signInAccount: (email: string, password: string) => Promise<void>
   signOutAccount: () => Promise<void>
   updateAccount: (account: Account) => void
