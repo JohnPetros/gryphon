@@ -15,13 +15,10 @@ export function useSecureStorage(): StorageProvider {
     await ExpoSecureStore.deleteItemAsync(key)
   }, [])
 
-  const hasItem = useCallback(
-    async (key: string) => {
-      const item = await getItem(key)
-      return item !== null
-    },
-    [getItem],
-  )
+  const hasItem = useCallback((key: string) => {
+    const item = ExpoSecureStore.getItem(key)
+    return item !== null
+  }, [])
 
   return {
     getItem,
