@@ -9,7 +9,7 @@ import type { AccountModel } from '../models'
 import { WatermelonAccountMapper } from '../mappers'
 import { watermelon } from '../watermelon'
 
-export const WatermelonAccountsRepository = (): AccountsRepository => {
+export const WatermelonAccountsRepository = (isSynced: boolean): AccountsRepository => {
   const mapper = WatermelonAccountMapper()
 
   return {
@@ -26,6 +26,8 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
               minimum_password_strength: account.minimumPasswordStrength,
               auto_lock_timeout: account.autoLockTimeout,
               is_master_password_required: account.isMasterPasswordRequired,
+              kcv: account.kcv,
+              _status: isSynced ? 'synced' : 'created',
             },
             accountsCollection.schema,
           )
@@ -34,7 +36,28 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
     },
 
     async addMany(accounts: Account[]): Promise<void> {
-      throw new Error('Method not implemented.')
+      await watermelon.write(async () => {
+        const accountsCollection = watermelon.collections.get<AccountModel>('accounts')
+
+        for (const account of accounts) {
+          await accountsCollection.create((model) => {
+            model._raw = sanitizedRaw(
+              {
+                id: account.id.value,
+                email: account.email,
+                encryption_salt: account.encryptionSalt,
+                is_biometry_activated: account.isBiometryActivated,
+                minimum_password_strength: account.minimumPasswordStrength,
+                auto_lock_timeout: account.autoLockTimeout,
+                kcv: account.kcv,
+                is_master_password_required: account.isMasterPasswordRequired,
+                _status: isSynced ? 'synced' : 'created',
+              },
+              accountsCollection.schema,
+            )
+          })
+        }
+      })
     },
 
     async findByEmail(email: string): Promise<Account | null> {
@@ -54,7 +77,7 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
 
         return mapper.toEntity(accountModel)
       } catch (error) {
-        console.error(error)
+        console.warn('Watermelon error', error)
         return null
       }
     },
@@ -101,10 +124,6 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
       })
     },
 
-    async addMany(accounts: Account[]): Promise<void> {
-      throw new Error('Method not implemented.')
-    },
-
     async update(accounts: Account): Promise<void> {
       throw new Error('Method not implemented.')
     },
@@ -118,7 +137,13 @@ export const WatermelonAccountsRepository = (): AccountsRepository => {
     },
 
     async remove(accountId: Id): Promise<void> {
-      throw new Error('Method not implemented.')
+      await watermelon.write(async () => {
+        const accountModel = await watermelon.collections
+          .get<AccountModel>('accounts')
+          .find(accountId.value)
+
+        await accountModel.destroyPermanently()
+      })
     },
   }
 }
