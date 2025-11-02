@@ -42,11 +42,13 @@ export function useBiometricButton({
   useEffect(() => {
     async function checkIsBiometricEnable() {
       if (!isSignedIn) return
-      const [hasHardware, isEnrolled, hasAccountId] = await Promise.all([
+      const [hasHardware, isEnrolled, hasAccountId, masterPassword] = await Promise.all([
         LocalAuthentication.hasHardwareAsync(),
         LocalAuthentication.isEnrolledAsync(),
         storageProvider.hasItem(STORAGE_KEYS.accountId),
+        storageProvider.getItem(STORAGE_KEYS.masterPassword),
       ])
+      console.log(masterPassword)
       setIsBiometricEnable(hasHardware && isEnrolled && hasAccountId)
     }
     checkIsBiometricEnable()
