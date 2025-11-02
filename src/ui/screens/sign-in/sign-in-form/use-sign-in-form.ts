@@ -15,6 +15,10 @@ export function useSignInForm(
 ) {
   const { formState, control, handleSubmit } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: 'joaopcarvalho.cds@gmail.com',
+      password: '12345678',
+    },
   })
 
   async function handleFormSubmit(data: FormSchema) {

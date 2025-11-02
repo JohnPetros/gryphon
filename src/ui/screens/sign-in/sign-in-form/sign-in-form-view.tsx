@@ -24,6 +24,7 @@ export const SignInFormView = ({ onSignIn }: Props) => {
               icon='email'
               placeholder='vicent@rijmen.com'
               label='Email'
+              defaultValue={field.value}
               onChange={field.onChange}
             />
           )}
@@ -32,7 +33,11 @@ export const SignInFormView = ({ onSignIn }: Props) => {
           control={control}
           name='password'
           render={({ field }) => (
-            <PasswordInput label='Senha' onChange={field.onChange} />
+            <PasswordInput
+              label='Senha'
+              defaultValue={field.value}
+              onChange={field.onChange}
+            />
           )}
         />
       </Box>
