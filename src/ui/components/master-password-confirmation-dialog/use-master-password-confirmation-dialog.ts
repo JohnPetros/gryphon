@@ -1,10 +1,6 @@
-import { CLIENT_ENV, ROUTES } from '@/constants'
+import { CLIENT_ENV } from '@/constants'
 import { STORAGE_KEYS } from '@/constants/storage-keys'
-import type {
-  CryptoProvider,
-  NavigationProvider,
-  StorageProvider,
-} from '@/core/interfaces/providers'
+import type { CryptoProvider, StorageProvider } from '@/core/interfaces/providers'
 import { useState } from 'react'
 import { Alert } from 'react-native'
 
@@ -14,7 +10,6 @@ type Props = {
   encryptionSalt: string
   storageProvider: StorageProvider
   cryptoProvider: CryptoProvider
-  navigationProvider: NavigationProvider
   onCorrectPasswordSubmit: (masterPassword: string) => void
 }
 
@@ -24,7 +19,6 @@ export function useMasterPasswordConfirmationDialog({
   encryptionSalt,
   storageProvider,
   cryptoProvider,
-  navigationProvider,
   onCorrectPasswordSubmit,
 }: Props) {
   const [masterPassword, setMasterPassword] = useState('')
@@ -35,6 +29,7 @@ export function useMasterPasswordConfirmationDialog({
       setIsOpen(true)
       return
     }
+    onCorrectPasswordSubmit(masterPassword)
   }
 
   function close() {

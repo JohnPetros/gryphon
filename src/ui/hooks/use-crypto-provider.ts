@@ -46,7 +46,7 @@ export function useCryptoProvider(): CryptoProvider {
       if (!decryptedString) return null
       return decryptedString
     } catch (error) {
-      console.error(error)
+      console.warn(error)
       return ''
     }
   }, [])

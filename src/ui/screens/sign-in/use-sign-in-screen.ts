@@ -61,7 +61,7 @@ export function useSignInScreen({
           return
         }
         onSignIn(account)
-        navigationProvider.navigate(ROUTES.vaultItens)
+        // navigationProvider.navigate(ROUTES.vaultItens)
       } catch (error) {
         console.error(error)
       }

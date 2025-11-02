@@ -28,7 +28,6 @@ export const MasterPasswordConfirmationDialog = ({
   const { account } = useAuthContext()
   const storageProvider = useSecureStorage()
   const cryptoProvider = useCryptoProvider()
-  const navigationProvider = useNavigation()
   const isMasterPasswordRequired = shouldSuppressMasterPasswordRequirement
     ? true
     : Boolean(account?.isMasterPasswordRequired ?? true)
@@ -38,7 +37,6 @@ export const MasterPasswordConfirmationDialog = ({
       kcv,
       storageProvider,
       cryptoProvider,
-      navigationProvider,
       encryptionSalt: account?.encryptionSalt ?? '',
       onCorrectPasswordSubmit,
     })

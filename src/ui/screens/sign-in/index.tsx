@@ -21,6 +21,7 @@ export const SignInScreen = () => {
     signInAccount,
     onSignIn: async (account) => {
       if (account) updateAccount(account)
+      await loadAccount()
       await synchronizeDatabase()
     },
   })
