@@ -5,30 +5,41 @@ import { MasterPasswordConfirmationDialogView } from './master-password-confirma
 import { useMasterPasswordConfirmationDialog } from './use-master-password-confirmation-dialog'
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import { useSecureStorage } from '@/ui/hooks/use-secure-storage'
+import { useCryptoProvider } from '@/ui/hooks/use-crypto-provider'
+import { useNavigation } from '@/ui/hooks/use-navigation'
 
 type Props = {
   ref?: RefObject<MasterPasswordConfirmationDialogRef | null>
   description: string
   canClose: boolean
   shouldSuppressMasterPasswordRequirement?: boolean
-  onCorrectPasswordSubmit: () => void
+  kcv?: string
+  onCorrectPasswordSubmit: (masterPassword: string) => void
 }
 
 export const MasterPasswordConfirmationDialog = ({
   ref,
   description,
   canClose,
+  kcv,
   shouldSuppressMasterPasswordRequirement,
   onCorrectPasswordSubmit,
 }: Props) => {
   const { account } = useAuthContext()
   const storageProvider = useSecureStorage()
+  const cryptoProvider = useCryptoProvider()
+  const navigationProvider = useNavigation()
+  const isMasterPasswordRequired = shouldSuppressMasterPasswordRequirement
+    ? true
+    : Boolean(account?.isMasterPasswordRequired ?? true)
   const { isOpen, open, close, handlePasswordChange, handlePasswordSubmit } =
     useMasterPasswordConfirmationDialog({
-      isMasterPasswordRequired: shouldSuppressMasterPasswordRequirement
-        ? true
-        : Boolean(account?.isMasterPasswordRequired),
+      isMasterPasswordRequired,
+      kcv,
       storageProvider,
+      cryptoProvider,
+      navigationProvider,
+      encryptionSalt: account?.encryptionSalt ?? '',
       onCorrectPasswordSubmit,
     })
 
