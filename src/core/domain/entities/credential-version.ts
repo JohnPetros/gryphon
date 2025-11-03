@@ -34,6 +34,10 @@ export class CredentialVersion extends Entity<CredentialProps> {
     )
   }
 
+  get isFirstVersion(): boolean {
+    return this.props.versionNumber === 1
+  }
+
   get versionNumber(): number {
     return this.props.versionNumber
   }

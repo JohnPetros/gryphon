@@ -27,7 +27,9 @@ export function useCredentialSettingsScreen({
   const { navigate } = useNavigation()
 
   async function handleCredentialCreate(credential: Credential) {
+    const firstVersion = credential.createVersion(0)
     await credentialsRepository.add(credential)
+    await credentialVersionsRepository.add(firstVersion)
     try {
       await onChangeDatabase()
     } catch {}
@@ -44,9 +46,8 @@ export function useCredentialSettingsScreen({
       const lastVersion = await credentialVersionsRepository.findLastByCredential(
         updatedCredential.id,
       )
-      const nextVersion = credential.createVersion(lastVersion?.versionNumber)
+      const nextVersion = updatedCredential.createVersion(lastVersion?.versionNumber)
       await credentialVersionsRepository.add(nextVersion)
-
       await credentialsRepository.update(updatedCredential)
       try {
         await onChangeDatabase()

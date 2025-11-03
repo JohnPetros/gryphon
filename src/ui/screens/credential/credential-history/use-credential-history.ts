@@ -13,13 +13,12 @@ type Params = {
 export function useCredentialHistory({
   credentialId,
   credentialVersionsRepository,
-  onRestore
+  onRestore,
 }: Params) {
   const [versions, setVersions] = useState<CredentialVersion[]>([])
 
   const loadVersions = useCallback(async () => {
-    const versions =
-      await credentialVersionsRepository.findAllByCredential(credentialId)
+    const versions = await credentialVersionsRepository.findAllByCredential(credentialId)
     setVersions(versions)
   }, [])
 

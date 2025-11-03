@@ -25,17 +25,25 @@ export const CredentialHistoryView = ({ credential, versions, onRestore }: Props
               credentialVersion={version}
               isLastVersion={version.id.value === credential.lastVersionId?.value}
               createdAt={version.createdAt}
-              icon={version.isRestoration ? 'restoration' : 'edit'}
+              icon={
+                version.isFirstVersion && !version.isRestoration
+                  ? 'sparkles'
+                  : version.isRestoration
+                    ? 'restoration'
+                    : 'edit'
+              }
               title={
-                version.isRestoration
-                  ? `Restaurado para a versão ${version.versionNumber}`
-                  : `Editado (Versão ${version.versionNumber})`
+                version.isFirstVersion && !version.isRestoration
+                  ? `Criado (Versão ${version.versionNumber})`
+                  : version.isRestoration
+                    ? `Restaurado para a versão ${version.versionNumber}`
+                    : `Editado (Versão ${version.versionNumber})`
               }
               onRestore={onRestore}
             />
           )
         })}
-        <CredentialHistoryPoint
+        {/* <CredentialHistoryPoint
           icon='sparkles'
           title='Criado'
           credential={credential}
@@ -43,7 +51,7 @@ export const CredentialHistoryView = ({ credential, versions, onRestore }: Props
           isLastVersion={false}
           createdAt={credential.createdAt}
           onRestore={onRestore}
-        />
+        /> */}
       </Box>
     </Box>
   )

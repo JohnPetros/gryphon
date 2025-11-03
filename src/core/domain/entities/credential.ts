@@ -45,7 +45,10 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
   }
 
   createVersion(currentVersionNumber?: number): CredentialVersion {
+    const versionId = Id.create()
+    this.props.lastVersionId = versionId
     return CredentialVersion.create({
+      id: versionId.value,
       versionNumber: currentVersionNumber ? currentVersionNumber + 1 : 1,
       title: this.props.title,
       siteUrl: this.props.siteUrl ?? undefined,
