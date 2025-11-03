@@ -43,9 +43,9 @@ export const SignInFormView = ({ onSignIn }: Props) => {
       </Box>
 
       <Box className='flex flex-row items-center justify-between mt-6'>
-        {/* <Link href='/auth/sign-up' className='text-primary p-2'>
+        <Link href='/auth/reset-password' className='text-primary p-2'>
           Esqueceu sua senha?
-        </Link> */}
+        </Link>
         <Link href='/auth/sign-up' className='text-primary p-2'>
           Criar conta
         </Link>

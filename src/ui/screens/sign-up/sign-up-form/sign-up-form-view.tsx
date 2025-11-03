@@ -1,9 +1,10 @@
+import { Controller } from 'react-hook-form'
+
 import { Button } from '@/ui/components/button'
 import { Input } from '@/ui/components/input'
 import { PasswordInput } from '@/ui/components/password-input'
 import { Box } from '@/ui/gluestack/box'
 import { Text } from '@/ui/gluestack/text'
-import { Controller } from 'react-hook-form'
 import { useSignUpForm } from './use-sign-up-form'
 
 type Props = {
