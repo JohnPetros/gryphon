@@ -54,7 +54,7 @@ export const NoteFormView = ({
           onPress={handleSubmit}
           className='w-32 items-center justify-center'
           isDisabled={!isValid}
-          isLoading={true}
+          isLoading={isSubmitting}
         >
           {note ? 'Editar' : 'Criar'}
         </Button>

@@ -20,8 +20,6 @@ export const WatermelonCredentialsRepository = (
         const credentialsCollection =
           watermelon.collections.get<CredentialModel>('credentials')
 
-        console.log(credential.lastVersionId)
-
         await credentialsCollection.create((model) => {
           model._raw = sanitizedRaw(
             {
