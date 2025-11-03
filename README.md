@@ -24,7 +24,7 @@ O objetivo ao desenvolver o **Gryphon** foi criar uma ferramenta que não apenas
 
 **Sprint 1**: [Link para a documentação](https://github.com/JohnPetros/gryphon/blob/main/documentation/sprint-1-report.md)
 
-**Sprint 2**: 🚧 Em andamento 🚧
+**Sprint 2**: [Link para a documentação](https://github.com/JohnPetros/gryphon/blob/main/documentation/sprint-2-report.md)
 
 **Sprint 3**: 🚧 Em andamento 🚧
 
