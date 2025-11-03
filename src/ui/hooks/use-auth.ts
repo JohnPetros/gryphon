@@ -62,6 +62,36 @@ export function useAuth() {
     [signUp, toast],
   )
 
+  const sendAccountPasswordResetEmail = useCallback(
+    async (email: string) => {
+      try {
+        await signIn?.create({
+          strategy: 'reset_password_email_code',
+          identifier: email,
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    [signIn],
+  )
+
+  const resetAccountPassword = useCallback(
+    async (otp: string, password: string) => {
+      try {
+        await signIn?.attemptFirstFactor({
+          strategy: 'reset_password_email_code',
+          code: otp,
+          password,
+        })
+        await signOut()
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    [signIn],
+  )
+
   const verifyOtpCode = useCallback(
     async (code: string) => {
       const response = await signUp?.attemptEmailAddressVerification({ code })
@@ -94,5 +124,7 @@ export function useAuth() {
     signUpAccount,
     signInAccount,
     verifyOtpCode,
+    resetAccountPassword,
+    sendAccountPasswordResetEmail,
   }
 }
