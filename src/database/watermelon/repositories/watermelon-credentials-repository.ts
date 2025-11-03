@@ -20,6 +20,8 @@ export const WatermelonCredentialsRepository = (
         const credentialsCollection =
           watermelon.collections.get<CredentialModel>('credentials')
 
+        console.log(credential.lastVersionId)
+
         await credentialsCollection.create((model) => {
           model._raw = sanitizedRaw(
             {
@@ -27,7 +29,7 @@ export const WatermelonCredentialsRepository = (
               title: credential.title,
               encrypted_data: credential.encrypted.value,
               vault_id: credential.vaultId.value,
-              last_version_id: null,
+              last_version_id: credential.lastVersionId?.value ?? null,
               site_url: credential.siteUrl,
               created_at: credential.createdAt.getTime() / 1000,
               _status: isSynced ? 'synced' : 'created',
@@ -51,7 +53,7 @@ export const WatermelonCredentialsRepository = (
                 title: credential.title,
                 encrypted_data: credential.encrypted.value,
                 vault_id: credential.vaultId.value,
-                last_version_id: null,
+                last_version_id: credential.lastVersionId?.value ?? null,
                 site_url: credential.siteUrl,
                 created_at: credential.createdAt.getTime() / 1000,
                 _status: isSynced ? 'synced' : 'created',
