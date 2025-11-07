@@ -9,6 +9,7 @@ type AccountProps = {
   autoLockTimeout: number
   isMasterPasswordRequired: boolean
   kcv: string
+  notificationToken: string | null
 }
 
 export class Account extends Entity<AccountProps> {
@@ -56,6 +57,14 @@ export class Account extends Entity<AccountProps> {
     this.props.isMasterPasswordRequired = value
   }
 
+  get notificationToken(): string | null {
+    return this.props.notificationToken
+  }
+
+  set notificationToken(notificationToken: string) {
+    this.props.notificationToken = notificationToken
+  }
+
   get dto(): AccountDto {
     return {
       id: this.id.value,
@@ -65,6 +74,7 @@ export class Account extends Entity<AccountProps> {
       minimumPasswordStrength: this.props.minimumPasswordStrength,
       autoLockTimeout: this.props.autoLockTimeout,
       isMasterPasswordRequired: this.props.isMasterPasswordRequired,
+      notificationToken: this.props.notificationToken,
       kcv: this.props.kcv,
     }
   }

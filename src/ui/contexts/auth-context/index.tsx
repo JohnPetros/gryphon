@@ -13,12 +13,11 @@ export const AuthContext = createContext({} as AuthContextValue)
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const { jwt, accountId, isSignedIn, signInAccount, signOutAccount } = useAuth()
+  const { authService } = useRest()
+  const { accountsRepository, synchronizeDatabase } = useDatabase()
   const cryptoProvider = useCryptoProvider()
   const navigationProvider = useNavigation()
   const storageProvider = useSecureStorage()
-  const { authService } = useRest()
-  const { accountsRepository, synchronizeDatabase } = useDatabase()
-
   const authContextValue = useAuthContextProvider({
     jwt,
     accountId,
@@ -30,7 +29,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     isAccountSignedIn: isSignedIn,
     signIn: signInAccount,
     signOut: signOutAccount,
-    onSignIn: synchronizeDatabase,
+    onUpdateAccount: synchronizeDatabase,
   })
 
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>

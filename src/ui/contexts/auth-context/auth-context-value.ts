@@ -13,5 +13,5 @@ export type AuthContextValue = {
   loadAccount: () => Promise<void>
   signInAccount: (email: string, password: string) => Promise<void>
   signOutAccount: () => Promise<void>
-  updateAccount: (account: Account) => void
+  updateAccount: (account: Account) => Promise<void>
 }
