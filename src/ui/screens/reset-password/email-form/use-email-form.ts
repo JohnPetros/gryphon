@@ -2,28 +2,28 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { passwordSchema } from '@/validation'
-
 const formSchema = z.object({
   email: z.email(),
-  password: passwordSchema,
 })
 
 type FormSchema = z.infer<typeof formSchema>
 
-export function useSignInForm(
-  onSignIn: (email: string, password: string) => Promise<void>,
-) {
+type Params = {
+  sendPasswordResetEmail: (email: string) => Promise<void>
+  onSendPasswordResetEmail: () => void
+}
+
+export function useEmailForm({
+  sendPasswordResetEmail,
+  onSendPasswordResetEmail,
+}: Params) {
   const { formState, control, handleSubmit } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: 'joaopcarvalho.cds@gmail.com',
-      password: '12345678',
-    },
   })
 
   async function handleFormSubmit(data: FormSchema) {
-    await onSignIn(data.email, data.password)
+    await sendPasswordResetEmail(data.email)
+    onSendPasswordResetEmail()
   }
 
   return {

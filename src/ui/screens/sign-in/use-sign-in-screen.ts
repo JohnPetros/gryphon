@@ -5,7 +5,7 @@ import type { AccountsRepository } from '@/core/interfaces'
 import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
 import type { Account } from '@/core/domain/entities'
 
-import { ROUTES, STORAGE_KEYS } from '@/constants'
+import { CLIENT_ENV, ROUTES, STORAGE_KEYS } from '@/constants'
 
 type Params = {
   accountId: Id | null
@@ -61,7 +61,7 @@ export function useSignInScreen({
           return
         }
         onSignIn(account)
-        // navigationProvider.navigate(ROUTES.vaultItens)
+        navigationProvider.navigate(ROUTES.vaultItens)
       } catch (error) {
         console.error(error)
       }

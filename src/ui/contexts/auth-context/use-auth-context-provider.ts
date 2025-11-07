@@ -69,7 +69,6 @@ export function useAuthContextProvider({
 
   const loadAccount = useCallback(async () => {
     const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
-    console.log({ storedAccountId })
     if (!storedAccountId) {
       signOutAccount()
       return
@@ -80,7 +79,6 @@ export function useAuthContextProvider({
     if (!account) {
       try {
         const response = await authService.fetchAccount(accountId)
-        console.log('loadAccount', { response })
         if (response.isFailure) {
           signOutAccount()
           return
@@ -91,11 +89,14 @@ export function useAuthContextProvider({
       }
     }
 
+    console.log({ account })
+
+    if (!account) return
+
     await storageProvider.setItem(STORAGE_KEYS.acountEmail, account.email)
     setAccount(account)
 
     const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
-    console.log({ masterPassword, salt: account.encryptionSalt })
     if (!masterPassword) return
     createEncryptionKey(masterPassword, account.encryptionSalt)
   }, [

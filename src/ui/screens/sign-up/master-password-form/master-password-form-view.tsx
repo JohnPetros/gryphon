@@ -1,7 +1,6 @@
 import { Box } from '@/ui/gluestack/box'
 import { Text } from '@/ui/gluestack/text'
 import { List } from '@/ui/components/list'
-import { PasswordInput } from '@/ui/components/password-input'
 import { Button } from '@/ui/components/button'
 import { Input } from '@/ui/components/input'
 
