@@ -166,7 +166,6 @@ export function useDatabase() {
     const credentialVersionsRepository = WatermelonCredentialVersionsRepository(true)
 
     const response = await databaseService.pullDatabaseChanges(accountId)
-    console.log(response.body)
     if (response.isFailure) response.throwError()
 
     if (!response.body.createdAccounts) return
