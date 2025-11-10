@@ -14,6 +14,7 @@ export const DrizzleAccountMapper = () => {
         autoLockTimeout: drizzleAccount.autoLockTimeout ?? 0,
         kcv: drizzleAccount.kcv ?? '',
         isMasterPasswordRequired: drizzleAccount.isMasterPasswordRequired === 1,
+        notificationToken: drizzleAccount.notificationToken ?? null,
       })
     },
   }

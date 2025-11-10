@@ -136,6 +136,10 @@ export const WatermelonAccountsRepository = (isSynced: boolean): AccountsReposit
       throw new Error('Method not implemented.')
     },
 
+    async findByCredential(credentialId: Id): Promise<Account | null> {
+      throw new Error('Method not implemented.')
+    },
+
     async remove(accountId: Id): Promise<void> {
       await watermelon.write(async () => {
         const accountModel = await watermelon.collections
