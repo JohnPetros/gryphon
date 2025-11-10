@@ -3,9 +3,9 @@ import { createContext, type PropsWithChildren } from 'react'
 import { useNotificationContextProvider } from './use-notification-context-provider'
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
 
-export const NotificationContextProvider = createContext({})
+export const NotificationContext = createContext({})
 
-export const NotificationContextProviderProvider = ({ children }: PropsWithChildren) => {
+export const NotificationContextProvider = ({ children }: PropsWithChildren) => {
   const { account, updateAccount } = useAuthContext()
   useNotificationContextProvider({
     currentNotificationToken: account?.notificationToken,
@@ -17,8 +17,6 @@ export const NotificationContextProviderProvider = ({ children }: PropsWithChild
   })
 
   return (
-    <NotificationContextProvider.Provider value={{}}>
-      {children}
-    </NotificationContextProvider.Provider>
+    <NotificationContext.Provider value={{}}>{children}</NotificationContext.Provider>
   )
 }
