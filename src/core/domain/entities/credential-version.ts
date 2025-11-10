@@ -1,6 +1,5 @@
 import { Entity } from '../abstracts'
 import { Encrypted, Id } from '../structures'
-import { Credential } from './credential'
 import type { CredentialVersionDto } from './dtos'
 
 type CredentialProps = {
@@ -32,6 +31,10 @@ export class CredentialVersion extends Entity<CredentialProps> {
       },
       dto.id,
     )
+  }
+
+  get isOutdated(): boolean {
+    return this.props.versionNumber > 1
   }
 
   get isFirstVersion(): boolean {

@@ -13,6 +13,9 @@ export class AccountModel extends Model {
   @field('kcv')
   kcv!: string
 
+  @field('notification_token')
+  notification_token!: string | null
+
   @field('is_biometry_activated')
   isBiometryActivated!: boolean
 

@@ -7,6 +7,7 @@ import type { Account } from '@/core/domain/entities'
 import { drizzle } from '../drizzle'
 import { accountSchema } from '../schemas/account-schema'
 import { DrizzleAccountMapper } from '../mappers/drizzle-account-mapper'
+import { credentialSchema, vaultSchema } from '../schemas'
 
 export const DrizzleAccountsRepository = (): AccountsRepository => {
   const mapper = DrizzleAccountMapper()
@@ -146,6 +147,25 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
           accountIds.map((id) => id.value),
         ),
       )
+    },
+
+    async findByCredential(credentialId) {
+      const row = await drizzle
+        .select({
+          account: accountSchema,
+        })
+        .from(credentialSchema)
+        .innerJoin(vaultSchema, eq(credentialSchema.vaultId, vaultSchema.id))
+        .innerJoin(accountSchema, eq(vaultSchema.accountId, accountSchema.id))
+        .where(eq(credentialSchema.id, credentialId.value))
+        .limit(1)
+        .get()
+
+      if (!row?.account) {
+        return null
+      }
+
+      return mapper.toEntity(row.account)
     },
   }
 }

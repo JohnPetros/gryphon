@@ -7,6 +7,7 @@ export interface CredentialVersionsRepository {
   update(credentialVersion: CredentialVersion): Promise<void>
   updateMany(credentialVersions: CredentialVersion[]): Promise<void>
   findAllByAccount(accountId: Id): Promise<CredentialVersion[]>
+  findAllLastByAccount(accountId: Id): Promise<CredentialVersion[]>
   findLastByCredential(credentialId: Id): Promise<CredentialVersion | null>
   findAllByCredential(credentialId: Id): Promise<CredentialVersion[]>
   remove(credentialVersionId: Id): Promise<void>

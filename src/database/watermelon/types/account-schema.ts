@@ -7,4 +7,5 @@ export type AccountSchema = {
   minimum_password_strength: number
   auto_lock_timeout: number
   is_master_password_required: boolean
+  notification_token: string | null
 }

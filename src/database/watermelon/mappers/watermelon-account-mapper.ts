@@ -16,6 +16,7 @@ export const WatermelonAccountMapper = () => {
         autoLockTimeout: model.autoLockTimeout,
         kcv: model.kcv,
         isMasterPasswordRequired: model.isMasterPasswordRequired,
+        notificationToken: model.notification_token,
       })
     },
 
@@ -29,6 +30,7 @@ export const WatermelonAccountMapper = () => {
         kcv: schema.kcv,
         autoLockTimeout: schema.auto_lock_timeout,
         isMasterPasswordRequired: schema.is_master_password_required,
+        notificationToken: schema.notification_token,
       }
     },
   }
