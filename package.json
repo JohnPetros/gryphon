@@ -1,5 +1,5 @@
 {
-  "name": "starter-kit-expo",
+  "name": "gryphon",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
@@ -36,6 +36,7 @@
     "@nozbe/watermelondb": "^0.28.0",
     "@react-aria/utils": "^3.29.0",
     "@react-native-community/netinfo": "11.4.1",
+    "@react-native-google-signin/google-signin": "^16.0.0",
     "@react-navigation/native": "^7.1.6",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.12.2",

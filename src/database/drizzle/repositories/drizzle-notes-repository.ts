@@ -122,5 +122,9 @@ export const DrizzleNotesRepository = (): NotesRepository => {
         ),
       )
     },
+
+    async removeManyByAccount(accountId) {
+      throw new Error('Method not implemented.')
+    },
   }
 }
