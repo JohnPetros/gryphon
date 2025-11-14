@@ -2,5 +2,5 @@ export const STORAGE_KEYS = {
   masterPassword: 'gryphonMasterPassword',
   accountId: 'gryphonAccountId',
   acountEmail: 'gryphonAccountEmail',
-  googleAuthCode: 'gryphongoogleAuthCode',
+  googleAccessToken: 'gryphongoogleAccessToken',
 }
