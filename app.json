@@ -23,7 +23,7 @@
         "backgroundColor": "#18171F"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.gryphon.android"
+      "package": "com.joaopcarvalho.gryphon"
     },
     "web": {
       "bundler": "metro",
