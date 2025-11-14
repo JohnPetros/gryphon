@@ -23,7 +23,7 @@
         "backgroundColor": "#18171F"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.gryphon.android"
+      "package": "com.joaopcarvalho.gryphon"
     },
     "web": {
       "bundler": "metro",
@@ -45,7 +45,7 @@
       [
         "@react-native-google-signin/google-signin",
         {
-          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
+          "iosUrlScheme": "com.googleusercontent.apps.781507149738-k3l8qjpq0diffm7542m3akgp35qlchk7"
         }
       ],
       [
