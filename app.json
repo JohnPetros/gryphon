@@ -23,7 +23,7 @@
         "backgroundColor": "#18171F"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.joaopcarvalho.gryphon"
+      "package": "com.gryphon.android"
     },
     "web": {
       "bundler": "metro",
@@ -41,6 +41,12 @@
       ],
       [
         "@lovesworking/watermelondb-expo-plugin-sdk-52-plus"
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
+        }
       ],
       [
         "expo-build-properties",
