@@ -9,6 +9,7 @@ export type IconName =
   | 'search'
   | 'exit'
   | 'eye-close'
+  | 'backup'
   | 'check'
   | 'reload'
   | 'close'
