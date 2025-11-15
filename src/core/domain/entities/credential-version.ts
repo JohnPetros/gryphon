@@ -1,6 +1,5 @@
 import { Entity } from '../abstracts'
 import { Encrypted, Id } from '../structures'
-import { Credential } from './credential'
 import type { CredentialVersionDto } from './dtos'
 
 type CredentialProps = {
@@ -28,7 +27,7 @@ export class CredentialVersion extends Entity<CredentialProps> {
         title: dto.title,
         siteUrl: dto.siteUrl ?? null,
         credentialId: Id.create(dto.credentialId),
-        createdAt: dto.createdAt,
+        createdAt: new Date(dto.createdAt),
       },
       dto.id,
     )
