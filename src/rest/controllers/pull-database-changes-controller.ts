@@ -45,12 +45,22 @@ export const PullDatabaseChangesController = ({
 
       return http.send({
         createdAccounts: [account?.dto],
+        updatedAccounts: [],
+        deletedAccountsIds: [],
         createdVaults: vaults.map((vault) => vault.dto),
+        updatedVaults: [],
+        deletedVaultsIds: [],
         createdCredentials: credentials.map((credential) => credential.dto),
+        updatedCredentials: [],
+        deletedCredentialsIds: [],
         createdCredentialVersions: credentialVersions.map(
           (credentialVersion) => credentialVersion.dto,
         ),
+        updatedCredentialVersions: [],
+        deletedCredentialVersionsIds: [],
         createdNotes: notes.map((note) => note.dto),
+        updatedNotes: [],
+        deletedNotesIds: [],
       })
     },
   }
