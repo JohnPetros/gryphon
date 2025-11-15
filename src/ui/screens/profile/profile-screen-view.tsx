@@ -37,12 +37,12 @@ export const ProfileScreenView = ({ accountEmail }: Props) => {
         </Box>
       </Box>
 
-      {/* <Box className='mt-12'>
-        <Link href={ROUTES.backup} className='border-accent h-16'>
-          <Icon name='backup' color='accent' size={20} />
-          <Text className='text-accent text-md'>Backup</Text>
-        </Link>
-      </Box> */}
+      <Link href={'/(protected)/backup'} className='mt-12'>
+        <Box className='flex flex-row items-center justify-center gap-3 px-6 border-accent h-16 w-full bg-surface'>
+          <Icon name='backup' color='accent' size={22} />
+          <Text className='text-accent text-xl'>Backup</Text>
+        </Box>
+      </Link>
 
       <Box className='mt-12'>
         <SignOutButton />
