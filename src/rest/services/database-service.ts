@@ -15,5 +15,9 @@ export const DatabaseService = (restClient: RestClient): IDatabaseService => {
     async pushDatabaseChanges(changes: DatabaseChanges) {
       return await restClient.post('/database/synchronize', changes)
     },
+
+    async resetDatabase(accountId: Id) {
+      return await restClient.delete(`/database/${accountId.value}`)
+    },
   }
 }
