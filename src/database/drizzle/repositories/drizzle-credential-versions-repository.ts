@@ -128,5 +128,9 @@ export const DrizzleCredentialVersionsRepository = (): CredentialVersionsReposit
         ),
       )
     },
+
+    async removeManyByAccount(accountId) {
+      throw new Error('Method not implemented.')
+    },
   }
 }

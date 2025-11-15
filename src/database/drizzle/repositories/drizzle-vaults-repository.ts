@@ -99,5 +99,9 @@ export const DrizzleVaultsRepository = (): VaultsRepository => {
         ),
       )
     },
+
+    async removeManyByAccount(accountId: Id): Promise<void> {
+      await drizzle.delete(vaultSchema).where(eq(vaultSchema.accountId, accountId.value))
+    },
   }
 }

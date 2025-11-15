@@ -136,5 +136,9 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
         ),
       )
     },
+
+    async removeManyByAccount(accountId: Id): Promise<void> {
+      throw new Error('Method not implemented.')
+    },
   }
 }
