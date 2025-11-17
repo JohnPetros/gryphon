@@ -134,6 +134,10 @@ export function useAuthContextProvider({
           isMasterPasswordRequired: true,
           kcv,
           notificationToken: null,
+          credentialRotation: {
+            unit: 'month',
+            interval: 1,
+          },
         })
         setAccount(account)
 

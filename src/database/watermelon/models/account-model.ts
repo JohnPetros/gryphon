@@ -27,4 +27,10 @@ export class AccountModel extends Model {
 
   @field('is_master_password_required')
   isMasterPasswordRequired!: boolean
+
+  @field('credential_rotation_unit')
+  credentialRotationUnit!: boolean
+
+  @field('credential_rotation_interval')
+  credentialRotationInterval!: boolean
 }

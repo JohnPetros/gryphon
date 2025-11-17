@@ -7,7 +7,6 @@ type Params = {
   accountsRepository: AccountsRepository
   account: Account | null
   updateAccount: (account: Account) => void
-  onUpdateAccount: (account: Account) => Promise<void>
 }
 
 export function useMinimumPasswordStrenghSelect({

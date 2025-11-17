@@ -1,3 +1,5 @@
+import { CredentialRotationDto } from "./credential-rotation-dto"
+
 export type AccountDto = {
   id?: string
   email: string
@@ -8,4 +10,5 @@ export type AccountDto = {
   isMasterPasswordRequired: boolean
   notificationToken: string | null
   kcv: string
+  credentialRotation: CredentialRotationDto
 }

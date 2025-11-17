@@ -11,5 +11,7 @@ export const accountSchema = tableSchema({
     { name: 'auto_lock_timeout', type: 'number' },
     { name: 'is_master_password_required', type: 'boolean' },
     { name: 'notification_token', type: 'string', isOptional: true },
+    { name: 'credential_rotation_unit', type: 'string' },
+    { name: 'credential_rotation_interval', type: 'number' },
   ],
 })

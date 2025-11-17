@@ -5,6 +5,7 @@ import type {
   CredentialVersionsRepository,
   Http,
 } from '@/core/interfaces'
+import { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
 import type { NotificationService } from '@/core/interfaces/services'
 
 type Dependencies = {
@@ -12,6 +13,7 @@ type Dependencies = {
   credentialsRepository: CredentialsRepository
   credentialVersionsRepository: CredentialVersionsRepository
   notificationService: NotificationService
+  datetimeProvider: DateTimeProvider
 }
 
 export const VerifyOutdatedCredentialsController = ({
@@ -19,6 +21,7 @@ export const VerifyOutdatedCredentialsController = ({
   credentialVersionsRepository,
   credentialsRepository,
   notificationService,
+  datetimeProvider,
 }: Dependencies): Controller => {
   return {
     async handle(http: Http) {
@@ -31,8 +34,12 @@ export const VerifyOutdatedCredentialsController = ({
         )
         if (!lastVersion) continue
 
-        if (lastVersion.isOutdated) {
-          const account = await accountsRepository.findByCredential(credential.id)
+        const account = await accountsRepository.findByCredential(credential.id)
+        if (!account) continue
+        
+        const isVersionOutdated = lastVersion.isOutdated(account?.credentialRotation, datetimeProvider)
+
+        if (isVersionOutdated) {
           if (!account || !account.notificationToken) continue
           credentialCountByAccount[account.notificationToken] += 1
         }
