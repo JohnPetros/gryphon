@@ -1,6 +1,5 @@
-import { Account } from '@/core/domain/entities'
-import { CredentialRotationDto } from '@/core/domain/entities/dtos/credential-rotation-dto'
-import { AccountsRepository } from '@/core/interfaces'
+import type { Account } from '@/core/domain/entities'
+import type { CredentialRotationDto } from '@/core/domain/entities/dtos/credential-rotation-dto'
 import { CredentialRotation } from '@/core/domain/structures'
 
 const ROTATION_OPTIONS: Record<string, CredentialRotationDto> = {
@@ -27,25 +26,31 @@ const ROTATION_OPTIONS: Record<string, CredentialRotationDto> = {
 }
 
 type Params = {
-  accountsRepository: AccountsRepository
   account: Account | null
-  updateAccount: (account: Account) => void
   onUpdateAccount: (account: Account) => Promise<void>
 }
 
-export const useCredentialRotationSelect = ({
-  accountsRepository,
-  account,
-  updateAccount,
-  onUpdateAccount,
-}: Params) => {
-  function handleChange(value: number) {
+export const useCredentialRotationSelect = ({ account, onUpdateAccount }: Params) => {
+  async function handleChange(value: string) {
+    if (!account) return
     const rotationDto = ROTATION_OPTIONS[value]
-    account?.credentialRotation = CredentialRotation.create(rotationDto.unit, rotationDto.interval)
-    console.log(value)
+    account.credentialRotation = CredentialRotation.create(
+      rotationDto.unit,
+      rotationDto.interval,
+    )
+    await onUpdateAccount(account)
   }
 
+  const options = Object.keys(ROTATION_OPTIONS)
+  const selectedOption = Object.entries(ROTATION_OPTIONS).find(
+    (option) =>
+      option[1].unit === account?.credentialRotation.unit &&
+      option[1].interval === account?.credentialRotation.interval,
+  )?.[0]
+
   return {
-    options: Object.keys(ROTATION_OPTIONS),
+    selectedOption,
+    options,
+    handleChange,
   }
 }
