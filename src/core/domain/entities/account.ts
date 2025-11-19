@@ -16,10 +16,16 @@ type AccountProps = {
 
 export class Account extends Entity<AccountProps> {
   static create(dto: AccountDto) {
-    return new Account({
-      ...dto,
-      credentialRotation: CredentialRotation.create(dto.credentialRotation.unit, dto.credentialRotation.interval)
-    }, dto?.id)
+    return new Account(
+      {
+        ...dto,
+        credentialRotation: CredentialRotation.create(
+          dto.credentialRotation.unit,
+          dto.credentialRotation.interval,
+        ),
+      },
+      dto?.id,
+    )
   }
 
   get encryptionSalt(): string {

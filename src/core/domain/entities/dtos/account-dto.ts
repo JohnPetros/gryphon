@@ -1,4 +1,4 @@
-import { CredentialRotationDto } from "./credential-rotation-dto"
+import type { CredentialRotationDto } from './credential-rotation-dto'
 
 export type AccountDto = {
   id?: string
