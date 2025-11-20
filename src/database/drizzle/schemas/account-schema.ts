@@ -10,6 +10,8 @@ export const accountSchema = sqliteTable('accounts', {
   minimumPasswordStrength: integer('minimum_password_strength').notNull().default(3),
   isMasterPasswordRequired: integer('is_master_password_required').notNull().default(1),
   notificationToken: text('notification_token'),
-  credentialRotationUnit: text('credential_rotation_unit').notNull(),
-  credentialRotationInterval: integer('credential_rotation_interval').notNull(),
+  credentialRotationUnit: text('credential_rotation_unit').notNull().default('month'),
+  credentialRotationInterval: integer('credential_rotation_interval')
+    .notNull()
+    .default(2),
 })
