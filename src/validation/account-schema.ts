@@ -10,4 +10,9 @@ export const accountSchema = z.object({
   minimumPasswordStrength: z.number(),
   autoLockTimeout: z.number(),
   isMasterPasswordRequired: z.boolean(),
+  notificationToken: z.string().min(1).nullable(),
+  credentialRotation: z.object({
+    unit: z.string().min(1),
+    interval: z.number(),
+  }),
 })
