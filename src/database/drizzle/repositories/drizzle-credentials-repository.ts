@@ -41,6 +41,11 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
       )
     },
 
+    async findAll(): Promise<Credential[]> {
+      const results = await drizzle.select().from(credentialSchema)
+      return results.map(mapper.toEntity)
+    },
+
     async findAllByAccount(accountId: Id): Promise<Credential[]> {
       const results = await drizzle
         .select()
