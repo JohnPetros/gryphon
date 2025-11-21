@@ -8,4 +8,6 @@ export type AccountSchema = {
   auto_lock_timeout: number
   is_master_password_required: boolean
   notification_token: string | null
+  credential_rotation_unit: string
+  credential_rotation_interval: number
 }
