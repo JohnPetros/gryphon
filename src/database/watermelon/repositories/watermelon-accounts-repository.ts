@@ -26,6 +26,8 @@ export const WatermelonAccountsRepository = (isSynced: boolean): AccountsReposit
               minimum_password_strength: account.minimumPasswordStrength,
               auto_lock_timeout: account.autoLockTimeout,
               is_master_password_required: account.isMasterPasswordRequired,
+              credential_rotation_unit: account.credentialRotation.unit,
+              credential_rotation_interval: account.credentialRotation.interval,
               kcv: account.kcv,
               _status: isSynced ? 'synced' : 'created',
             },
@@ -51,6 +53,8 @@ export const WatermelonAccountsRepository = (isSynced: boolean): AccountsReposit
                 auto_lock_timeout: account.autoLockTimeout,
                 kcv: account.kcv,
                 is_master_password_required: account.isMasterPasswordRequired,
+                credential_rotation_unit: account.credentialRotation.unit,
+                credential_rotation_interval: account.credentialRotation.interval,
                 _status: isSynced ? 'synced' : 'created',
               },
               accountsCollection.schema,
@@ -67,6 +71,14 @@ export const WatermelonAccountsRepository = (isSynced: boolean): AccountsReposit
         .fetch()
 
       return mapper.toEntity(accountModel[0])
+    },
+
+    async findAll(): Promise<Account[]> {
+      const accountModels = await watermelon.collections
+        .get<AccountModel>('accounts')
+        .query()
+
+      return accountModels.map(mapper.toEntity)
     },
 
     async findById(id: Id): Promise<Account | null> {
@@ -124,8 +136,24 @@ export const WatermelonAccountsRepository = (isSynced: boolean): AccountsReposit
       })
     },
 
-    async update(accounts: Account): Promise<void> {
-      throw new Error('Method not implemented.')
+    async update(account: Account): Promise<void> {
+      try {
+        await watermelon.write(async () => {
+          const accountModel = await watermelon.collections
+            .get<AccountModel>('accounts')
+            .find(account.id.value)
+
+          await accountModel.update((model) => {
+            model.autoLockTimeout = account.autoLockTimeout
+            model.isMasterPasswordRequired = account.isMasterPasswordRequired
+            model.minimumPasswordStrength = account.minimumPasswordStrength
+            model.credentialRotationUnit = account.credentialRotation.unit
+            model.credentialRotationInterval = account.credentialRotation.interval
+          })
+        })
+      } catch (error) {
+        console.error('Error updating account', error)
+      }
     },
 
     async updateMany(accounts: Account[]): Promise<void> {
