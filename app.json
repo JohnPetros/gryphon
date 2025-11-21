@@ -31,6 +31,12 @@
       "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "development"
+        }
+      ],
       "expo-router",
       "expo-web-browser",
       [
