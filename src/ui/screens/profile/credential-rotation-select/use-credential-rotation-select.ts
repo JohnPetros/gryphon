@@ -4,24 +4,28 @@ import { CredentialRotation } from '@/core/domain/structures'
 
 const ROTATION_OPTIONS: Record<string, CredentialRotationDto> = {
   '1 semana': {
-    unit: 'week',
+    unit: 'weeks',
     interval: 1,
   },
   '1 mês': {
-    unit: 'month',
+    unit: 'months',
     interval: 1,
   },
   '3 meses': {
-    unit: 'month',
+    unit: 'months',
     interval: 3,
   },
   '6 meses': {
-    unit: 'month',
+    unit: 'months',
     interval: 6,
   },
   '1 ano': {
-    unit: 'year',
+    unit: 'years',
     interval: 1,
+  },
+  '2 ano': {
+    unit: 'years',
+    interval: 2,
   },
 }
 
