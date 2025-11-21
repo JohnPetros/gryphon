@@ -4,4 +4,5 @@ export type VaultItemDto = {
   encryptedData: string
   vaultId: string
   createdAt: Date
+  updatedAt: Date | null
 }
