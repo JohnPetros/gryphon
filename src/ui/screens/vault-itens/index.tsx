@@ -14,6 +14,7 @@ type SearchParams = {
 
 export const VaultItensScreen = () => {
   const { vaultId, activeTab } = useLocalSearchParams<SearchParams>()
+  console.log({ activeTab })
   const { account } = useAuthContext()
   const { vaultsRepository } = useDatabase()
   const { synchronizeDatabase } = useDatabase()

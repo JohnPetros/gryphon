@@ -35,6 +35,9 @@ export const ItensListView = ({
         <ItensListTab
           itenCount={credentialCount}
           onPress={() => onTabPress('credential')}
+          className={
+            selectedTab === 'credential' ? 'border-primary' : 'border-neutral-background'
+          }
         >
           <AppItem.Icon
             name='login'
@@ -44,7 +47,13 @@ export const ItensListView = ({
             className='w-10 h-10'
           />
         </ItensListTab>
-        <ItensListTab itenCount={noteCount} onPress={() => onTabPress('note')}>
+        <ItensListTab
+          itenCount={noteCount}
+          onPress={() => onTabPress('note')}
+          className={
+            selectedTab === 'note' ? 'border-warning' : 'border-neutral-background'
+          }
+        >
           <AppItem.Icon
             name='note'
             size={16}
