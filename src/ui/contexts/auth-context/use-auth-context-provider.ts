@@ -22,6 +22,7 @@ type Params = {
   signOut: () => Promise<void>
   signIn: (email: string, password: string) => Promise<boolean>
   onUpdateAccount: () => Promise<void>
+  onLoadAccount: (account: Account) => void
 }
 
 export function useAuthContextProvider({
@@ -33,6 +34,7 @@ export function useAuthContextProvider({
   signOut,
   signIn,
   onUpdateAccount,
+  onLoadAccount,
 }: Params) {
   const [account, setAccount] = useState<Account | null>(null)
   const [encryptionKey, setEncryptionKey] = useState<string>('')
@@ -98,6 +100,7 @@ export function useAuthContextProvider({
     const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
     if (!masterPassword) return
     createEncryptionKey(masterPassword, account.encryptionSalt)
+    onLoadAccount(account)
   }, [
     createEncryptionKey,
     signOutAccount,

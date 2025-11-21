@@ -8,6 +8,8 @@ import { useSecureStorage } from '@/ui/hooks/use-secure-storage'
 import { useAuthContextProvider } from './use-auth-context-provider'
 import type { AuthContextValue } from './auth-context-value'
 import { useRest } from '@/ui/hooks/use-rest'
+import { useNotification } from '@/ui/hooks/use-notification'
+import { Alert } from 'react-native'
 
 export const AuthContext = createContext({} as AuthContextValue)
 
@@ -15,6 +17,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const { jwt, accountId, isSignedIn, signInAccount, signOutAccount } = useAuth()
   const { authService } = useRest()
   const { accountsRepository, synchronizeDatabase } = useDatabase()
+  const { login } = useNotification()
   const cryptoProvider = useCryptoProvider()
   const navigationProvider = useNavigation()
   const storageProvider = useSecureStorage()
@@ -29,7 +32,11 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     isAccountSignedIn: isSignedIn,
     signIn: signInAccount,
     signOut: signOutAccount,
-    onUpdateAccount: synchronizeDatabase,
+    onUpdateAccount: async () => {
+      await synchronizeDatabase()
+      Alert.alert('Erro', 'Erro ao atualizar conta')
+    },
+    onLoadAccount: login,
   })
 
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>
