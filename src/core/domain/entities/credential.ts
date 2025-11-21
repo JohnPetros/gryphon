@@ -1,6 +1,6 @@
-import { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
+import type { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
 import { VaultItem } from '../abstracts'
-import { CredentialRotation, Encrypted, Id } from '../structures'
+import { type CredentialRotation, Encrypted, Id } from '../structures'
 import { CredentialVersion } from './credential-version'
 import type { CredentialDto } from './dtos'
 
