@@ -15,6 +15,10 @@ export const DrizzleAccountMapper = () => {
         kcv: drizzleAccount.kcv ?? '',
         isMasterPasswordRequired: drizzleAccount.isMasterPasswordRequired === 1,
         notificationToken: drizzleAccount.notificationToken ?? null,
+        credentialRotation: {
+          unit: drizzleAccount.credentialRotationUnit,
+          interval: drizzleAccount.credentialRotationInterval,
+        },
       })
     },
   }

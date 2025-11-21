@@ -23,6 +23,8 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
         minimumPasswordStrength: account.minimumPasswordStrength,
         autoLockTimeout: account.autoLockTimeout,
         isMasterPasswordRequired: account.isMasterPasswordRequired ? 1 : 0,
+        credentialRotationUnit: account.credentialRotation.unit,
+        credentialRotationInterval: account.credentialRotation.interval,
       })
     },
 
@@ -39,6 +41,8 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
           minimumPasswordStrength: account.minimumPasswordStrength,
           autoLockTimeout: account.autoLockTimeout,
           isMasterPasswordRequired: account.isMasterPasswordRequired ? 1 : 0,
+          credentialRotationUnit: account.credentialRotation.unit,
+          credentialRotationInterval: account.credentialRotation.interval,
         })),
       )
     },
@@ -54,6 +58,8 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
           minimumPasswordStrength: account.minimumPasswordStrength,
           autoLockTimeout: account.autoLockTimeout,
           isMasterPasswordRequired: account.isMasterPasswordRequired ? 1 : 0,
+          credentialRotationUnit: account.credentialRotation.unit,
+          credentialRotationInterval: account.credentialRotation.interval,
         })
         .where(eq(accountSchema.id, account.id.value))
     },
@@ -73,10 +79,17 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
               minimumPasswordStrength: account.minimumPasswordStrength,
               autoLockTimeout: account.autoLockTimeout,
               isMasterPasswordRequired: account.isMasterPasswordRequired ? 1 : 0,
+              credentialRotationUnit: account.credentialRotation.unit,
+              credentialRotationInterval: account.credentialRotation.interval,
             })
             .where(eq(accountSchema.id, account.id.value)),
         ),
       )
+    },
+
+    async findAll(): Promise<Account[]> {
+      const results = await drizzle.select().from(accountSchema)
+      return results.map(mapper.toEntity)
     },
 
     async findById(id: Id): Promise<Account | null> {

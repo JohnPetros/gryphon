@@ -1,4 +1,4 @@
-import { and, count, eq, inArray, like } from 'drizzle-orm'
+import { and, count, eq, inArray, like, lt } from 'drizzle-orm'
 
 import type { CredentialsRepository } from '@/core/interfaces'
 import type { Id } from '@/core/domain/structures'
@@ -37,13 +37,9 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
           vaultId: credential.vaultId.value,
           lastVersionId: null,
           createdAt: credential.createdAt,
+          updatedAt: null,
         })),
       )
-    },
-
-    async findAll(): Promise<Credential[]> {
-      const results = await drizzle.select().from(credentialSchema)
-      return results.map(mapper.toEntity)
     },
 
     async findAllByAccount(accountId: Id): Promise<Credential[]> {
@@ -65,6 +61,7 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
           siteUrl: credential.siteUrl,
           vaultId: credential.vaultId.value,
           lastVersionId: credential.lastVersionId?.value ?? null,
+          updatedAt: credential.updatedAt,
         })
         .where(eq(credentialSchema.id, credential.id.value))
     },
@@ -82,10 +79,16 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
               siteUrl: credential.siteUrl,
               vaultId: credential.vaultId.value,
               lastVersionId: credential.lastVersionId?.value ?? null,
+              updatedAt: credential.updatedAt,
             })
             .where(eq(credentialSchema.id, credential.id.value)),
         ),
       )
+    },
+
+    async findAll(): Promise<Credential[]> {
+      const results = await drizzle.select().from(credentialSchema)
+      return results.map(mapper.toEntity)
     },
 
     async findById(id: Id): Promise<Credential | null> {
@@ -102,7 +105,26 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
       return mapper.toEntity(result[0])
     },
 
-    async findAllByVaultAndTitle(vaultId: Id, title: string): Promise<Credential[]> {
+    async findAllByVaultAndTitleAndLessThanUpdatingDate(
+      vaultId: Id,
+      title: string,
+      updatedAt?: Date,
+    ): Promise<Credential[]> {
+      if (updatedAt) {
+        const results = await drizzle
+          .select()
+          .from(credentialSchema)
+          .where(
+            and(
+              eq(credentialSchema.vaultId, vaultId.value),
+              like(credentialSchema.title, `${title}%`),
+              lt(credentialSchema.updatedAt, updatedAt),
+            ),
+          )
+
+        return results.map(mapper.toEntity)
+      }
+
       const results = await drizzle
         .select()
         .from(credentialSchema)
@@ -125,6 +147,20 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
       return result[0].count
     },
 
+    async countAllLessThanUpdatingDate(updatedAt: Date): Promise<number> {
+      if (updatedAt) {
+        const result = await drizzle
+          .select({ count: count() })
+          .from(credentialSchema)
+          .where(lt(credentialSchema.updatedAt, updatedAt))
+          .get()
+
+        return result?.count ?? 0
+      }
+
+      return 0
+    },
+
     async remove(credentialId: Id): Promise<void> {
       await drizzle
         .delete(credentialSchema)
@@ -140,6 +176,10 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
           credentialIds.map((id) => id.value),
         ),
       )
+    },
+
+    async removeManyByAccount(vaultId: Id): Promise<void> {
+      throw new Error('Method not implemented.')
     },
   }
 }
