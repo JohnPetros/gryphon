@@ -7,7 +7,7 @@ import { Text } from '@/ui/gluestack/text'
 import { MasterPasswordRequirementSwitch } from './master-password-requirement-switch'
 import { AutoLockTimeoutSelect } from './auto-lock-timeout-select'
 import { Input } from '@/ui/components/input'
-
+import { CredentialRotationSelect } from './credential-rotation-select'
 
 type Props = {
   accountEmail: string
@@ -21,12 +21,7 @@ export const ProfileScreenView = ({ accountEmail }: Props) => {
       <Box className='mt-6'>
         <Text className='text-lg font-bold text-accent'>Conta</Text>
         <Box className='mt-4'>
-          <Input
-            label='E-mail'
-            icon='email'
-            defaultValue={accountEmail}
-            isReadOnly
-          />
+          <Input label='E-mail' icon='email' defaultValue={accountEmail} isReadOnly />
         </Box>
       </Box>
 
@@ -36,6 +31,7 @@ export const ProfileScreenView = ({ accountEmail }: Props) => {
           <MinimumPasswordStrenghSelect />
           <AutoLockTimeoutSelect />
           <MasterPasswordRequirementSwitch />
+          <CredentialRotationSelect />
         </Box>
       </Box>
 

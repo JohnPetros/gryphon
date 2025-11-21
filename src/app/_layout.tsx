@@ -9,25 +9,24 @@ import { Slot } from 'expo-router'
 export { ErrorBoundary } from 'expo-router'
 import { ClerkProvider } from '@clerk/clerk-expo'
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
-import {
-  configureReanimatedLogger,
-  ReanimatedLogLevel,
-} from 'react-native-reanimated'
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated'
 
 import '../../global.css'
 import { AuthContextProvider } from '@/ui/contexts/auth-context'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { UiProvider } from '@/ui/gluestack/ui-provider'
+import { useNotification } from '@/ui/hooks/use-notification'
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
   strict: false,
-});
+})
 
 SplashScreen.preventAutoHideAsync()
 
-export default function RootLayout() {
+export const RootLayout = () => {
+  useNotification()
   const [loaded, error] = useFonts({
     JetBrainsMonoRegular: require('@/assets/fonts/JetBrainsMono-Regular.ttf'),
     JetBrainsMonoBold: require('@/assets/fonts/JetBrainsMono-Bold.ttf'),
@@ -64,3 +63,5 @@ function RootLayoutNav() {
     </GestureHandlerRootView>
   )
 }
+
+export default RootLayout

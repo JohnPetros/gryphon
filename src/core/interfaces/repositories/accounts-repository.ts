@@ -8,6 +8,8 @@ export interface AccountsRepository {
   updateMany(accounts: Account[]): Promise<void>
   findById(accountId: Id): Promise<Account | null>
   findByEmail(email: string): Promise<Account | null>
+  findByCredential(credentialId: Id): Promise<Account | null>
+  findAll(): Promise<Account[]>
   updateMinimumPasswordStrength(
     minimumPasswordStrength: number,
     accountId: Id,

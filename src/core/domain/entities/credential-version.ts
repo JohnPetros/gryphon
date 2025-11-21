@@ -1,6 +1,5 @@
 import { Entity } from '../abstracts'
 import { Encrypted, Id } from '../structures'
-import { Credential } from './credential'
 import type { CredentialVersionDto } from './dtos'
 
 type CredentialProps = {

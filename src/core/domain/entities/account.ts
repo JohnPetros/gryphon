@@ -1,4 +1,5 @@
 import { Entity } from '../abstracts/entity'
+import { CredentialRotation } from '../structures/credential-rotation'
 import type { AccountDto } from './dtos/account-dto'
 
 type AccountProps = {
@@ -9,11 +10,22 @@ type AccountProps = {
   autoLockTimeout: number
   isMasterPasswordRequired: boolean
   kcv: string
+  notificationToken: string | null
+  credentialRotation: CredentialRotation
 }
 
 export class Account extends Entity<AccountProps> {
   static create(dto: AccountDto) {
-    return new Account(dto, dto?.id)
+    return new Account(
+      {
+        ...dto,
+        credentialRotation: CredentialRotation.create(
+          dto.credentialRotation.unit,
+          dto.credentialRotation.interval,
+        ),
+      },
+      dto?.id,
+    )
   }
 
   get encryptionSalt(): string {
@@ -56,6 +68,22 @@ export class Account extends Entity<AccountProps> {
     this.props.isMasterPasswordRequired = value
   }
 
+  get notificationToken(): string | null {
+    return this.props.notificationToken
+  }
+
+  set notificationToken(notificationToken: string) {
+    this.props.notificationToken = notificationToken
+  }
+
+  get credentialRotation(): CredentialRotation {
+    return this.props.credentialRotation
+  }
+
+  set credentialRotation(credentialRotation: CredentialRotation) {
+    this.props.credentialRotation = credentialRotation
+  }
+
   get dto(): AccountDto {
     return {
       id: this.id.value,
@@ -65,7 +93,12 @@ export class Account extends Entity<AccountProps> {
       minimumPasswordStrength: this.props.minimumPasswordStrength,
       autoLockTimeout: this.props.autoLockTimeout,
       isMasterPasswordRequired: this.props.isMasterPasswordRequired,
+      notificationToken: this.props.notificationToken,
       kcv: this.props.kcv,
+      credentialRotation: {
+        unit: this.props.credentialRotation.unit,
+        interval: this.props.credentialRotation.interval,
+      },
     }
   }
 }

@@ -5,4 +5,4 @@ export type CredentialVersionDto = {
   isRestoration: boolean
   credentialId: string
   createdAt: Date
-} & Omit<CredentialDto, 'vaultId'>
+} & Omit<CredentialDto, 'vaultId' | 'updatedAt'>

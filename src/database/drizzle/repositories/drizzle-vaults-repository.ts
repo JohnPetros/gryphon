@@ -99,5 +99,9 @@ export const DrizzleVaultsRepository = (): VaultsRepository => {
         ),
       )
     },
+
+    async removeManyByAccount(accountId) {
+      throw new Error('Method not implemented.')
+    },
   }
 }

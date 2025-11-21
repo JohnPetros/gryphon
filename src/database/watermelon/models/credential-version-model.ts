@@ -32,6 +32,6 @@ export class CredentialVersionModel extends Model {
   @field('site_url')
   siteUrl!: string | null
 
-  @date('created_at')
+  @field('created_at')
   createdAt!: number
 }

@@ -15,6 +15,10 @@ export const WatermelonCredentialMapper = () => {
         encryptedData: model.encryptedData,
         lastVersionId: model.lastVersion?.id ?? null,
         createdAt: new Date(model.createdAt * 1000),
+        updatedAt:
+          model.updatedAt !== null && model.updatedAt !== 0
+            ? new Date(model.updatedAt)
+            : null,
       })
     },
 
@@ -27,6 +31,10 @@ export const WatermelonCredentialMapper = () => {
         encryptedData: schema.encrypted_data,
         lastVersionId: schema.last_version_id ?? null,
         createdAt: new Date(schema.created_at * 1000),
+        updatedAt:
+          schema.updated_at !== null && schema.updated_at !== 0
+            ? new Date(schema.updated_at)
+            : null,
       }
     },
   }

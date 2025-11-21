@@ -14,14 +14,12 @@ export const AUTO_LOCK_TIMEOUTS: Record<number, string> = {
 type Params = {
   accountsRepository: AccountsRepository
   account: Account | null
-  updateAccount: (account: Account) => void
-  onUpdateAccount: () => Promise<void>
+  onUpdateAccount: (account: Account) => Promise<void>
 }
 
 export function useAutoLockTimeoutSelect({
   accountsRepository,
   account,
-  updateAccount,
   onUpdateAccount,
 }: Params) {
   const [autoLockTimeout, setAutoLockTimeout] = useState(account?.autoLockTimeout || 5)
@@ -33,10 +31,7 @@ export function useAutoLockTimeoutSelect({
     setAutoLockTimeout(autoLockTimeout)
     await accountsRepository.updateAutoLockTimeout(autoLockTimeout, account.id)
     account.autoLockTimeout = autoLockTimeout
-    updateAccount(account)
-    try {
-      await onUpdateAccount()
-    } catch {}
+    onUpdateAccount(account)
   }
 
   return {

@@ -12,7 +12,11 @@ export const WatermelonNoteMapper = () => {
         title: model.title,
         encryptedData: model.encryptedData,
         vaultId: model.vault.id,
-        createdAt: model.createdAt,
+        createdAt: new Date(model.createdAt),
+        updatedAt:
+          model.updatedAt !== null && model.updatedAt !== 0
+            ? new Date(model.updatedAt)
+            : null,
       })
     },
 
@@ -23,6 +27,10 @@ export const WatermelonNoteMapper = () => {
         encryptedData: schema.encrypted_data,
         vaultId: schema.vault_id,
         createdAt: new Date(schema.created_at * 1000),
+        updatedAt:
+          schema.updated_at !== null && schema.updated_at !== 0
+            ? new Date(schema.updated_at)
+            : null,
       }
     },
   }

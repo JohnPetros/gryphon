@@ -123,6 +123,7 @@ export function useDatabase() {
     await synchronize({
       database: watermelon,
       pushChanges: async ({ changes }: PushChangesParams) => {
+        if (!accountId) throw new AppError('Account required')
         if (isOffline) throw new AppError('Internet connection required')
 
         const response = await databaseService.pushDatabaseChanges({
@@ -166,7 +167,6 @@ export function useDatabase() {
     const credentialVersionsRepository = WatermelonCredentialVersionsRepository(true)
 
     const response = await databaseService.pullDatabaseChanges(accountId)
-    console.log(response.body)
     if (response.isFailure) response.throwError()
 
     if (!response.body.createdAccounts) return

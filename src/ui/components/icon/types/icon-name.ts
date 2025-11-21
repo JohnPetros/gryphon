@@ -15,6 +15,7 @@ export type IconName =
   | 'copy'
   | 'biometric'
   | 'eye-open'
+  | 'filter'
   | 'list'
   | 'login'
   | 'online'
@@ -35,3 +36,4 @@ export type IconName =
   | 'restoration'
   | 'sparkles'
   | 'content'
+  | 'warning'

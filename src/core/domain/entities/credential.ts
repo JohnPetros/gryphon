@@ -1,5 +1,6 @@
+import type { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
 import { VaultItem } from '../abstracts'
-import { Encrypted, Id } from '../structures'
+import { type CredentialRotation, Encrypted, Id } from '../structures'
 import { CredentialVersion } from './credential-version'
 import type { CredentialDto } from './dtos'
 
@@ -23,6 +24,7 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
         vaultId: Id.create(dto.vaultId),
         lastVersionId: dto.lastVersionId ? Id.create(dto.lastVersionId) : null,
         createdAt: dto.createdAt,
+        updatedAt: dto.updatedAt,
       },
       dto.id,
     )
@@ -33,6 +35,7 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
     this.props.title = credentialVersion.title
     this.props.siteUrl = credentialVersion.siteUrl
     this.props.lastVersionId = credentialVersion.id
+    this.props.updatedAt = credentialVersion.createdAt
     return CredentialVersion.create({
       versionNumber: credentialVersion.versionNumber,
       title: this.props.title,
@@ -47,7 +50,7 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
   createVersion(currentVersionNumber?: number): CredentialVersion {
     const versionId = Id.create()
     this.props.lastVersionId = versionId
-    return CredentialVersion.create({
+    const version = CredentialVersion.create({
       id: versionId.value,
       versionNumber: currentVersionNumber ? currentVersionNumber + 1 : 1,
       title: this.props.title,
@@ -57,6 +60,8 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
       isRestoration: false,
       createdAt: new Date(),
     })
+    this.props.updatedAt = version.createdAt
+    return version
   }
 
   get versionZero(): CredentialVersion {
@@ -79,6 +84,15 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
     return this.props.siteUrl
   }
 
+  isOutdated(rotation: CredentialRotation, datetimeProvider: DateTimeProvider): boolean {
+    if (this.updatedAt === null) return false
+
+    return datetimeProvider.isAfter(
+      rotation.getExpirationDate(datetimeProvider),
+      this.updatedAt,
+    )
+  }
+
   get dto(): CredentialDto {
     return {
       id: this.id.value,
@@ -88,6 +102,7 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
       lastVersionId: this.lastVersionId?.value ?? undefined,
       encryptedData: this.encrypted.value,
       createdAt: this.props.createdAt,
+      updatedAt: this.props.updatedAt,
     }
   }
 }
