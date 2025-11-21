@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb'
-import { date, field, relation } from '@nozbe/watermelondb/decorators'
+import { field, relation } from '@nozbe/watermelondb/decorators'
 import type { VaultModel } from './vault-model'
 
 // @ts-ignore
@@ -19,6 +19,9 @@ export class NoteModel extends Model {
   @field('encrypted_data')
   encryptedData!: string
 
-  @date('created_at')
-  createdAt!: Date
+  @field('created_at')
+  createdAt!: number
+
+  @field('updated_at')
+  updatedAt!: number | null
 }

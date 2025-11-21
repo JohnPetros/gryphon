@@ -29,8 +29,8 @@ export class AccountModel extends Model {
   isMasterPasswordRequired!: boolean
 
   @field('credential_rotation_unit')
-  credentialRotationUnit!: boolean
+  credentialRotationUnit!: string
 
   @field('credential_rotation_interval')
-  credentialRotationInterval!: boolean
+  credentialRotationInterval!: number
 }
