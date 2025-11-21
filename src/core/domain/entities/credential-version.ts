@@ -1,7 +1,5 @@
-import { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
 import { Entity } from '../abstracts'
 import { Encrypted, Id } from '../structures'
-import { CredentialRotation } from '../structures/credential-rotation'
 import type { CredentialVersionDto } from './dtos'
 
 type CredentialProps = {
@@ -33,22 +31,6 @@ export class CredentialVersion extends Entity<CredentialProps> {
       },
       dto.id,
     )
-  }
-
-  isOutdated(rotation: CredentialRotation, datetimeProvider: DateTimeProvider): boolean {
-    let deadline: Date
-
-    if (rotation.isForDays) {
-      deadline = datetimeProvider.addDays(this.createdAt, rotation.interval)
-    } else if (rotation.isForMonths) {
-      deadline = datetimeProvider.addMonths(this.createdAt, rotation.interval)
-    } else {
-      deadline = datetimeProvider.addYears(this.createdAt, rotation.interval)
-    }
-
-    const currentDate = new Date()
-
-    return datetimeProvider.isAfter(deadline, currentDate)
   }
 
   get isFirstVersion(): boolean {

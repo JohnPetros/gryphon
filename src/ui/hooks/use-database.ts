@@ -134,8 +134,6 @@ export function useDatabase() {
           ...getNoteChanges(changes),
         })
 
-        console.log(response.isSuccessful)
-
         if (response.isFailure) {
           response.throwError()
         }

@@ -1,4 +1,4 @@
-import { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
+import type { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
 
 type CredentialRotationUnit = 'days' | 'weeks' | 'months' | 'years'
 
@@ -28,7 +28,7 @@ export class CredentialRotation {
       return datetimeProvider.subtractDays(currentDate, this.interval)
     }
     if (this.isForWeeks) {
-      return datetimeProvider.subtractDays(currentDate, this.interval)
+      return datetimeProvider.subtractWeeks(currentDate, this.interval)
     }
     if (this.isForMonths) {
       return datetimeProvider.subtractMonths(currentDate, this.interval)

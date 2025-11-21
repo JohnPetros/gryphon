@@ -23,7 +23,7 @@ const ROTATION_OPTIONS: Record<string, CredentialRotationDto> = {
     unit: 'years',
     interval: 1,
   },
-  '2 ano': {
+  '2 anos': {
     unit: 'years',
     interval: 2,
   },

@@ -48,7 +48,6 @@ export function useCredentialSettingsScreen({
       )
       const nextVersion = updatedCredential.createVersion(lastVersion?.versionNumber)
       await credentialVersionsRepository.add(nextVersion)
-      console.log(updatedCredential.updatedAt)
       await credentialsRepository.update(updatedCredential)
       try {
         await onChangeDatabase()

@@ -60,7 +60,7 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
       isRestoration: false,
       createdAt: new Date(),
     })
-    this.props.updatedAt = new Date(2021, 12, 12)
+    this.props.updatedAt = version.createdAt
     return version
   }
 
@@ -86,8 +86,6 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
 
   isOutdated(rotation: CredentialRotation, datetimeProvider: DateTimeProvider): boolean {
     if (this.updatedAt === null) return false
-
-    console.log('isOutdated', this.updatedAt)
 
     return datetimeProvider.isAfter(
       rotation.getExpirationDate(datetimeProvider),
