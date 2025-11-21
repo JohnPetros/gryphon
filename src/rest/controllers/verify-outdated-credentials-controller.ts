@@ -5,8 +5,10 @@ import type {
   CredentialVersionsRepository,
   Http,
 } from '@/core/interfaces'
-import { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
+import type { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
 import type { NotificationService } from '@/core/interfaces/services'
+
+const VAULT_ITENS_ROUTE = '/vault-itens?activeTab=credential&outdated=true'
 
 type Dependencies = {
   accountsRepository: AccountsRepository
@@ -18,44 +20,37 @@ type Dependencies = {
 
 export const VerifyOutdatedCredentialsController = ({
   accountsRepository,
-  credentialVersionsRepository,
   credentialsRepository,
   notificationService,
   datetimeProvider,
 }: Dependencies): Controller => {
   return {
     async handle(http: Http) {
-      const credentials = await credentialsRepository.findAll()
-      const credentialCountByAccount: Record<string, number> = {}
+      const accounts = await accountsRepository.findAll()
 
-      for (const credential of credentials) {
-        const lastVersion = await credentialVersionsRepository.findLastByCredential(
-          credential.id,
-        )
-        if (!lastVersion) continue
+      for (const account of accounts) {
+        const expirationDate =
+          account.credentialRotation.getExpirationDate(datetimeProvider)
 
-        const account = await accountsRepository.findByCredential(credential.id)
-        if (!account) continue
-        
-        const isVersionOutdated = lastVersion.isOutdated(account?.credentialRotation, datetimeProvider)
+        const count =
+          await credentialsRepository.countAllLessThanUpdatingDate(expirationDate)
+        if (count === 0) continue
 
-        if (isVersionOutdated) {
-          if (!account || !account.notificationToken) continue
-          credentialCountByAccount[account.notificationToken] += 1
-        }
-      }
-
-      for (const [token, count] of Object.entries(credentialCountByAccount)) {
-        if (count > 1)
-          await notificationService.sendNotification(
-            token,
+        if (count > 1) {
+          const response = await notificationService.sendNotification(
+            account.id,
             `${count} credenciais estão desatualizadas, certifique-se de atualizá-las`,
+            VAULT_ITENS_ROUTE,
           )
-
-        await notificationService.sendNotification(
-          token,
-          '1 credencial está desatualizada, certifique-se de atualizá-la',
-        )
+          if (response.isFailure) response.throwError()
+        } else {
+          const response = await notificationService.sendNotification(
+            account.id,
+            '1 credencial está desatualizada, certifique-se de atualizá-la',
+            VAULT_ITENS_ROUTE,
+          )
+          if (response.isFailure) response.throwError()
+        }
       }
 
       return http.send({ message: 'ok' })
