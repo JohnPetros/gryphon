@@ -29,6 +29,10 @@ export const DayjsDateTimeProvider = (): DateTimeProvider => {
       return dayjs(date).subtract(days, 'days').toDate()
     },
 
+    subtractWeeks(date: Date, days: number): Date {
+      return dayjs(date).subtract(days, 'weeks').toDate()
+    },
+
     subtractMonths(date: Date, months: number): Date {
       return dayjs(date).subtract(months, 'months').toDate()
     },

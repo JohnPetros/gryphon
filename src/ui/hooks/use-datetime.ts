@@ -29,6 +29,10 @@ export function useDatetime(): DateTimeProvider {
     return dayjs(date).subtract(days, 'days').toDate()
   }, [])
 
+  const subtractWeeks = useCallback((date: Date, weeks: number) => {
+    return dayjs(date).subtract(weeks, 'weeks').toDate()
+  }, [])
+
   const subtractMonths = useCallback((date: Date, months: number) => {
     return dayjs(date).subtract(months, 'months').toDate()
   }, [])
@@ -52,6 +56,7 @@ export function useDatetime(): DateTimeProvider {
     subtractDays,
     subtractMonths,
     subtractYears,
+    subtractWeeks,
     isAfter,
   }
 }
