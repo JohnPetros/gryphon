@@ -138,7 +138,7 @@ export function useAuthContextProvider({
           kcv,
           notificationToken: null,
           credentialRotation: {
-            unit: 'month',
+            unit: 'months',
             interval: 1,
           },
         })

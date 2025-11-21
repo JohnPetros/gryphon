@@ -32,10 +32,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     isAccountSignedIn: isSignedIn,
     signIn: signInAccount,
     signOut: signOutAccount,
-    onUpdateAccount: async () => {
-      await synchronizeDatabase()
-      Alert.alert('Erro', 'Erro ao atualizar conta')
-    },
+    onUpdateAccount: synchronizeDatabase,
     onLoadAccount: login,
   })
 
