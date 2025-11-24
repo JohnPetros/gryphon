@@ -33,7 +33,6 @@ export const CredentialsList = ({ vaultId, search, onCredentialDelete }: Props) 
     isOutdatedCredentialsFilterChecked,
     handleCredentialDelete,
     handleOutdatedCredentialsFilterChange,
-    handlePasswordLeakVerificationButtonPress,
   } = useCredentialsList({
     vaultId,
     search,
@@ -54,7 +53,6 @@ export const CredentialsList = ({ vaultId, search, onCredentialDelete }: Props) 
         isOutdatedCredentialsFilterChecked={isOutdatedCredentialsFilterChecked}
         onCredentialDelete={handleCredentialDelete}
         onOutdatedCredentialsFilterChange={handleOutdatedCredentialsFilterChange}
-        onPasswordLeakVerificationButtonPress={handlePasswordLeakVerificationButtonPress}
       />
     )
 }

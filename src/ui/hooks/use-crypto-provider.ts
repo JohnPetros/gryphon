@@ -51,19 +51,10 @@ export function useCryptoProvider(): CryptoProvider {
     }
   }, [])
 
-  const hash = useCallback(async (data: string) => {
-    const hash = await ExpoCrypto.digestStringAsync(
-      ExpoCrypto.CryptoDigestAlgorithm.SHA256,
-      data,
-    )
-    return hash
-  }, [])
-
   return {
     generateSalt,
     deriveKey,
     encrypt,
     decrypt,
-    hash,
   }
 }
