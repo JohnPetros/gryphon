@@ -1,9 +1,19 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import type { Credential } from '@/core/domain/entities'
-import type { CredentialRotation, Id } from '@/core/domain/structures'
+import { CredentialRotation, Id } from '@/core/domain/structures'
 import type { CredentialsRepository } from '@/core/interfaces'
 import type { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
+import { AxiosRestClient } from '@/rest/axios/axios-rest-client'
+import { HibpService, NotificationService } from '@/rest/services'
+import { CLIENT_ENV } from '@/constants'
+import { ExpoSecureStorageProvider } from '@/provision/storage-provider/expo-secure-storage-provider'
+import {
+  WatermelonAccountsRepository,
+  WatermelonCredentialsRepository,
+} from '@/database/watermelon'
+import { ExpoCryptoProvider } from '@/provision/crypto-provider/expo-crypto-provider'
+import { VerifyPasswordLeakJob } from '@/ui/hooks/verify-password-leak-job'
 
 type Params = {
   vaultId: Id
@@ -57,6 +67,29 @@ export function useCredentialsList({
     setIsOutdatedCredentialsFilterChecked(isChecked)
   }
 
+  async function handlePasswordLeakVerificationButtonPress() {
+    const notificationRestClient = AxiosRestClient(`${CLIENT_ENV.gryphonBaseUrl}/api`)
+    const hibpRestClient = AxiosRestClient(CLIENT_ENV.hibpUrl)
+
+    const accountsRepository = WatermelonAccountsRepository(false)
+    const credentialsRepository = WatermelonCredentialsRepository(false)
+    const expoCryptoProvider = ExpoCryptoProvider()
+    const storageProvider = ExpoSecureStorageProvider()
+    const notificationService = NotificationService(notificationRestClient)
+    const hibpService = HibpService(hibpRestClient)
+
+    const job = VerifyPasswordLeakJob({
+      accountsRepository,
+      credentialsRepository,
+      notificationService,
+      cryptoProvider: expoCryptoProvider,
+      hibpService,
+      storageProvider,
+    })
+
+    await job.handle()
+  }
+
   useEffect(() => {
     loadCredentials(isOutdatedCredentialsFilterChecked)
   }, [
@@ -73,5 +106,6 @@ export function useCredentialsList({
     isOutdatedCredentialsFilterChecked: Boolean(isOutdatedCredentialsFilterChecked),
     handleCredentialDelete,
     handleOutdatedCredentialsFilterChange,
+    handlePasswordLeakVerificationButtonPress,
   }
 }

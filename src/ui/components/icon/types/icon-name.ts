@@ -23,6 +23,7 @@ export type IconName =
   | 'lock'
   | 'edit'
   | 'trash'
+  | 'alert'
   | 'note'
   | 'password'
   | 'biometric'
