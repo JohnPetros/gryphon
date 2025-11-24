@@ -39,6 +39,7 @@ export const VerifyOutdatedCredentialsController = ({
         if (count > 1) {
           const response = await notificationService.sendNotification(
             account.id,
+            'Aviso de segurança',
             `${count} credenciais estão desatualizadas, certifique-se de atualizá-las`,
             VAULT_ITENS_ROUTE,
           )
@@ -46,6 +47,7 @@ export const VerifyOutdatedCredentialsController = ({
         } else {
           const response = await notificationService.sendNotification(
             account.id,
+            'Aviso de segurança',
             '1 credencial está desatualizada, certifique-se de atualizá-la',
             VAULT_ITENS_ROUTE,
           )

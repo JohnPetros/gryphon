@@ -6,7 +6,7 @@ import type { NotificationService as INotificationService } from '@/core/interfa
 
 export const OneSignalNotificationService = (): INotificationService => {
   return {
-    async sendNotification(userId: Id, message: string, route: string) {
+    async sendNotification(userId: Id, title: string, message: string, route: string) {
       const response = await fetch('https://onesignal.com/api/v1/notifications', {
         method: 'POST',
         headers: {
@@ -24,20 +24,18 @@ export const OneSignalNotificationService = (): INotificationService => {
             pt: message,
           },
           headings: {
-            en: 'Nova Notificação',
-            pt: 'Nova Notificação',
+            en: title,
+            pt: title,
           },
           url: `gryphon:/${route}`,
         }),
       })
-
       if (!response.ok) {
         return new RestResponse({
           errorMessage: response.statusText,
           statusCode: response.status,
         })
       }
-
       return new RestResponse()
     },
   }
