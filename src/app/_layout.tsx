@@ -70,18 +70,9 @@ async function initializeBackgroundTask() {
     }
   })
 
-  try {
-    const isTaskRegistered = await TaskManager.isTaskRegisteredAsync(
-      VERIFY_PASSWORD_LEAK_JOB,
-    )
-    if (!isTaskRegistered) {
-      await BackgroundTask.registerTaskAsync(VERIFY_PASSWORD_LEAK_JOB, {
-        minimumInterval: 15,
-      })
-    }
-  } catch (error) {
-    console.error(error)
-  }
+  await BackgroundTask.registerTaskAsync(VERIFY_PASSWORD_LEAK_JOB, {
+    minimumInterval: 15, // minutes
+  })
 }
 
 initializeBackgroundTask()

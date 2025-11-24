@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import type { Credential } from '@/core/domain/entities'
-import { CredentialRotation, Id } from '@/core/domain/structures'
+import type { CredentialRotation, Id } from '@/core/domain/structures'
 import type { CredentialsRepository } from '@/core/interfaces'
 import type { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
 import { AxiosRestClient } from '@/rest/axios/axios-rest-client'

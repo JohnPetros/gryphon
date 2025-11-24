@@ -34,16 +34,17 @@ export const VerifyPasswordLeakJob = ({
       const account = await accountsRepository.findById(accountId)
       if (!account) return
 
-      const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
+      let masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
       if (!masterPassword) return
 
       const encryptionKey = await cryptoProvider.deriveKey(
         masterPassword,
         account.encryptionSalt,
       )
+      masterPassword = null
       const credentials = await credentialsRepository.findAllByAccount(accountId)
 
-      for (const credential of credentials.slice(0, 1)) {
+      for (const credential of credentials) {
         const decryptedData = credential.encrypted.decrypt(encryptionKey, cryptoProvider)
         if (!decryptedData) continue
         const credentialPassword = decryptedData.password
@@ -53,15 +54,15 @@ export const VerifyPasswordLeakJob = ({
         const response = await hibpService.getPasswords(passwordHashPrefix)
         if (response.isFailure) continue
 
-        for (const passwordSufix of response.body) {
-          const leakedPassword = passwordHashPrefix + passwordSufix.split(':')[0]
+        for (const passwordSuffix of response.body) {
+          const leakedPassword = passwordHashPrefix + passwordSuffix.split(':')[0]
           const isPasswordLeak =
             leakedPassword.toUpperCase() === passwordHash.toUpperCase()
           if (isPasswordLeak) {
             await notificationService.sendNotification(
               accountId,
               'Aviso crítico de segurança',
-              `Senha do login ${credential.title} vazada detectada em sua conta. Por favor, altere-a imediatamente.`,
+              `Senha Senha vazada detectada para o login ${credential.title} em sua conta. Por favor, altere-a imediatamente.`,
               `/credential/${credential.id.value}`,
             )
           }
