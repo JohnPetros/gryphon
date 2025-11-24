@@ -30,14 +30,12 @@ export const OneSignalNotificationService = (): INotificationService => {
           url: `gryphon:/${route}`,
         }),
       })
-
       if (!response.ok) {
         return new RestResponse({
           errorMessage: response.statusText,
           statusCode: response.status,
         })
       }
-
       return new RestResponse()
     },
   }
