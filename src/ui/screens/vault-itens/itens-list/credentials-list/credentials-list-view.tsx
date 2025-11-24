@@ -14,7 +14,6 @@ import { BottomSheet } from '@/ui/components/bottom-sheet'
 import { Icon } from '@/ui/components/icon'
 import { Checkbox } from '@/ui/components/checkbox'
 import { OutdatedCredentialBadge } from '@/ui/components/outdated-credential-badge'
-import { Pressable } from '@/ui/components/pressable'
 
 type Props = {
   bottomSheetRef: RefObject<BottomSheetRef | null>
@@ -24,7 +23,6 @@ type Props = {
   isOutdatedCredentialsFilterChecked: boolean
   onCredentialDelete: () => void
   onOutdatedCredentialsFilterChange: (isChecked: boolean) => void
-  onPasswordLeakVerificationButtonPress: () => void
 }
 
 export const CredentialsListView = ({
@@ -35,41 +33,31 @@ export const CredentialsListView = ({
   isOutdatedCredentialsFilterChecked,
   onCredentialDelete,
   onOutdatedCredentialsFilterChange,
-  onPasswordLeakVerificationButtonPress,
 }: Props) => {
   return (
     <Box>
-      <Box className='flex-row items-center justify-between'>
-        <BottomSheet
-          ref={bottomSheetRef}
-          trigger={
-            <Box className='items-center justify-center rounded-full border border-neutral-background w-10 h-10'>
-              <Icon name='filter' color='neutral' size={18} />
-            </Box>
-          }
-          snapPoints={['40%', '50%']}
-          backgroundColor='background'
-        >
-          <Box className='p-6'>
-            <Text className='text-xl text-neutral'>Filtrar credenciais</Text>
-            <Box className='mt-6'>
-              <Checkbox
-                isChecked={isOutdatedCredentialsFilterChecked}
-                onChange={onOutdatedCredentialsFilterChange}
-              >
-                Mostrar credenciais desatualizadas
-              </Checkbox>
-            </Box>
+      <BottomSheet
+        ref={bottomSheetRef}
+        trigger={
+          <Box className='items-center justify-center rounded-full border border-neutral-background w-10 h-10'>
+            <Icon name='filter' color='neutral' size={18} />
           </Box>
-        </BottomSheet>
-
-        <Pressable onPress={onPasswordLeakVerificationButtonPress}>
-          <Box className='flex-row items-center'>
-            <Icon name='alert' color='neutral' size={18} />
-            <Text className='text-neutral ml-3'>Verificar senhas vazadas</Text>
+        }
+        snapPoints={['40%', '50%']}
+        backgroundColor='background'
+      >
+        <Box className='p-6'>
+          <Text className='text-xl text-neutral'>Filtrar credenciais</Text>
+          <Box className='mt-6'>
+            <Checkbox
+              isChecked={isOutdatedCredentialsFilterChecked}
+              onChange={onOutdatedCredentialsFilterChange}
+            >
+              Mostrar credenciais desatualizadas
+            </Checkbox>
           </Box>
-        </Pressable>
-      </Box>
+        </Box>
+      </BottomSheet>
       <Box className='mt-6'>
         <FlatList
           data={credentials}

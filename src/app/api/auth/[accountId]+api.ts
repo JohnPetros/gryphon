@@ -1,9 +1,8 @@
-import z from 'zod'
-
 import { DrizzleAccountsRepository } from '@/database/drizzle/repositories'
 import { FetchAccountController } from '@/rest/controllers'
 import { ExpoHttp } from '@/rest/expo/expo-http'
 import { Route } from '@/rest/expo/route'
+import z from 'zod'
 
 const schema = z.object({
   routeParams: z.object({
