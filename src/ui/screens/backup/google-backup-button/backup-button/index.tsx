@@ -1,5 +1,5 @@
 import { useBackupButton } from './use-backup-button'
-import { useDatetimeProvider } from '@/ui/hooks/use-datetime'
+import { useDatetime } from '@/ui/hooks/use-datetime'
 import { useRest } from '@/ui/hooks/use-rest'
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import { GDriveFileStorageService } from '@/rest/services'
@@ -14,7 +14,7 @@ type Props = {
 
 export const BackupButton = ({ accessToken }: Props) => {
   const fileSystemProvider = useFileSystemProvider()
-  const datetimeProvider = useDatetimeProvider()
+  const datetimeProvider = useDatetime()
   const cryptoProvider = useCryptoProvider()
   const toastProvider = useToast()
   const { databaseService } = useRest()

@@ -31,20 +31,26 @@ export function useRestoreBackupButton({
     masterPasswordConfirmationDialogRef.current?.close()
     setIsRestoring(true)
 
-    const response = await fileStorageService.read('gryphon-backup')
-    if (response.isFailure) toastProvider.show(response.errorMessage, 'error')
+    try {
+      const response = await fileStorageService.read('gryphon-backup')
+      if (response.isFailure) toastProvider.show(response.errorMessage, 'error')
 
-    if (response.isSuccessful) {
-      const data = cryptoProvider.decrypt(response.body, encryptionKey)
-      if (!data) {
-        toastProvider.show('Arquivo de backup inválido para esta conta.', 'error')
-        return
+      if (response.isSuccessful) {
+        const data = cryptoProvider.decrypt(response.body, encryptionKey)
+        if (!data) {
+          toastProvider.show('Arquivo de backup inválido para esta conta.', 'error')
+          return
+        }
+        const databaseChanges = JSON.parse(data)
+        await databaseProvider.applyChanges(databaseChanges, false)
       }
-      const databaseChanges = JSON.parse(data)
-      await databaseProvider.applyChanges(databaseChanges, false)
-    }
 
-    setIsRestoring(false)
+      setIsRestoring(false)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsRestoring(false)
+    }
   }
 
   async function handlePress() {
