@@ -10,4 +10,5 @@ export const credentialVersionSchema = sqliteTable('credential_versions', {
   isRestoration: integer('is_restoration').notNull(),
   versionNumber: integer('version_number').notNull(),
   encryptedData: text('encrypted_data').notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
 })
