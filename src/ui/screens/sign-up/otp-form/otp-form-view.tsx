@@ -45,20 +45,20 @@ export const OtpFormView = ({ status, theme, isFilled, onChange, onFilled }: Pro
               borderRadius: 4,
               borderWidth: 1,
               borderColor,
-              backgroundColor: COLORS.dark.surface,
+              backgroundColor: COLORS[theme].surface,
               width: 40,
               height: 48,
             },
             focusedPinCodeContainerStyle: {
               borderRadius: 4,
               borderWidth: 1,
-              borderColor: isFilled ? borderColor : COLORS.dark.primary,
-              backgroundColor: COLORS.dark.surface,
+              borderColor: isFilled ? borderColor : COLORS[theme].primary,
+              backgroundColor: COLORS[theme].surface,
               width: 40,
               height: 48,
             },
             pinCodeTextStyle: {
-              color: COLORS.dark.accent,
+              color: COLORS[theme].accent,
             },
           }}
         />
