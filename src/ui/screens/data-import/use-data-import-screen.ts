@@ -26,7 +26,9 @@ export function useDataImportScreen({
       masterPasswordConfirmationDialogRef.current?.close()
       await onCorrectPasswordSubmit(masterPassword)
       await storageProvider.setItem(STORAGE_KEYS.masterPassword, masterPassword)
-      navigationProvider.navigate(ROUTES.vaultItens)
+      setTimeout(() => {
+        navigationProvider.navigate(ROUTES.vaultItens)
+      }, 2500)
     } catch (error) {
       console.error('Error on data import screen', error)
     }
