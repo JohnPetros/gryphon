@@ -1,10 +1,22 @@
 import { Tabs } from 'expo-router'
 
 import { Icon } from '@/ui/components/icon'
+import { useThemeContext } from '@/ui/hooks/use-theme-context'
+import { COLORS } from '@/constants'
 
 const Layout = () => {
+  const { theme } = useThemeContext()
+
   return (
-    <Tabs screenOptions={{ tabBarStyle: { height: 80, paddingTop: 12 } }}>
+    <Tabs
+      screenOptions={{
+        tabBarStyle: {
+          height: 80,
+          paddingTop: 12,
+          backgroundColor: COLORS[theme].background,
+        },
+      }}
+    >
       <Tabs.Screen
         name='vault-itens'
         options={{
