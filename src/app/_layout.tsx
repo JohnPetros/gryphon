@@ -30,6 +30,7 @@ import {
   WatermelonAccountsRepository,
   WatermelonCredentialsRepository,
 } from '@/database/watermelon'
+import { ThemeContextProvider } from '@/ui/contexts/theme-context'
 
 const VERIFY_PASSWORD_LEAK_JOB = 'VERIFY_PASSWORD_LEAK_JOB'
 
@@ -113,20 +114,22 @@ export const RootLayout = () => {
 
 function RootLayoutNav() {
   return (
-    <GestureHandlerRootView>
-      <BottomSheetModalProvider>
-        <UiProvider>
-          <ThemeProvider value={DarkTheme}>
-            <ClerkProvider tokenCache={tokenCache} telemetry={false}>
-              <AuthContextProvider>
-                <Slot />
-              </AuthContextProvider>
-            </ClerkProvider>
-            <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-          </ThemeProvider>
-        </UiProvider>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+    <ThemeContextProvider>
+      <GestureHandlerRootView>
+        <BottomSheetModalProvider>
+          <UiProvider>
+            <ThemeProvider value={DarkTheme}>
+              <ClerkProvider tokenCache={tokenCache} telemetry={false}>
+                <AuthContextProvider>
+                  <Slot />
+                </AuthContextProvider>
+              </ClerkProvider>
+              <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+            </ThemeProvider>
+          </UiProvider>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </ThemeContextProvider>
   )
 }
 
