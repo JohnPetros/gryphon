@@ -9,6 +9,7 @@ import { useAuth } from '@/ui/hooks/use-auth'
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import type { MasterPasswordConfirmationDialogRef } from '../../components/master-password-confirmation-dialog/types'
 import { useDataImportScreen } from './use-data-import-screen'
+import { LoadingDialog } from '@/ui/components/loading-dialog'
 
 export const DataImportScreen = () => {
   const masterPasswordConfirmationDialogRef =
@@ -18,12 +19,12 @@ export const DataImportScreen = () => {
   const navigationProvider = useNavigation()
   const { accountId } = useAuth()
   const { pullAllDatabaseChanges } = useDatabase()
-  const { handlePasswordSubmit } = useDataImportScreen({
+  const { isImporting, handlePasswordSubmit } = useDataImportScreen({
     masterPasswordConfirmationDialogRef,
     storageProvider,
     navigationProvider,
     onCorrectPasswordSubmit: async (masterPassword) => {
-      pullAllDatabaseChanges()
+      await pullAllDatabaseChanges()
       if (account) await createEncryptionKey(masterPassword, account.encryptionSalt)
     },
     onDialogOpen: loadAccount,
@@ -32,12 +33,15 @@ export const DataImportScreen = () => {
   if (!accountId) return <Redirect href='/auth/sign-in' />
 
   return (
-    <MasterPasswordConfirmationDialog
-      ref={masterPasswordConfirmationDialogRef}
-      description='Insira a senha mestra para poder importar os dados de seu outro dispositivo.'
-      canClose={false}
-      kcv={account?.kcv}
-      onCorrectPasswordSubmit={handlePasswordSubmit}
-    />
+    <>
+      <LoadingDialog isOpen={isImporting} message='Carregando os dados da sua conta...' />
+      <MasterPasswordConfirmationDialog
+        ref={masterPasswordConfirmationDialogRef}
+        description='Insira a senha mestra para poder importar os dados de seu outro dispositivo.'
+        canClose={false}
+        kcv={account?.kcv}
+        onCorrectPasswordSubmit={handlePasswordSubmit}
+      />
+    </>
   )
 }

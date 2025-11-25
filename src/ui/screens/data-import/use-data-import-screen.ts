@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from 'react'
+import { useEffect, useState, type RefObject } from 'react'
 
 import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
 
@@ -21,12 +21,19 @@ export function useDataImportScreen({
   onCorrectPasswordSubmit,
   onDialogOpen,
 }: Params) {
+  const [isImporting, setIsImporting] = useState(false)
+
   async function handlePasswordSubmit(masterPassword: string) {
+    setIsImporting(true)
+
     try {
       masterPasswordConfirmationDialogRef.current?.close()
       await onCorrectPasswordSubmit(masterPassword)
       await storageProvider.setItem(STORAGE_KEYS.masterPassword, masterPassword)
-      navigationProvider.navigate(ROUTES.vaultItens)
+      setTimeout(() => {
+        setIsImporting(false)
+        navigationProvider.navigate(ROUTES.vaultItens)
+      }, 2500)
     } catch (error) {
       console.error('Error on data import screen', error)
     }
@@ -37,5 +44,8 @@ export function useDataImportScreen({
     onDialogOpen()
   }, [])
 
-  return { handlePasswordSubmit }
+  return {
+    isImporting,
+    handlePasswordSubmit,
+  }
 }
