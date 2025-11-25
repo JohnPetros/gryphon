@@ -42,7 +42,8 @@ export const useVaultItensScreen = ({
   }
 
   async function handleDrawerOpen() {
-    await loadVaults()
+    const allVaults = await vaultsRepository.findAllByAccount(accountId)
+    setVaults(allVaults)
     setIsDrawerOpen(true)
   }
 
