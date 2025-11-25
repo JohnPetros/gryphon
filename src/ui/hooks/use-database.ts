@@ -145,6 +145,7 @@ export function useDatabase() {
       pushChanges: async ({ changes }: PushChangesParams) => {
         if (isOffline) throw new AppError('Internet connection required')
         await getAccountId()
+        await getAccountId()
 
         const databaseChanges = getDatabaseChanges(changes)
         const response = await databaseService.pushDatabaseChanges(databaseChanges)

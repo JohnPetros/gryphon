@@ -92,15 +92,24 @@ export function useAuthContextProvider({
       }
     }
 
-    if (!account) return
+    console.log('io 0')
 
-    await storageProvider.setItem(STORAGE_KEYS.acountEmail, account.email)
-    setAccount(account)
+    try {
+      if (!account) return
 
-    const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
-    if (!masterPassword) return
-    createEncryptionKey(masterPassword, account.encryptionSalt)
-    onLoadAccount(account)
+      await storageProvider.setItem(STORAGE_KEYS.acountEmail, account.email)
+      setAccount(account)
+
+      const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
+      console.log({ masterPassword })
+      if (!masterPassword) return
+      createEncryptionKey(masterPassword, account.encryptionSalt)
+      console.log('io 1')
+      onLoadAccount(account)
+      console.log('io')
+    } catch (error) {
+      console.error('Error loading account', error)
+    }
   }, [
     createEncryptionKey,
     signOutAccount,

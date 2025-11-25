@@ -4,17 +4,11 @@ import {
   GoogleSignin,
   isSuccessResponse,
 } from '@react-native-google-signin/google-signin'
-import * as FileSystem from 'expo-file-system'
-import { fetch } from 'expo/fetch'
 
-import type {
-  DatabaseProvider,
-  DatetimeProvider,
-  StorageProvider,
-} from '@/core/interfaces/providers'
 import { STORAGE_KEYS } from '@/constants'
-import { DatabaseService } from '@/core/interfaces/services'
-import { Id } from '@/core/domain/structures'
+import type { DatetimeProvider, StorageProvider } from '@/core/interfaces/providers'
+import type { DatabaseService } from '@/core/interfaces/services'
+import type { Id } from '@/core/domain/structures'
 
 GoogleSignin.configure({
   scopes: [

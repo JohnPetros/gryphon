@@ -1,3 +1,6 @@
+import { Link } from 'expo-router'
+import { ScrollView } from 'react-native'
+
 import { ScreenContainer } from '@/ui/components/screen-container'
 import { ScreenTitle } from '@/ui/components/screen-title'
 import { SignOutButton } from '@/ui/components/sign-out-button'
@@ -10,8 +13,6 @@ import { AutoLockTimeoutSelect } from './auto-lock-timeout-select'
 import { CredentialRotationSelect } from './credential-rotation-select'
 import { ThemeSelect } from './theme-select'
 import { Icon } from '@/ui/components/icon'
-import { Link } from 'expo-router'
-import { ScrollView } from 'react-native'
 
 type Props = {
   accountEmail: string
