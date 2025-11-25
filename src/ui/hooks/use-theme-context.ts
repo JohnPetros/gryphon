@@ -8,7 +8,7 @@ export function useThemeContext() {
   const context = useContext(ThemeContext)
 
   if (!context) {
-    throw new AppError('ThemeContext must be used within an ThemeContextProvider')
+    throw new AppError('ThemeContext must be used within a ThemeContextProvider')
   }
 
   return context

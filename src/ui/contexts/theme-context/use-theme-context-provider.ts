@@ -20,6 +20,7 @@ export function useThemeContextProvider({ storageProvider }: Params): ThemeConte
     if (theme === 'system') {
       setTheme(systemTheme === 'dark' ? 'dark' : 'light')
       setIsFromSystem(true)
+      await storageProvider.deleteItem(STORAGE_KEYS.theme)
       return
     }
     setTheme(theme)
@@ -29,16 +30,16 @@ export function useThemeContextProvider({ storageProvider }: Params): ThemeConte
 
   useEffect(() => {
     async function fetchTheme() {
-      const savedTheme = (await storageProvider.getItem(STORAGE_KEYS.theme)) as Theme
+      const savedTheme = await storageProvider.getItem(STORAGE_KEYS.theme)
 
-      console.log({ savedTheme })
       if (savedTheme) {
-        setTheme(savedTheme)
+        setTheme(savedTheme as Theme)
         setIsFromSystem(false)
         return
       }
       setTheme(systemTheme === 'dark' ? 'dark' : 'light')
       setIsFromSystem(true)
+      await storageProvider.deleteItem(STORAGE_KEYS.theme)
     }
     fetchTheme()
   }, [])
