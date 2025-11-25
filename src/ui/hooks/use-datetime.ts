@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 
 import type { DateTimeProvider } from '@/core/interfaces/providers/datetime-provider'
 
-export function useDatetimeProvider(): DateTimeProvider {
+export function useDatetime(): DateTimeProvider {
   const getDate = useCallback((date: Date) => {
     return dayjs(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
   }, [])
@@ -12,6 +12,7 @@ export function useDatetimeProvider(): DateTimeProvider {
   const formatDate = useCallback((date: Date) => {
     return dayjs(date).subtract(3, 'hours').locale('pt-br').format('D [de] MMMM, HH:mm')
   }, [])
+
   const getCurrentTimestamp = useCallback(() => {
     return dayjs().format('YYYY-MM-DD-HH_mm_ss')
   }, [])
