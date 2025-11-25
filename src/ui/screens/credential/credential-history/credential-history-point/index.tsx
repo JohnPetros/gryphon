@@ -1,6 +1,6 @@
 import type { IconName } from '@/ui/components/icon/types'
 import { CredentialHistoryPointView } from './credential-history-point-view'
-import { useDatetimeProvider } from '@/ui/hooks/use-datetime'
+import { useDatetime } from '@/ui/hooks/use-datetime'
 import { useCredentialHistoryPoint } from './use-credential-history-point'
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import { useCryptoProvider } from '@/ui/hooks/use-crypto-provider'
@@ -27,7 +27,7 @@ export const CredentialHistoryPoint = ({
   createdAt,
   onRestore,
 }: Props) => {
-  const { formatDate } = useDatetimeProvider()
+  const { formatDate } = useDatetime()
   const { encryptionKey } = useAuthContext()
   const cryptoProvider = useCryptoProvider()
   const { credentialsRepository, credentialVersionsRepository } = useDatabase()
