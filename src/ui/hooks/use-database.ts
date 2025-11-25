@@ -22,7 +22,6 @@ import {
 } from '@/database/watermelon/mappers'
 import { useRest } from './use-rest'
 import { useInternetContext } from './use-internet-context'
-import { useAuth } from './use-auth'
 import {
   Account,
   Credential,
@@ -31,6 +30,9 @@ import {
   Vault,
 } from '@/core/domain/entities'
 import { useAuthContext } from './use-auth-context'
+import { useSecureStorage } from './use-secure-storage'
+import { STORAGE_KEYS } from '@/constants'
+import { Id } from '@/core/domain/structures'
 
 type PushChangesParams = {
   changes: WatermelonChanges
@@ -40,8 +42,8 @@ type PushChangesParams = {
 export function useDatabase() {
   const { databaseService } = useRest()
   const { isOffline } = useInternetContext()
-  const { accountId } = useAuth()
   const { updateAccount } = useAuthContext()
+  const storageProvider = useSecureStorage()
   const repositories = useMemo(() => {
     return {
       accountsRepository: WatermelonAccountsRepository(false),
@@ -51,6 +53,12 @@ export function useDatabase() {
       credentialVersionsRepository: WatermelonCredentialVersionsRepository(false),
     }
   }, [])
+
+  async function getAccountId() {
+    const accountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
+    if (!accountId) throw new AppError('Account required')
+    return Id.create(accountId)
+  }
 
   function getAccountChanges(changes: WatermelonChanges) {
     const accountMapper = WatermelonAccountMapper()
@@ -135,8 +143,8 @@ export function useDatabase() {
     await synchronize({
       database: watermelon,
       pushChanges: async ({ changes }: PushChangesParams) => {
-        if (!accountId) throw new AppError('Account required')
         if (isOffline) throw new AppError('Internet connection required')
+        await getAccountId()
 
         const databaseChanges = getDatabaseChanges(changes)
         const response = await databaseService.pushDatabaseChanges(databaseChanges)
@@ -146,8 +154,8 @@ export function useDatabase() {
         }
       },
       pullChanges: async ({ lastPulledAt }) => {
-        if (!accountId) throw new AppError('Account required')
         if (isOffline) throw new AppError('Internet connection required')
+        const accountId = await getAccountId()
 
         const response = await databaseService.pullDatabaseChanges(
           accountId,
@@ -161,11 +169,11 @@ export function useDatabase() {
         }
       },
     })
-  }, [isOffline, accountId])
+  }, [isOffline])
 
   const pullAllDatabaseChanges = useCallback(async () => {
-    if (!accountId) throw new AppError('Account required')
     if (isOffline) throw new AppError('Internet connection required')
+    const accountId = await getAccountId()
 
     const response = await databaseService.pullDatabaseChanges(accountId)
     if (response.isFailure) response.throwError()
@@ -175,9 +183,9 @@ export function useDatabase() {
 
   const applyChanges = useCallback(
     async (databaseChanges: DatabaseChanges, isSynced: boolean) => {
-      if (!accountId) throw new AppError('Account required')
       if (isOffline) throw new AppError('Internet connection required')
       if (!databaseChanges.createdAccounts) return
+      const accountId = await getAccountId()
 
       const accountsRepository = WatermelonAccountsRepository(true)
       const credentialsRepository = WatermelonCredentialsRepository(true)
@@ -223,7 +231,7 @@ export function useDatabase() {
         await databaseService.pushDatabaseChanges(databaseChanges)
       }
     },
-    [accountId, isOffline, databaseService, synchronizeDatabase],
+    [isOffline, databaseService, synchronizeDatabase],
   )
 
   return {
