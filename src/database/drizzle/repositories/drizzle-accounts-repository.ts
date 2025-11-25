@@ -7,6 +7,7 @@ import type { Account } from '@/core/domain/entities'
 import { drizzle } from '../drizzle'
 import { accountSchema } from '../schemas/account-schema'
 import { DrizzleAccountMapper } from '../mappers/drizzle-account-mapper'
+import { credentialSchema, vaultSchema } from '../schemas'
 
 export const DrizzleAccountsRepository = (): AccountsRepository => {
   const mapper = DrizzleAccountMapper()
@@ -22,6 +23,8 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
         minimumPasswordStrength: account.minimumPasswordStrength,
         autoLockTimeout: account.autoLockTimeout,
         isMasterPasswordRequired: account.isMasterPasswordRequired ? 1 : 0,
+        credentialRotationUnit: account.credentialRotation.unit,
+        credentialRotationInterval: account.credentialRotation.interval,
       })
     },
 
@@ -38,6 +41,8 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
           minimumPasswordStrength: account.minimumPasswordStrength,
           autoLockTimeout: account.autoLockTimeout,
           isMasterPasswordRequired: account.isMasterPasswordRequired ? 1 : 0,
+          credentialRotationUnit: account.credentialRotation.unit,
+          credentialRotationInterval: account.credentialRotation.interval,
         })),
       )
     },
@@ -53,6 +58,8 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
           minimumPasswordStrength: account.minimumPasswordStrength,
           autoLockTimeout: account.autoLockTimeout,
           isMasterPasswordRequired: account.isMasterPasswordRequired ? 1 : 0,
+          credentialRotationUnit: account.credentialRotation.unit,
+          credentialRotationInterval: account.credentialRotation.interval,
         })
         .where(eq(accountSchema.id, account.id.value))
     },
@@ -72,10 +79,17 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
               minimumPasswordStrength: account.minimumPasswordStrength,
               autoLockTimeout: account.autoLockTimeout,
               isMasterPasswordRequired: account.isMasterPasswordRequired ? 1 : 0,
+              credentialRotationUnit: account.credentialRotation.unit,
+              credentialRotationInterval: account.credentialRotation.interval,
             })
             .where(eq(accountSchema.id, account.id.value)),
         ),
       )
+    },
+
+    async findAll(): Promise<Account[]> {
+      const results = await drizzle.select().from(accountSchema)
+      return results.map(mapper.toEntity)
     },
 
     async findById(id: Id): Promise<Account | null> {
@@ -146,6 +160,25 @@ export const DrizzleAccountsRepository = (): AccountsRepository => {
           accountIds.map((id) => id.value),
         ),
       )
+    },
+
+    async findByCredential(credentialId) {
+      const row = await drizzle
+        .select({
+          account: accountSchema,
+        })
+        .from(credentialSchema)
+        .innerJoin(vaultSchema, eq(credentialSchema.vaultId, vaultSchema.id))
+        .innerJoin(accountSchema, eq(vaultSchema.accountId, accountSchema.id))
+        .where(eq(credentialSchema.id, credentialId.value))
+        .limit(1)
+        .get()
+
+      if (!row?.account) {
+        return null
+      }
+
+      return mapper.toEntity(row.account)
     },
   }
 }

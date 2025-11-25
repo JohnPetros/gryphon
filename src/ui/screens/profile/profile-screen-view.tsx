@@ -2,14 +2,14 @@ import { ScreenContainer } from '@/ui/components/screen-container'
 import { ScreenTitle } from '@/ui/components/screen-title'
 import { SignOutButton } from '@/ui/components/sign-out-button'
 import { Box } from '@/ui/gluestack/box'
-import { MinimumPasswordStrenghSelect } from './minimum-password-strengh-select'
+import { Input } from '@/ui/components/input'
 import { Text } from '@/ui/gluestack/text'
+import { MinimumPasswordStrenghSelect } from './minimum-password-strengh-select'
 import { MasterPasswordRequirementSwitch } from './master-password-requirement-switch'
 import { AutoLockTimeoutSelect } from './auto-lock-timeout-select'
-import { Input } from '@/ui/components/input'
-import { Button } from '@/ui/gluestack/button'
-import { Link } from 'expo-router'
-import { ROUTES } from '@/constants'
+import { CredentialRotationSelect } from './credential-rotation-select'
+import { ThemeSelect } from './theme-select'
+import { Link } from '@/ui/gluestack/link'
 import { Icon } from '@/ui/components/icon'
 
 type Props = {
@@ -34,6 +34,14 @@ export const ProfileScreenView = ({ accountEmail }: Props) => {
           <MinimumPasswordStrenghSelect />
           <AutoLockTimeoutSelect />
           <MasterPasswordRequirementSwitch />
+          <CredentialRotationSelect />
+        </Box>
+      </Box>
+
+      <Box className='mt-6'>
+        <Text className='text-lg font-bold text-accent'>Aparência</Text>
+        <Box className='mt-4'>
+          <ThemeSelect />
         </Box>
       </Box>
 

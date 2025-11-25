@@ -7,4 +7,5 @@ export const vaultItemSchema = z.object({
   encryptedData: z.string(),
   vaultId: idSchema,
   createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date().nullable(),
 })

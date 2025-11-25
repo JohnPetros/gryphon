@@ -14,6 +14,7 @@ export class Note extends VaultItem<unknown, NoteEncryptedData> {
         title: dto.title,
         vaultId: Id.create(dto.vaultId),
         createdAt: dto.createdAt,
+        updatedAt: dto.createdAt,
       },
       dto.id,
     )
@@ -26,6 +27,7 @@ export class Note extends VaultItem<unknown, NoteEncryptedData> {
       encryptedData: this.props.encryptedData.value,
       vaultId: this.props.vaultId.value,
       createdAt: this.props.createdAt,
+      updatedAt: this.props.updatedAt,
     }
   }
 }

@@ -3,4 +3,5 @@ export const STORAGE_KEYS = {
   accountId: 'gryphonAccountId',
   acountEmail: 'gryphonAccountEmail',
   googleAccessToken: 'gryphongoogleAccessToken',
+  theme: 'gryphonTheme',
 }

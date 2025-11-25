@@ -1,7 +1,7 @@
 {
   "rest-client.environmentVariables": {
     "DEV": {
-      "BASE_URL": "http://192.168.12.15:8081/api",
+      "BASE_URL": "http://192.168.1.66:8081/api",
       "JWT": ""
     },
     "PROD": {

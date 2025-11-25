@@ -6,12 +6,10 @@ import { AutoLockTimeoutView } from './auto-lock-timeout-select-view'
 export const AutoLockTimeoutSelect = () => {
   const { accountsRepository } = useDatabase()
   const { account, updateAccount } = useAuthContext()
-  const { synchronizeDatabase } = useDatabase()
   const { autoLockTimeout, handleChange } = useAutoLockTimeoutSelect({
     accountsRepository,
     account,
-    updateAccount,
-    onUpdateAccount: synchronizeDatabase,
+    onUpdateAccount: updateAccount,
   })
 
   return <AutoLockTimeoutView timeout={autoLockTimeout} onChange={handleChange} />

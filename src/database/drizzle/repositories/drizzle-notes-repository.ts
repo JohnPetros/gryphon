@@ -123,7 +123,7 @@ export const DrizzleNotesRepository = (): NotesRepository => {
       )
     },
 
-    async removeManyByAccount(accountId) {
+    async removeManyByAccount(accountId: Id): Promise<void> {
       throw new Error('Method not implemented.')
     },
   }

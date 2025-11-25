@@ -5,7 +5,7 @@ import type { AccountsRepository } from '@/core/interfaces'
 import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
 import type { Account } from '@/core/domain/entities'
 
-import { CLIENT_ENV, ROUTES, STORAGE_KEYS } from '@/constants'
+import { ROUTES, STORAGE_KEYS } from '@/constants'
 
 type Params = {
   accountId: Id | null

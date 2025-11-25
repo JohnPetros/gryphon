@@ -7,7 +7,6 @@ type Params = {
   defaultChecked: boolean
   accountsRepository: AccountsRepository
   account: Account | null
-  updateAccount: (account: Account) => void
   onUpdateAccount: (account: Account) => Promise<void>
 }
 
@@ -15,7 +14,6 @@ export const useMasterPasswordRequirementSwitch = ({
   defaultChecked,
   accountsRepository,
   account,
-  updateAccount,
   onUpdateAccount,
 }: Params) => {
   const [isChecked, setIsChecked] = useState(defaultChecked)
@@ -29,7 +27,6 @@ export const useMasterPasswordRequirementSwitch = ({
     try {
       await accountsRepository.updateIsMasterPasswordRequired(isChecked, account.id)
       account.isMasterPasswordRequired = isChecked
-      updateAccount(account)
       await onUpdateAccount(account)
     } catch {
       setIsChecked(previousChecked)

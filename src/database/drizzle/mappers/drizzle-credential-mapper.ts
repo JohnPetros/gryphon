@@ -13,6 +13,7 @@ export const DrizzleCredentialMapper = () => {
         vaultId: drizzleCredential.vaultId,
         lastVersionId: drizzleCredential.lastVersionId ?? undefined,
         createdAt: drizzleCredential.createdAt,
+        updatedAt: drizzleCredential.updatedAt,
       })
     },
   }

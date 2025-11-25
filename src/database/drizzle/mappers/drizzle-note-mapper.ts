@@ -11,6 +11,7 @@ export const DrizzleNoteMapper = () => {
         encryptedData: drizzleNote.encryptedData,
         vaultId: drizzleNote.vaultId,
         createdAt: drizzleNote.createdAt,
+        updatedAt: drizzleNote.updatedAt,
       })
     },
   }

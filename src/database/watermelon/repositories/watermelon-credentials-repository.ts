@@ -54,6 +54,7 @@ export const WatermelonCredentialsRepository = (
                 last_version_id: credential.lastVersionId?.value ?? null,
                 site_url: credential.siteUrl,
                 created_at: credential.createdAt.getTime() / 1000,
+                updated_at: null,
                 _status: isSynced ? 'synced' : 'created',
               },
               credentialsCollection.schema,
@@ -93,17 +94,28 @@ export const WatermelonCredentialsRepository = (
 
           // @ts-ignore
           model.vault.set(vaultModel)
+          model.updatedAt = credential.updatedAt?.getTime() ?? null
         })
       })
     },
 
-    async updateMany(credentials: Credential[]): Promise<void> {},
+    async updateMany(credentials: Credential[]): Promise<void> {
+      await Promise.all(credentials.map(this.update))
+    },
 
     async findAllByAccount(accountId: Id): Promise<Credential[]> {
       const credentialModels = await watermelon.collections
         .get<CredentialModel>('credentials')
         .query(Q.on('vaults', Q.where('account_id', accountId.value)))
         .fetch()
+
+      return credentialModels.map(mapper.toEntity)
+    },
+
+    async findAll(): Promise<Credential[]> {
+      const credentialModels = await watermelon.collections
+        .get<CredentialModel>('credentials')
+        .query()
 
       return credentialModels.map(mapper.toEntity)
     },
@@ -120,15 +132,26 @@ export const WatermelonCredentialsRepository = (
       }
     },
 
-    async findAllByVaultAndTitle(vaultId: Id, title: string): Promise<Credential[]> {
-      const credentialModels = await watermelon.collections
-        .get<CredentialModel>('credentials')
-        .query(
-          Q.and(
+    async findAllByVaultAndTitleAndLessThanUpdatingDate(
+      vaultId: Id,
+      title: string,
+      updatedAt?: Date,
+    ): Promise<Credential[]> {
+      if (updatedAt) {
+        const credentialModels = await watermelon.collections
+          .get<CredentialModel>('credentials')
+          .query(
             Q.where('vault_id', vaultId.value),
             Q.where('title', Q.like(`${title}%`)),
-          ),
-        )
+            Q.where('updated_at', Q.lt(updatedAt.getTime())),
+          )
+          .fetch()
+        return credentialModels.map(mapper.toEntity)
+      }
+
+      const credentialModels = await watermelon.collections
+        .get<CredentialModel>('credentials')
+        .query(Q.where('vault_id', vaultId.value), Q.where('title', Q.like(`${title}%`)))
         .fetch()
 
       return credentialModels.map(mapper.toEntity)
@@ -138,6 +161,12 @@ export const WatermelonCredentialsRepository = (
       return await watermelon.collections
         .get<CredentialModel>('credentials')
         .query(Q.where('vault_id', vaultId.value)).count
+    },
+
+    async countAllLessThanUpdatingDate(updatedAt: Date): Promise<number> {
+      return await watermelon.collections
+        .get<CredentialModel>('credentials')
+        .query(Q.where('updated_at', Q.lt(updatedAt.getTime()))).count
     },
 
     async remove(vaultId: Id): Promise<void> {

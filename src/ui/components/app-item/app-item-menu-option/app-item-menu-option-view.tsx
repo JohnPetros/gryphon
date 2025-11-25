@@ -7,6 +7,7 @@ import { Pressable } from '../../pressable'
 import type { IconName } from '../../icon/types'
 import { Box } from '@/ui/gluestack/box'
 import { mergeClassNames } from '@/ui/utils'
+import { useThemeContext } from '@/ui/hooks/use-theme-context'
 
 type Props = {
   color: keyof typeof COLORS.dark
@@ -23,6 +24,8 @@ export const AppItemMenuOptionView = ({
   className,
   onPress,
 }: Props) => {
+  const { theme } = useThemeContext()
+
   if (onPress)
     return (
       <Pressable
@@ -32,7 +35,7 @@ export const AppItemMenuOptionView = ({
         <Icon name={icon} color={color} size={20} />
         <Text
           className={mergeClassNames('text-lg', className)}
-          style={{ color: COLORS.dark[color] }}
+          style={{ color: COLORS[theme][color] }}
         >
           {children}
         </Text>
@@ -44,7 +47,7 @@ export const AppItemMenuOptionView = ({
       <Icon name={icon} color={color} size={20} />
       <Text
         className={mergeClassNames('text-lg', className)}
-        style={{ color: COLORS.dark[color] }}
+        style={{ color: COLORS[theme][color] }}
       >
         {children}
       </Text>
