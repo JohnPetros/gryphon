@@ -4,27 +4,29 @@ import { Box } from '@/ui/gluestack/box'
 import { COLORS } from '@/constants/colors'
 import { Text } from '@/ui/gluestack/text'
 import { useMemo } from 'react'
+import type { Theme } from '@/ui/contexts/theme-context/types'
 
 type Props = {
   status: 'idle' | 'success' | 'error'
+  theme: Theme
   isFilled: boolean
   onChange: (code: string) => void
   onFilled: (code: string) => void
 }
 
-export const OtpFormView = ({ status, isFilled, onChange, onFilled }: Props) => {
+export const OtpFormView = ({ status, theme, isFilled, onChange, onFilled }: Props) => {
   const borderColor = useMemo(() => {
     if (!isFilled) {
-      return COLORS.dark.neutral
+      return COLORS[theme].neutral
     }
 
     switch (status) {
       case 'error':
-        return COLORS.dark.danger
+        return COLORS[theme].danger
       case 'success':
-        return COLORS.dark.primary
+        return COLORS[theme].primary
       default:
-        return COLORS.dark.neutral
+        return COLORS[theme].neutral
     }
   }, [status, isFilled])
 

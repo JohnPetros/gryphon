@@ -9,12 +9,14 @@ import { COLORS } from '@/constants/colors'
 import { BottomSheetDragIndicator } from '@/ui/gluestack/bottomsheet'
 import { UiProvider } from '@/ui/gluestack/ui-provider'
 import { Pressable } from '../pressable'
+import type { Theme } from '@/ui/contexts/theme-context/types'
 
 type Props = {
   children: ReactNode | ((close: () => void) => ReactNode)
   snapPoints?: string[]
   bottomSheetModalRef: RefObject<BottomSheetModal | null>
   trigger: ReactNode
+  theme: Theme
   backgroundColor?: keyof typeof COLORS.dark
   onTriggerPress?: () => void
   onChange: (index: number) => void
@@ -25,6 +27,7 @@ export const BottomSheetView = ({
   snapPoints = ['35%', '50%'],
   bottomSheetModalRef,
   trigger,
+  theme,
   backgroundColor = 'background',
   onTriggerPress,
   onChange,
@@ -39,9 +42,12 @@ export const BottomSheetView = ({
         backdropComponent={BottomSheetBackdrop}
         handleComponent={BottomSheetDragIndicator}
         onChange={onChange}
-        backgroundStyle={{ backgroundColor: COLORS.dark[backgroundColor] }}
+        backgroundStyle={{ backgroundColor: COLORS[theme][backgroundColor] }}
       >
-        <BottomSheetContent className='flex-1'>
+        <BottomSheetContent
+          className='flex-1'
+          style={{ backgroundColor: COLORS[theme][backgroundColor] }}
+        >
           <UiProvider>
             {typeof children === 'function'
               ? children(() => bottomSheetModalRef.current?.close())

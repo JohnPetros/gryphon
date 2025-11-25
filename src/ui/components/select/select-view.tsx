@@ -37,12 +37,13 @@ export const SelectView = ({ value, label, options, onChange }: Props) => {
                 close()
               }}
               className='px-6'
+              style={{ backgroundColor: 'transparent' }}
             >
               <Text className='text-lg'>{option}</Text>
             </Pressable>
           )}
           ItemSeparatorComponent={() => (
-            <Box className='px-6'>
+            <Box className='px-6 bg-surface' style={{ backgroundColor: 'transparent' }}>
               <Box className='h-0.5 w-full my-2 bg-neutral-background' />
             </Box>
           )}

@@ -11,6 +11,7 @@ import { Grid, GridItem } from '@/ui/gluestack/grid'
 import { Text } from '@/ui/gluestack/text'
 import { BottomSheet } from '@/ui/components/bottom-sheet'
 import type { BottomSheetRef } from '@/ui/components/bottom-sheet/types'
+import type { Theme } from '@/ui/contexts/theme-context/types'
 
 const ICONS: VaultIcon[] = [
   'entertainment',
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 4,
-    backgroundColor: COLORS.dark.neutral,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -38,11 +38,12 @@ const styles = StyleSheet.create({
 
 type Props = {
   value: VaultIcon
+  theme: Theme
   bottomSheetRef: RefObject<BottomSheetRef | null>
   onChange: (icon: VaultIcon) => void
 }
 
-export const IconSelectView = ({ value, bottomSheetRef, onChange }: Props) => {
+export const IconSelectView = ({ value, theme, bottomSheetRef, onChange }: Props) => {
   return (
     <BottomSheet
       ref={bottomSheetRef}
@@ -72,7 +73,9 @@ export const IconSelectView = ({ value, bottomSheetRef, onChange }: Props) => {
                 onPress={() => onChange(icon)}
                 style={{
                   ...styles.icon,
-                  backgroundColor: isSelected ? COLORS.dark.primary : COLORS.dark.surface,
+                  backgroundColor: isSelected
+                    ? COLORS[theme].primary
+                    : COLORS[theme].surface,
                 }}
               >
                 <Icon name={icon} color={isSelected ? 'background' : 'accent'} />
