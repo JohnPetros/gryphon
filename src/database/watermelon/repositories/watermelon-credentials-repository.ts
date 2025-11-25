@@ -183,17 +183,13 @@ export const WatermelonCredentialsRepository = (
 
     async removeManyByAccount(accountId: Id): Promise<void> {
       await watermelon.write(async () => {
-        const credentialModels = await watermelon.collections
+        await watermelon.collections
           .get<CredentialModel>('credentials')
           .query(
             Q.experimentalJoinTables(['vaults']),
             Q.on('vaults', Q.where('account_id', accountId.value)),
           )
-          .fetch()
-
-        for (const credentialModel of credentialModels) {
-          await credentialModel.markAsDeleted()
-        }
+          .destroyAllPermanently()
       })
     },
   }

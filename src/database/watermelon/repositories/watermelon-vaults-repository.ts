@@ -115,11 +115,10 @@ export const WatermelonVaultsRepository = (isSynced: boolean): VaultsRepository 
 
     async removeManyByAccount(accountId) {
       await watermelon.write(async () => {
-        const vaultsQuery = watermelon.collections
+        await watermelon.collections
           .get<VaultModel>('vaults')
           .query(Q.where('account_id', accountId.value))
-
-        await vaultsQuery.destroyAllPermanently()
+          .destroyAllPermanently()
       })
     },
   }

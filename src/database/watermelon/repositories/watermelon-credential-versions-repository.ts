@@ -140,7 +140,7 @@ export const WatermelonCredentialVersionsRepository = (
           .get<VaultModel>('vaults')
           .query(Q.where('account_id', accountId.value))
 
-        const versionModels = watermelon.collections
+        await watermelon.collections
           .get<CredentialVersionModel>('credential_versions')
           .query(
             Q.experimentalJoinTables(['credentials']),
@@ -149,8 +149,7 @@ export const WatermelonCredentialVersionsRepository = (
               Q.where('vault_id', Q.oneOf(vaultModels.map((vault) => vault.id))),
             ),
           )
-
-        await versionModels.destroyAllPermanently()
+          .destroyAllPermanently()
       })
     },
   }
