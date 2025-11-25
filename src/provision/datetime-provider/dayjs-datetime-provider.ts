@@ -13,6 +13,10 @@ export const DayjsDateTimeProvider = (): DateTimeProvider => {
       return dayjs(date).subtract(3, 'hours').locale('pt-br').format('D [de] MMMM, HH:mm')
     },
 
+    getCurrentTimestamp(): string {
+      return dayjs().format('YYYY-MM-DD-HH_mm_ss')
+    },
+
     addDays(date: Date, days: number): Date {
       return dayjs(date).add(days, 'days').toDate()
     },
