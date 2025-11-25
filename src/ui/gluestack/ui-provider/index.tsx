@@ -1,10 +1,11 @@
-import { useColorScheme } from 'react-native'
+import { useThemeContext } from '@/ui/hooks/use-theme-context'
 import { GluestackUIProvider } from '../gluestack-ui-provider'
 
 export const UiProvider = ({ children }: { children: React.ReactNode }) => {
-  const colorScheme = useColorScheme()
+  const { theme, isFromSystem } = useThemeContext()
+
   return (
-    <GluestackUIProvider mode={colorScheme === 'dark' ? 'dark' : 'light'}>
+    <GluestackUIProvider mode={isFromSystem ? 'system' : theme}>
       {children}
     </GluestackUIProvider>
   )

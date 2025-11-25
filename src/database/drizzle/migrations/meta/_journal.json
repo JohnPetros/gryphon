@@ -15,6 +15,27 @@
       "when": 1762099029875,
       "tag": "0001_gifted_talos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1763676518499,
+      "tag": "0002_friendly_vermin",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1763676573898,
+      "tag": "0003_wise_stepford_cuckoos",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1763676613563,
+      "tag": "0004_lying_firelord",
+      "breakpoints": true
     }
   ]
 }

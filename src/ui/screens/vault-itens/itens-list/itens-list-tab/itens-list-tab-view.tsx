@@ -6,7 +6,7 @@ import { mergeClassNames } from '@/ui/utils'
 
 type Props = {
   itenCount: number
-  className: string
+  className?: string
   onPress: () => void
 }
 
@@ -19,7 +19,10 @@ export const ItensListTabView = ({
   return (
     <Pressable
       onPress={onPress}
-      className={mergeClassNames('flex-row items-center gap-3 rounded-lg border border-neutral-background p-3 px-4', className)}
+      className={mergeClassNames(
+        'flex-row items-center gap-3 rounded-lg border border-neutral-background p-3 px-4',
+        className,
+      )}
     >
       {children}
       <Text className='text-3xl font-bold'>{itenCount}</Text>

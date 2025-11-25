@@ -8,7 +8,7 @@ type Params = {
 
 export function useResetPasswordScreen({ toastProvider, navigationProvider }: Params) {
   function handleSendPasswordResetEmail() {
-    toastProvider.show('E-mail enviado com sucessso', 'success')
+    toastProvider.show('E-mail enviado com sucesso', 'success')
   }
 
   function handleResetPassword() {

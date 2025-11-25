@@ -3,12 +3,12 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Account } from '@/core/domain/entities/account'
 import { Id } from '@/core/domain/structures'
 import type { CryptoProvider, AccountsRepository } from '@/core/interfaces'
+import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
+import type { AuthService } from '@/core/interfaces/services'
 
 import { CLIENT_ENV, ROUTES, STORAGE_KEYS } from '@/constants'
 import { useToast } from '@/ui/hooks/use-toast'
 import type { AuthContextValue } from './auth-context-value'
-import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
-import type { AuthService } from '@/core/interfaces/services'
 
 type Params = {
   jwt: string | null
@@ -21,7 +21,8 @@ type Params = {
   isAccountSignedIn: boolean
   signOut: () => Promise<void>
   signIn: (email: string, password: string) => Promise<boolean>
-  onSignIn: () => Promise<void>
+  onUpdateAccount: () => Promise<void>
+  onLoadAccount: (account: Account) => void
 }
 
 export function useAuthContextProvider({
@@ -32,6 +33,8 @@ export function useAuthContextProvider({
   authService,
   signOut,
   signIn,
+  onUpdateAccount,
+  onLoadAccount,
 }: Params) {
   const [account, setAccount] = useState<Account | null>(null)
   const [encryptionKey, setEncryptionKey] = useState<string>('')
@@ -89,8 +92,6 @@ export function useAuthContextProvider({
       }
     }
 
-    console.log({ account })
-
     if (!account) return
 
     await storageProvider.setItem(STORAGE_KEYS.acountEmail, account.email)
@@ -99,6 +100,7 @@ export function useAuthContextProvider({
     const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
     if (!masterPassword) return
     createEncryptionKey(masterPassword, account.encryptionSalt)
+    onLoadAccount(account)
   }, [
     createEncryptionKey,
     signOutAccount,
@@ -108,6 +110,8 @@ export function useAuthContextProvider({
 
   const updateAccount = useCallback(async (account: Account) => {
     setAccount(Account.create(account.dto))
+    await accountsRepository.update(account)
+    await onUpdateAccount()
   }, [])
 
   const contextValue: AuthContextValue = useMemo(() => {
@@ -132,6 +136,11 @@ export function useAuthContextProvider({
           autoLockTimeout: 60 * 5,
           isMasterPasswordRequired: true,
           kcv,
+          notificationToken: null,
+          credentialRotation: {
+            unit: 'months',
+            interval: 1,
+          },
         })
         setAccount(account)
 

@@ -13,6 +13,9 @@ export class AccountModel extends Model {
   @field('kcv')
   kcv!: string
 
+  @field('notification_token')
+  notification_token!: string | null
+
   @field('is_biometry_activated')
   isBiometryActivated!: boolean
 
@@ -24,4 +27,10 @@ export class AccountModel extends Model {
 
   @field('is_master_password_required')
   isMasterPasswordRequired!: boolean
+
+  @field('credential_rotation_unit')
+  credentialRotationUnit!: string
+
+  @field('credential_rotation_interval')
+  credentialRotationInterval!: number
 }

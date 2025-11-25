@@ -8,8 +8,14 @@ export interface CredentialsRepository {
   updateMany(credentials: Credential[]): Promise<void>
   findAllByAccount(accountId: Id): Promise<Credential[]>
   findById(id: Id): Promise<Credential | null>
-  findAllByVaultAndTitle(vaultId: Id, title: string): Promise<Credential[]>
+  findAll(): Promise<Credential[]>
+  findAllByVaultAndTitleAndLessThanUpdatingDate(
+    vaultId: Id,
+    title: string,
+    updatedAt?: Date,
+  ): Promise<Credential[]>
   countByVault(vaultId: Id): Promise<number>
+  countAllLessThanUpdatingDate(updatedAt: Date): Promise<number>
   remove(credentialId: Id): Promise<void>
   removeMany(credentialIds: Id[]): Promise<void>
   removeManyByAccount(accountId: Id): Promise<void>

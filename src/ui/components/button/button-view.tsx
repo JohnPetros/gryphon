@@ -9,11 +9,13 @@ import {
 } from '@/ui/gluestack/button'
 import { COLORS } from '@/constants'
 import { mergeClassNames } from '@/ui/utils'
+import type { Theme } from '@/ui/contexts/theme-context/types'
 
 type Props = {
   isLoading?: boolean
   isDisabled?: boolean
   className?: string
+  theme: Theme
   onPress: () => void
 }
 
@@ -21,6 +23,7 @@ export const ButtonView = ({
   children,
   isLoading = false,
   isDisabled = false,
+  theme,
   className,
   onPress,
 }: PropsWithChildren<Props>) => {
@@ -39,7 +42,7 @@ export const ButtonView = ({
             {children}
           </ButtonText>
         )}
-        {isLoading && <ButtonSpinner color={COLORS.dark.background} size='large' />}
+        {isLoading && <ButtonSpinner color={COLORS[theme].background} size='large' />}
         <ButtonIcon />
       </Button>
     </ButtonGroup>

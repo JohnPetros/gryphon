@@ -1,3 +1,3 @@
-import { DataImportScreen } from '@/ui/screens/data-import-screen'
+import { DataImportScreen } from '@/ui/screens/data-import'
 
 export default DataImportScreen
