@@ -7,13 +7,17 @@ import { AppItem } from '@/ui/components/app-item'
 import { NoteMenu } from '@/ui/components/note-menu'
 import { Box } from '@/ui/gluestack/box'
 import { Text } from '@/ui/gluestack/text'
+import { ItensListSkeleton } from '../itens-list-skeleton'
 
 type Props = {
   notes: Note[]
+  isLoading: boolean
   onNoteDelete: () => void
 }
 
-export const NotesListView = ({ notes, onNoteDelete }: Props) => {
+export const NotesListView = ({ isLoading, notes, onNoteDelete }: Props) => {
+  if (isLoading) return <ItensListSkeleton />
+
   return (
     <FlatList
       data={notes}

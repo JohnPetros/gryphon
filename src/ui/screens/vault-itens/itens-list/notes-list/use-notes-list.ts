@@ -13,10 +13,13 @@ type Params = {
 
 export function useNotesList({ vaultId, search, notesRepository, onNoteDelete }: Params) {
   const [notes, setNotes] = useState<Note[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const loadNotes = useCallback(async () => {
+    setIsLoading(true)
     const notes = await notesRepository.findAllByVaultAndTitle(vaultId, search)
     setNotes(notes)
+    setIsLoading(false)
   }, [notesRepository, vaultId, search])
 
   function handleNoteDelete() {
@@ -30,6 +33,7 @@ export function useNotesList({ vaultId, search, notesRepository, onNoteDelete }:
 
   return {
     notes,
+    isLoading,
     handleNoteDelete,
   }
 }

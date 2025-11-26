@@ -2,8 +2,6 @@ import type { Id } from '@/core/domain/structures'
 import { NotesListView } from './notes-list-view'
 import { useNotesList } from './use-notes-list'
 import { useDatabase } from '@/ui/hooks/use-database'
-import { useAuthContext } from '@/ui/hooks/use-auth-context'
-import { useCryptoProvider } from '@/ui/hooks/use-crypto-provider'
 
 type Props = {
   vaultId: Id
@@ -13,12 +11,14 @@ type Props = {
 
 export const NotesList = ({ vaultId, search, onNoteDelete }: Props) => {
   const { notesRepository } = useDatabase()
-  const { notes, handleNoteDelete } = useNotesList({
+  const { notes, isLoading, handleNoteDelete } = useNotesList({
     vaultId,
     search,
     notesRepository,
     onNoteDelete,
   })
 
-  return <NotesListView notes={notes} onNoteDelete={handleNoteDelete} />
+  return (
+    <NotesListView notes={notes} isLoading={isLoading} onNoteDelete={handleNoteDelete} />
+  )
 }

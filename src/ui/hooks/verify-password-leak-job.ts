@@ -31,6 +31,7 @@ export const VerifyPasswordLeakJob = ({
       if (!storedAccountId) return
 
       const accountId = Id.create(storedAccountId)
+      console.log(accountId)
       const account = await accountsRepository.findById(accountId)
       if (!account) return
 
@@ -44,10 +45,11 @@ export const VerifyPasswordLeakJob = ({
       masterPassword = null
       const credentials = await credentialsRepository.findAllByAccount(accountId)
 
-      for (const credential of credentials.slice(0, 1)) {
+      for (const credential of credentials) {
         const decryptedData = credential.encrypted.decrypt(encryptionKey, cryptoProvider)
         if (!decryptedData) continue
         const credentialPassword = decryptedData.password
+        console.log(credentialPassword)
         const passwordHash = await cryptoProvider.hash(credentialPassword)
         const passwordHashPrefix = passwordHash.slice(0, 5)
 

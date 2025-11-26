@@ -12,7 +12,7 @@ export const DrizzleCredentialVersionMapper = () => {
         isRestoration: drizzleCredentialVersion.isRestoration === 1,
         encryptedData: drizzleCredentialVersion.encryptedData,
         credentialId: drizzleCredentialVersion.credentialId,
-        createdAt: new Date(),
+        createdAt: drizzleCredentialVersion.createdAt,
       })
     },
   }

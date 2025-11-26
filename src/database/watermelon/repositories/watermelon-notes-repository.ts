@@ -84,7 +84,8 @@ export const WatermelonNotesRepository = (isSynced: boolean): NotesRepository =>
           .find(id.value)
 
         return mapper.toEntity(noteModel)
-      } catch {
+      } catch (error) {
+        console.warn('Watermelon error:', error)
         return null
       }
     },

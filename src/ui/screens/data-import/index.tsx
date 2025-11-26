@@ -40,6 +40,7 @@ export const DataImportScreen = () => {
         description='Insira a senha mestra para poder importar os dados de seu outro dispositivo.'
         canClose={false}
         kcv={account?.kcv}
+        shouldSuppressMasterPasswordRequirement
         onCorrectPasswordSubmit={handlePasswordSubmit}
       />
     </>

@@ -21,6 +21,7 @@ export const DrizzleCredentialVersionsRepository = (): CredentialVersionsReposit
         isRestoration: credentialVersion.isRestoration ? 1 : 0,
         versionNumber: credentialVersion.versionNumber,
         encryptedData: credentialVersion.encrypted.value,
+        createdAt: credentialVersion.createdAt,
       })
     },
 
@@ -35,6 +36,7 @@ export const DrizzleCredentialVersionsRepository = (): CredentialVersionsReposit
           isRestoration: credentialVersion.isRestoration ? 1 : 0,
           versionNumber: credentialVersion.versionNumber,
           encryptedData: credentialVersion.encrypted.value,
+          createdAt: credentialVersion.createdAt,
         })),
       )
     },

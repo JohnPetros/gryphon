@@ -25,6 +25,7 @@ export function useMasterPasswordConfirmationDialog({
   const [isOpen, setIsOpen] = useState(false)
 
   function open() {
+    console.log({ isMasterPasswordRequired })
     if (isMasterPasswordRequired) {
       setIsOpen(true)
       return
@@ -57,6 +58,8 @@ export function useMasterPasswordConfirmationDialog({
     const correctMasterPassword = await storageProvider.getItem(
       STORAGE_KEYS.masterPassword,
     )
+
+    console.log({ correctMasterPassword })
 
     if (correctMasterPassword === masterPassword) {
       onCorrectPasswordSubmit(masterPassword)

@@ -12,11 +12,14 @@ import { CredentialMenu } from '@/ui/components/credential-menu'
 import { CredentialIcon } from './credential-icon'
 import { CredentialVault } from './credential-vault'
 import { CredentialHistory } from './credential-history'
+import { OutdatedCredentialBadge } from '@/ui/components/outdated-credential-badge'
+import { Badge } from '@/ui/components/badge'
 
 type Props = {
   credential: Credential
   credentialLogin: string
   credentialPassword: string
+  isCredentialOutdated: boolean
   onCredentialDelete: () => void
   onCredentialRestore: () => void
 }
@@ -25,6 +28,7 @@ export const CredentialView = ({
   credential,
   credentialLogin,
   credentialPassword,
+  isCredentialOutdated,
   onCredentialDelete,
   onCredentialRestore,
 }: Props) => {
@@ -49,6 +53,15 @@ export const CredentialView = ({
             <CredentialVault vaultId={credential.vaultId} />
           </Box>
         </Box>
+
+        {isCredentialOutdated && (
+          <Badge
+            message='Credencial desatualizada'
+            color='danger'
+            icon='warning'
+            className='mt-4 p-3'
+          />
+        )}
 
         <Box className='gap-3 mt-6'>
           <Box>

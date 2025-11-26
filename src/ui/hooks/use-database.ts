@@ -145,7 +145,6 @@ export function useDatabase() {
       pushChanges: async ({ changes }: PushChangesParams) => {
         if (isOffline) throw new AppError('Internet connection required')
         await getAccountId()
-        await getAccountId()
 
         const databaseChanges = getDatabaseChanges(changes)
         const response = await databaseService.pushDatabaseChanges(databaseChanges)
@@ -196,12 +195,14 @@ export function useDatabase() {
 
       let account = await accountsRepository.findById(accountId)
       const createdAccount = databaseChanges.createdAccounts[0]
+      console.log('queeee', { account })
       if (!account && createdAccount) {
-        account = await accountsRepository.findById(accountId)
         await accountsRepository.add(Account.create(databaseChanges.createdAccounts[0]))
         account = await accountsRepository.findById(accountId)
-      } else {
+      } else if (createdAccount) {
         await accountsRepository.remove(accountId)
+        await accountsRepository.add(Account.create(databaseChanges.createdAccounts[0]))
+        account = await accountsRepository.findById(accountId)
       }
 
       if (databaseChanges.createdVaults?.length) {
@@ -225,7 +226,7 @@ export function useDatabase() {
         await notesRepository.addMany(databaseChanges.createdNotes.map(Note.create))
       }
 
-      if (account) updateAccount(account)
+      if (account) await updateAccount(account)
 
       if (!isSynced) {
         await databaseService.resetDatabase(accountId)

@@ -31,6 +31,7 @@ export const CredentialsList = ({ vaultId, search, onCredentialDelete }: Props) 
   const {
     credentials,
     isOutdatedCredentialsFilterChecked,
+    isLoading,
     handleCredentialDelete,
     handleOutdatedCredentialsFilterChange,
     handlePasswordLeakVerificationButtonPress,
@@ -47,10 +48,12 @@ export const CredentialsList = ({ vaultId, search, onCredentialDelete }: Props) 
   if (account)
     return (
       <CredentialsListView
+        key={account.id.value}
         bottomSheetRef={bottomSheetRef}
         credentials={credentials}
         encryptionKey={encryptionKey}
         cryptoProvider={cryptoProvider}
+        isLoading={isLoading}
         isOutdatedCredentialsFilterChecked={isOutdatedCredentialsFilterChecked}
         onCredentialDelete={handleCredentialDelete}
         onOutdatedCredentialsFilterChange={handleOutdatedCredentialsFilterChange}

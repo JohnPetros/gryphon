@@ -32,8 +32,10 @@ export const VerifyOutdatedCredentialsController = ({
         const expirationDate =
           account.credentialRotation.getExpirationDate(datetimeProvider)
 
-        const count =
-          await credentialsRepository.countAllLessThanUpdatingDate(expirationDate)
+        const count = await credentialsRepository.countAllLessThanUpdatingDateByAccount(
+          account.id,
+          expirationDate,
+        )
         if (count === 0) continue
 
         if (count > 1) {

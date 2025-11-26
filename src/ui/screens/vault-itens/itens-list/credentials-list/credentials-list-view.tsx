@@ -15,6 +15,8 @@ import { Icon } from '@/ui/components/icon'
 import { Checkbox } from '@/ui/components/checkbox'
 import { OutdatedCredentialBadge } from '@/ui/components/outdated-credential-badge'
 import { Pressable } from '@/ui/components/pressable'
+import { CredentialIcon } from '@/ui/screens/credential/credential-icon'
+import { ItensListSkeleton } from '../itens-list-skeleton'
 
 type Props = {
   bottomSheetRef: RefObject<BottomSheetRef | null>
@@ -22,6 +24,7 @@ type Props = {
   encryptionKey: string
   cryptoProvider: CryptoProvider
   isOutdatedCredentialsFilterChecked: boolean
+  isLoading: boolean
   onCredentialDelete: () => void
   onOutdatedCredentialsFilterChange: (isChecked: boolean) => void
   onPasswordLeakVerificationButtonPress: () => void
@@ -33,6 +36,7 @@ export const CredentialsListView = ({
   encryptionKey,
   cryptoProvider,
   isOutdatedCredentialsFilterChecked,
+  isLoading,
   onCredentialDelete,
   onOutdatedCredentialsFilterChange,
   onPasswordLeakVerificationButtonPress,
@@ -70,43 +74,45 @@ export const CredentialsListView = ({
           </Box>
         </Pressable>
       </Box>
-      <Box className='mt-6'>
-        <FlatList
-          data={credentials}
-          ListEmptyComponent={
-            <Text className='text-center text-neutral text-lg mt-6'>
-              Nenhuma credencial encontrada.
-            </Text>
-          }
-          keyExtractor={(item) => item.id.value}
-          contentContainerStyle={{ gap: 12 }}
-          renderItem={({ item }) => {
-            const decryptedData = item.encrypted.decrypt(encryptionKey, cryptoProvider)
-            return (
-              <AppItem.Container className='flex-row items-center justify-between'>
-                <Link href={`/credential/${item.id.value}`}>
-                  <Box className='flex-row items-center gap-3'>
-                    <AppItem.Icon
-                      name='login'
-                      backgroundColor='primaryBackground'
-                      foregroundColor='primary'
-                    />
-                    <AppItem.Info
-                      name={item.title}
-                      description={decryptedData?.login ?? ''}
-                      className='w-[72%]'
-                    />
-                    <Box className='absolute top-0 -right-12'>
-                      <OutdatedCredentialBadge credential={item} />
+      {isLoading && <ItensListSkeleton />}
+      {!isLoading && (
+        <Box className='mt-6'>
+          <FlatList
+            data={credentials}
+            ListEmptyComponent={
+              <Text className='text-center text-neutral text-lg mt-6'>
+                Nenhuma credencial encontrada.
+              </Text>
+            }
+            keyExtractor={(item) => item.id.value}
+            contentContainerStyle={{ gap: 12 }}
+            renderItem={({ item }) => {
+              const decryptedData = item.encrypted.decrypt(encryptionKey, cryptoProvider)
+              return (
+                <AppItem.Container className='flex-row items-center justify-between'>
+                  <Link href={`/credential/${item.id.value}`}>
+                    <Box className='flex-row items-center gap-3'>
+                      <CredentialIcon
+                        siteUrl={item.siteUrl ?? ''}
+                        className='w-16 h-16'
+                      />
+                      <AppItem.Info
+                        name={item.title}
+                        description={decryptedData?.login ?? ''}
+                        className='w-[72%]'
+                      />
+                      <Box className='absolute top-0 -right-12'>
+                        <OutdatedCredentialBadge credential={item} />
+                      </Box>
                     </Box>
-                  </Box>
-                </Link>
-                <CredentialMenu credential={item} onDelete={onCredentialDelete} />
-              </AppItem.Container>
-            )
-          }}
-        />
-      </Box>
+                  </Link>
+                  <CredentialMenu credential={item} onDelete={onCredentialDelete} />
+                </AppItem.Container>
+              )
+            }}
+          />
+        </Box>
+      )}
     </Box>
   )
 }

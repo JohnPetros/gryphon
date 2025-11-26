@@ -147,12 +147,21 @@ export const DrizzleCredentialsRepository = (): CredentialsRepository => {
       return result[0].count
     },
 
-    async countAllLessThanUpdatingDate(updatedAt: Date): Promise<number> {
+    async countAllLessThanUpdatingDateByAccount(
+      accountId: Id,
+      updatedAt: Date,
+    ): Promise<number> {
       if (updatedAt) {
         const result = await drizzle
           .select({ count: count() })
           .from(credentialSchema)
-          .where(lt(credentialSchema.updatedAt, updatedAt))
+          .innerJoin(vaultSchema, eq(credentialSchema.vaultId, vaultSchema.id))
+          .where(
+            and(
+              eq(vaultSchema.accountId, accountId.value),
+              lt(credentialSchema.updatedAt, updatedAt),
+            ),
+          )
           .get()
 
         return result?.count ?? 0

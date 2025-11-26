@@ -97,12 +97,6 @@ export const PushDatabaseChangesController = ({
       ])
 
       await Promise.all([
-        notesRepository.addMany(createdNotes.map(Note.create)),
-        notesRepository.updateMany(updatedNotes.map(Note.create)),
-        notesRepository.removeMany(deletedNotesIds.map(Id.create)),
-      ])
-
-      await Promise.all([
         credentialVersionRepository.addMany(
           createdCredentialVersions.map(CredentialVersion.create),
         ),
@@ -112,6 +106,12 @@ export const PushDatabaseChangesController = ({
         credentialVersionRepository.removeMany(
           deletedCredentialVersionsIds.map(Id.create),
         ),
+      ])
+
+      await Promise.all([
+        notesRepository.addMany(createdNotes.map(Note.create)),
+        notesRepository.updateMany(updatedNotes.map(Note.create)),
+        notesRepository.removeMany(deletedNotesIds.map(Id.create)),
       ])
 
       return http.send({ message: 'Database synchronized!' })
