@@ -49,7 +49,6 @@ export const VerifyPasswordLeakJob = ({
         const decryptedData = credential.encrypted.decrypt(encryptionKey, cryptoProvider)
         if (!decryptedData) continue
         const credentialPassword = decryptedData.password
-        console.log(credentialPassword)
         const passwordHash = await cryptoProvider.hash(credentialPassword)
         const passwordHashPrefix = passwordHash.slice(0, 5)
 
@@ -64,7 +63,7 @@ export const VerifyPasswordLeakJob = ({
             await notificationService.sendNotification(
               accountId,
               'Aviso crítico de segurança',
-              `Senha Senha vazada detectada para o login ${credential.title} em sua conta. Por favor, altere-a imediatamente.`,
+              `Senha vazada detectada para o login ${credential.title} em sua conta. Por favor, altere-a imediatamente.`,
               `/credential/${credential.id.value}`,
             )
           }

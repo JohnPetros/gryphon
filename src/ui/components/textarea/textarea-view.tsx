@@ -87,6 +87,7 @@ export const TextareaView = ({
         <TextareaInput
           placeholder={placeholder}
           defaultValue={defaultValue}
+          autoCapitalize='none'
           value={isBlocked ? '' : (value ?? defaultValue ?? undefined)}
           className='pl-4 text-xl'
           onChangeText={onChange}

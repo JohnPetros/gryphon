@@ -14,6 +14,8 @@ export const GoogleBackup = () => {
     accessToken,
     googleAccountEmail,
     isLoadingAccessToken,
+    lastReadBackupFileAt,
+    handleReadBackupFile,
     handleSignInButtonPress,
     handleSignOutButtonPress,
   } = useGoogleBackup({
@@ -28,6 +30,8 @@ export const GoogleBackup = () => {
       accessToken={accessToken}
       googleAccountEmail={googleAccountEmail}
       isLoadingAccessToken={isLoadingAccessToken}
+      lastReadBackupFileAt={lastReadBackupFileAt}
+      onReadBackupFile={handleReadBackupFile}
       onSignInButtonPress={handleSignInButtonPress}
       onSignOutButtonPress={handleSignOutButtonPress}
     />

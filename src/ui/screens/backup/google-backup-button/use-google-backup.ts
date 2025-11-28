@@ -9,6 +9,7 @@ import { STORAGE_KEYS } from '@/constants'
 import type { DatetimeProvider, StorageProvider } from '@/core/interfaces/providers'
 import type { DatabaseService } from '@/core/interfaces/services'
 import type { Id } from '@/core/domain/structures'
+import { File } from '@/core/domain/entities/file'
 
 GoogleSignin.configure({
   scopes: [
@@ -30,6 +31,7 @@ export function useGoogleBackup({ storageProvider }: Params) {
   const [accessToken, setAccessToken] = useState('')
   const [googleAccountEmail, setGoogleAccountEmail] = useState('')
   const [isLoadingAccessToken, setIsLoadingAccessToken] = useState(true)
+  const [lastReadBackupFileAt, setLastReadBackupFileAt] = useState<Date | null>(null)
 
   async function handleSignOutButtonPress() {
     await GoogleSignin.signOut()
@@ -67,6 +69,11 @@ export function useGoogleBackup({ storageProvider }: Params) {
     }
   }
 
+  function handleReadBackupFile(file: File) {
+    console.log('createdAt', file.createdAt)
+    setLastReadBackupFileAt(file.createdAt)
+  }
+
   useEffect(() => {
     async function loadAccessToken() {
       setIsLoadingAccessToken(true)
@@ -85,6 +92,8 @@ export function useGoogleBackup({ storageProvider }: Params) {
     accessToken,
     googleAccountEmail,
     isLoadingAccessToken,
+    lastReadBackupFileAt,
+    handleReadBackupFile,
     handleSignInButtonPress,
     handleSignOutButtonPress,
   }
