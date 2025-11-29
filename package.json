@@ -13,6 +13,7 @@
     "build:android:preview": "eas build --platform android --profile preview --local",
     "build:android:dev": "eas build --platform android --profile development --local",
     "deploy:web": "eas deploy",
+    "deploy:mobile": "eas build --platform android --profile production --local",
     "web:preview": "expo serve",
     "db:generate": "drizzle-kit generate --config ./src/database/drizzle/drizzle.config.ts",
     "db:migrate": "drizzle-kit migrate --config ./src/database/drizzle/drizzle.config.ts",
