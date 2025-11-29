@@ -2,10 +2,9 @@ import * as FileSystem from 'expo-file-system'
 import { fetch } from 'expo/fetch'
 
 import type { FileStorageService } from '@/core/interfaces/services'
-import { Id } from '@/core/domain/structures'
+import type { Id } from '@/core/domain/structures'
 import { RestResponse } from '@/core/responses'
 import { HTTP_STATUS_CODE } from '@/core/constants'
-import { File } from '@/core/domain/entities/file'
 
 const GDRIVE_API_URL =
   'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable'
@@ -36,7 +35,6 @@ export const GDriveFileStorageService = (accessToken: string): FileStorageServic
         })
 
         if (initiateResponse.status !== 200) {
-          console.log(await initiateResponse.json())
           return new RestResponse({
             statusCode: initiateResponse.status,
             errorMessage: 'Falha ao iniciar o upload com o Google.',
@@ -59,8 +57,6 @@ export const GDriveFileStorageService = (accessToken: string): FileStorageServic
         })
 
         if (uploadResponse.status === 200) {
-          const jsonResponse = JSON.parse(uploadResponse.body)
-          console.log(jsonResponse)
           return new RestResponse({ statusCode: HTTP_STATUS_CODE.ok })
         } else {
           return new RestResponse({
@@ -110,7 +106,6 @@ export const GDriveFileStorageService = (accessToken: string): FileStorageServic
           errorMessage: 'Arquivo não encontrado',
         })
       }
-      console.log(data.files)
       const fileId = String(data.files[0].id)
       const dto = {
         id: fileId,
@@ -118,7 +113,6 @@ export const GDriveFileStorageService = (accessToken: string): FileStorageServic
         size: data.files[0].size,
         createdAt: new Date(String(data.files[0].modifiedTime)),
       }
-      console.log(dto)
       return new RestResponse({ body: dto })
 
       // try {
