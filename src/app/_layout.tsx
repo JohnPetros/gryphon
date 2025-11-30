@@ -113,7 +113,6 @@ export const RootLayout = () => {
 }
 
 function RootLayoutNav() {
-  console.log('ENV', process.env)
   return (
     <ThemeContextProvider>
       <GestureHandlerRootView>

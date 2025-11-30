@@ -41,7 +41,7 @@ export function useThemeContextProvider({ storageProvider }: Params): ThemeConte
       }
       const originalTheme = Appearance.getColorScheme() === 'dark' ? 'dark' : 'light'
       setTheme(originalTheme)
-      setOriginalTheme(theme)
+      setOriginalTheme(originalTheme)
       setIsFromSystem(true)
       await storageProvider.deleteItem(STORAGE_KEYS.theme)
     }
