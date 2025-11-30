@@ -10,7 +10,14 @@ export function useDatetime(): DateTimeProvider {
   }, [])
 
   const formatDate = useCallback((date: Date) => {
-    return dayjs(date).subtract(3, 'hours').locale('pt-br').format('D [de] MMMM, HH:mm')
+    return dayjs(date)
+      .subtract(3, 'hours')
+      .locale('pt-br')
+      .format('D [de] MMMM, HH:mm - YYYY')
+  }, [])
+
+  const getCurrentTimestamp = useCallback(() => {
+    return dayjs().format('YYYY-MM-DD-HH_mm_ss')
   }, [])
 
   const addDays = useCallback((date: Date, days: number) => {
@@ -58,5 +65,6 @@ export function useDatetime(): DateTimeProvider {
     subtractYears,
     subtractWeeks,
     isAfter,
+    getCurrentTimestamp,
   }
 }

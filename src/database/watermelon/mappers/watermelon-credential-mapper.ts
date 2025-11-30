@@ -14,7 +14,7 @@ export const WatermelonCredentialMapper = () => {
         vaultId: model.vault.id,
         encryptedData: model.encryptedData,
         lastVersionId: model.lastVersion?.id ?? null,
-        createdAt: new Date(model.createdAt * 1000),
+        createdAt: new Date(model.createdAt),
         updatedAt:
           model.updatedAt !== null && model.updatedAt !== 0
             ? new Date(model.updatedAt)

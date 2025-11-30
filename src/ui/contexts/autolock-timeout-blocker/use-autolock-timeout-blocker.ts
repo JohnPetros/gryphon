@@ -33,7 +33,7 @@ export function useAutoLockTimeoutBlocker({
     if (!account?.autoLockTimeout) return
     if (timoutRef.current) clearTimeout(timoutRef.current)
     timoutRef.current = setTimeout(() => {
-      // masterPasswordConfirmationDialogRef?.current?.open()
+      masterPasswordConfirmationDialogRef?.current?.open()
     }, account.autoLockTimeout * 1000)
   }, [account?.autoLockTimeout, masterPasswordConfirmationDialogRef])
 

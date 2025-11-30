@@ -28,7 +28,8 @@ export const useMasterPasswordRequirementSwitch = ({
       await accountsRepository.updateIsMasterPasswordRequired(isChecked, account.id)
       account.isMasterPasswordRequired = isChecked
       await onUpdateAccount(account)
-    } catch {
+    } catch (error) {
+      console.log('error', error)
       setIsChecked(previousChecked)
     }
   }

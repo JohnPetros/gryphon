@@ -7,6 +7,7 @@ import { CLIENT_ENV } from '@/constants'
 
 export function useNotification() {
   function login(account: Account) {
+    console.log(account.id.value)
     OneSignal.login(account.id.value)
   }
 

@@ -1,6 +1,9 @@
 import { useCallback, useMemo } from 'react'
 import { synchronize } from '@nozbe/watermelondb/sync'
 
+import { AppError } from '@/core/domain/errors'
+import type { DatabaseChanges } from '@/core/domain/types'
+
 import {
   WatermelonAccountsRepository,
   WatermelonCredentialsRepository,
@@ -19,8 +22,6 @@ import {
 } from '@/database/watermelon/mappers'
 import { useRest } from './use-rest'
 import { useInternetContext } from './use-internet-context'
-import { AppError } from '@/core/domain/errors'
-import { useAuth } from './use-auth'
 import {
   Account,
   Credential,
@@ -29,6 +30,9 @@ import {
   Vault,
 } from '@/core/domain/entities'
 import { useAuthContext } from './use-auth-context'
+import { useSecureStorage } from './use-secure-storage'
+import { STORAGE_KEYS } from '@/constants'
+import { Id } from '@/core/domain/structures'
 
 type PushChangesParams = {
   changes: WatermelonChanges
@@ -38,8 +42,8 @@ type PushChangesParams = {
 export function useDatabase() {
   const { databaseService } = useRest()
   const { isOffline } = useInternetContext()
-  const { accountId } = useAuth()
   const { updateAccount } = useAuthContext()
+  const storageProvider = useSecureStorage()
   const repositories = useMemo(() => {
     return {
       accountsRepository: WatermelonAccountsRepository(false),
@@ -49,6 +53,12 @@ export function useDatabase() {
       credentialVersionsRepository: WatermelonCredentialVersionsRepository(false),
     }
   }, [])
+
+  async function getAccountId() {
+    const accountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
+    if (!accountId) throw new AppError('Account required')
+    return Id.create(accountId)
+  }
 
   function getAccountChanges(changes: WatermelonChanges) {
     const accountMapper = WatermelonAccountMapper()
@@ -119,28 +129,33 @@ export function useDatabase() {
     }
   }
 
+  function getDatabaseChanges(changes: WatermelonChanges) {
+    return {
+      ...getAccountChanges(changes),
+      ...getVaultChanges(changes),
+      ...getCredentialChanges(changes),
+      ...getCredentialVersionChanges(changes),
+      ...getNoteChanges(changes),
+    }
+  }
+
   const synchronizeDatabase = useCallback(async () => {
     await synchronize({
       database: watermelon,
       pushChanges: async ({ changes }: PushChangesParams) => {
-        if (!accountId) throw new AppError('Account required')
         if (isOffline) throw new AppError('Internet connection required')
+        await getAccountId()
 
-        const response = await databaseService.pushDatabaseChanges({
-          ...getAccountChanges(changes),
-          ...getVaultChanges(changes),
-          ...getCredentialChanges(changes),
-          ...getCredentialVersionChanges(changes),
-          ...getNoteChanges(changes),
-        })
+        const databaseChanges = getDatabaseChanges(changes)
+        const response = await databaseService.pushDatabaseChanges(databaseChanges)
 
         if (response.isFailure) {
           response.throwError()
         }
       },
       pullChanges: async ({ lastPulledAt }) => {
-        if (!accountId) throw new AppError('Account required')
         if (isOffline) throw new AppError('Internet connection required')
+        const accountId = await getAccountId()
 
         const response = await databaseService.pullDatabaseChanges(
           accountId,
@@ -154,59 +169,77 @@ export function useDatabase() {
         }
       },
     })
-  }, [isOffline, accountId])
+  }, [isOffline])
 
   const pullAllDatabaseChanges = useCallback(async () => {
-    if (!accountId) throw new AppError('Account required')
     if (isOffline) throw new AppError('Internet connection required')
-
-    const accountsRepository = WatermelonAccountsRepository(true)
-    const credentialsRepository = WatermelonCredentialsRepository(true)
-    const vaultsRepository = WatermelonVaultsRepository(true)
-    const notesRepository = WatermelonNotesRepository(true)
-    const credentialVersionsRepository = WatermelonCredentialVersionsRepository(true)
+    const accountId = await getAccountId()
 
     const response = await databaseService.pullDatabaseChanges(accountId)
     if (response.isFailure) response.throwError()
 
-    if (!response.body.createdAccounts) return
+    await applyChanges(response.body, true)
+  }, [])
 
-    let account = await accountsRepository.findById(accountId)
-    const createdAccount = response.body.createdAccounts[0]
-    if (!account && createdAccount) {
-      await accountsRepository.add(Account.create(response.body.createdAccounts[0]))
-      account = await accountsRepository.findById(accountId)
-    } else {
-      await accountsRepository.remove(accountId)
-    }
+  const applyChanges = useCallback(
+    async (databaseChanges: DatabaseChanges, isSynced: boolean) => {
+      if (isOffline) throw new AppError('Internet connection required')
+      if (!databaseChanges.createdAccounts) return
+      const accountId = await getAccountId()
 
-    if (response.body.createdVaults?.length) {
-      await vaultsRepository.removeManyByAccount(accountId)
-      await vaultsRepository.addMany(response.body.createdVaults.map(Vault.create))
-    }
-    if (response.body.createdCredentials?.length) {
-      await credentialsRepository.removeManyByAccount(accountId)
-      await credentialsRepository.addMany(
-        response.body.createdCredentials.map(Credential.create),
-      )
-    }
-    if (response.body.createdCredentialVersions?.length) {
-      await credentialVersionsRepository.removeManyByAccount(accountId)
-      await credentialVersionsRepository.addMany(
-        response.body.createdCredentialVersions.map(CredentialVersion.create),
-      )
-    }
-    if (response.body.createdNotes?.length) {
-      await notesRepository.removeManyByAccount(accountId)
-      await notesRepository.addMany(response.body.createdNotes.map(Note.create))
-    }
+      const accountsRepository = WatermelonAccountsRepository(true)
+      const credentialsRepository = WatermelonCredentialsRepository(true)
+      const vaultsRepository = WatermelonVaultsRepository(true)
+      const notesRepository = WatermelonNotesRepository(true)
+      const credentialVersionsRepository = WatermelonCredentialVersionsRepository(true)
 
-    if (account) updateAccount(account)
-  }, [accountId, isOffline, repositories, databaseService.pullDatabaseChanges])
+      let account = await accountsRepository.findById(accountId)
+      const createdAccount = databaseChanges.createdAccounts[0]
+      console.log('queeee', { account })
+      if (!account && createdAccount) {
+        await accountsRepository.add(Account.create(databaseChanges.createdAccounts[0]))
+        account = await accountsRepository.findById(accountId)
+      } else if (createdAccount) {
+        await accountsRepository.remove(accountId)
+        await accountsRepository.add(Account.create(databaseChanges.createdAccounts[0]))
+        account = await accountsRepository.findById(accountId)
+      }
+
+      if (databaseChanges.createdVaults?.length) {
+        await vaultsRepository.removeManyByAccount(accountId)
+        await vaultsRepository.addMany(databaseChanges.createdVaults.map(Vault.create))
+      }
+      if (databaseChanges.createdCredentials?.length) {
+        await credentialsRepository.removeManyByAccount(accountId)
+        await credentialsRepository.addMany(
+          databaseChanges.createdCredentials.map(Credential.create),
+        )
+      }
+      if (databaseChanges.createdCredentialVersions?.length) {
+        await credentialVersionsRepository.removeManyByAccount(accountId)
+        await credentialVersionsRepository.addMany(
+          databaseChanges.createdCredentialVersions.map(CredentialVersion.create),
+        )
+      }
+      if (databaseChanges.createdNotes?.length) {
+        await notesRepository.removeManyByAccount(accountId)
+        await notesRepository.addMany(databaseChanges.createdNotes.map(Note.create))
+      }
+
+      if (account) await updateAccount(account)
+
+      if (!isSynced) {
+        await databaseService.resetDatabase(accountId)
+        await databaseService.pushDatabaseChanges(databaseChanges)
+      }
+    },
+    [isOffline, databaseService],
+  )
 
   return {
     ...repositories,
     synchronizeDatabase,
     pullAllDatabaseChanges,
+    applyChanges,
   }
 }

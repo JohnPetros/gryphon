@@ -27,7 +27,7 @@ export class CredentialVersion extends Entity<CredentialProps> {
         title: dto.title,
         siteUrl: dto.siteUrl ?? null,
         credentialId: Id.create(dto.credentialId),
-        createdAt: dto.createdAt,
+        createdAt: new Date(dto.createdAt),
       },
       dto.id,
     )

@@ -152,7 +152,7 @@ export const WatermelonAccountsRepository = (isSynced: boolean): AccountsReposit
           })
         })
       } catch (error) {
-        console.error('Error updating account', error)
+        console.warn('Error updating account', error)
       }
     },
 

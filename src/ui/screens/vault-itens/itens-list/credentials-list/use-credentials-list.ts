@@ -14,6 +14,7 @@ import {
 } from '@/database/watermelon'
 import { ExpoCryptoProvider } from '@/provision/crypto-provider/expo-crypto-provider'
 import { VerifyPasswordLeakJob } from '@/ui/hooks/verify-password-leak-job'
+import { type NotificationClickEvent, OneSignal } from 'react-native-onesignal'
 
 type Params = {
   vaultId: Id
@@ -35,6 +36,7 @@ export function useCredentialsList({
   onCredentialDelete,
 }: Params) {
   const [credentials, setCredentials] = useState<Credential[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [isOutdatedCredentialsFilterChecked, setIsOutdatedCredentialsFilterChecked] =
     useState<boolean | null>(isDefaultCredentialsFilterChecked)
 
@@ -42,6 +44,7 @@ export function useCredentialsList({
     async (isOutdated: boolean | null) => {
       if (!credentialRotation) return
       let expirationDate: Date | undefined
+      setIsLoading(true)
 
       if (isOutdated) {
         expirationDate = credentialRotation.getExpirationDate(datetimeProvider)
@@ -54,6 +57,7 @@ export function useCredentialsList({
           expirationDate,
         )
       setCredentials(credentials)
+      setIsLoading(false)
     },
     [credentialsRepository, vaultId, search],
   )
@@ -96,12 +100,25 @@ export function useCredentialsList({
     vaultId,
     search,
     credentialsRepository,
-    isDefaultCredentialsFilterChecked,
     isOutdatedCredentialsFilterChecked,
     loadCredentials,
   ])
 
+  useEffect(() => {
+    async function handleNotificationClick(_: NotificationClickEvent) {
+      await loadCredentials(true)
+      setIsOutdatedCredentialsFilterChecked(true)
+    }
+
+    OneSignal.Notifications.addEventListener('click', handleNotificationClick)
+
+    return () => {
+      OneSignal.Notifications.removeEventListener('click', handleNotificationClick)
+    }
+  }, [])
+
   return {
+    isLoading,
     credentials,
     isOutdatedCredentialsFilterChecked: Boolean(isOutdatedCredentialsFilterChecked),
     handleCredentialDelete,

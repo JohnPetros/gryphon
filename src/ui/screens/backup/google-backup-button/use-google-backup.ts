@@ -1,0 +1,95 @@
+import { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
+import {
+  GoogleSignin,
+  isSuccessResponse,
+} from '@react-native-google-signin/google-signin'
+
+import { STORAGE_KEYS } from '@/constants'
+import type { StorageProvider } from '@/core/interfaces/providers'
+import type { File } from '@/core/domain/entities/file'
+
+GoogleSignin.configure({
+  scopes: [
+    'https://www.googleapis.com/auth/drive.file',
+    'https://www.googleapis.com/auth/drive.appdata',
+    'https://www.googleapis.com/auth/drive.appfolder',
+    'https://www.googleapis.com/auth/drive.install',
+  ],
+})
+
+type Params = {
+  storageProvider: StorageProvider
+}
+
+export function useGoogleBackup({ storageProvider }: Params) {
+  const [accessToken, setAccessToken] = useState('')
+  const [googleAccountEmail, setGoogleAccountEmail] = useState('')
+  const [isLoadingAccessToken, setIsLoadingAccessToken] = useState(true)
+  const [lastReadBackupFileAt, setLastReadBackupFileAt] = useState<Date | null>(null)
+
+  async function handleSignOutButtonPress() {
+    await GoogleSignin.signOut()
+    setAccessToken('')
+    setGoogleAccountEmail('')
+    await storageProvider.deleteItem(STORAGE_KEYS.googleAccessToken)
+  }
+
+  async function handleSignInButtonPress() {
+    try {
+      const hasPlayServices = await GoogleSignin.hasPlayServices()
+      if (!hasPlayServices) {
+        Alert.alert('Erro', 'O Google Play Services não está instalado.')
+      }
+      await GoogleSignin.signOut()
+      const response = await GoogleSignin.signIn()
+
+      if (!isSuccessResponse(response)) {
+        Alert.alert('Erro', 'Não foi possível obter o código de autorização do Google.')
+        return
+      }
+
+      const { accessToken } = await GoogleSignin.getTokens()
+
+      if (!accessToken) {
+        Alert.alert('Erro', 'Não foi possível obter o código de autorização do Google.')
+        return
+      }
+
+      setAccessToken(accessToken)
+      setGoogleAccountEmail(response.data.user.email)
+      await storageProvider.setItem(STORAGE_KEYS.googleAccessToken, accessToken)
+    } catch (error) {
+      console.warn('Error on google sign in', error)
+    }
+  }
+
+  function handleReadBackupFile(file: File) {
+    console.log('createdAt', file.createdAt)
+    setLastReadBackupFileAt(file.createdAt)
+  }
+
+  useEffect(() => {
+    async function loadAccessToken() {
+      setIsLoadingAccessToken(true)
+      const accessToken = await storageProvider.getItem(STORAGE_KEYS.googleAccessToken)
+      if (accessToken) setAccessToken(accessToken)
+      const response = await GoogleSignin.signInSilently()
+      if (response.data) setGoogleAccountEmail(response.data.user.email)
+      setTimeout(() => {
+        setIsLoadingAccessToken(false)
+      }, 500)
+    }
+    loadAccessToken()
+  }, [])
+
+  return {
+    accessToken,
+    googleAccountEmail,
+    isLoadingAccessToken,
+    lastReadBackupFileAt,
+    handleReadBackupFile,
+    handleSignInButtonPress,
+    handleSignOutButtonPress,
+  }
+}

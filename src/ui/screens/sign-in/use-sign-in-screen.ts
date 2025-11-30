@@ -49,7 +49,8 @@ export function useSignInScreen({
 
       try {
         const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
-        if (storedAccountId !== accountId?.value) {
+        const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
+        if (storedAccountId !== accountId?.value || !masterPassword) {
           await storageProvider.setItem(STORAGE_KEYS.accountId, accountId?.value)
           navigationProvider.navigate(ROUTES.dataImport)
           return

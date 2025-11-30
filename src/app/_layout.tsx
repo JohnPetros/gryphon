@@ -119,7 +119,11 @@ function RootLayoutNav() {
         <BottomSheetModalProvider>
           <UiProvider>
             <ThemeProvider value={DarkTheme}>
-              <ClerkProvider tokenCache={tokenCache} telemetry={false}>
+              <ClerkProvider
+                tokenCache={tokenCache}
+                publishableKey={CLIENT_ENV.clerkPublishableKey}
+                telemetry={false}
+              >
                 <AuthContextProvider>
                   <Slot />
                 </AuthContextProvider>

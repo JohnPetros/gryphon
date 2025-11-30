@@ -15,7 +15,7 @@ export interface CredentialsRepository {
     updatedAt?: Date,
   ): Promise<Credential[]>
   countByVault(vaultId: Id): Promise<number>
-  countAllLessThanUpdatingDate(updatedAt: Date): Promise<number>
+  countAllLessThanUpdatingDateByAccount(accountId: Id, updatedAt: Date): Promise<number>
   remove(credentialId: Id): Promise<void>
   removeMany(credentialIds: Id[]): Promise<void>
   removeManyByAccount(accountId: Id): Promise<void>

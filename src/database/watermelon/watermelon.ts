@@ -1,12 +1,12 @@
 import { Database } from '@nozbe/watermelondb'
-import SqliteAdapter from '@nozbe/watermelondb/adapters/sqlite'
 
 import { schemas } from './schemas'
 import { AccountModel, CredentialModel, CredentialVersionModel } from './models'
 import { NoteModel } from './models'
 import { VaultModel } from './models'
+import { createAdapter } from './sqlite-adapter'
 
-const adapter = new SqliteAdapter({
+const adapter = createAdapter({
   dbName: 'gryphon',
   schema: schemas,
 })

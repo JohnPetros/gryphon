@@ -23,8 +23,8 @@ export class Credential extends VaultItem<CredentialProps, CredentialEncryptedDa
         siteUrl: dto.siteUrl ?? null,
         vaultId: Id.create(dto.vaultId),
         lastVersionId: dto.lastVersionId ? Id.create(dto.lastVersionId) : null,
-        createdAt: dto.createdAt,
-        updatedAt: dto.updatedAt,
+        createdAt: new Date(dto.createdAt),
+        updatedAt: dto.updatedAt ? new Date(dto.updatedAt) : null,
       },
       dto.id,
     )

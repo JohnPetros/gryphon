@@ -7,6 +7,7 @@ import {
   Edit,
   Trash,
   WifiOff,
+  HardDrive,
   Lock,
   LogOut,
   Bell,
@@ -94,4 +95,5 @@ export const ICONS: Record<IconName, LucideIcon> = {
   offline: WifiOff,
   filter: Funnel,
   restoration: RefreshCcwDotIcon,
+  backup: HardDrive,
 }

@@ -8,5 +8,6 @@
       "BASE_URL": "",
       "JWT": ""
     }
-  }
+  },
+  "java.compile.nullAnalysis.mode": "disabled"
 }

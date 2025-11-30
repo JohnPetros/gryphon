@@ -42,7 +42,8 @@ export const useVaultItensScreen = ({
   }
 
   async function handleDrawerOpen() {
-    await loadVaults()
+    const allVaults = await vaultsRepository.findAllByAccount(accountId)
+    setVaults(allVaults)
     setIsDrawerOpen(true)
   }
 
@@ -57,12 +58,12 @@ export const useVaultItensScreen = ({
 
   async function handleVaultDelete(vaultId: Id) {
     await vaultsRepository.remove(vaultId)
-    try {
-      await onDatabaseChange()
-    } catch {}
     const filteredVaults = vaults.filter((vault) => vault.id.value !== vaultId.value)
     setVaults(filteredVaults)
     setSelectedVault(filteredVaults[0])
+    try {
+      await onDatabaseChange()
+    } catch {}
   }
 
   function handleSearchChange(search: string) {

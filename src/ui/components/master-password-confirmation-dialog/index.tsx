@@ -6,7 +6,6 @@ import { useMasterPasswordConfirmationDialog } from './use-master-password-confi
 import { useAuthContext } from '@/ui/hooks/use-auth-context'
 import { useSecureStorage } from '@/ui/hooks/use-secure-storage'
 import { useCryptoProvider } from '@/ui/hooks/use-crypto-provider'
-import { useNavigation } from '@/ui/hooks/use-navigation'
 
 type Props = {
   ref?: RefObject<MasterPasswordConfirmationDialogRef | null>

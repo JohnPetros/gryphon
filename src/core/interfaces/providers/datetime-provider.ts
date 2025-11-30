@@ -1,5 +1,6 @@
 export interface DateTimeProvider {
   formatDate(date: Date): string
+  getCurrentTimestamp: () => string
   addDays(date: Date, days: number): Date
   addMonths(date: Date, months: number): Date
   addYears(date: Date, years: number): Date

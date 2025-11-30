@@ -1,0 +1,1 @@
+ALTER TABLE `credential_versions` ADD `created_at` integer NOT NULL;

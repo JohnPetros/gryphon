@@ -15,7 +15,7 @@ export const WatermelonCredentialVersionMapper = () => {
         encryptedData: model.encryptedData,
         versionNumber: model.versionNumber,
         isRestoration: model.isRestoration,
-        createdAt: new Date(model.createdAt * 1000),
+        createdAt: new Date(model.createdAt),
       })
     },
 
@@ -29,7 +29,7 @@ export const WatermelonCredentialVersionMapper = () => {
         versionNumber: schema.version_number,
         isRestoration: schema.is_restoration,
         lastVersionId: null,
-        createdAt: new Date(schema.created_at * 1000),
+        createdAt: new Date(schema.created_at),
       }
     },
   }

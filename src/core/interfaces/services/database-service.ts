@@ -8,4 +8,5 @@ export interface DatabaseService {
     lastPulledAt?: Date,
   ): Promise<RestResponse<DatabaseChanges>>
   pushDatabaseChanges(changes: DatabaseChanges): Promise<RestResponse>
+  resetDatabase(accountId: Id): Promise<RestResponse>
 }

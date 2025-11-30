@@ -1,7 +1,7 @@
 @URL = {{BASE_URL}}/database
 
 ### GET /synchronize
-GET {{URL}}/synchronize?accountId=f60a637c-03c1-432a-8615-40c519f75c8a
+GET {{URL}}/synchronize?accountId=d7f28702-1403-47b9-8710-4901182ddd43
 
 ### POST /synchronize
 POST {{URL}}/synchronize

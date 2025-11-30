@@ -84,7 +84,8 @@ export const WatermelonNotesRepository = (isSynced: boolean): NotesRepository =>
           .find(id.value)
 
         return mapper.toEntity(noteModel)
-      } catch {
+      } catch (error) {
+        console.warn('Watermelon error:', error)
         return null
       }
     },
@@ -129,14 +130,13 @@ export const WatermelonNotesRepository = (isSynced: boolean): NotesRepository =>
 
     async removeManyByAccount(accountId) {
       await watermelon.write(async () => {
-        const query = watermelon.collections
+        await watermelon.collections
           .get<NoteModel>('notes')
           .query(
             Q.experimentalJoinTables(['vaults']),
             Q.on('vaults', Q.where('account_id', accountId.value)),
           )
-
-        await query.destroyAllPermanently()
+          .destroyAllPermanently()
       })
     },
   }
