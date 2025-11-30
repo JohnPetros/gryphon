@@ -85,7 +85,7 @@ export const CredentialsListView = ({
               </Text>
             }
             keyExtractor={(item) => item.id.value}
-            contentContainerStyle={{ gap: 12 }}
+            contentContainerStyle={{ gap: 12, paddingBottom: 240 }}
             renderItem={({ item }) => {
               const decryptedData = item.encrypted.decrypt(encryptionKey, cryptoProvider)
               return (
