@@ -14,6 +14,7 @@ type Params = {
   navigationProvider: NavigationProvider
   onCorrectPasswordSubmit: (masterPassword: string) => Promise<void>
   onDialogOpen: () => Promise<void>
+  onDialogClose: () => Promise<void>
 }
 
 export function useDataImportScreen({
@@ -23,8 +24,10 @@ export function useDataImportScreen({
   navigationProvider,
   onCorrectPasswordSubmit,
   onDialogOpen,
+  onDialogClose,
 }: Params) {
   const [isImporting, setIsImporting] = useState(false)
+  const [isMasterPasswordCorrect, setIsMasterPasswordCorrect] = useState(false)
 
   async function handlePasswordSubmit(masterPassword: string) {
     if (!account) return
@@ -32,9 +35,12 @@ export function useDataImportScreen({
 
     try {
       await onCorrectPasswordSubmit(masterPassword)
-      await storageProvider.setItem(STORAGE_KEYS.masterPassword, masterPassword)
-      await storageProvider.setItem(STORAGE_KEYS.accountId, account.id.value)
+      await Promise.all([
+        storageProvider.setItem(STORAGE_KEYS.masterPassword, masterPassword),
+        storageProvider.setItem(STORAGE_KEYS.accountId, account.id.value),
+      ])
       masterPasswordConfirmationDialogRef.current?.close()
+      setIsMasterPasswordCorrect(true)
       setTimeout(() => {
         setIsImporting(false)
         navigationProvider.navigate(ROUTES.vaultItens)
@@ -46,6 +52,9 @@ export function useDataImportScreen({
 
   useEffect(() => {
     onDialogOpen()
+    return () => {
+      if (!isMasterPasswordCorrect) onDialogClose()
+    }
   }, [])
 
   useEffect(() => {
