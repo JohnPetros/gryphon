@@ -142,7 +142,7 @@ export const WatermelonCredentialsRepository = (
           .get<CredentialModel>('credentials')
           .query(
             Q.where('vault_id', vaultId.value),
-            Q.where('title', Q.like(`${title}%`)),
+            Q.where('title', Q.like(`%${title}%`)),
             Q.and(
               Q.where('updated_at', Q.notEq(0)),
               Q.where('updated_at', Q.lt(updatedAt.getTime())),
@@ -154,7 +154,7 @@ export const WatermelonCredentialsRepository = (
 
       const credentialModels = await watermelon.collections
         .get<CredentialModel>('credentials')
-        .query(Q.where('vault_id', vaultId.value), Q.where('title', Q.like(`${title}%`)))
+        .query(Q.where('vault_id', vaultId.value), Q.where('title', Q.like(`%${title}%`)))
         .fetch()
 
       return credentialModels.map(mapper.toEntity)
