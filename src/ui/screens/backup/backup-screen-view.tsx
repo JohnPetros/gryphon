@@ -19,7 +19,7 @@ export const BackupScreenView = ({ isOffline }: Props) => {
 
         <Text className='mt-6 text-neutral text-lg'>
           Faça backups dos seus dados no Google Drive. Você poderá restaurá-los. Seus
-          dados também serão armazenadas no armazenamento interno de seu aparelho. O
+          dados também serão armazenados no armazenamento interno de seu aparelho. O
           sistema gera o backup semanalmente e automaticamente.
         </Text>
 

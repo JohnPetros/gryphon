@@ -232,7 +232,7 @@ export function useDatabase() {
         await databaseService.pushDatabaseChanges(databaseChanges)
       }
     },
-    [isOffline, databaseService, synchronizeDatabase],
+    [isOffline, databaseService],
   )
 
   return {

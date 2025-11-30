@@ -6,10 +6,8 @@ import {
 } from '@react-native-google-signin/google-signin'
 
 import { STORAGE_KEYS } from '@/constants'
-import type { DatetimeProvider, StorageProvider } from '@/core/interfaces/providers'
-import type { DatabaseService } from '@/core/interfaces/services'
-import type { Id } from '@/core/domain/structures'
-import { File } from '@/core/domain/entities/file'
+import type { StorageProvider } from '@/core/interfaces/providers'
+import type { File } from '@/core/domain/entities/file'
 
 GoogleSignin.configure({
   scopes: [
@@ -21,10 +19,7 @@ GoogleSignin.configure({
 })
 
 type Params = {
-  accountId: Id | null
   storageProvider: StorageProvider
-  datetimeProvider: DatetimeProvider
-  databaseService: DatabaseService
 }
 
 export function useGoogleBackup({ storageProvider }: Params) {

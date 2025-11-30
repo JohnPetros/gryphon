@@ -26,7 +26,7 @@ export const RestoreBackupButtonView = ({
       <LoadingDialog isOpen={isRestoring} message='Restaurando seu último backup...' />
       <MasterPasswordConfirmationDialog
         ref={masterPasswordConfirmationDialogRef}
-        description='Insira a senha mestra para poder copiar a senha.'
+        description='Insira a senha mestra para poder restaurar seu último backup.'
         canClose
         onCorrectPasswordSubmit={onCorrectMasterPasswordSubmit}
       />

@@ -119,12 +119,18 @@ function RootLayoutNav() {
       <GestureHandlerRootView>
         <BottomSheetModalProvider>
           <UiProvider>
-            <ClerkProvider tokenCache={tokenCache} telemetry={false}>
-              <AuthContextProvider>
-                <Slot />
-              </AuthContextProvider>
-            </ClerkProvider>
-            <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+            <ThemeProvider value={DarkTheme}>
+              <ClerkProvider
+                tokenCache={tokenCache}
+                publishableKey={CLIENT_ENV.clerkPublishableKey}
+                telemetry={false}
+              >
+                <AuthContextProvider>
+                  <Slot />
+                </AuthContextProvider>
+              </ClerkProvider>
+              <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+            </ThemeProvider>
           </UiProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
