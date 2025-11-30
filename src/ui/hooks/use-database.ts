@@ -195,7 +195,6 @@ export function useDatabase() {
 
       let account = await accountsRepository.findById(accountId)
       const createdAccount = databaseChanges.createdAccounts[0]
-      console.log('queeee', { account })
       if (!account && createdAccount) {
         await accountsRepository.add(Account.create(databaseChanges.createdAccounts[0]))
         account = await accountsRepository.findById(accountId)

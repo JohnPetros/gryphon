@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useColorScheme } from 'react-native'
+import { Appearance, useColorScheme } from 'react-native'
 
 import type { ThemeContextValue } from './types/theme-context-value'
 import type { StorageProvider } from '@/core/interfaces/providers'
 import { STORAGE_KEYS } from '@/constants'
+import { useAppState } from '@/ui/hooks/use-app-state'
 
 type Theme = 'light' | 'dark'
 
@@ -15,10 +16,11 @@ export function useThemeContextProvider({ storageProvider }: Params): ThemeConte
   const systemTheme = useColorScheme()
   const [theme, setTheme] = useState<Theme>(systemTheme === 'dark' ? 'dark' : 'light')
   const [isFromSystem, setIsFromSystem] = useState(Boolean(systemTheme))
+  const [originalTheme, setOriginalTheme] = useState<Theme | null>(null)
 
   async function changeTheme(theme: Theme | 'system') {
     if (theme === 'system') {
-      setTheme(systemTheme === 'dark' ? 'dark' : 'light')
+      setTheme(originalTheme === 'dark' ? 'dark' : 'light')
       setIsFromSystem(true)
       await storageProvider.deleteItem(STORAGE_KEYS.theme)
       return
@@ -37,7 +39,9 @@ export function useThemeContextProvider({ storageProvider }: Params): ThemeConte
         setIsFromSystem(false)
         return
       }
-      setTheme(systemTheme === 'dark' ? 'dark' : 'light')
+      const originalTheme = Appearance.getColorScheme() === 'dark' ? 'dark' : 'light'
+      setTheme(originalTheme)
+      setOriginalTheme(theme)
       setIsFromSystem(true)
       await storageProvider.deleteItem(STORAGE_KEYS.theme)
     }

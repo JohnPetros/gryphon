@@ -10,6 +10,10 @@ import {
 import { useToast } from './use-toast'
 import { Id } from '@/core/domain/structures'
 
+const ERROR_MESSAGES: Record<string, string> = {
+  'That email address is taken. Please try another.': 'E-mail já cadastrado',
+}
+
 export function useAuth() {
   const { isSignedIn, getToken, signOut } = useClerkAuth()
   const { signIn, setActive } = useSignIn()
@@ -31,7 +35,7 @@ export function useAuth() {
       } catch (error) {
         console.warn(error)
         if (isClerkAPIResponseError(error)) {
-          // toast.show(error.message, 'error')
+          toast.show(error.message, 'error')
         }
         return false
       }
@@ -55,7 +59,9 @@ export function useAuth() {
         await signUp?.prepareEmailAddressVerification({ strategy: 'email_code' })
         return true
       } catch (error) {
-        console.warn(error)
+        if (isClerkAPIResponseError(error)) {
+          toast.show(ERROR_MESSAGES[error.message], 'error')
+        }
         return false
       }
     },
@@ -119,6 +125,7 @@ export function useAuth() {
       ? Id.create(user.unsafeMetadata?.accountId as string)
       : null,
     isSignedIn: isSignedIn ?? false,
+    accountEmail: user?.primaryEmailAddress?.emailAddress ?? '',
     jwt,
     signOutAccount,
     signUpAccount,
