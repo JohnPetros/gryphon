@@ -74,7 +74,6 @@ export const CredentialFormView = ({
                 placeholder='Sem título'
                 defaultValue={field.value}
                 isRequired
-                hasCapitalize
                 onChange={field.onChange}
               />
             )}

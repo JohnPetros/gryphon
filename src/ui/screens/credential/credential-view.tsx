@@ -2,6 +2,7 @@ import { ScrollView } from 'react-native'
 
 import type { Credential } from '@/core/domain/entities'
 
+import { ROUTES } from '@/constants/routes'
 import { Input } from '@/ui/components/input'
 import { PasswordInput } from '@/ui/components/password-input'
 import { PreviousScreenButton } from '@/ui/components/previous-screen-button'
@@ -9,11 +10,10 @@ import { ScreenContainer } from '@/ui/components/screen-container'
 import { Box } from '@/ui/gluestack/box'
 import { Text } from '@/ui/gluestack/text'
 import { CredentialMenu } from '@/ui/components/credential-menu'
+import { Badge } from '@/ui/components/badge'
 import { CredentialIcon } from './credential-icon'
 import { CredentialVault } from './credential-vault'
 import { CredentialHistory } from './credential-history'
-import { OutdatedCredentialBadge } from '@/ui/components/outdated-credential-badge'
-import { Badge } from '@/ui/components/badge'
 
 type Props = {
   credential: Credential
@@ -36,7 +36,7 @@ export const CredentialView = ({
     <ScreenContainer>
       <ScrollView>
         <Box className='flex-row justify-between'>
-          <PreviousScreenButton />
+          <PreviousScreenButton url={ROUTES.vaultItens} />
           <CredentialMenu credential={credential} onDelete={onCredentialDelete} />
         </Box>
 
