@@ -6,16 +6,18 @@ import { useSecureStorage } from '@/ui/hooks/use-secure-storage'
 import { useDatabase } from '@/ui/hooks/use-database'
 import { useAuth } from '@/ui/hooks/use-auth'
 import { useRest } from '@/ui/hooks/use-rest'
+import type { Account } from '@/core/domain/entities'
 
 export const SignInScreen = () => {
   const { loadAccount, signInAccount, updateAccount } = useAuthContext()
-  const { accountId, isSignedIn, signOutAccount } = useAuth()
+  const { accountId, accountEmail, isSignedIn, signOutAccount } = useAuth()
   const navigationProvider = useNavigation()
   const storageProvider = useSecureStorage()
   const { authService } = useRest()
   const { accountsRepository, synchronizeDatabase } = useDatabase()
   const { handleSignIn } = useSignInScreen({
     accountId,
+    accountEmail,
     isAccountSignedIn: isSignedIn,
     navigationProvider,
     accountsRepository,
@@ -23,8 +25,8 @@ export const SignInScreen = () => {
     storageProvider,
     signInAccount,
     signOutAccount,
-    onSignIn: async (account) => {
-      if (account) updateAccount(account)
+    onSignIn: async (account?: Account) => {
+      // if (account) await updateAccount(account)
       await loadAccount()
       await synchronizeDatabase()
     },
