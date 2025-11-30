@@ -42,7 +42,6 @@ export function useNoteScreen({
     if (!note) return
 
     const decryptedData = note.encrypted.decrypt(encryptionKey, cryptoProvider)
-    console.log({ encryptionKey })
     if (!decryptedData) return
     return decryptedData
   }, [note, encryptionKey, cryptoProvider])
