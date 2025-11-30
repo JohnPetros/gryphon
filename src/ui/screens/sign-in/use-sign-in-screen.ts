@@ -4,6 +4,7 @@ import type { Id } from '@/core/domain/structures'
 import type { AccountsRepository } from '@/core/interfaces'
 import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
 import type { Account } from '@/core/domain/entities'
+import type { AuthService } from '@/core/interfaces/services'
 
 import { ROUTES, STORAGE_KEYS } from '@/constants'
 
@@ -11,6 +12,7 @@ type Params = {
   accountId: Id | null
   isAccountSignedIn: boolean
   accountsRepository: AccountsRepository
+  authService: AuthService
   storageProvider: StorageProvider
   navigationProvider: NavigationProvider
   signInAccount: (email: string, password: string) => Promise<void>
@@ -21,6 +23,7 @@ export function useSignInScreen({
   accountId,
   isAccountSignedIn,
   accountsRepository,
+  authService,
   storageProvider,
   navigationProvider,
   signInAccount,
@@ -51,7 +54,6 @@ export function useSignInScreen({
         const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
         const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
         if (storedAccountId !== accountId?.value || !masterPassword) {
-          await storageProvider.setItem(STORAGE_KEYS.accountId, accountId?.value)
           navigationProvider.navigate(ROUTES.dataImport)
           return
         }
@@ -61,6 +63,17 @@ export function useSignInScreen({
           navigationProvider.navigate(ROUTES.dataImport)
           return
         }
+
+        const response = await authService.fetchAccount(accountId)
+        if (response.isFailure) {
+          navigationProvider.navigate(ROUTES.auth.signUp, {
+            step: '3',
+            accountId: accountId.value,
+            accountEmail: account.email,
+          })
+          return
+        }
+
         onSignIn(account)
         navigationProvider.navigate(ROUTES.vaultItens)
       } catch (error) {
