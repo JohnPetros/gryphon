@@ -10,13 +10,7 @@
     },
     "preview": {
       "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_GRYPHON_BASE_URL": "https://gryphon--k9le6u0odk.expo.app/api",
-        "EXPO_PUBLIC_KCV_TEXT": "gryphon",
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_ZGVsaWNhdGUtbW9zcXVpdG8tNDIuY2xlcmsuYWNjb3VudHMuZGV2JA",
-        "EXPO_PUBLIC_ONE_SIGNAL_APP_ID": "eca7b940-76ea-4f15-863b-fcf72dff1aa5",
-        "EXPO_PUBLIC_HIBP_URL": "https://api.pwnedpasswords.com/range"
-      }
+      "environment": "preview"
     },
     "production": {
       "autoIncrement": true
