@@ -20,6 +20,7 @@ export const DataImportScreen = () => {
   const { accountId } = useAuth()
   const { pullAllDatabaseChanges } = useDatabase()
   const { isImporting, handlePasswordSubmit } = useDataImportScreen({
+    account,
     masterPasswordConfirmationDialogRef,
     storageProvider,
     navigationProvider,
@@ -34,7 +35,10 @@ export const DataImportScreen = () => {
 
   return (
     <>
-      <LoadingDialog isOpen={isImporting} message='Carregando os dados da sua conta...' />
+      <LoadingDialog
+        isOpen={account === null || isImporting}
+        message='Carregando os dados da sua conta...'
+      />
       <MasterPasswordConfirmationDialog
         ref={masterPasswordConfirmationDialogRef}
         description='Insira a senha mestra para poder importar os dados de seu outro dispositivo.'

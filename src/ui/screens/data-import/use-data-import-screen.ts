@@ -5,8 +5,10 @@ import type { NavigationProvider, StorageProvider } from '@/core/interfaces/prov
 import { STORAGE_KEYS } from '@/constants/storage-keys'
 import { ROUTES } from '@/constants'
 import type { MasterPasswordConfirmationDialogRef } from '../../components/master-password-confirmation-dialog/types'
+import type { Account } from '@/core/domain/entities'
 
 type Params = {
+  account: Account | null
   masterPasswordConfirmationDialogRef: RefObject<MasterPasswordConfirmationDialogRef | null>
   storageProvider: StorageProvider
   navigationProvider: NavigationProvider
@@ -15,6 +17,7 @@ type Params = {
 }
 
 export function useDataImportScreen({
+  account,
   masterPasswordConfirmationDialogRef,
   storageProvider,
   navigationProvider,
@@ -24,12 +27,14 @@ export function useDataImportScreen({
   const [isImporting, setIsImporting] = useState(false)
 
   async function handlePasswordSubmit(masterPassword: string) {
+    if (!account) return
     setIsImporting(true)
 
     try {
-      masterPasswordConfirmationDialogRef.current?.close()
       await onCorrectPasswordSubmit(masterPassword)
       await storageProvider.setItem(STORAGE_KEYS.masterPassword, masterPassword)
+      await storageProvider.setItem(STORAGE_KEYS.accountId, account.id.value)
+      masterPasswordConfirmationDialogRef.current?.close()
       setTimeout(() => {
         setIsImporting(false)
         navigationProvider.navigate(ROUTES.vaultItens)
@@ -40,9 +45,16 @@ export function useDataImportScreen({
   }
 
   useEffect(() => {
-    masterPasswordConfirmationDialogRef.current?.open()
     onDialogOpen()
   }, [])
+
+  useEffect(() => {
+    if (account) {
+      masterPasswordConfirmationDialogRef.current?.open()
+      return
+    }
+    navigationProvider.navigate(ROUTES.auth.signIn)
+  }, [account])
 
   return {
     isImporting,
