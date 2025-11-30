@@ -12,7 +12,7 @@ export const NewItemScreenView = () => {
 
       <Box className='flex flex-col gap-6 mt-6 pr-6'>
         <Link href='/(protected)/credential/settings/new'>
-          <AppItem.Container className='flex-row gap-3'>
+          <AppItem.Container className='flex-row gap-3 w-72'>
             <AppItem.Icon
               backgroundColor='primaryBackground'
               foregroundColor='primary'
@@ -27,7 +27,7 @@ export const NewItemScreenView = () => {
         </Link>
 
         <Link href='/(protected)/note/settings/new'>
-          <AppItem.Container className='flex-row gap-3'>
+          <AppItem.Container className='flex-row gap-3 w-72'>
             <AppItem.Icon
               backgroundColor='warningBackground'
               foregroundColor='warning'
@@ -42,7 +42,7 @@ export const NewItemScreenView = () => {
         </Link>
 
         <PasswordGenerator>
-          <AppItem.Container className='flex-row gap-3'>
+          <AppItem.Container className='flex-row gap-3 w-72'>
             <AppItem.Icon
               backgroundColor='dangerBackground'
               foregroundColor='danger'
@@ -57,7 +57,7 @@ export const NewItemScreenView = () => {
         </PasswordGenerator>
 
         <Link href='/(protected)/vault/new'>
-          <AppItem.Container className='flex-row gap-3'>
+          <AppItem.Container className='flex-row gap-3 w-72'>
             <AppItem.Icon
               backgroundColor='infoBackground'
               foregroundColor='info'
