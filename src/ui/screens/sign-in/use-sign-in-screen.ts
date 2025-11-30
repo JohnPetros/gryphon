@@ -3,14 +3,13 @@ import { useCallback, useEffect, useState } from 'react'
 import type { Id } from '@/core/domain/structures'
 import type { AccountsRepository } from '@/core/interfaces'
 import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
-import type { Account } from '@/core/domain/entities'
 import type { AuthService } from '@/core/interfaces/services'
 
 import { ROUTES, STORAGE_KEYS } from '@/constants'
-import { Alert } from 'react-native'
 
 type Params = {
   accountId: Id | null
+  accountEmail: string
   isAccountSignedIn: boolean
   accountsRepository: AccountsRepository
   authService: AuthService
@@ -18,11 +17,12 @@ type Params = {
   navigationProvider: NavigationProvider
   signInAccount: (email: string, password: string) => Promise<void>
   signOutAccount: () => Promise<void>
-  onSignIn: (account: Account | null) => Promise<void>
+  onSignIn: () => Promise<void>
 }
 
 export function useSignInScreen({
   accountId,
+  accountEmail,
   isAccountSignedIn,
   accountsRepository,
   authService,
@@ -30,15 +30,12 @@ export function useSignInScreen({
   navigationProvider,
   signInAccount,
   onSignIn,
-  signOutAccount,
 }: Params) {
   const [shouldShowSignIn, setShouldShowSignIn] = useState(true)
 
   async function handleSignIn(email: string, password: string) {
-    const storedEmail = await storageProvider.getItem(STORAGE_KEYS.acountEmail)
-
-    if (email === storedEmail && isAccountSignedIn) {
-      await onSignIn(null)
+    if (isAccountSignedIn && email === accountEmail) {
+      await onSignIn()
       navigationProvider.navigate(ROUTES.vaultItens)
       return
     }
@@ -49,38 +46,38 @@ export function useSignInScreen({
 
   const handleAccountSignIn = useCallback(
     async (accountId: Id) => {
-      if (shouldShowSignIn) {
-        return
-      }
+      if (shouldShowSignIn) return
 
       setShouldShowSignIn(true)
 
       try {
         const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
         const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
-        if (storedAccountId !== accountId?.value || !masterPassword) {
-          navigationProvider.navigate(ROUTES.dataImport)
+
+        const response = await authService.fetchAccount(accountId)
+        if (response.isFailure) {
+          navigationProvider.navigate(ROUTES.auth.signUp, {
+            step: '3',
+            accountId: accountId.value,
+            accountEmail,
+          })
           return
         }
 
         const account = await accountsRepository.findById(accountId)
         if (!account) {
+          await storageProvider.setItem(STORAGE_KEYS.accountId, accountId?.value)
           navigationProvider.navigate(ROUTES.dataImport)
           return
         }
 
-        const response = await authService.fetchAccount(accountId)
-        if (response.isFailure) {
-          await signOutAccount()
-          navigationProvider.navigate(ROUTES.auth.signUp, {
-            step: '3',
-            accountId: accountId.value,
-            accountEmail: account.email,
-          })
+        if (storedAccountId !== accountId?.value || !masterPassword) {
+          await storageProvider.setItem(STORAGE_KEYS.accountId, accountId?.value)
+          navigationProvider.navigate(ROUTES.dataImport)
           return
         }
 
-        onSignIn(account)
+        await onSignIn()
         navigationProvider.navigate(ROUTES.vaultItens)
       } catch (error) {
         console.error(error)
