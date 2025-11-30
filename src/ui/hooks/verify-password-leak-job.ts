@@ -31,7 +31,6 @@ export const VerifyPasswordLeakJob = ({
       if (!storedAccountId) return
 
       const accountId = Id.create(storedAccountId)
-      console.log(accountId)
       const account = await accountsRepository.findById(accountId)
       if (!account) return
 
