@@ -2,7 +2,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Account } from '@/core/domain/entities/account'
 import { Id } from '@/core/domain/structures'
-import type { CryptoProvider, AccountsRepository } from '@/core/interfaces'
+import type {
+  CryptoProvider,
+  AccountsRepository,
+  VaultsRepository,
+  CredentialsRepository,
+  CredentialVersionsRepository,
+  NotesRepository,
+} from '@/core/interfaces'
 import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
 import type { AuthService } from '@/core/interfaces/services'
 
@@ -16,6 +23,10 @@ type Params = {
   accountEmail: string
   cryptoProvider: CryptoProvider
   accountsRepository: AccountsRepository
+  vaultsRepository: VaultsRepository
+  credentialsRepository: CredentialsRepository
+  credentialVersionsRepository: CredentialVersionsRepository
+  notesRepository: NotesRepository
   navigationProvider: NavigationProvider
   storageProvider: StorageProvider
   authService: AuthService
@@ -29,11 +40,13 @@ type Params = {
 export function useAuthContextProvider({
   cryptoProvider,
   accountsRepository,
+  vaultsRepository,
+  credentialsRepository,
+  credentialVersionsRepository,
+  notesRepository,
   storageProvider,
   navigationProvider,
   authService,
-  accountId,
-  accountEmail,
   signOut,
   signIn,
   onUpdateAccount,
@@ -74,24 +87,19 @@ export function useAuthContextProvider({
   )
 
   const loadAccount = useCallback(async () => {
-    // const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
-    // if (!storedAccountId) {
-    //   signOutAccount()
-    //   return
-    // }
-    // const accountId = Id.create(storedAccountId)
-    if (!accountId) return
+    const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
+    if (!storedAccountId) {
+      signOutAccount()
+      return
+    }
+    const accountId = Id.create(storedAccountId)
     let account = await accountsRepository.findById(accountId)
 
     if (!account) {
       try {
         const response = await authService.fetchAccount(accountId)
         if (response.isFailure) {
-          navigationProvider.navigate(ROUTES.auth.signUp, {
-            step: '3',
-            accountId: accountId.value,
-            accountEmail,
-          })
+          signOutAccount()
           return
         }
         account = Account.create(response.body)
@@ -118,7 +126,6 @@ export function useAuthContextProvider({
     signOutAccount,
     storageProvider.getItem,
     accountsRepository.findById,
-    accountEmail,
   ])
 
   const updateAccount = useCallback(async (account: Account) => {
@@ -156,7 +163,15 @@ export function useAuthContextProvider({
           },
         })
         const currentAccount = await accountsRepository.findById(account.id)
-        if (currentAccount) await accountsRepository.remove(account.id)
+        if (currentAccount) {
+          await Promise.all([
+            vaultsRepository.removeManyByAccount(account.id),
+            credentialsRepository.removeManyByAccount(account.id),
+            credentialVersionsRepository.removeManyByAccount(account.id),
+            notesRepository.removeManyByAccount(account.id),
+            accountsRepository.remove(account.id),
+          ])
+        }
 
         setAccount(account)
 
@@ -202,8 +217,8 @@ export function useAuthContextProvider({
   ])
 
   useEffect(() => {
-    if (accountEmail && accountId) loadAccount()
-  }, [accountEmail, accountId])
+    loadAccount()
+  }, [])
 
   return contextValue
 }
