@@ -1,5 +1,5 @@
 @URL = {{BASE_URL}}/notifications
-@ACCOUNT_ID = d7f28702-1403-47b9-8710-4901182ddd43
+@ACCOUNT_ID = b364e0f0-5eac-4fc1-b992-f01b4d72a902
 
 ### Send notification
 POST {{URL}}/{{ACCOUNT_ID}}

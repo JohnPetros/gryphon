@@ -5,7 +5,7 @@
       "JWT": ""
     },
     "PROD": {
-      "BASE_URL": "",
+      "BASE_URL": "https://gryphon--k9le6u0odk.expo.app/api",
       "JWT": ""
     }
   },
