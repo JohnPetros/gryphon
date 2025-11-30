@@ -31,6 +31,8 @@ export const DataImportScreen = () => {
     onDialogOpen: loadAccount,
   })
 
+  console.log({ accountId })
+
   if (!accountId) return <Redirect href='/auth/sign-in' />
 
   return (

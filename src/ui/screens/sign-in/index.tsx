@@ -9,7 +9,7 @@ import { useRest } from '@/ui/hooks/use-rest'
 
 export const SignInScreen = () => {
   const { loadAccount, signInAccount, updateAccount } = useAuthContext()
-  const { accountId, isSignedIn } = useAuth()
+  const { accountId, isSignedIn, signOutAccount } = useAuth()
   const navigationProvider = useNavigation()
   const storageProvider = useSecureStorage()
   const { authService } = useRest()
@@ -22,6 +22,7 @@ export const SignInScreen = () => {
     authService,
     storageProvider,
     signInAccount,
+    signOutAccount,
     onSignIn: async (account) => {
       if (account) updateAccount(account)
       await loadAccount()

@@ -7,6 +7,7 @@ import type { Account } from '@/core/domain/entities'
 import type { AuthService } from '@/core/interfaces/services'
 
 import { ROUTES, STORAGE_KEYS } from '@/constants'
+import { Alert } from 'react-native'
 
 type Params = {
   accountId: Id | null
@@ -16,6 +17,7 @@ type Params = {
   storageProvider: StorageProvider
   navigationProvider: NavigationProvider
   signInAccount: (email: string, password: string) => Promise<void>
+  signOutAccount: () => Promise<void>
   onSignIn: (account: Account | null) => Promise<void>
 }
 
@@ -28,6 +30,7 @@ export function useSignInScreen({
   navigationProvider,
   signInAccount,
   onSignIn,
+  signOutAccount,
 }: Params) {
   const [shouldShowSignIn, setShouldShowSignIn] = useState(true)
 
@@ -46,7 +49,9 @@ export function useSignInScreen({
 
   const handleAccountSignIn = useCallback(
     async (accountId: Id) => {
-      if (shouldShowSignIn) return
+      if (shouldShowSignIn) {
+        return
+      }
 
       setShouldShowSignIn(true)
 
@@ -66,6 +71,7 @@ export function useSignInScreen({
 
         const response = await authService.fetchAccount(accountId)
         if (response.isFailure) {
+          await signOutAccount()
           navigationProvider.navigate(ROUTES.auth.signUp, {
             step: '3',
             accountId: accountId.value,
@@ -80,14 +86,7 @@ export function useSignInScreen({
         console.error(error)
       }
     },
-    [
-      shouldShowSignIn,
-      accountsRepository.findById,
-      storageProvider.getItem,
-      storageProvider.setItem,
-      navigationProvider.navigate,
-      onSignIn,
-    ],
+    [shouldShowSignIn],
   )
 
   useEffect(() => {

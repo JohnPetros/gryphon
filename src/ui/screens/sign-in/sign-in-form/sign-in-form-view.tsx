@@ -6,6 +6,8 @@ import { PasswordInput } from '@/ui/components/password-input'
 import { Box } from '@/ui/gluestack/box'
 import { useSignInForm } from './use-sign-in-form'
 import { Link } from 'expo-router'
+import { Text } from '@/ui/gluestack/text'
+import { CLIENT_ENV } from '@/constants'
 
 type Props = {
   onSignIn: (email: string, password: string) => Promise<void>
@@ -41,6 +43,8 @@ export const SignInFormView = ({ onSignIn }: Props) => {
           )}
         />
       </Box>
+
+      <Text>{JSON.stringify(CLIENT_ENV, null, 2)}</Text>
 
       <Box className='flex flex-row items-center justify-between mt-6'>
         <Link href='/auth/reset-password' className='text-primary p-2'>
