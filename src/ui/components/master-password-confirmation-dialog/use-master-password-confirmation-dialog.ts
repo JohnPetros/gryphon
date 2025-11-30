@@ -25,7 +25,6 @@ export function useMasterPasswordConfirmationDialog({
   const [isOpen, setIsOpen] = useState(false)
 
   function open() {
-    console.log({ isMasterPasswordRequired })
     if (isMasterPasswordRequired) {
       setIsOpen(true)
       return
