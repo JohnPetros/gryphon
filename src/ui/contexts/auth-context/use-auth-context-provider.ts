@@ -13,6 +13,7 @@ import type { AuthContextValue } from './auth-context-value'
 type Params = {
   jwt: string | null
   accountId: Id | null
+  accountEmail: string
   cryptoProvider: CryptoProvider
   accountsRepository: AccountsRepository
   navigationProvider: NavigationProvider
@@ -31,6 +32,8 @@ export function useAuthContextProvider({
   storageProvider,
   navigationProvider,
   authService,
+  accountId,
+  accountEmail,
   signOut,
   signIn,
   onUpdateAccount,
@@ -71,19 +74,24 @@ export function useAuthContextProvider({
   )
 
   const loadAccount = useCallback(async () => {
-    const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
-    if (!storedAccountId) {
-      signOutAccount()
-      return
-    }
-    const accountId = Id.create(storedAccountId)
+    // const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
+    // if (!storedAccountId) {
+    //   signOutAccount()
+    //   return
+    // }
+    // const accountId = Id.create(storedAccountId)
+    if (!accountId) return
     let account = await accountsRepository.findById(accountId)
 
     if (!account) {
       try {
         const response = await authService.fetchAccount(accountId)
         if (response.isFailure) {
-          signOutAccount()
+          navigationProvider.navigate(ROUTES.auth.signUp, {
+            step: '3',
+            accountId: accountId.value,
+            accountEmail,
+          })
           return
         }
         account = Account.create(response.body)
@@ -110,6 +118,7 @@ export function useAuthContextProvider({
     signOutAccount,
     storageProvider.getItem,
     accountsRepository.findById,
+    accountEmail,
   ])
 
   const updateAccount = useCallback(async (account: Account) => {
@@ -146,13 +155,16 @@ export function useAuthContextProvider({
             interval: 1,
           },
         })
+        const currentAccount = await accountsRepository.findById(account.id)
+        if (currentAccount) await accountsRepository.remove(account.id)
+
         setAccount(account)
 
         await storageProvider.setItem(STORAGE_KEYS.masterPassword, masterPassword)
         await storageProvider.setItem(STORAGE_KEYS.accountId, accountId)
         await storageProvider.setItem(STORAGE_KEYS.acountEmail, email)
-
         await accountsRepository.add(account)
+        await onUpdateAccount()
         await signOut()
 
         navigationProvider.navigate(ROUTES.auth.signIn)
@@ -190,8 +202,8 @@ export function useAuthContextProvider({
   ])
 
   useEffect(() => {
-    loadAccount()
-  }, [])
+    if (accountEmail && accountId) loadAccount()
+  }, [accountEmail, accountId])
 
   return contextValue
 }

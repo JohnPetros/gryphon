@@ -13,7 +13,8 @@ import { useNotification } from '@/ui/hooks/use-notification'
 export const AuthContext = createContext({} as AuthContextValue)
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
-  const { jwt, accountId, isSignedIn, signInAccount, signOutAccount } = useAuth()
+  const { accountId, jwt, accountEmail, isSignedIn, signInAccount, signOutAccount } =
+    useAuth()
   const { authService } = useRest()
   const { accountsRepository, synchronizeDatabase } = useDatabase()
   const { login } = useNotification()
@@ -23,6 +24,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const authContextValue = useAuthContextProvider({
     jwt,
     accountId,
+    accountEmail,
     cryptoProvider,
     storageProvider,
     navigationProvider,
