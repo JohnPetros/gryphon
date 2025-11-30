@@ -6,7 +6,6 @@ import { COLORS } from '@/constants'
 
 const Layout = () => {
   const { theme } = useThemeContext()
-
   return (
     <Tabs
       screenOptions={{

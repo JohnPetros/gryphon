@@ -113,19 +113,18 @@ export const RootLayout = () => {
 }
 
 function RootLayoutNav() {
+  console.log('ENV', process.env)
   return (
     <ThemeContextProvider>
       <GestureHandlerRootView>
         <BottomSheetModalProvider>
           <UiProvider>
-            <ThemeProvider value={DarkTheme}>
-              <ClerkProvider tokenCache={tokenCache} telemetry={false}>
-                <AuthContextProvider>
-                  <Slot />
-                </AuthContextProvider>
-              </ClerkProvider>
-              <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-            </ThemeProvider>
+            <ClerkProvider tokenCache={tokenCache} telemetry={false}>
+              <AuthContextProvider>
+                <Slot />
+              </AuthContextProvider>
+            </ClerkProvider>
+            <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
           </UiProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
