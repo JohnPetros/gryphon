@@ -3,6 +3,9 @@ import { useState } from 'react'
 import { Id } from '@/core/domain/structures'
 
 type Params = {
+  defaultAccountId?: string
+  defaultStep?: number
+  defaultEmail?: string
   signUpAccount: (accountId: string, email: string, password: string) => Promise<boolean>
   createAccount: (
     accountId: string,
@@ -11,14 +14,23 @@ type Params = {
   ) => Promise<void>
 }
 
-export function useSignUpScreen({ signUpAccount, createAccount }: Params) {
-  const [step, setStep] = useState(1)
-  const [email, setEmail] = useState('')
-  const [accountId, setAccountId] = useState('')
+export function useSignUpScreen({
+  defaultAccountId = '',
+  defaultStep = 1,
+  defaultEmail = '',
+  signUpAccount,
+  createAccount,
+}: Params) {
+  const [step, setStep] = useState(defaultStep)
+  const [email, setEmail] = useState(defaultEmail)
+  const [accountId, setAccountId] = useState<Id | null>(Id.create(defaultAccountId))
 
   async function handleSignUp(email: string, password: string) {
-    const accountId = Id.create()
-    setAccountId(accountId.value)
+    let accountId = defaultAccountId ? Id.create(defaultAccountId) : null
+    if (!accountId) {
+      accountId = Id.create()
+      setAccountId(accountId)
+    }
     const isSuccessful = await signUpAccount(accountId.value, email, password)
     if (!isSuccessful) return
     setStep(2)
@@ -30,7 +42,7 @@ export function useSignUpScreen({ signUpAccount, createAccount }: Params) {
   }
 
   async function handleMasterPasswordCreate(masterPassword: string) {
-    await createAccount(accountId, email, masterPassword)
+    if (accountId) await createAccount(accountId.value, email, masterPassword)
   }
 
   return {

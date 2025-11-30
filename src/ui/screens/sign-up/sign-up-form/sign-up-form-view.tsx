@@ -13,6 +13,7 @@ type Props = {
 
 export const SignUpFormView = ({ onSignUp }: Props) => {
   const { isSubmitting, isValid, control, handleSubmit } = useSignUpForm(onSignUp)
+  console.log('isValid', isValid)
   return (
     <Box>
       <Box>
