@@ -31,6 +31,7 @@ export const OneSignalNotificationService = (): INotificationService => {
         }),
       })
       if (!response.ok) {
+        console.log('error', await response.json())
         return new RestResponse({
           errorMessage: response.statusText,
           statusCode: response.status,

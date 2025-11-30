@@ -3,7 +3,7 @@ import { isAxiosError } from 'axios'
 
 export function handleError<ResponseBody>(error: any): RestResponse<ResponseBody> {
   if (isAxiosError(error)) {
-    console.log('Axios Error', error.message)
+    console.log('Axios Error:', error.message)
   }
 
   if (error.response) {
