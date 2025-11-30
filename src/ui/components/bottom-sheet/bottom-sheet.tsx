@@ -12,7 +12,7 @@ import { Pressable } from '../pressable'
 import type { Theme } from '@/ui/contexts/theme-context/types'
 
 type Props = {
-  children: ReactNode | ((close: () => void) => ReactNode)
+  children: ReactNode | ((close: () => void, backgroundColor: string) => ReactNode)
   snapPoints?: string[]
   bottomSheetModalRef: RefObject<BottomSheetModal | null>
   trigger: ReactNode
@@ -48,9 +48,12 @@ export const BottomSheetView = ({
           className='flex-1'
           style={{ backgroundColor: COLORS[theme][backgroundColor] }}
         >
-          <UiProvider>
+          <UiProvider key={backgroundColor}>
             {typeof children === 'function'
-              ? children(() => bottomSheetModalRef.current?.close())
+              ? children(
+                  () => bottomSheetModalRef.current?.close(),
+                  COLORS[theme][backgroundColor],
+                )
               : children}
           </UiProvider>
         </BottomSheetContent>
