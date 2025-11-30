@@ -9,7 +9,7 @@ import { useThemeContext } from '@/ui/hooks/use-theme-context'
 
 type Props = {
   ref?: React.RefObject<BottomSheetRef | null>
-  children: ReactNode | ((close: () => void) => ReactNode)
+  children: ReactNode | ((close: () => void, backgroundColor: string) => ReactNode)
   trigger: React.ReactNode
   snapPoints?: string[]
   backgroundColor?: keyof typeof COLORS.dark

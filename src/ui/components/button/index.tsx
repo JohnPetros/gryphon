@@ -1,3 +1,5 @@
+import type { PropsWithChildren } from 'react'
+
 import { useThemeContext } from '@/ui/hooks/use-theme-context'
 import { ButtonView } from './button-view'
 
@@ -8,7 +10,7 @@ type Props = {
   onPress: () => void
 }
 
-export const Button = (props: Props) => {
+export const Button = (props: PropsWithChildren<Props>) => {
   const { theme } = useThemeContext()
   return <ButtonView theme={theme} {...props} />
 }
