@@ -16,7 +16,14 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const { accountId, jwt, accountEmail, isSignedIn, signInAccount, signOutAccount } =
     useAuth()
   const { authService } = useRest()
-  const { accountsRepository, synchronizeDatabase } = useDatabase()
+  const {
+    accountsRepository,
+    vaultsRepository,
+    credentialsRepository,
+    credentialVersionsRepository,
+    notesRepository,
+    synchronizeDatabase,
+  } = useDatabase()
   const { login } = useNotification()
   const cryptoProvider = useCryptoProvider()
   const navigationProvider = useNavigation()
@@ -29,6 +36,10 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     storageProvider,
     navigationProvider,
     accountsRepository,
+    vaultsRepository,
+    credentialsRepository,
+    credentialVersionsRepository,
+    notesRepository,
     authService,
     isAccountSignedIn: isSignedIn,
     signIn: signInAccount,

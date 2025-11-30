@@ -14,7 +14,8 @@ import { LoadingDialog } from '@/ui/components/loading-dialog'
 export const DataImportScreen = () => {
   const masterPasswordConfirmationDialogRef =
     useRef<MasterPasswordConfirmationDialogRef | null>(null)
-  const { loadAccount, account, createEncryptionKey } = useAuthContext()
+  const { signOutAccount } = useAuth()
+  const { account, createEncryptionKey, loadAccount } = useAuthContext()
   const storageProvider = useSecureStorage()
   const navigationProvider = useNavigation()
   const { accountId } = useAuth()
@@ -29,9 +30,8 @@ export const DataImportScreen = () => {
       if (account) await createEncryptionKey(masterPassword, account.encryptionSalt)
     },
     onDialogOpen: loadAccount,
+    onDialogClose: signOutAccount,
   })
-
-  console.log({ accountId })
 
   if (!accountId) return <Redirect href='/auth/sign-in' />
 
