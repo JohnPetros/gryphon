@@ -44,8 +44,6 @@ export const SignInFormView = ({ onSignIn }: Props) => {
         />
       </Box>
 
-      <Text>{JSON.stringify(CLIENT_ENV, null, 2)}</Text>
-
       <Box className='flex flex-row items-center justify-between mt-6'>
         <Link href='/auth/reset-password' className='text-primary p-2'>
           Esqueceu sua senha?

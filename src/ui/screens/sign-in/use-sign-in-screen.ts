@@ -10,7 +10,6 @@ import type {
 import type { AuthService } from '@/core/interfaces/services'
 
 import { ROUTES, STORAGE_KEYS } from '@/constants'
-import { Alert } from 'react-native'
 
 type Params = {
   accountId: Id | null
