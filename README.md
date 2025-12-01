@@ -26,11 +26,11 @@ O objetivo ao desenvolver o **Gryphon** foi criar uma ferramenta que não apenas
 
 **Sprint 2**: [Link para a documentação](https://github.com/JohnPetros/gryphon/blob/main/documentation/sprint-2-report.md)
 
-**Sprint 3**: 🚧 Em andamento 🚧
+**Sprint 3**: [Link para a documentação](https://github.com/JohnPetros/gryphon/blob/main/documentation/sprint-3-report.md)
 
 ---
 
-## Tecnologias
+## 🛠️ Tecnologias
 
 ### 📱 Mobile
 
@@ -38,16 +38,32 @@ O objetivo ao desenvolver o **Gryphon** foi criar uma ferramenta que não apenas
 - [TypeScript](https://www.typescriptlang.org/) para garantir a tipagem estrita e a robustez do código.
 - [Expo](https://expo.dev/) para facilitar o desenvolvimento e a distribuição do aplicativo.
 - [GlueStack UI](https://glue-stack.com/) para criar componentes de interface consistentes e estilizados.
+- [Nativewind](https://www.nativewind.dev/) para criar componentes de interface consistentes e estilizados.
+- [Dayjs](https://day.js.org/) para formatar datas e horas.
+- [WatermelonDB](https://watermelondb.dev/docs) para criar componentes de interface consistentes e estilizados.
 
 ### 📟 Servidor
 
-- [NestJS](https://nestjs.com/) para construir o servidor.
-- [TypeScript](https://www.typescriptlang.org/) para garantir a tipagem estrita e a robustez do código.
-- [Prisma](https://www.prisma.io/) para gerenciar o banco de dados.
+- [Expo API Routes](https://nestjs.com/) para construir as rotas REST do servidor.
+- [Drizzle](https://orm.drizzle.team/) para garantir a tipagem estrita e a robustez do código.
+- [Buildship](https://buildship.com/) para automatizar a execução de tarefas no servidor.
+- [Have I Been Pwned](https://haveibeenpwned.com/Passwords) API para verificar se uma senha já foi exposta.
 
-### 📦 Banco de Dados
+### 📦 Bancos de Dados
 
-- [PostgreSQL](https://www.postgresql.org/) para o banco de dados.
+- [Turso](https://turso.tech/) para o banco de dados na nuvem.
+- [SQLite](https://sqlite.org/) para o banco de dados local.
+
+
+### 🔏 Autenticação
+
+- [Clerk](https://clerk.com) para autenticação e autorização de usuários no aplicativo.
+
+---
+
+## 🏛️ Arquitetura
+
+<img src="./documentation/media/gryphon-arch-diagram.png" />
 
 ---
 
