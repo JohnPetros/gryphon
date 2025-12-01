@@ -2,7 +2,7 @@ Com base na imagem fornecida e seguindo o modelo do relatório da Sprint 2, aqui
 
 ## User Stories realizados nesta sprint 📖
 
-\<img src="./media/sprint-3-backlog.jpg" />
+<img src="./media/sprint-3-backlog.jpg" />
 
 ### Critérios de aceitação para cada User Story 📒
 
@@ -37,7 +37,7 @@ Com base na imagem fornecida e seguindo o modelo do relatório da Sprint 2, aqui
   - O alerta deve conter detalhes do acesso: Data/Hora, IP, Localização e Dispositivo.
   - O alerta deve fornecer um link ou botão de ação rápida "Não fui eu", que permite ao usuário bloquear temporariamente a conta ou forçar a redefinição da senha da conta.
 
-### **US18: Personalização de interface (Temas e Ícones)**
+### **US18: Personalização de interface**
 
   - O usuário deve ter acesso a uma configuração de "Aparência" ou "Temas".
   - Deve ser possível alternar entre "Modo Claro", "Modo Escuro" ou "Seguir padrão do sistema". A interface deve reagir instantaneamente à mudança.
