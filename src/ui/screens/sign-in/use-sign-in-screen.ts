@@ -60,8 +60,6 @@ export function useSignInScreen({
       try {
         const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
         const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
-        Alert.alert('handleAccountSignIn, accountId', accountId?.value)
-
         const response = await authService.fetchAccount(accountId)
         if (response.isFailure) {
           toastProvider.show(response.errorMessage, 'error')
@@ -74,14 +72,11 @@ export function useSignInScreen({
         }
 
         const account = await accountsRepository.findById(accountId)
-        Alert.alert('watermelon, account', account?.email)
         if (!account) {
           await storageProvider.setItem(STORAGE_KEYS.accountId, accountId?.value)
           navigationProvider.navigate(ROUTES.dataImport)
           return
         }
-
-        Alert.alert('storedAccountId, account', account?.email)
 
         if (storedAccountId !== accountId?.value || !masterPassword) {
           await storageProvider.setItem(STORAGE_KEYS.accountId, accountId?.value)
@@ -99,7 +94,6 @@ export function useSignInScreen({
   )
 
   useEffect(() => {
-    Alert.alert('accountId', accountId?.value)
     if (accountId) handleAccountSignIn(accountId)
   }, [accountId])
 

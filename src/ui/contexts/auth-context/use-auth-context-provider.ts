@@ -95,7 +95,6 @@ export function useAuthContextProvider({
     }
     const accountId = Id.create(storedAccountId)
     let account = await accountsRepository.findById(accountId)
-    Alert.alert('loadAccount, account', account?.email)
     if (!account) {
       try {
         const response = await authService.fetchAccount(accountId)
