@@ -3,3 +3,7 @@
 
 ### GET /account
 GET {{URL}}/{{ACCOUNT_ID}}
+
+### GET /callback
+GET {{URL}}/callback?otp=123456
+
