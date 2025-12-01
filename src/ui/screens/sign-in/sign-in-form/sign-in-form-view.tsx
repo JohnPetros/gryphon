@@ -6,8 +6,6 @@ import { PasswordInput } from '@/ui/components/password-input'
 import { Box } from '@/ui/gluestack/box'
 import { useSignInForm } from './use-sign-in-form'
 import { Link } from 'expo-router'
-import { Text } from '@/ui/gluestack/text'
-import { CLIENT_ENV } from '@/constants'
 
 type Props = {
   onSignIn: (email: string, password: string) => Promise<void>

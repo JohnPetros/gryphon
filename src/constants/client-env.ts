@@ -15,7 +15,7 @@ import z from 'zod'
 
 const clientEnv = {
   clerkPublishableKey: 'pk_test_ZGVsaWNhdGUtbW9zcXVpdG8tNDIuY2xlcmsuYWNjb3VudHMuZGV2JA',
-  gryphonBaseUrl: 'https://gryphon--fyde8z7f25.expo.app',
+  gryphonBaseUrl: 'https://gryphon--7w2brjxldh.expo.app',
   kcvText: 'gryphon',
   oneSignalAppId: 'eca7b940-76ea-4f15-863b-fcf72dff1aa5',
   hibpUrl: 'https://api.pwnedpasswords.com/range',

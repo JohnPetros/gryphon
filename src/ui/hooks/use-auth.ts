@@ -9,7 +9,6 @@ import {
 
 import { useToast } from './use-toast'
 import { Id } from '@/core/domain/structures'
-import { Alert } from 'react-native'
 
 const ERROR_MESSAGES: Record<string, string> = {
   'That email address is taken. Please try another.': 'E-mail já cadastrado',
@@ -49,7 +48,7 @@ export function useAuth() {
       await signOut()
     } catch (error) {
       console.error('Error signing out', error)
-      toast.show(`clerk signOut error: ${error}`, 'error')
+      // toast.show(`clerk signOut error: ${error}`, 'error')
     }
   }, [signOut])
 
