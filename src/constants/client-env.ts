@@ -15,7 +15,7 @@ import z from 'zod'
 
 const clientEnv = {
   clerkPublishableKey: 'pk_test_ZGVsaWNhdGUtbW9zcXVpdG8tNDIuY2xlcmsuYWNjb3VudHMuZGV2JA',
-  gryphonBaseUrl: 'https://gryphon--fyde8z7f25.expo.app',
+  gryphonBaseUrl: 'https://gryphon--7w2brjxldh.expo.app',
   kcvText: 'gryphon',
   oneSignalAppId:
     'os_v2_app_5st3sqdw5jhrlbr37t3s37y2uwbltpzdf56ujzunog6pbrghob44vp54eimyqzu4in7mdbjmr7myvak5d2ryphvdqldkm6sd6w2cvpy',

@@ -30,7 +30,10 @@ export const Route = (handler: RouteHandler) => {
       }
 
       return Response.json(
-        { title: 'Error', message: 'Unexpected error occurred' },
+        {
+          title: 'Error',
+          message: error instanceof Error ? error.message : 'Unexpected error occurred',
+        },
         { status: 500 },
       )
     }
