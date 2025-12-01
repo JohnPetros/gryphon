@@ -64,10 +64,6 @@ export const VerifyPasswordLeakJob = ({
             const isPasswordLeak =
               leakedPassword.toUpperCase() === passwordHash.toUpperCase()
             if (isPasswordLeak) {
-              Alert.alert(
-                'Senha vazada detectada',
-                `Senha vazada detectada para o login ${credential.title} em sua conta. Por favor, altere-a imediatamente.`,
-              )
               await notificationService.sendNotification(
                 accountId,
                 'Aviso crítico de segurança',
