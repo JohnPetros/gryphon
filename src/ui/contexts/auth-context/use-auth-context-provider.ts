@@ -16,6 +16,7 @@ import type { AuthService } from '@/core/interfaces/services'
 import { CLIENT_ENV, ROUTES, STORAGE_KEYS } from '@/constants'
 import { useToast } from '@/ui/hooks/use-toast'
 import type { AuthContextValue } from './auth-context-value'
+import { Alert } from 'react-native'
 
 type Params = {
   jwt: string | null
@@ -94,7 +95,7 @@ export function useAuthContextProvider({
     }
     const accountId = Id.create(storedAccountId)
     let account = await accountsRepository.findById(accountId)
-
+    Alert.alert('loadAccount, account', account?.email)
     if (!account) {
       try {
         const response = await authService.fetchAccount(accountId)
