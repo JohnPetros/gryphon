@@ -147,7 +147,7 @@ export function useAuthContextProvider({
           const encryptionKey = await createEncryptionKey(masterPassword, encryptionSalt)
         } catch (error) {
           console.error('Error creating encryption key', error)
-          toast.show('Erro ao criar chave de criptografia', 'error')
+          toast.show(`Erro ao criar chave de criptografia ${error}`, 'error')
           return
         }
 
@@ -158,7 +158,7 @@ export function useAuthContextProvider({
           const kcv = await cryptoProvider.encrypt(CLIENT_ENV.kcvText, encryptionKey)
         } catch (error) {
           console.error('Error encrypting kcv', error)
-          toast.show('Erro ao criptografar kcv', 'error')
+          toast.show(`Erro ao criptografar kcv ${error}`, 'error')
           return
         }
 
@@ -182,7 +182,7 @@ export function useAuthContextProvider({
           })
         } catch (error) {
           console.error('Error creating account', error)
-          toast.show('Erro ao criar conta', 'error')
+          toast.show(`Erro ao criar conta ${error}`, 'error')
           return
         }
 
@@ -215,7 +215,7 @@ export function useAuthContextProvider({
           }
         } catch (error) {
           console.error('Error removing account', error)
-          toast.show('Erro ao remover conta do bd local', 'error')
+          toast.show(`Erro ao remover conta do bd local ${error}`, 'error')
           return
         }
 
@@ -238,7 +238,7 @@ export function useAuthContextProvider({
           await storageProvider.setItem(STORAGE_KEYS.acountEmail, email)
         } catch (error) {
           console.error('Error storing account data', error)
-          toast.show('Erro ao armazenar dados da conta', 'error')
+          toast.show(`Erro ao armazenar dados da conta ${error}`, 'error')
           return
         }
 
@@ -246,7 +246,7 @@ export function useAuthContextProvider({
           await accountsRepository.add(account)
         } catch (error) {
           console.error('Error adding account', error)
-          toast.show('Erro ao adicionar conta ao bd local', 'error')
+          toast.show(`Erro ao adicionar conta ao bd local ${error}`, 'error')
           return
         }
 
@@ -254,7 +254,7 @@ export function useAuthContextProvider({
           await onUpdateAccount()
         } catch (error) {
           console.error('Error updating account', error)
-          toast.show('Erro ao atualizar conta', 'error')
+          toast.show(`Erro ao atualizar conta ${error}`, 'error')
           return
         }
 
@@ -262,7 +262,7 @@ export function useAuthContextProvider({
           await signOut()
         } catch (error) {
           console.error('Error signing out', error)
-          toast.show('Erro ao sair da conta criada', 'error')
+          toast.show(`Erro ao sair da conta criada ${error}`, 'error')
           return
         }
 
