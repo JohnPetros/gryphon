@@ -2,7 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 
 import type { Id } from '@/core/domain/structures'
 import type { AccountsRepository } from '@/core/interfaces'
-import type { NavigationProvider, StorageProvider } from '@/core/interfaces/providers'
+import type {
+  NavigationProvider,
+  StorageProvider,
+  ToastProvider,
+} from '@/core/interfaces/providers'
 import type { AuthService } from '@/core/interfaces/services'
 
 import { ROUTES, STORAGE_KEYS } from '@/constants'
@@ -15,6 +19,7 @@ type Params = {
   authService: AuthService
   storageProvider: StorageProvider
   navigationProvider: NavigationProvider
+  toastProvider: ToastProvider
   signInAccount: (email: string, password: string) => Promise<void>
   signOutAccount: () => Promise<void>
   onSignIn: () => Promise<void>
@@ -27,6 +32,7 @@ export function useSignInScreen({
   accountsRepository,
   authService,
   storageProvider,
+  toastProvider,
   navigationProvider,
   signInAccount,
   onSignIn,
@@ -56,6 +62,7 @@ export function useSignInScreen({
 
         const response = await authService.fetchAccount(accountId)
         if (response.isFailure) {
+          toastProvider.show(response.errorMessage, 'error')
           navigationProvider.navigate(ROUTES.auth.signUp, {
             step: '3',
             accountId: accountId.value,

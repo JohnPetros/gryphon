@@ -185,6 +185,7 @@ export function useAuthContextProvider({
         navigationProvider.navigate(ROUTES.auth.signIn)
       } catch (error) {
         console.error('Error creating account', error)
+        toast.show(`Erro ao criar conta: ${error}`, 'error')
       } finally {
         setIsLoading(false)
       }
