@@ -5,7 +5,7 @@ const clientEnv = {
     process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY ??
     'pk_test_ZGVsaWNhdGUtbW9zcXVpdG8tNDIuY2xlcmsuYWNjb3VudHMuZGV2JA',
   gryphonBaseUrl:
-    process.env.EXPO_PUBLIC_GRYPHON_BASE_URL ?? 'https://gryphon--k9le6u0odk.expo.app',
+    process.env.EXPO_PUBLIC_GRYPHON_BASE_URL ?? 'https://gryphon--fyde8z7f25.expo.app',
   kcvText: process.env.EXPO_PUBLIC_KCV_TEXT ?? 'gryphon',
   oneSignalAppId:
     process.env.EXPO_PUBLIC_ONE_SIGNAL_APP_ID ??
