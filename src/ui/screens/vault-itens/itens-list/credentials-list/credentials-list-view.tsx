@@ -67,12 +67,12 @@ export const CredentialsListView = ({
           </Box>
         </BottomSheet>
 
-        <Pressable onPress={onPasswordLeakVerificationButtonPress}>
+        {/* <Pressable onPress={onPasswordLeakVerificationButtonPress}>
           <Box className='flex-row items-center'>
             <Icon name='alert' color='neutral' size={18} />
             <Text className='text-neutral ml-3'>Verificar senhas vazadas</Text>
           </Box>
-        </Pressable>
+        </Pressable> */}
       </Box>
       {isLoading && <ItensListSkeleton />}
       {!isLoading && (
