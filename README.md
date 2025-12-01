@@ -67,6 +67,12 @@ O objetivo ao desenvolver o **Gryphon** foi criar uma ferramenta que não apenas
 
 ---
 
+### 💾 APK
+
+[Link para o APK disponível para download](https://drive.google.com/file/d/1RqNq3g2xYixzGPL6Uz_8GbsAOhpMwQCQ/view?usp=sharing)
+
+---
+
 ## ✍️ Autor 
 
 <div align="center">
