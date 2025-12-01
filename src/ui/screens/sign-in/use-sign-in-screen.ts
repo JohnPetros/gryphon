@@ -10,7 +10,6 @@ import type {
 import type { AuthService } from '@/core/interfaces/services'
 
 import { ROUTES, STORAGE_KEYS } from '@/constants'
-import { Alert } from 'react-native'
 
 type Params = {
   accountId: Id | null
@@ -60,6 +59,7 @@ export function useSignInScreen({
       try {
         const storedAccountId = await storageProvider.getItem(STORAGE_KEYS.accountId)
         const masterPassword = await storageProvider.getItem(STORAGE_KEYS.masterPassword)
+
         const response = await authService.fetchAccount(accountId)
         if (response.isFailure) {
           toastProvider.show(response.errorMessage, 'error')

@@ -6,6 +6,8 @@ node_modules/
 android/
 ios/
 
+teste.ts
+
 # Expo
 .expo/
 dist/
