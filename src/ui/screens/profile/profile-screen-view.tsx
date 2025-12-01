@@ -14,6 +14,8 @@ import { CredentialRotationSelect } from './credential-rotation-select'
 import { ThemeSelect } from './theme-select'
 import { Icon } from '@/ui/components/icon'
 
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
+
 type Props = {
   accountEmail: string
 }
@@ -48,12 +50,14 @@ export const ProfileScreenView = ({ accountEmail }: Props) => {
           </Box>
         </Box>
 
-        <Link href='/(protected)/backup' className='mt-12'>
-          <Box className='flex flex-row items-center justify-center gap-3 px-6 border-accent h-16 w-full bg-surface'>
-            <Icon name='backup' color='accent' size={22} />
-            <Text className='text-accent text-xl'>Backup</Text>
-          </Box>
-        </Link>
+        {!IS_PRODUCTION && (
+          <Link href='/(protected)/backup' className='mt-12'>
+            <Box className='flex flex-row items-center justify-center gap-3 px-6 border-accent h-16 w-full bg-surface'>
+              <Icon name='backup' color='accent' size={22} />
+              <Text className='text-accent text-xl'>Backup</Text>
+            </Box>
+          </Link>
+        )}
 
         <Box className='mt-12 pb-24'>
           <SignOutButton />
