@@ -11,5 +11,6 @@ export interface Http<Schema extends HttpSchema = HttpSchema> {
   getRouteParams(): Schema['routeParams']
   getQueryParams(): Schema['queryParams']
   send(json?: unknown, statusCode?: number): RestResponse
+  redirect(url: string): RestResponse
   pass(): RestResponse
 }

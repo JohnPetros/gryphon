@@ -1,6 +1,6 @@
 import type { ZodSchema } from 'zod'
 
-import { HTTP_HEADERS } from '@/core/constants'
+import { HTTP_HEADERS, HTTP_STATUS_CODE } from '@/core/constants'
 import type { Http, HttpSchema } from '@/core/interfaces/http'
 import { RestResponse } from '@/core/responses'
 import { AppError } from '@/core/domain/errors/app-error'
@@ -67,6 +67,13 @@ export const ExpoHttp = async <ExpoSchema extends HttpSchema>({
       return new RestResponse({ headers: { [HTTP_HEADERS.xPass]: 'true' } })
     },
 
+    redirect(url: string) {
+      return new RestResponse({
+        headers: { [HTTP_HEADERS.location]: url },
+        statusCode: HTTP_STATUS_CODE.redirect,
+      })
+    },
+
     send(json?: unknown, statusCode?: number) {
       return new RestResponse({
         body: json,
@@ -75,6 +82,13 @@ export const ExpoHttp = async <ExpoSchema extends HttpSchema>({
     },
 
     sendResponse(response: RestResponse): Response {
+      if (response.isRedirecting) {
+        return Response.redirect(
+          response.getHeader(HTTP_HEADERS.location),
+          response.statusCode,
+        )
+      }
+
       return Response.json(response.body, {
         status: response.statusCode,
         headers: response.headers,
