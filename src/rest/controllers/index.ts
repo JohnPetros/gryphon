@@ -3,3 +3,4 @@ export { PushDatabaseChangesController } from './push-database-changes-controlle
 export { PullDatabaseChangesController } from './pull-database-changes-controller'
 export { SendNotificationController } from './send-notification-controller'
 export { ResetDatabaseController } from './reset-database-controller'
+export { HandleResetPasswordVerificationCallbackController } from './handle-reset-password-verification-callback-controller'
